@@ -1,5 +1,20 @@
 # Meta Cheatsheet
 
+## Setup Meta
+
+```
+npm install -g meta
+```
+
+* This will install meta globally and enable you to use meta commands
+
+```
+npm install
+```
+
+* This will install the NPM dependencies of the meta project
+  * These dependencies can also include meta plugins
+
 ## Repository Management
 
 ### Clone modules of the meta project
