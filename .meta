@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "core": "git@github.com:ProcessEngineJS/core.git",
+    "core_contracts": "git@github.com:ProcessEngineJS/core_contracts.git"
+  }
+}
