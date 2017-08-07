@@ -18,6 +18,7 @@ datastore_contracts
 datastore_http
 datastore_messagebus
 datastore_messagebus_contracts
+documentation
 event_aggregator
 event_aggregator_contracts
 feature

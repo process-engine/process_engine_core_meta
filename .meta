@@ -18,6 +18,7 @@
     "datastore_http": "git@github.com:ProcessEngineJS/datastore_http.git",
     "datastore_messagebus": "git@github.com:ProcessEngineJS/datastore_messagebus.git",
     "datastore_messagebus_contracts": "git@github.com:ProcessEngineJS/datastore_messagebus_contracts.git",
+    "documentation": "git@github.com:ProcessEngineJS/documentation.git",
     "event_aggregator": "git@github.com:ProcessEngineJS/event_aggregator.git",
     "event_aggregator_contracts": "git@github.com:ProcessEngineJS/event_aggregator_contracts.git",
     "feature": "git@github.com:ProcessEngineJS/feature.git",
