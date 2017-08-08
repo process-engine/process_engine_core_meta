@@ -63,6 +63,7 @@
     "security_service_contracts": "git@github.com:ProcessEngineJS/security_service_contracts.git",
     "services": "git@github.com:ProcessEngineJS/services.git",
     "services_contracts": "git@github.com:ProcessEngineJS/services_contracts.git",
+    "skeleton": "git@github.com:ProcessEngineJS/skeleton.git",
     "timing": "git@github.com:ProcessEngineJS/timing.git",
     "timing_contracts": "git@github.com:ProcessEngineJS/timing_contracts.git",
     "utils": "git@github.com:ProcessEngineJS/utils.git",
