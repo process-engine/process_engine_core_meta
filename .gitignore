@@ -63,8 +63,11 @@ security_service
 security_service_contracts
 services
 services_contracts
+skeleton
 timing
 timing_contracts
 utils
 validation
 validation_contracts
+
+.DS_Store
