@@ -68,6 +68,8 @@
     "timing_contracts": "git@github.com:ProcessEngineJS/timing_contracts.git",
     "utils": "git@github.com:ProcessEngineJS/utils.git",
     "validation": "git@github.com:ProcessEngineJS/validation.git",
-    "validation_contracts": "git@github.com:ProcessEngineJS/validation_contracts.git"
+    "validation_contracts": "git@github.com:ProcessEngineJS/validation_contracts.git",
+    "frontend_react_plugin_process_manager": "git@github.com:ProcessEngineJS/frontend_react_plugin_process_manager.git",
+    "demo": "git@github.com:ProcessEngineJS/demo.git"
   }
 }

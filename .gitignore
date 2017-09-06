@@ -69,5 +69,7 @@ timing_contracts
 utils
 validation
 validation_contracts
+frontend_react_plugin_process_manager
+demo
 
 .DS_Store
