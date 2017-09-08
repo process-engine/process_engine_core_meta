@@ -10,6 +10,7 @@
   "license": "ISC",
   "devDependencies": {
     "@process-engine-js/tslint-config": "^1.0.0",
+    "@process-engine-js/messagebus_contracts": "^2.0.0",
     "meta-npm": "0.0.18",
     "minstall": "^2.0.1",
     "tslint": "^5.7.0",
