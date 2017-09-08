@@ -10,6 +10,7 @@
   "license": "ISC",
   "devDependencies": {
     "meta-npm": "0.0.18",
-    "minstall": "^2.0.1"
+    "minstall": "^2.0.1",
+    "gulptraum": "x.y.z"
   }
 }
