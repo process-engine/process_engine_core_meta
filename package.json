@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "minstall ."
+    "postinstall": "minstall .",
+    "test": "test3",
+    "build": "gulp build",
+    "prepublishOnly": "npm run build"
   },
   "author": "",
   "license": "ISC",
