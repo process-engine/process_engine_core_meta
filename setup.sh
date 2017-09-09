@@ -16,4 +16,4 @@ rm -rf backend/node_modules/@process-engine-js
 cd ..
 
 # build all packages
-meta exec "npm run build"
+meta exec --exclude process_engine_meta,skeleton "npm run build"
