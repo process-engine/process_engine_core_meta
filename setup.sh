@@ -19,4 +19,4 @@ rm -rf backend/node_modules/react-relay
 cd ..
 
 # build all packages
-meta exec "npm run build" --exclude skeleton
+meta exec "npm run build" --exclude process_engine_meta,skeleton,documentation
