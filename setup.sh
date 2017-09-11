@@ -1,6 +1,6 @@
 # checkout all repos in the correct branch
 meta git update
-meta exec "git checkout feature/2.0-cleanup"
+meta exec --exclude foundation "git checkout feature/2.0-cleanup"
 
 # install all necessary dependencies
 npm install
