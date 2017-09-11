@@ -72,7 +72,15 @@ validation_contracts
 frontend_react_plugin_process_manager
 demo
 
-.DS_Store
+# OSX-finder info-files
+*.DS_Store
 
-dist
+# IDE configs
+.vscode
+.idea/
+*.iml
+*.iws
+.classpath
+.project
+.settings/
 
