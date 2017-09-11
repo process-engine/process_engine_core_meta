@@ -1,6 +1,7 @@
 # checkout all repos in the correct branch
 meta git update
 meta exec --exclude foundation "git checkout feature/2.0-cleanup"
+meta exec --include-only foundation "git checkout feature/invoker"
 
 # install all necessary dependencies
 npm install
