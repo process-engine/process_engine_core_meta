@@ -8,6 +8,7 @@
     "metadata_contracts": "git@github.com:ProcessEngineJS/metadata_contracts.git",
     "pki_service_contracts": "git@github.com:ProcessEngineJS/pki_service_contracts.git",
     "security_service_contracts": "git@github.com:ProcessEngineJS/security_service_contracts.git",
+    "keyscopes": "git@github.com:ProcessEngineJS/keyscopes.git",
     "core_contracts": "git@github.com:ProcessEngineJS/core_contracts.git",
     "validation_contracts": "git@github.com:ProcessEngineJS/validation_contracts.git",
     "timing_contracts": "git@github.com:ProcessEngineJS/timing_contracts.git",
