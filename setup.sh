@@ -13,10 +13,6 @@ cd ..
 # make the demo use the linked packages
 rm -rf frontend/node_modules/@process-engine-js
 rm -rf backend/node_modules/@process-engine-js
-rm -rf backend/node_modules/graphql
-rm -rf backend/node_modules/react
-rm -rf backend/node_modules/react-dom
-rm -rf backend/node_modules/react-relay
 cd ..
 
 # build all packages
