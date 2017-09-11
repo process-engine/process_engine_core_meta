@@ -7,6 +7,13 @@ meta --exclude demo,documentation,frontend_react_plugin_process_manager,skeleton
 meta --exclude demo,documentation,frontend_react_plugin_process_manager,skeleton,process_engine_meta exec "git add tslint.json && git commit -m ':package: update tslint' && git push"
 ```
 
+**tsconfig.json**
+
+```bash
+meta --exclude demo,documentation,frontend_react_plugin_process_manager,skeleton,process_engine_meta exec "cp -f ../templates/tsconfig.json ."
+meta --exclude demo,documentation,frontend_react_plugin_process_manager,skeleton,process_engine_meta exec "git add tsconfig.json && git commit -m ':package: update tsconfig' && git push"
+```
+
 **.gitignore**
 
 ```bash
