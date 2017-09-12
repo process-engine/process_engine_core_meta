@@ -136,3 +136,8 @@ meta exec "ncu --filter @process-engine-js/tslint-config --upgrade --upgradeAll 
 meta --exclude demo,documentation,frontend_react_plugin_process_manager,skeleton exec "tslint --fix 'src/**/*.ts?(x)'"
 meta exec "git add src/* && git commit -m ':art: fix autifixables' && git push"
 ```
+
+**add schema and doc tasks**
+```bash
+meta --exclude demo,documentation,frontend_react_plugin_process_manager,skeleton,process_engine_meta exec "npmAddScript --key build-doc --value 'gulp doc' --force && npmAddScript --key build-schemas --value 'gulp typescript-schema' --force"
+```
