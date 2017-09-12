@@ -17,4 +17,4 @@ cd ..
 
 # build all packages and schemas
 meta exec "npm run build-schemas && npm run build" --exclude process_engine_meta,skeleton,documentation,frontend_react_plugin_process_manager,demo
-meta exec "npm run build" --include-only frontend_react_plugin_process_manager
+meta exec "npm run build" --include-only frontend_react_plugin_process_manager,demo
