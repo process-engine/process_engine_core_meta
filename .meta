@@ -25,6 +25,7 @@
     "core": "git@github.com:ProcessEngineJS/core.git",
     "bootstrapper": "git@github.com:ProcessEngineJS/bootstrapper.git",
     "bootstrapper_node": "git@github.com:ProcessEngineJS/bootstrapper_node.git",
+    "keyscopes": "git@github.com:ProcessEngineJS/keyscopes.git",
     "data_model": "git@github.com:ProcessEngineJS/data_model.git",
     "datasource_adapter_base": "git@github.com:ProcessEngineJS/datasource_adapter_base.git",
     "datasource_adapter_localstorage": "git@github.com:ProcessEngineJS/datasource_adapter_localstorage.git",
