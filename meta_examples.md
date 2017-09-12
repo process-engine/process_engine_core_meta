@@ -19,6 +19,13 @@ meta exec "git add package.json && git commit -m ':arrow_up: update to gulptraum
 meta exec "rm -rf node_modules && git add -A && git commit -m ':fire: remove node_modules-folder' && git push && echo '\nnode_modules\n' >> .gitignore && git add -A && git commit -m ':package: add node_modules to gitignore' && git push"
 ```
 
+**remove schemas and doc and update the gitignore**
+```bash
+meta --exclude demo,documentation,skeleton,process_engine_meta exec "rm -rf doc && rm -rf schemas && git add -A && git commit -m ':fire: remove doc-folder and schemas-folder'"
+meta --exclude demo,documentation,skeleton,process_engine_meta exec "cp -f ../templates/.gitignore ."
+meta --exclude demo,documentation,skeleton,process_engine_meta exec "git add .gitignore && git commit -m ':package: update gitignore' && git push"
+```
+
 **install/update tslint**
 ```bash
 meta --exclude demo,documentation,frontend_react_plugin_process_manager,skeleton exec "npm install --save-dev @process-engine-js/tslint-config typescript tslint"
