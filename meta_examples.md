@@ -19,6 +19,13 @@ meta exec "git add package.json && git commit -m ':arrow_up: update to gulptraum
 meta exec "rm -rf node_modules && git add -A && git commit -m ':fire: remove node_modules-folder' && git push && echo '\nnode_modules\n' >> .gitignore && git add -A && git commit -m ':package: add node_modules to gitignore' && git push"
 ```
 
+**remove schemas and doc and update the gitignore**
+```bash
+meta --exclude demo,documentation,skeleton,process_engine_meta exec "rm -rf doc && rm -rf schemas && git add -A && git commit -m ':fire: remove doc-folder and schemas-folder'"
+meta --exclude demo,documentation,skeleton,process_engine_meta exec "cp -f ../templates/.gitignore ."
+meta --exclude demo,documentation,skeleton,process_engine_meta exec "git add .gitignore && git commit -m ':package: update gitignore' && git push"
+```
+
 **install/update tslint**
 ```bash
 meta --exclude demo,documentation,frontend_react_plugin_process_manager,skeleton exec "npm install --save-dev @process-engine-js/tslint-config typescript tslint"
@@ -128,4 +135,9 @@ meta exec "ncu --filter @process-engine-js/tslint-config --upgrade --upgradeAll 
 ```bash
 meta --exclude demo,documentation,frontend_react_plugin_process_manager,skeleton exec "tslint --fix 'src/**/*.ts?(x)'"
 meta exec "git add src/* && git commit -m ':art: fix autifixables' && git push"
+```
+
+**add schema and doc tasks**
+```bash
+meta --exclude demo,documentation,frontend_react_plugin_process_manager,skeleton,process_engine_meta exec "npmAddScript --key build-doc --value 'gulp doc' --force && npmAddScript --key build-schemas --value 'gulp typescript-schema' --force"
 ```

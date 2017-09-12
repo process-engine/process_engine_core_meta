@@ -1,5 +1,6 @@
 {
   "projects": {
+    "foundation": "git@github.com:ProcessEngineJS/foundation.git",
     "datastore_messagebus_contracts": "git@github.com:ProcessEngineJS/datastore_messagebus_contracts.git",
     "feature_contracts": "git@github.com:ProcessEngineJS/feature_contracts.git",
     "frontend_contracts": "git@github.com:ProcessEngineJS/frontend_contracts.git",
@@ -22,7 +23,6 @@
     "datastore_contracts": "git@github.com:ProcessEngineJS/datastore_contracts.git",
     "process_engine_contracts": "git@github.com:ProcessEngineJS/process_engine_contracts.git",
     "core": "git@github.com:ProcessEngineJS/core.git",
-    "utils": "git@github.com:ProcessEngineJS/utils.git",
     "bootstrapper": "git@github.com:ProcessEngineJS/bootstrapper.git",
     "bootstrapper_node": "git@github.com:ProcessEngineJS/bootstrapper_node.git",
     "keyscopes": "git@github.com:ProcessEngineJS/keyscopes.git",
@@ -33,8 +33,8 @@
     "datasource_adapter_proxy": "git@github.com:ProcessEngineJS/datasource_adapter_proxy.git",
     "datastore": "git@github.com:ProcessEngineJS/datastore.git",
     "http": "git@github.com:ProcessEngineJS/http.git",
-    "http_extension": "git@github.com:ProcessEngineJS/http_extension.git",
     "http_node": "git@github.com:ProcessEngineJS/http_node.git",
+    "http_extension": "git@github.com:ProcessEngineJS/http_extension.git",
     "datastore_http": "git@github.com:ProcessEngineJS/datastore_http.git",
     "datastore_messagebus": "git@github.com:ProcessEngineJS/datastore_messagebus.git",
     "documentation": "git@github.com:ProcessEngineJS/documentation.git",
