@@ -1,5 +1,6 @@
 {
   "projects": {
+    "foundation": "git@github.com:ProcessEngineJS/foundation.git",
     "datastore_messagebus_contracts": "git@github.com:ProcessEngineJS/datastore_messagebus_contracts.git",
     "feature_contracts": "git@github.com:ProcessEngineJS/feature_contracts.git",
     "frontend_contracts": "git@github.com:ProcessEngineJS/frontend_contracts.git",
@@ -22,7 +23,6 @@
     "datastore_contracts": "git@github.com:ProcessEngineJS/datastore_contracts.git",
     "process_engine_contracts": "git@github.com:ProcessEngineJS/process_engine_contracts.git",
     "core": "git@github.com:ProcessEngineJS/core.git",
-    "utils": "git@github.com:ProcessEngineJS/utils.git",
     "bootstrapper": "git@github.com:ProcessEngineJS/bootstrapper.git",
     "bootstrapper_node": "git@github.com:ProcessEngineJS/bootstrapper_node.git",
     "data_model": "git@github.com:ProcessEngineJS/data_model.git",

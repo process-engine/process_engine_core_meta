@@ -23,6 +23,7 @@ event_aggregator
 event_aggregator_contracts
 feature
 feature_contracts
+foundation
 frontend
 frontend_contracts
 frontend_http
