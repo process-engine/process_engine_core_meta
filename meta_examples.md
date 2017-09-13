@@ -1,0 +1,143 @@
+**update some packages (uses https://www.npmjs.com/package/npm-check-updates)**
+```bash
+meta exec "ncu --filter typescript,tslint,tsconfig,loggerhythm,sprintf-js,es6-promise,ajv,@types/node,eslint,eslint-config-5minds,bpmn-moddle,gulptraum --peer --upgrade --upgradeAll && ncu --filter typescript,tslint,tsconfig,loggerhythm,sprintf-js,es6-promise,ajv,@types/node,eslint,eslint-config-5minds,bpmn-moddle,gulptraum --upgrade --upgradeAll"
+```
+
+**commit the package.json**
+```bash
+meta exec "git add package.json && git commit -m ':arrow_up: update dependency versions' && git push"
+```
+
+**update @process-engine-js/gulptraum to gulptraum**
+```bash
+meta exec "sed -i '' \"s/@process-engine-js\/gulptraum/gulptraum/g\" package.json"
+meta exec "git add package.json && git commit -m ':arrow_up: update to gulptraum' && git push"
+```
+
+**remove node_modules and add it to the gitignore**
+```bash
+meta exec "rm -rf node_modules && git add -A && git commit -m ':fire: remove node_modules-folder' && git push && echo '\nnode_modules\n' >> .gitignore && git add -A && git commit -m ':package: add node_modules to gitignore' && git push"
+```
+
+**remove schemas and doc and update the gitignore**
+```bash
+meta --exclude demo,documentation,skeleton,process_engine_meta exec "rm -rf doc && rm -rf schemas && git add -A && git commit -m ':fire: remove doc-folder and schemas-folder'"
+meta --exclude demo,documentation,skeleton,process_engine_meta exec "cp -f ../templates/.gitignore ."
+meta --exclude demo,documentation,skeleton,process_engine_meta exec "git add .gitignore && git commit -m ':package: update gitignore' && git push"
+```
+
+**install/update tslint**
+```bash
+meta --exclude demo,documentation,frontend_react_plugin_process_manager,skeleton exec "npm install --save-dev @process-engine-js/tslint-config typescript tslint"
+meta --exclude demo,documentation,frontend_react_plugin_process_manager,skeleton exec "echo \"{\\n  \\\"extends\\\": \\\"@process-engine-js/tslint-config\\\"\\n}\" > tslint.json"
+meta exec "ncu --filter typescript,tslint,tsconfig --upgrade --upgradeAll"
+meta exec "npm uninstall --save --save-dev tslint-config-5minds"
+meta exec "git add package.json tslint.json && git commit -m ':art: update/install tsconfig' && git push"
+```
+
+**update addict-ioc**
+```bash
+meta exec "ncu --filter addict-ioc --upgrade --upgradeAll && ncu --filter addict-ioc --peer --upgrade --upgradeAll"
+meta exec "git add package.json && git commit -m ':arrow_up: update addict-ioc' && git push"
+```
+
+**update all first-party package versions**
+```bash
+meta exec "sed -i '' 's#\"@process-engine-js/bootstrapper_node\": \"[^\"]*\"#\"@process-engine-js/bootstrapper_node\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/bootstrapper\": \"[^\"]*\"#\"@process-engine-js/bootstrapper\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/core_contracts\": \"[^\"]*\"#\"@process-engine-js/core_contracts\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/core\": \"[^\"]*\"#\"@process-engine-js/core\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/data_model_contracts\": \"[^\"]*\"#\"@process-engine-js/data_model_contracts\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/data_model\": \"[^\"]*\"#\"@process-engine-js/data_model\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/datasource_adapter_base\": \"[^\"]*\"#\"@process-engine-js/datasource_adapter_base\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/datasource_adapter_localstorage\": \"[^\"]*\"#\"@process-engine-js/datasource_adapter_localstorage\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/datasource_adapter_mongodb\": \"[^\"]*\"#\"@process-engine-js/datasource_adapter_mongodb\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/datasource_adapter_orientdb\": \"[^\"]*\"#\"@process-engine-js/datasource_adapter_orientdb\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/datasource_adapter_postgres\": \"[^\"]*\"#\"@process-engine-js/datasource_adapter_postgres\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/datasource_adapter_proxy\": \"[^\"]*\"#\"@process-engine-js/datasource_adapter_proxy\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/datasource_adapter_redis\": \"[^\"]*\"#\"@process-engine-js/datasource_adapter_redis\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/datastore_contracts\": \"[^\"]*\"#\"@process-engine-js/datastore_contracts\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/datastore_http\": \"[^\"]*\"#\"@process-engine-js/datastore_http\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/datastore_messagebus_contracts\": \"[^\"]*\"#\"@process-engine-js/datastore_messagebus_contracts\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/datastore_messagebus\": \"[^\"]*\"#\"@process-engine-js/datastore_messagebus\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/datastore\": \"[^\"]*\"#\"@process-engine-js/datastore\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/demo_frontend\": \"[^\"]*\"#\"@process-engine-js/demo_frontend\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/demo\": \"[^\"]*\"#\"@process-engine-js/demo\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/event_aggregator_contracts\": \"[^\"]*\"#\"@process-engine-js/event_aggregator_contracts\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/event_aggregator\": \"[^\"]*\"#\"@process-engine-js/event_aggregator\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/feature_contracts\": \"[^\"]*\"#\"@process-engine-js/feature_contracts\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/feature\": \"[^\"]*\"#\"@process-engine-js/feature\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/frontend_contracts\": \"[^\"]*\"#\"@process-engine-js/frontend_contracts\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/frontend_http\": \"[^\"]*\"#\"@process-engine-js/frontend_http\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/frontend_mui\": \"[^\"]*\"#\"@process-engine-js/frontend_mui\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/frontend_react_plugin_process_manager\": \"[^\"]*\"#\"@process-engine-js/frontend_react_plugin_process_manager\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/frontend\": \"[^\"]*\"#\"@process-engine-js/frontend\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/graphiql_contracts\": \"[^\"]*\"#\"@process-engine-js/graphiql_contracts\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/graphiql_http\": \"[^\"]*\"#\"@process-engine-js/graphiql_http\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/graphiql\": \"[^\"]*\"#\"@process-engine-js/graphiql\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/http_contracts\": \"[^\"]*\"#\"@process-engine-js/http_contracts\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/http_extension\": \"[^\"]*\"#\"@process-engine-js/http_extension\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/http_node\": \"[^\"]*\"#\"@process-engine-js/http_node\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/http\": \"[^\"]*\"#\"@process-engine-js/http\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/iam_browser\": \"[^\"]*\"#\"@process-engine-js/iam_browser\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/iam_contracts\": \"[^\"]*\"#\"@process-engine-js/iam_contracts\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/iam_http\": \"[^\"]*\"#\"@process-engine-js/iam_http\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/iam\": \"[^\"]*\"#\"@process-engine-js/iam\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/invocation_contracts\": \"[^\"]*\"#\"@process-engine-js/invocation_contracts\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/invocation\": \"[^\"]*\"#\"@process-engine-js/invocation\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/messagebus_adapter_faye_browser\": \"[^\"]*\"#\"@process-engine-js/messagebus_adapter_faye_browser\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/messagebus_adapter_faye\": \"[^\"]*\"#\"@process-engine-js/messagebus_adapter_faye\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/messagebus_adapter_local\": \"[^\"]*\"#\"@process-engine-js/messagebus_adapter_local\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/messagebus_contracts\": \"[^\"]*\"#\"@process-engine-js/messagebus_contracts\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/messagebus_http\": \"[^\"]*\"#\"@process-engine-js/messagebus_http\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/messagebus\": \"[^\"]*\"#\"@process-engine-js/messagebus\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/metadata_contracts\": \"[^\"]*\"#\"@process-engine-js/metadata_contracts\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/metadata\": \"[^\"]*\"#\"@process-engine-js/metadata\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/pki_service_contracts\": \"[^\"]*\"#\"@process-engine-js/pki_service_contracts\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/pki_service\": \"[^\"]*\"#\"@process-engine-js/pki_service\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/process_engine_client_api\": \"[^\"]*\"#\"@process-engine-js/process_engine_client_api\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/process_engine_client_processable_react\": \"[^\"]*\"#\"@process-engine-js/process_engine_client_processable_react\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/process_engine_contracts\": \"[^\"]*\"#\"@process-engine-js/process_engine_contracts\": \"^3.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/process_engine_http\": \"[^\"]*\"#\"@process-engine-js/process_engine_http\": \"^3.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/process_engine\": \"[^\"]*\"#\"@process-engine-js/process_engine\": \"^3.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/process_repository_browser\": \"[^\"]*\"#\"@process-engine-js/process_repository_browser\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/process_repository\": \"[^\"]*\"#\"@process-engine-js/process_repository\": \"^3.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/routing_contracts\": \"[^\"]*\"#\"@process-engine-js/routing_contracts\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/routing\": \"[^\"]*\"#\"@process-engine-js/routing\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/security_service_contracts\": \"[^\"]*\"#\"@process-engine-js/security_service_contracts\": \"^1.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/security_service\": \"[^\"]*\"#\"@process-engine-js/security_service\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/services_contracts\": \"[^\"]*\"#\"@process-engine-js/services_contracts\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/services\": \"[^\"]*\"#\"@process-engine-js/services\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/timing_contracts\": \"[^\"]*\"#\"@process-engine-js/timing_contracts\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/timing\": \"[^\"]*\"#\"@process-engine-js/timing\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/validation_contracts\": \"[^\"]*\"#\"@process-engine-js/validation_contracts\": \"^2.0.0\"#g' package.json"
+meta exec "sed -i '' 's#\"@process-engine-js/validation\": \"[^\"]*\"#\"@process-engine-js/validation\": \"^2.0.0\"#g' package.json"
+```
+
+**update all package-versions to the next major**
+```bash
+meta exec "perl -pi -e 's/\\s+\"version\":\\s+\"(\\d+).\\d+.\\d+\"(.+)/\"  \\\"version\\\": \\\"\" . (\$1+1) . \".0.0\\\"\" . \$2/ge' package.json"
+# non-meta version:
+# perl -p -e 's/\s+"version":\s+"(\d+).\d+.\d+"(.+)/"  \"version\": \"" . ($1+1) . ".0.0\"" . $2/ge' package.json
+```
+
+**add build and prepublishOnly scripts (uses https://www.npmjs.com/package/npm-add-script)**
+```bash
+meta --exclude demo,documentation,skeleton exec "npmAddScript --key build --value 'gulp build' --force && npmAddScript --key prepublishOnly --value 'npm run build' --force"
+```
+
+**update tslint-config**
+```bash
+meta exec "ncu --filter @process-engine-js/tslint-config --upgrade --upgradeAll && ncu --filter @process-engine-js/tslint-config --peer --upgrade --upgradeAll"
+```
+
+**autofix tslint-errors**
+```bash
+meta --exclude demo,documentation,frontend_react_plugin_process_manager,skeleton exec "tslint --fix 'src/**/*.ts?(x)'"
+meta exec "git add src/* && git commit -m ':art: fix autifixables' && git push"
+```
+
+**add schema and doc tasks**
+```bash
+meta --exclude demo,documentation,frontend_react_plugin_process_manager,skeleton,process_engine_meta exec "npmAddScript --key build-doc --value 'gulp doc' --force && npmAddScript --key build-schemas --value 'gulp typescript-schema' --force"
+```

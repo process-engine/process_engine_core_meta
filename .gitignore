@@ -23,6 +23,7 @@ event_aggregator
 event_aggregator_contracts
 feature
 feature_contracts
+foundation
 frontend
 frontend_contracts
 frontend_http
@@ -72,4 +73,15 @@ validation_contracts
 frontend_react_plugin_process_manager
 demo
 
-.DS_Store
+# OSX-finder info-files
+*.DS_Store
+
+# IDE configs
+.vscode
+.idea/
+*.iml
+*.iws
+.classpath
+.project
+.settings/
+

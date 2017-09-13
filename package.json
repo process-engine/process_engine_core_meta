@@ -1,10 +1,13 @@
 {
   "name": "process_engine_meta",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "minstall ."
+    "postinstall": "minstall .",
+    "test": "test3",
+    "build": "gulp build",
+    "prepublishOnly": "npm run build"
   },
   "author": "",
   "license": "ISC",
