@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "minstall .",
-    "test": "test3",
+    "prepare": true,
     "build": "gulp build",
-    "prepublishOnly": "npm run build"
+    "prepare": "npm run build"
   },
   "author": "",
   "license": "ISC",
