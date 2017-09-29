@@ -68,6 +68,8 @@
     "timing": "git@github.com:ProcessEngineJS/timing.git",
     "validation": "git@github.com:ProcessEngineJS/validation.git",
     "skeleton": "git@github.com:ProcessEngineJS/skeleton.git",
-    "demo": "git@github.com:ProcessEngineJS/demo.git"
+    "demo": "git@github.com:ProcessEngineJS/demo.git",
+    "caching": "git@github.com:ProcessEngineJS/caching.git",
+    "caching_contracts": "git@github.com:ProcessEngineJS/caching_contracts.git",
   }
 }
