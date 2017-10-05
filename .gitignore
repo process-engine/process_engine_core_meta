@@ -2,6 +2,8 @@ node_modules
 
 bootstrapper
 bootstrapper_node
+caching
+caching_contracts
 core
 core_contracts
 data_model
@@ -41,6 +43,7 @@ iam_contracts
 iam_http
 invocation
 invocation_contracts
+keyscopes
 messagebus
 messagebus_adapter_faye
 messagebus_adapter_faye_browser
