@@ -10,7 +10,7 @@ meta exec "git add package.json && git commit -m ':arrow_up: update dependency v
 
 **update @essential-projects/gulptraum to gulptraum**
 ```bash
-meta exec "sed -i '' \"s/@process-engine-js\/gulptraum/gulptraum/g\" package.json"
+meta exec "sed -i '' \"s/@process-engine\/gulptraum/gulptraum/g\" package.json"
 meta exec "git add package.json && git commit -m ':arrow_up: update to gulptraum' && git push"
 ```
 

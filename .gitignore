@@ -30,9 +30,9 @@ frontend
 frontend_contracts
 frontend_http
 frontend_mui
-graphiql
-graphiql_contracts
-graphiql_http
+graphql
+graphql_contracts
+graphql_http
 http
 http_contracts
 http_extension

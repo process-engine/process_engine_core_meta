@@ -10,8 +10,10 @@ cd ../backend && npm install
 cd ..
 
 # make the demo use the linked packages
-rm -rf frontend/node_modules/@process-engine-js
-rm -rf backend/node_modules/@process-engine-js
+rm -rf frontend/node_modules/@process-engine
+rm -rf frontend/node_modules/@essential-projects
+rm -rf backend/node_modules/@process-engine
+rm -rf backend/node_modules/@essential-projects
 cd ..
 
 # build all packages and schemas
