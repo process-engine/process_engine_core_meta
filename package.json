@@ -1,5 +1,5 @@
 {
-  "name": "process_engine_meta",
+  "name": "@process-engine/process_engine_meta",
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
