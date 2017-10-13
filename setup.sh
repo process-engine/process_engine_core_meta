@@ -1,6 +1,6 @@
 # checkout all repos in the correct branch
 meta git update
-meta exec "git checkout develop"
+meta exec "git checkout develop" --exclude process_engine_meta
 
 # install all necessary dependencies
 npm install
@@ -10,14 +10,15 @@ cd skeleton/database
 node postres_docker.js reset demo
 cd ../..
 
-# install the process-engine-server-demo
+# install the process-engine-server-demo, and make it use the linked packages
 cd skeleton/process-engine-server-demo
 npm install
+rm -rf node_modules/@process-engine
+rm -rf node_modules/@essential-projects
 cd ../..
 
-# make the skeleton use the linked packages
-rm -rf skeleton/process-engine-server-demo/@process-engine
-rm -rf fskeleton/process-engine-server-demo/@essential-projects
+# fix conflicting types from jasmine and mocha
+rm -rf node_modules/@types/jasmine
 
 # build all packages and schemas
 meta exec "npm run build-schemas && npm run build" --exclude process_engine_meta,skeleton,documentation,charon

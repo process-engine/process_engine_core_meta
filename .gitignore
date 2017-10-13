@@ -4,6 +4,7 @@ bootstrapper
 bootstrapper_node
 caching
 caching_contracts
+charon
 core
 core_contracts
 data_model
