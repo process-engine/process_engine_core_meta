@@ -25,4 +25,8 @@ meta exec "npm run build-schemas && npm run build" --exclude process_engine_meta
 cd skeleton/process-engine-server-demo
 npm run build
 cd ../..
-meta exec "npm run build" --include-only charon
+
+# build charon. for some aurelia-reason, this doesn't work with a higher-level node_modules folder
+cd charon
+npm install
+npm run build

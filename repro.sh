@@ -5,10 +5,5 @@ npm install -g meta gulp
 ./setup.sh
 ​
 # run the backend
-cd skeleton/process-engine-server-demo
-npm start & disown
-cd ../..
-
-# run the frontend
-cd charon
-npm start
+echo "run 'npm start' in 'skeleton/process-engine-server-demo' to run the process-engine"
+echo "run 'npm start' in 'charon' to run the frontend"
