@@ -4,18 +4,24 @@ meta exec "git checkout develop"
 
 # install all necessary dependencies
 npm install
-cd demo && npm install better-npm-run
-cd frontend && npm install
-cd ../backend && npm install
-cd ..
 
-# make the demo use the linked packages
-rm -rf frontend/node_modules/@process-engine
-rm -rf frontend/node_modules/@essential-projects
-rm -rf backend/node_modules/@process-engine
-rm -rf backend/node_modules/@essential-projects
-cd ..
+# create a database
+cd skeleton/database
+node postres_docker.js reset demo
+cd ../..
+
+# install the process-engine-server-demo
+cd skeleton/process-engine-server-demo
+npm install
+cd ../..
+
+# make the skeleton use the linked packages
+rm -rf skeleton/process-engine-server-demo/@process-engine
+rm -rf fskeleton/process-engine-server-demo/@essential-projects
 
 # build all packages and schemas
-meta exec "npm run build-schemas && npm run build" --exclude process_engine_meta,skeleton,documentation,frontend_react_plugin_process_manager,demo
-meta exec "npm run build" --include-only frontend_react_plugin_process_manager,demo
+meta exec "npm run build-schemas && npm run build" --exclude process_engine_meta,skeleton,documentation,charon
+cd skeleton/process-engine-server-demo
+npm run build
+cd ../..
+meta exec "npm run build" --include-only charon
