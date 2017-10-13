@@ -7,7 +7,7 @@ npm install
 
 # create a database
 cd skeleton/database
-node postres_docker.js reset demo
+node postgres_docker.js reset demo
 cd ../..
 
 # install the process-engine-server-demo, and make it use the linked packages
