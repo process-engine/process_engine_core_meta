@@ -1,14 +1,12 @@
+# make sure meta and gulp are installed
+npm install -g meta gulp
+
 # checkout all repos in the correct branch
 meta git update
 meta exec "git checkout develop" --exclude process_engine_meta
 
 # install all necessary dependencies
 npm install
-
-# create a database
-cd skeleton/database
-node postgres_docker.js reset demo
-cd ../..
 
 # install the process-engine-server-demo, and make it use the linked packages
 cd skeleton/process-engine-server-demo
@@ -30,3 +28,13 @@ cd ../..
 cd charon
 npm install
 npm run build
+cd ..
+
+# create a database
+cd skeleton/database
+node postgres_docker.js reset demo
+cd ../..
+
+# tell the user how to run stuff
+echo "run 'npm start' in 'skeleton/process-engine-server-demo' to run the process-engine"
+echo "run 'npm start' in 'charon' to run the frontend"
