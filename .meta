@@ -5,7 +5,6 @@
     "caching": "git@github.com:essential-projects/caching.git",
     "datastore_messagebus_contracts": "git@github.com:essential-projects/datastore_messagebus_contracts.git",
     "feature_contracts": "git@github.com:essential-projects/feature_contracts.git",
-    "frontend_contracts": "git@github.com:process-engine/frontend_contracts.git",
     "graphql_contracts": "git@github.com:essential-projects/graphql_contracts.git",
     "http_contracts": "git@github.com:essential-projects/http_contracts.git",
     "metadata_contracts": "git@github.com:essential-projects/metadata_contracts.git",
@@ -43,15 +42,9 @@
     "event_aggregator": "git@github.com:essential-projects/event_aggregator.git",
     "feature": "git@github.com:essential-projects/feature.git",
     "process_engine": "git@github.com:process-engine/process_engine.git",
-    "process_engine_client_api": "git@github.com:process-engine/process_engine_client_api.git",
     "process_engine_http": "git@github.com:process-engine/process_engine_http.git",
     "process_repository": "git@github.com:process-engine/process_repository.git",
     "process_repository_browser": "git@github.com:process-engine/process_repository_browser.git",
-    "frontend": "git@github.com:process-engine/frontend.git",
-    "frontend_http": "git@github.com:process-engine/frontend_http.git",
-    "frontend_mui": "git@github.com:process-engine/frontend_mui.git",
-    "process_engine_client_processable_react": "git@github.com:process-engine/process_engine_client_processable_react.git",
-    "frontend_react_plugin_process_manager": "git@github.com:process-engine/frontend_react_plugin_process_manager.git",
     "graphql": "git@github.com:essential-projects/graphql.git",
     "graphql_http": "git@github.com:essential-projects/graphql_http.git",
     "iam": "git@github.com:essential-projects/iam.git",
@@ -70,6 +63,6 @@
     "timing": "git@github.com:essential-projects/timing.git",
     "validation": "git@github.com:essential-projects/validation.git",
     "skeleton": "git@github.com:process-engine/skeleton.git",
-    "demo": "git@github.com:process-engine/demo.git"
+    "charon": "git@github.com:process-engine/charon.git"
   }
 }
