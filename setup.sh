@@ -4,6 +4,7 @@ npm install -g meta gulp
 # checkout all repos in the correct branch
 meta git update
 meta exec "git checkout develop" --exclude process_engine_meta
+meta exec "git checkout feature/namespace_versioning_fixes"
 
 # install all necessary dependencies
 npm install
