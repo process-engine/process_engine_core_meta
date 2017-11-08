@@ -3,6 +3,7 @@
     "foundation": "git@github.com:essential-projects/foundation.git",
     "caching_contracts": "git@github.com:essential-projects/caching_contracts.git",
     "caching": "git@github.com:essential-projects/caching.git",
+    "consumer_client": "git@github.com:process-engine/consumer_client.git",
     "datastore_messagebus_contracts": "git@github.com:essential-projects/datastore_messagebus_contracts.git",
     "feature_contracts": "git@github.com:essential-projects/feature_contracts.git",
     "graphql_contracts": "git@github.com:essential-projects/graphql_contracts.git",

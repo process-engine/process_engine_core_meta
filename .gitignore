@@ -5,6 +5,7 @@ bootstrapper_node
 caching
 caching_contracts
 charon
+consumer_client
 core
 core_contracts
 data_model
