@@ -16,6 +16,13 @@ rm -rf node_modules/@process-engine
 rm -rf node_modules/@essential-projects
 cd ../..
 
+# install the process-engine-server, and make it use the linked packages
+cd skeleton/process-engine-server
+npm install
+rm -rf node_modules/@process-engine
+rm -rf node_modules/@essential-projects
+cd ../..
+
 # fix conflicting types from jasmine and mocha
 rm -rf node_modules/@types/jasmine
 
