@@ -4,12 +4,20 @@ npm install -g meta gulp
 # checkout all repos in the correct branch
 meta git update
 meta exec "git checkout develop" --exclude process_engine_meta
+meta exec "git checkout feature/namespace_versioning_fixes"
 
 # install all necessary dependencies
 npm install
 
 # install the process-engine-server-demo, and make it use the linked packages
 cd skeleton/process-engine-server-demo
+npm install
+rm -rf node_modules/@process-engine
+rm -rf node_modules/@essential-projects
+cd ../..
+
+# install the process-engine-server, and make it use the linked packages
+cd skeleton/process-engine-server
 npm install
 rm -rf node_modules/@process-engine
 rm -rf node_modules/@essential-projects
@@ -25,6 +33,13 @@ npm run build
 cd ../..
 
 # build charon. for some aurelia-reason, this doesn't work with a higher-level node_modules folder
+mkdir charon/node_modules
+mkdir charon/node_modules/@essential-projects
+mkdir charon/node_modules/@process-engine
+ln -s ../../../core_contracts charon/node_modules/@essential-projects/core_contracts
+ln -s ../../../event_aggregator charon/node_modules/@essential-projects/event_aggregator
+ln -s ../../../consumer_client charon/node_modules/@process-engine/consumer_client
+ln -s ../../../process_engine_contracts charon/node_modules/@process-engine/process_engine_contracts
 cd charon
 npm install
 npm run build
