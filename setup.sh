@@ -36,7 +36,7 @@ rm -rf node_modules/@types/jasmine
 meta exec "npm run build-schemas && npm run build" --exclude process_engine_meta,skeleton,documentation,charon
 cd skeleton/process-engine-server-demo
 npm run build
-cd ../process-engine-server-browser
+cd ../process-engine-browser
 npm run build
 cd ../..
 
