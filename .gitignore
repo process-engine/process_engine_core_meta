@@ -1,6 +1,7 @@
 node_modules
 
 bootstrapper
+bootstrapper_browser
 bootstrapper_node
 caching
 caching_contracts
