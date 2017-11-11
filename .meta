@@ -26,6 +26,7 @@
     "core": "git@github.com:essential-projects/core.git",
     "bootstrapper": "git@github.com:essential-projects/bootstrapper.git",
     "bootstrapper_node": "git@github.com:essential-projects/bootstrapper_node.git",
+    "bootstrapper_browser": "git@github.com:essential-projects/bootstrapper_browser.git",
     "keyscopes": "git@github.com:process-engine/keyscopes.git",
     "data_model": "git@github.com:essential-projects/data_model.git",
     "datasource_adapter_base": "git@github.com:essential-projects/datasource_adapter_base.git",
