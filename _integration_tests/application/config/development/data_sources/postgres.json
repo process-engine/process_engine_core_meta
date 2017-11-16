@@ -1,0 +1,17 @@
+{
+  "adapter": {
+    "name": "Postgres",
+    "skipMigration": false,
+    "server": {
+      "host": "localhost",
+      "port": 5432,
+      "database": "processengine",
+      "user": "admin",
+      "password": "admin",
+      "max": 50,
+      "idleTimeoutMillis": 1000
+      
+    }
+  },
+  "schemaMode": "full"
+}
