@@ -58,18 +58,10 @@ async function start() {
 
   container.validateDependencies();
 
-  let bootstrapper;
-  try {
-    process.env.CONFIG_PATH = path.resolve(__dirname, 'config');
-    process.env.NODE_ENV = 'development';
-    const appPath = path.resolve(__dirname);
-    bootstrapper = await container.resolveAsync('HttpIntegrationTestBootstrapper', [appPath]);
-    await bootstrapper.start();
-
-    logger.info('Bootstrapper started successfully.');
-  } catch(error) {
-    logger.error('Bootstrapper failed to start.', error);
-  }
+  process.env.CONFIG_PATH = path.resolve(__dirname, 'config');
+  process.env.NODE_ENV = 'development';
+  const appPath = path.resolve(__dirname);
+  const bootstrapper = await container.resolveAsync('HttpIntegrationTestBootstrapper', [appPath]);
 
   return bootstrapper;
 }
