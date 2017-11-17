@@ -9,7 +9,7 @@ const getBootstrapper = require('../../application/get_bootstrapper');
 
 describe('Datastore:   GET  ->  /datastore/User', function() {
   let httpBootstrapper;
-  this.timeout(30000);
+  this.timeout(5000);
   
   before(async () => {
     httpBootstrapper = await getBootstrapper();
@@ -18,8 +18,12 @@ describe('Datastore:   GET  ->  /datastore/User', function() {
   afterEach(async () => {
     await httpBootstrapper.reset();
   });
+  
+  after(async () => {
+    await httpBootstrapper.shutdown();
+  });
 
-  it('should return catalog', async () => {
+  it('should return collection', async () => {
 
     const userFixtures = [{
       name: 'Bob',

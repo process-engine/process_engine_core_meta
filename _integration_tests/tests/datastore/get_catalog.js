@@ -9,19 +9,22 @@ const getBootstrapper = require('../../application/get_bootstrapper');
 
 describe('Datastore:   GET  ->  /datastore', function() {
   let httpBootstrapper;
-  this.timeout(30000);
+  this.timeout(5000);
   
   before(async () => {
     httpBootstrapper = await getBootstrapper();
+    await httpBootstrapper.start();
   });
-
+  
   afterEach(async () => {
     await httpBootstrapper.reset();
   });
 
-  it('should return catalog', async () => {
-    await httpBootstrapper.start();
+  after(async () => {
+    await httpBootstrapper.shutdown();
+  });
 
+  it('should return catalog', async () => {
     const authToken = await httpBootstrapper.getTokenFromAuth('admin', 'admin');
     
     const response = await request(httpBootstrapper.app)
