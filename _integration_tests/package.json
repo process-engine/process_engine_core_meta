@@ -7,6 +7,9 @@
   "description": "integration tests",
   "license": "MIT",
   "main": "index.js",
+  "files": [
+    "tests"
+  ],
   "scripts": {
     "start": "node index.js"
   },
