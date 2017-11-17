@@ -11,7 +11,8 @@
     "tests"
   ],
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "mocha test/** --exit"
   },
   "dependencies": {
     "@essential-projects/bootstrapper": "^0.1.0",
