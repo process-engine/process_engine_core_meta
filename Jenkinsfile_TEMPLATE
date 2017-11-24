@@ -1,9 +1,10 @@
 /*
- * Example Jenkinsfile for process-engine projects
+ * Template Jenkinsfile for process-engine projects.
+ *
  * For this template to work you need some custom
  * scripts in your package.json. Below is a example
  * for those scripts:
- *  ...
+ *  (...)
  *  "scripts": {
  *    "lint": "gulp lint",
  *    "build": "gulp build",
@@ -11,7 +12,7 @@
  *    "build-doc": "gulp doc",
  *    "test": "gulp test",
  *  },
- *  ...
+ *  (...)
  *
  */
 pipeline {
