@@ -11,7 +11,7 @@ const testTimeoutMilliseconds = 5000;
 describe('Datastore:   GET  ->  /datastore', function() {
   let httpBootstrapper;
   
-  this.timeout(describeTimeoutMS);
+  this.timeout(testTimeoutMilliseconds);
   
   before(async () => {
     httpBootstrapper = await getBootstrapper();
