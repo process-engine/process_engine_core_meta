@@ -141,3 +141,21 @@ meta exec "git add src/* && git commit -m ':art: fix autifixables' && git push"
 ```bash
 meta --exclude demo,documentation,frontend_react_plugin_process_manager,skeleton,process_engine_meta exec "npmAddScript --key build-doc --value 'gulp doc' --force && npmAddScript --key build-schemas --value 'gulp typescript-schema' --force"
 ```
+
+**update Jenkinsfiles from templates**
+
+Update Jenkinsfile and Jenkinsfile-node-v7
+
+```bash
+meta --exclude demo,documentation,skeleton,process_engine_meta,charon exec "cp -f ../_templates/Jenkinsfile . && cp -f ../_templates/Jenkinsfile-node-v7 ."
+meta --exclude demo,documentation,skeleton,process_engine_meta,charon exec "git add Jenkinsfile Jenkinsfile-node-v7"
+meta --exclude demo,documentation,skeleton,process_engine_meta,charon exec "git commit -m ':construction_worker: Update Jenkinsfile and add Jenkinsfile-node-v7 from Template'"
+```
+
+Update only the Jenkinsfile
+
+```bash
+meta --exclude demo,documentation,skeleton,process_engine_meta,charon exec "cp -f ../_templates/Jenkinsfile ."
+meta --exclude demo,documentation,skeleton,process_engine_meta,charon exec "git add Jenkinsfile"
+meta --exclude demo,documentation,skeleton,process_engine_meta,charon exec "git commit -m ':construction_worker: Update Jenkinsfile from Template'"
+```
