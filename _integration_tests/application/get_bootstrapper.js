@@ -31,13 +31,13 @@ const iocModuleNames = [
   '@essential-projects/messagebus_adapter_faye',
   '@essential-projects/metadata',
   '@essential-projects/pki_service',
-  '@process-engine/process_engine',
-  '@process-engine/process_engine_http',
-  '@process-engine/process_repository',
   '@essential-projects/security_service',
   '@essential-projects/routing',
   '@essential-projects/timing',
   '@essential-projects/validation',
+  '@process-engine/process_engine',
+  '@process-engine/process_engine_http',
+  '@process-engine/process_repository',
 ];
 
 const iocModules = iocModuleNames.map((moduleName) => {

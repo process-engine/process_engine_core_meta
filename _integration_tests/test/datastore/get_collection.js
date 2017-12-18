@@ -6,10 +6,12 @@ const request = require('supertest');
 const HttpBootstrapper = require('@essential-projects/http_integration_testing').HttpIntegrationTestBootstrapper;
 const getBootstrapper = require('../../application/get_bootstrapper');
 
+const testTimeoutMilliseconds = 5000;
 
 describe('Datastore:   GET  ->  /datastore/User', function() {
   let httpBootstrapper;
-  this.timeout(5000);
+  
+  this.timeout(testTimeoutMilliseconds);
   
   before(async () => {
     httpBootstrapper = await getBootstrapper();
@@ -52,14 +54,14 @@ describe('Datastore:   GET  ->  /datastore/User', function() {
     
     for (const userFixture of userFixtures) {
 
-      const found = response.body.data.some((user) => {
+      const foundUser = response.body.data.some((user) => {
         
         return user.name == userFixture.name
-          && user.password != userFixture.password
+          && user.password != userFixture.password // the password must not be the one used in the fixture, but the hashed variant
           && user.roles[0] == userFixture.roles[0];
       });
 
-      if (!found) {
+      if (!foundUser) {
         throw new Error('data is missing');
       }
     }

@@ -6,10 +6,12 @@ const request = require('supertest');
 const HttpBootstrapper = require('@essential-projects/http_integration_testing').HttpIntegrationTestBootstrapper;
 const getBootstrapper = require('../../application/get_bootstrapper');
 
+const testTimeoutMilliseconds = 5000;
 
 describe('Datastore:   GET  ->  /datastore', function() {
   let httpBootstrapper;
-  this.timeout(5000);
+  
+  this.timeout(testTimeoutMilliseconds);
   
   before(async () => {
     httpBootstrapper = await getBootstrapper();
