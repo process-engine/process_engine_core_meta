@@ -1,6 +1,6 @@
 {
   "name": "@process-engine/process_engine_meta",
-  "version": "0.1.0",
+  "version": "1.0.0-rc1",
   "description": "",
   "main": "index.js",
   "scripts": {

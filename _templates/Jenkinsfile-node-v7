@@ -20,7 +20,7 @@
 pipeline {
   agent any
   tools {
-    nodejs "node-lts"
+    nodejs "node-v7"
   }
 
   stages {
@@ -49,17 +49,6 @@ pipeline {
       steps {
         sh 'node --version'
         sh 'npm run test'
-      }
-    }
-    stage('publish') {
-      when {
-        branch 'master'
-      }
-      steps {
-        nodejs(configId: 'process-engine-ci-token', nodeJSInstallationName: 'node-lts') {
-          sh 'node --version'
-          sh 'npm publish --ignore-scripts'
-        }
       }
     }
   }
