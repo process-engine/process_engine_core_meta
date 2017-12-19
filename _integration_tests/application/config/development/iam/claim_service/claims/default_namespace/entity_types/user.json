@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "create": [
+      "_iam_internal"
+    ]
+  },
+  "class_members": {
+    "someExampleMethod": {
+      "permissions": {
+        "create": [
+          "_iam_internal"
+        ]
+      }
+    },
+    "password": {
+      "permissions": {
+        "read": [
+          "_iam_internal"
+        ]
+      }
+    }
+  }
+}
