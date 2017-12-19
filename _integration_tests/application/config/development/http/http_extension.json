@@ -1,0 +1,10 @@
+{
+  "server": {
+    "host": "localhost",
+    "port": 8000
+  },
+  "api": {
+    "version": "v1"
+  },
+  "disableCors": false
+}
