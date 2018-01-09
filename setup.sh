@@ -13,7 +13,8 @@ npm install
 rm -rf node_modules/@types/jasmine
 
 # build all packages and schemas
-meta exec "npm run build-schemas && npm run build" --exclude process_engine_meta,documentation
+meta exec "npm run build-schemas && npm run build" --exclude process_engine_meta,skeleton,documentation,charon
+meta exec "npm run build" --include-only skeleton,charon
 
 # create a database
 cd skeleton/database
