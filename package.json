@@ -10,6 +10,6 @@
   "license": "ISC",
   "devDependencies": {
     "meta-npm": "0.0.18",
-    "minstall": "3.0.0-pre1"
+    "minstall": "3.0.0-pre3"
   }
 }
