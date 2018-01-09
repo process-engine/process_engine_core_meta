@@ -41,15 +41,7 @@ npm run build
 cd ../..
 
 # build charon. for some aurelia-reason, this doesn't work with a higher-level node_modules folder
-mkdir charon/node_modules
-mkdir charon/node_modules/@essential-projects
-mkdir charon/node_modules/@process-engine
-ln -s ../../../core_contracts charon/node_modules/@essential-projects/core_contracts
-ln -s ../../../event_aggregator charon/node_modules/@essential-projects/event_aggregator
-ln -s ../../../consumer_client charon/node_modules/@process-engine/consumer_client
-ln -s ../../../process_engine_contracts charon/node_modules/@process-engine/process_engine_contracts
 cd charon
-npm install
 npm run build
 cd ..
 
