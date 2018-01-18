@@ -12,8 +12,8 @@ npm install
 rm -rf node_modules/@types/jasmine
 
 # build all packages and schemas
-meta exec "npm run build-schemas && npm run build" --exclude process_engine_meta,skeleton,documentation,charon
-meta exec "npm run build" --include-only skeleton,charon
+meta exec "npm run build-schemas && npm run build" --exclude process_engine_meta,skeleton,documentation,bpmn-studio
+meta exec "npm run build" --include-only skeleton,bpmn-studio
 
 # create a database
 cd skeleton/database
@@ -22,4 +22,4 @@ cd ../..
 
 # tell the user how to run stuff
 echo "run 'npm start' in 'skeleton/process-engine-server-demo' to run the process-engine"
-echo "run 'npm start' in 'charon' to run the frontend"
+echo "run 'npm start' in 'bpmn-studio' to run the frontend"
