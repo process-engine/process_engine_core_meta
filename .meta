@@ -65,6 +65,6 @@
     "validation": "git@github.com:essential-projects/validation.git",
     "skeleton": "git@github.com:process-engine/skeleton.git",
     "consumer_client": "git@github.com:process-engine/consumer_client.git",
-    "charon": "git@github.com:process-engine/charon.git"
+    "bpmn-studio": "git@github.com:process-engine/bpmn-studio.git"
   }
 }

@@ -160,15 +160,15 @@ meta --exclude demo,documentation,frontend_react_plugin_process_manager,skeleton
 Update Jenkinsfile and Jenkinsfile-node-v7
 
 ```bash
-meta --exclude demo,documentation,skeleton,process_engine_meta,charon exec "cp -f ../_templates/Jenkinsfile . && cp -f ../_templates/Jenkinsfile-node-v7 ."
-meta --exclude demo,documentation,skeleton,process_engine_meta,charon exec "git add Jenkinsfile Jenkinsfile-node-v7"
-meta --exclude demo,documentation,skeleton,process_engine_meta,charon exec "git commit -m ':construction_worker: Update Jenkinsfile and add Jenkinsfile-node-v7 from Template'"
+meta --exclude demo,documentation,skeleton,process_engine_meta,bpmn-studio exec "cp -f ../_templates/Jenkinsfile . && cp -f ../_templates/Jenkinsfile-node-v7 ."
+meta --exclude demo,documentation,skeleton,process_engine_meta,bpmn-studio exec "git add Jenkinsfile Jenkinsfile-node-v7"
+meta --exclude demo,documentation,skeleton,process_engine_meta,bpmn-studio exec "git commit -m ':construction_worker: Update Jenkinsfile and add Jenkinsfile-node-v7 from Template'"
 ```
 
 Update only the Jenkinsfile
 
 ```bash
-meta --exclude demo,documentation,skeleton,process_engine_meta,charon exec "cp -f ../_templates/Jenkinsfile ."
-meta --exclude demo,documentation,skeleton,process_engine_meta,charon exec "git add Jenkinsfile"
-meta --exclude demo,documentation,skeleton,process_engine_meta,charon exec "git commit -m ':construction_worker: Update Jenkinsfile from Template'"
+meta --exclude demo,documentation,skeleton,process_engine_meta,bpmn-studio exec "cp -f ../_templates/Jenkinsfile ."
+meta --exclude demo,documentation,skeleton,process_engine_meta,bpmn-studio exec "git add Jenkinsfile"
+meta --exclude demo,documentation,skeleton,process_engine_meta,bpmn-studio exec "git commit -m ':construction_worker: Update Jenkinsfile from Template'"
 ```
