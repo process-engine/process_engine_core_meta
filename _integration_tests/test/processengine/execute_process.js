@@ -27,7 +27,8 @@ describe('Process-Engine   POST  ->  /processengine/execute  test_simple', funct
     // ---------------- create fixture for process definition -----------------
     const processDefFixtures = [{
       name: 'test_simple',
-      key: 'test_simple'
+      key: 'test_simple',
+      draft: true
     }];
 
     httpBootstrapper.addFixtures('ProcessDef', processDefFixtures);

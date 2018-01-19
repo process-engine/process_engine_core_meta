@@ -27,7 +27,8 @@ describe('Process-Engine   POST  ->  /processengine/execute  test_loop', functio
     // ---------------- create fixture for process definition -----------------
     const processDefFixtures = [{
       name: 'loop',
-      key: 'loop'
+      key: 'loop',
+      draft: true
     }];
 
     httpBootstrapper.addFixtures('ProcessDef', processDefFixtures);
