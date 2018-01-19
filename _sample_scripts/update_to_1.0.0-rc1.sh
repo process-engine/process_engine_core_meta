@@ -23,7 +23,7 @@ meta exec --exclude documentation,skeleton,process_engine_meta "git merge develo
 meta exec --exclude documentation,skeleton,process_engine_meta "git push --tags && git push"
 
 # publish the package. this also builds everything before it gets published
-meta exec --exclude documentation,skeleton,charon,process_engine_meta "npm publish --tag rc1"
+meta exec --exclude documentation,skeleton,bpmn-studio,process_engine_meta "npm publish --tag rc1"
 
 # merge develop back into master
 meta exec --exclude documentation,skeleton,process_engine_meta "git checkout develop && git merge master && git push"
