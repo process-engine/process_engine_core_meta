@@ -6,6 +6,8 @@ bootstrapper_node
 caching
 caching_contracts
 bpmn-studio
+consumer_api
+consumer_api_contracts
 consumer_client
 core
 core_contracts
@@ -24,6 +26,7 @@ datastore_http
 datastore_messagebus
 datastore_messagebus_contracts
 documentation
+errors_ts
 event_aggregator
 event_aggregator_contracts
 feature
