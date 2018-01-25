@@ -35,6 +35,7 @@ const iocModuleNames = [
   '@essential-projects/routing',
   '@essential-projects/timing',
   '@essential-projects/validation',
+  '@process-engine/consumer_api',
   '@process-engine/process_engine',
   '@process-engine/process_engine_http',
   '@process-engine/process_repository',
