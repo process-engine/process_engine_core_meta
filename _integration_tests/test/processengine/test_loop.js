@@ -56,7 +56,7 @@ describe('Process-Engine   POST  ->  /processengine/execute  test_loop', functio
 
     const responseUpdateBpmn = await request(httpBootstrapper.app)
       .post(`/datastore/ProcessDef/${processDefId}/updateBpmn`)
-      .set('Authorization', 'bearer ' + authToken)
+      .set('Authorization', `bearer ${authToken}`)
       .set('Content-Type', 'application/json')
       .send(JSON.stringify({ xml: xml }));
 
