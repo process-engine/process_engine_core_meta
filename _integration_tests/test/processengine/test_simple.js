@@ -22,7 +22,7 @@ describe('Process-Engine   POST  ->  /processengine/execute  test_simple', funct
     await httpBootstrapper.shutdown();
   });
 
-  it('should return true', async () => {
+  it('execute test_simple process, should return true', async () => {
 
     // ---------------- create fixture for process definition -----------------
     const processDefFixtures = [{
@@ -39,7 +39,7 @@ describe('Process-Engine   POST  ->  /processengine/execute  test_simple', funct
 
     // ---------------- query process definition to get id -----------------
     const responseQuery = await request(httpBootstrapper.app)
-      .get(`/datastore/ProcessDef?query={"attribute":"key","operator":"=","value": "test_simple"}`)
+      .get('/datastore/ProcessDef?query={"attribute":"key","operator":"=","value": "test_simple"}')
       .set('Authorization', 'bearer ' + authToken)
       .send();
 
@@ -65,9 +65,9 @@ describe('Process-Engine   POST  ->  /processengine/execute  test_simple', funct
     // ---------------- set process definition to latest published -----------------
     const responsePublish = await request(httpBootstrapper.app)
       .put(`/datastore/ProcessDef/${processDefId}`)
-      .set('Authorization', 'bearer ' + authToken)
+      .set('Authorization', `bearer ${authToken}`)
       .set('Content-Type', 'application/json')
-      .send(`{"draft":false,"latest":true}`)
+      .send('{"draft":false,"latest":true}')
 
     should(responsePublish.status).equal(200);
 

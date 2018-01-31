@@ -22,7 +22,7 @@ describe('Process-Engine   POST  ->  /processengine/execute  test_loop', functio
     await httpBootstrapper.shutdown();
   });
 
-  it('should return true', async () => {
+  it('Loop Test; should return loop_count == 5 in the body', async () => {
 
     // ---------------- create fixture for process definition -----------------
     const processDefFixtures = [{
@@ -39,8 +39,8 @@ describe('Process-Engine   POST  ->  /processengine/execute  test_loop', functio
 
     // ---------------- query process definition to get id -----------------
     const responseQuery = await request(httpBootstrapper.app)
-      .get(`/datastore/ProcessDef?query={"attribute":"key","operator":"=","value": "loop"}`)
-      .set('Authorization', 'bearer ' + authToken)
+      .get('/datastore/ProcessDef?query={"attribute":"key","operator":"=","value": "loop"}')
+      .set('Authorization', `bearer ${authToken}`)
       .send();
 
     should(responseQuery.header['content-type']).equal('application/json; charset=utf-8');
@@ -65,16 +65,16 @@ describe('Process-Engine   POST  ->  /processengine/execute  test_loop', functio
     // ---------------- set process definition to latest published -----------------
     const responsePublish = await request(httpBootstrapper.app)
       .put(`/datastore/ProcessDef/${processDefId}`)
-      .set('Authorization', 'bearer ' + authToken)
+      .set('Authorization', `bearer ${authToken}`)
       .set('Content-Type', 'application/json')
-      .send(`{"draft":false,"latest":true}`)
+      .send('{"draft":false,"latest":true}')
 
     should(responsePublish.status).equal(200);
 
     // ---------------- finally execute process -----------------
     const responseExecute = await request(httpBootstrapper.app)
       .post(`/processengine/execute?id=${processDefId}`)
-      .set('Authorization', 'bearer ' + authToken)
+      .set('Authorization', `bearer ${authToken}`)
       .set('Content-Type', 'application/json')
       .send()
 
