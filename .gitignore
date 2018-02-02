@@ -39,6 +39,7 @@ graphql_http
 http
 http_contracts
 http_extension
+http_integration_testing
 http_node
 iam
 iam_browser
