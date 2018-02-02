@@ -53,7 +53,14 @@ pipeline {
     }
     stage('publish') {
       when {
-        branch 'master'
+        allOf {
+          branch 'master'
+          expression {
+            // check if the build is trigged
+            // by a new git commit
+            env.GIT_PREVIOUS_COMMIT != env.GIT_COMMIT
+          }
+        }
       }
       steps {
         nodejs(configId: 'process-engine-ci-token', nodeJSInstallationName: 'node-lts') {
