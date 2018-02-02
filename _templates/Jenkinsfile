@@ -52,12 +52,12 @@ pipeline {
       }
     }
     stage('publish') {
+      // Check if the build is trigged by a new git commit;
+      // if this is a new commit, publish to NPM.
       when {
         allOf {
           branch 'master'
           expression {
-            // check if the build is trigged
-            // by a new git commit
             env.GIT_PREVIOUS_COMMIT != env.GIT_COMMIT
           }
         }
