@@ -22,7 +22,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"admin\"\n}"
+					"raw": ""
 				},
 				"url": {
 					"raw": "http://{{host_port}}/datastore",
@@ -53,7 +53,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"admin\"\n}"
+					"raw": ""
 				},
 				"url": {
 					"raw": "http://{{host_port}}/datastore/{{className}}",
@@ -85,7 +85,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"admin\",\n\t\"roles\": [\"administrator\"]\n}"
+					"raw": "{}"
 				},
 				"url": {
 					"raw": "http://{{host_port}}/datastore/{{className}}",
@@ -157,7 +157,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"admin\"\n}"
+					"raw": ""
 				},
 				"url": {
 					"raw": "http://{{host_port}}/datastore/{{className}}/{{id}}",
@@ -191,7 +191,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"admin\",\n\t\"roles\": [\"administrator\"]\n}"
+					"raw": "{}"
 				},
 				"url": {
 					"raw": "http://{{host_port}}/datastore/{{className}}/{{id}}",
@@ -225,7 +225,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"admin\"\n}"
+					"raw": "{}"
 				},
 				"url": {
 					"raw": "http://{{host_port}}/datastore/{{className}}/{{id}}",
@@ -259,7 +259,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"admin\",\n\t\"roles\": [\"administrator\"]\n}"
+					"raw": "{}"
 				},
 				"url": {
 					"raw": "http://{{host_port}}/datastore/{{className}}/{{id}}/{{method}}",
@@ -294,7 +294,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"admin\"\n}"
+					"raw": ""
 				},
 				"url": {
 					"raw": "http://{{host_port}}/graphql?query={{graphql_query}}",
