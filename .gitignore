@@ -3,9 +3,9 @@ node_modules
 bootstrapper
 bootstrapper_browser
 bootstrapper_node
+bpmn-studio
 caching
 caching_contracts
-bpmn-studio
 consumer_client
 core
 core_contracts
@@ -23,6 +23,7 @@ datastore_contracts
 datastore_http
 datastore_messagebus
 datastore_messagebus_contracts
+demo
 documentation
 event_aggregator
 event_aggregator_contracts
@@ -33,12 +34,14 @@ frontend
 frontend_contracts
 frontend_http
 frontend_mui
+frontend_react_plugin_process_manager
 graphql
 graphql_contracts
 graphql_http
 http
 http_contracts
 http_extension
+http_integration_testing
 http_node
 iam
 iam_browser
@@ -76,8 +79,6 @@ timing_contracts
 utils
 validation
 validation_contracts
-frontend_react_plugin_process_manager
-demo
 
 # OSX-finder info-files
 *.DS_Store
