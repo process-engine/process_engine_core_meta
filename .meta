@@ -1,6 +1,7 @@
 {
   "projects": {
     "foundation": "git@github.com:essential-projects/foundation.git",
+    "errors_ts": "git@github.com:essential-projects/errors_ts.git",
     "caching_contracts": "git@github.com:essential-projects/caching_contracts.git",
     "caching": "git@github.com:essential-projects/caching.git",
     "datastore_messagebus_contracts": "git@github.com:essential-projects/datastore_messagebus_contracts.git",

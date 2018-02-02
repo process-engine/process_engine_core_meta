@@ -25,6 +25,7 @@ datastore_messagebus
 datastore_messagebus_contracts
 demo
 documentation
+errors_ts
 event_aggregator
 event_aggregator_contracts
 feature
