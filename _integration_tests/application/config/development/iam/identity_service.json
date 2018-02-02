@@ -1,0 +1,7 @@
+{
+  "data_sources": {
+    "User": {
+      "$ref": "#/data_sources/postgres"
+    }
+  }
+}

@@ -1,32 +1,38 @@
-**update some packages (uses https://www.npmjs.com/package/npm-check-updates)**
+**Update some packages (uses https://www.npmjs.com/package/npm-check-updates)**
+
 ```bash
 meta exec "ncu --filter typescript,tslint,tsconfig,loggerhythm,sprintf-js,es6-promise,ajv,@types/node,eslint,eslint-config-5minds,bpmn-moddle,gulptraum --peer --upgrade --upgradeAll && ncu --filter typescript,tslint,tsconfig,loggerhythm,sprintf-js,es6-promise,ajv,@types/node,eslint,eslint-config-5minds,bpmn-moddle,gulptraum --upgrade --upgradeAll"
 ```
 
-**commit the package.json**
+**Commit the package.json**
+
 ```bash
 meta exec "git add package.json && git commit -m ':arrow_up: update dependency versions' && git push"
 ```
 
-**update @essential-projects/gulptraum to gulptraum**
+**Update @essential-projects/gulptraum to gulptraum**
+
 ```bash
 meta exec "sed -i '' \"s/@process-engine\/gulptraum/gulptraum/g\" package.json"
 meta exec "git add package.json && git commit -m ':arrow_up: update to gulptraum' && git push"
 ```
 
-**remove node_modules and add it to the gitignore**
+**Remove node_modules and add it to the gitignore**
+
 ```bash
 meta exec "rm -rf node_modules && git add -A && git commit -m ':fire: remove node_modules-folder' && git push && echo '\nnode_modules\n' >> .gitignore && git add -A && git commit -m ':package: add node_modules to gitignore' && git push"
 ```
 
-**remove schemas and doc and update the gitignore**
+**Remove schemas and doc and update the gitignore**
+
 ```bash
 meta --exclude demo,documentation,skeleton,process_engine_meta exec "rm -rf doc && rm -rf schemas && git add -A && git commit -m ':fire: remove doc-folder and schemas-folder'"
 meta --exclude demo,documentation,skeleton,process_engine_meta exec "cp -f ../templates/.gitignore ."
 meta --exclude demo,documentation,skeleton,process_engine_meta exec "git add .gitignore && git commit -m ':package: update gitignore' && git push"
 ```
 
-**install/update tslint**
+**Install/update tslint**
+
 ```bash
 meta --exclude demo,documentation,frontend_react_plugin_process_manager,skeleton exec "npm install --save-dev @essential-projects/tslint-config typescript tslint"
 meta --exclude demo,documentation,frontend_react_plugin_process_manager,skeleton exec "echo \"{\\n  \\\"extends\\\": \\\"@essential-projects/tslint-config\\\"\\n}\" > tslint.json"
@@ -35,13 +41,15 @@ meta exec "npm uninstall --save --save-dev tslint-config-5minds"
 meta exec "git add package.json tslint.json && git commit -m ':art: update/install tsconfig' && git push"
 ```
 
-**update addict-ioc**
+**Update addict-ioc**
+
 ```bash
 meta exec "ncu --filter addict-ioc --upgrade --upgradeAll && ncu --filter addict-ioc --peer --upgrade --upgradeAll"
 meta exec "git add package.json && git commit -m ':arrow_up: update addict-ioc' && git push"
 ```
 
-**update all first-party package versions**
+**Update all first-party package versions**
+
 ```bash
 meta exec "sed -i '' 's#\"@essential-projects/bootstrapper_node\": \"[^\"]*\"#\"@essential-projects/bootstrapper_node\": \"^2.0.0\"#g' package.json"
 meta exec "sed -i '' 's#\"@essential-projects/bootstrapper\": \"[^\"]*\"#\"@essential-projects/bootstrapper\": \"^2.0.0\"#g' package.json"
@@ -114,30 +122,53 @@ meta exec "sed -i '' 's#\"@essential-projects/validation_contracts\": \"[^\"]*\"
 meta exec "sed -i '' 's#\"@essential-projects/validation\": \"[^\"]*\"#\"@essential-projects/validation\": \"^2.0.0\"#g' package.json"
 ```
 
-**update all package-versions to the next major**
+**Update all package-versions to the next major**
+
 ```bash
 meta exec "perl -pi -e 's/\\s+\"version\":\\s+\"(\\d+).\\d+.\\d+\"(.+)/\"  \\\"version\\\": \\\"\" . (\$1+1) . \".0.0\\\"\" . \$2/ge' package.json"
 # non-meta version:
 # perl -p -e 's/\s+"version":\s+"(\d+).\d+.\d+"(.+)/"  \"version\": \"" . ($1+1) . ".0.0\"" . $2/ge' package.json
 ```
 
-**add build and prepublishOnly scripts (uses https://www.npmjs.com/package/npm-add-script)**
+**Add build and prepublishOnly scripts (uses https://www.npmjs.com/package/npm-add-script)**
+
 ```bash
 meta --exclude demo,documentation,skeleton exec "npmAddScript --key build --value 'gulp build' --force && npmAddScript --key prepublishOnly --value 'npm run build' --force"
 ```
 
-**update tslint-config**
+**Update tslint-config**
+
 ```bash
 meta exec "ncu --filter @essential-projects/tslint-config --upgrade --upgradeAll && ncu --filter @essential-projects/tslint-config --peer --upgrade --upgradeAll"
 ```
 
-**autofix tslint-errors**
+**Autofix tslint-errors**
+
 ```bash
 meta --exclude demo,documentation,frontend_react_plugin_process_manager,skeleton exec "tslint --fix 'src/**/*.ts?(x)'"
 meta exec "git add src/* && git commit -m ':art: fix autifixables' && git push"
 ```
 
-**add schema and doc tasks**
+**Add schema and doc tasks**
+
 ```bash
 meta --exclude demo,documentation,frontend_react_plugin_process_manager,skeleton,process_engine_meta exec "npmAddScript --key build-doc --value 'gulp doc' --force && npmAddScript --key build-schemas --value 'gulp typescript-schema' --force"
+```
+
+**update Jenkinsfiles from templates**
+
+Update Jenkinsfile and Jenkinsfile-node-v7
+
+```bash
+meta --exclude demo,documentation,skeleton,process_engine_meta,bpmn-studio exec "cp -f ../_templates/Jenkinsfile . && cp -f ../_templates/Jenkinsfile-node-v7 ."
+meta --exclude demo,documentation,skeleton,process_engine_meta,bpmn-studio exec "git add Jenkinsfile Jenkinsfile-node-v7"
+meta --exclude demo,documentation,skeleton,process_engine_meta,bpmn-studio exec "git commit -m ':construction_worker: Update Jenkinsfile and add Jenkinsfile-node-v7 from Template'"
+```
+
+Update only the Jenkinsfile
+
+```bash
+meta --exclude demo,documentation,skeleton,process_engine_meta,bpmn-studio exec "cp -f ../_templates/Jenkinsfile ."
+meta --exclude demo,documentation,skeleton,process_engine_meta,bpmn-studio exec "git add Jenkinsfile"
+meta --exclude demo,documentation,skeleton,process_engine_meta,bpmn-studio exec "git commit -m ':construction_worker: Update Jenkinsfile from Template'"
 ```

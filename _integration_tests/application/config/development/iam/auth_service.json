@@ -1,0 +1,60 @@
+{
+  "systemUsers": {
+    "users": {
+      "iam_system": {
+        "roles": ["_iam_internal"],
+        "name": "IAM Internal"
+      },
+      "_admin": {
+        "roles": ["administrator"],
+        "name": "Admin"
+      },
+      "system": {
+        "roles": ["system"],
+        "name": "System"
+      },
+      "messagebus_system": {
+        "roles": ["_messagebus_internal"],
+        "name": "Messagebus Internal"
+      },
+      "processengine_system": {
+        "roles": ["_processengine_internal"],
+        "name": "Processengine Internal"
+      }
+    },
+    "roles": {
+      "system": {
+        "rolesInherited": ["administrator"]
+      },
+      "administrator": {
+        "rolesInherited": ["user", "_iam_internal"]
+      },
+      "default": {
+        "rolesInherited": ["user"]
+      },
+      "guest": {
+        "rolesInherited": [
+          "user"
+        ]
+      },
+      "user": {
+        "rolesInherited": []
+      },
+      "agent": {
+        "rolesInherited": ["default"]
+      },
+      "operator": {
+        "rolesInherited": ["default"]
+      },
+      "_iam_internal": {
+        "rolesInherited": []
+      },
+      "_messagebus_internal": {
+        "rolesInherited": []
+      },
+      "_processengine_internal": {
+        "rolesInherited": []
+      }
+    }
+  }
+}

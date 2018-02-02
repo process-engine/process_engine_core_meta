@@ -1,0 +1,6 @@
+{
+  "algorithm": "HS256",
+  "key": "demo_master",
+  "secret": "notSoSecret",
+  "expiresIn": "8h"
+}

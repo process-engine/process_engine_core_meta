@@ -1,6 +1,6 @@
 {
   "name": "@process-engine/process_engine_meta",
-  "version": "0.1.0",
+  "version": "1.0.0-rc1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,6 +10,6 @@
   "license": "ISC",
   "devDependencies": {
     "meta-npm": "0.0.18",
-    "minstall": "^2.0.1"
+    "minstall": "^3.0.3"
   }
 }
