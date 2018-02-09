@@ -22,16 +22,20 @@ pipeline {
   tools {
     nodejs "node-lts"
   }
+  environment {
+    NPM_RC_FILE = 'process-engine-ci-token'
+    NODE_JS_VERSION = 'node-lts'
+  }
 
   stages {
     stage('prepare') {
       steps {
         script {
           rawPackageVersion = sh returnStdout: true, script: 'node --print --eval "require(\'./package.json\').version"'
-          PACKAGE_VERSION = rawPackageVersion.trim()
-          echo "Package version is '" + PACKAGE_VERSION + "'"
+          packageVersion = rawPackageVersion.trim()
+          echo "Package version is '" + packageVersion + "'"
         }
-        nodejs(configId: 'process-engine-ci-token', nodeJSInstallationName: 'node-lts') {
+        nodejs(configId: env.NPM_RC_FILE, nodeJSInstallationName: env.NODE_JS_VERSION) {
           sh 'node --version'
           sh 'npm install --ignore-scripts'
         }
@@ -68,14 +72,14 @@ pipeline {
           if (branch_is_master && new_commit) {
             script {
               // let the build fail if the version does not match normal semver
-              def semver_matcher = PACKAGE_VERSION =~ /\d+\.\d+\.\d+/;
+              def semver_matcher = packageVersion =~ /\d+\.\d+\.\d+/;
               def is_version_not_semver = semver_matcher.matches() == false;
               if (is_version_not_semver) {
                 error('Only non RC Versions are allowed in master')
               }
             }
 
-            nodejs(configId: 'process-engine-ci-token', nodeJSInstallationName: 'node-lts') {
+            nodejs(configId: env.NPM_RC_FILE, nodeJSInstallationName: env.NODE_JS_VERSION) {
               sh 'node --version'
               sh 'npm publish --ignore-scripts'
             }
@@ -85,10 +89,10 @@ pipeline {
             // current git commit and the build number.
             // the published version gets tagged as the branch name.
             def first_seven_digits_of_git_hash = env.GIT_COMMIT.substring(0, 8);
-            def publish_version = "${PACKAGE_VERSION}-${first_seven_digits_of_git_hash}-b${env.BUILD_NUMBER}";
+            def publish_version = "${packageVersion}-${first_seven_digits_of_git_hash}-b${env.BUILD_NUMBER}";
             def publish_tag = branch.replace("/", "~");
 
-            nodejs(configId: 'process-engine-ci-token', nodeJSInstallationName: 'node-lts') {
+            nodejs(configId: env.NPM_RC_FILE, nodeJSInstallationName: env.NODE_JS_VERSION) {
               sh 'node --version'
               sh "npm version ${publish_version} --no-git-tag-version --force"
               sh "npm publish --tag ${publish_tag} --ignore-scripts"
