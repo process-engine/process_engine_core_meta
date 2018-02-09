@@ -24,7 +24,7 @@ pipeline {
   }
   environment {
     NPM_RC_FILE = 'process-engine-ci-token'
-    NODE_JS_VERSION = 'node-lts'
+    NODE_JS_VERSION = 'node-v7'
   }
 
   stages {
