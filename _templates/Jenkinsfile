@@ -69,19 +69,21 @@ pipeline {
           def branch_is_master = branch == 'master';
           def new_commit = env.GIT_PREVIOUS_COMMIT != env.GIT_COMMIT;
 
-          if (branch_is_master && new_commit) {
-            script {
-              // let the build fail if the version does not match normal semver
-              def semver_matcher = packageVersion =~ /\d+\.\d+\.\d+/;
-              def is_version_not_semver = semver_matcher.matches() == false;
-              if (is_version_not_semver) {
-                error('Only non RC Versions are allowed in master')
+          if (branch_is_master) {
+            if (new_commit) {
+              script {
+                // let the build fail if the version does not match normal semver
+                def semver_matcher = packageVersion =~ /\d+\.\d+\.\d+/;
+                def is_version_not_semver = semver_matcher.matches() == false;
+                if (is_version_not_semver) {
+                  error('Only non RC Versions are allowed in master')
+                }
               }
-            }
 
-            nodejs(configId: env.NPM_RC_FILE, nodeJSInstallationName: env.NODE_JS_VERSION) {
-              sh 'node --version'
-              sh 'npm publish --ignore-scripts'
+              nodejs(configId: env.NPM_RC_FILE, nodeJSInstallationName: env.NODE_JS_VERSION) {
+                sh 'node --version'
+                sh 'npm publish --ignore-scripts'
+              }
             }
 
           } else {
