@@ -31,8 +31,10 @@ pipeline {
           PACKAGE_VERSION = rawPackageVersion.trim()
           echo "Package version is '" + PACKAGE_VERSION + "'"
         }
-        sh 'node --version'
-        sh 'npm install --ignore-scripts'
+        nodejs(configId: 'process-engine-ci-token', nodeJSInstallationName: 'node-lts') {
+          sh 'node --version'
+          sh 'npm install --ignore-scripts'
+        }
       }
     }
     stage('lint') {
