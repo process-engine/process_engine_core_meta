@@ -57,27 +57,36 @@ pipeline {
       }
     }
     stage('publish') {
-      // Check if the build is trigged by a new git commit;
-      // if this is a new commit, publish to NPM.
-      when {
-        allOf {
-          branch 'master'
-          expression {
-            env.GIT_PREVIOUS_COMMIT != env.GIT_COMMIT
-          }
-        }
-      }
       steps {
-        // let the build fail if the version does not match normal semver
         script {
-          def normalVersion = PACKAGE_VERSION =~ /\d+\.\d+\.\d+/
-          if (!normalVersion.matches()) {
-            error('Only non RC Versions are allowed in master')
+          def branch = env.BRANCH_NAME;
+
+          if (branch == 'master' && env.GIT_PREVIOUS_COMMIT != env.GIT_COMMIT) {
+            script {
+              // let the build fail if the version does not match normal semver
+              def isNormalVersion = PACKAGE_VERSION =~ /\d+\.\d+\.\d+/
+              if (!isNormalVersion.matches()) {
+                error('Only non RC Versions are allowed in master')
+              }
+            }
+            nodejs(configId: 'developers5minds-token', nodeJSInstallationName: 'node-lts') {
+              sh 'node --version'
+              sh 'npm publish --ignore-scripts'
+            }
+
+          } else {
+            // when not on master, publish a prerelease based on the package version, the
+            // current git commit and the build number.
+            // the published version gets tagged as the branch name.
+            def shortGitCommit = env.GIT_COMMIT.substring(0, 8);
+            def publishVersion = "${PACKAGE_VERSION}-${shortGitCommit}-b${env.BUILD_NUMBER}";
+            def publishTag = branch.replace("/", "~");
+            nodejs(configId: 'process-engine-ci-token', nodeJSInstallationName: 'node-lts') {
+              sh 'node --version'
+              sh "npm version ${publishVersion} --no-git-tag-version --force"
+              sh "npm publish --tag ${publishTag} --ignore-scripts"
+            }
           }
-        }
-        nodejs(configId: 'process-engine-ci-token', nodeJSInstallationName: 'node-lts') {
-          sh 'node --version'
-          sh 'npm publish --ignore-scripts'
         }
       }
     }
