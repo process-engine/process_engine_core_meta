@@ -103,5 +103,32 @@ pipeline {
         }
       }
     }
+    stage('cleanup') {
+      steps {
+        script {
+          // this stage just exists, so the cleanup-work that happens in the post-script
+          // will show up in its own stage in Blue Ocean
+          sh(script: ':', returnStdout: true);
+        }
+      }
+    }
+  }
+  post { 
+    always { 
+      script {
+
+        // cleanup workspace
+        cleanWs()
+        dir("${env.WORKSPACE}@tmp") {
+          deleteDir()
+        }
+        dir("${env.WORKSPACE}@script") {
+          deleteDir()
+        }
+        dir("${env.WORKSPACE}@script@tmp") {
+          deleteDir()
+        }
+      }
+    }
   }
 }
