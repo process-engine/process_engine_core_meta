@@ -81,11 +81,11 @@ pipeline {
               }
 
 
-              def rawPackageName = sh returnStdout: true, script: 'node --print --eval "require(\'./package.json\').name"'
-              def currentPublishedVersion = sh(script: "npm show ${rawPackageName} version").trim();
-              def versionChanged = currentPublishedVersion != rawPackageVersion;
+              def raw_package_name = sh returnStdout: true, script: 'node --print --eval "require(\'./package.json\').name"'
+              def current_published_version = sh(script: "npm show ${raw_package_name} version").trim();
+              def version_has_changed = current_published_version != rawPackageVersion;
 
-              if (versionChanged) {
+              if (version_has_changed) {
                 nodejs(configId: env.NPM_RC_FILE, nodeJSInstallationName: env.NODE_JS_VERSION) {
                   sh 'node --version'
                   sh 'npm publish --ignore-scripts'
