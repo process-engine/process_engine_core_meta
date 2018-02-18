@@ -31,35 +31,35 @@ pipeline {
     stage('prepare') {
       steps {
         script {
-          rawPackageVersion = sh returnStdout: true, script: 'node --print --eval "require(\'./package.json\').version"'
+          rawPackageVersion = sh(script: 'node --print --eval "require(\'./package.json\').version"', returnStdout: true)
           packageVersion = rawPackageVersion.trim()
-          echo "Package version is '" + packageVersion + "'"
+          echo("Package version is '" + packageVersion + "'")
         }
         nodejs(configId: env.NPM_RC_FILE, nodeJSInstallationName: env.NODE_JS_VERSION) {
-          sh 'node --version'
-          sh 'npm install --ignore-scripts'
+          sh('node --version')
+          sh('npm install --ignore-scripts')
         }
       }
     }
     stage('lint') {
       steps {
-        sh 'node --version'
+        sh('node --version')
         /* we do not want the linting to cause a failed build */
-        sh 'npm run lint || true'
+        sh('npm run lint || true')
       }
     }
     stage('build') {
       steps {
-        sh 'node --version'
-        sh 'npm run build'
-        sh 'npm run build-schemas'
-        sh 'npm run build-doc'
+        sh('node --version')
+        sh('npm run build')
+        sh('npm run build-schemas')
+        sh('npm run build-doc')
       }
     }
     stage('test') {
       steps {
-        sh 'node --version'
-        sh 'npm run test'
+        sh('node --version')
+        sh('npm run test')
       }
     }
     stage('publish') {
@@ -81,14 +81,14 @@ pipeline {
               }
 
 
-              def raw_package_name = sh returnStdout: true, script: 'node --print --eval "require(\'./package.json\').name"'
-              def current_published_version = sh(script: "npm show ${raw_package_name} version").trim();
+              def raw_package_name = sh(script: 'node --print --eval "require(\'./package.json\').name"', returnStdout: true)
+              def current_published_version = sh(script: "npm show ${raw_package_name} version", returnStdout: true).trim();
               def version_has_changed = current_published_version != rawPackageVersion;
 
               if (version_has_changed) {
                 nodejs(configId: env.NPM_RC_FILE, nodeJSInstallationName: env.NODE_JS_VERSION) {
-                  sh 'node --version'
-                  sh 'npm publish --ignore-scripts'
+                  sh('node --version')
+                  sh('npm publish --ignore-scripts')
                 }
               } else {
                 println 'Skipping publish for this version. Version unchanged.'
@@ -104,9 +104,9 @@ pipeline {
             def publish_tag = branch.replace("/", "~");
 
             nodejs(configId: env.NPM_RC_FILE, nodeJSInstallationName: env.NODE_JS_VERSION) {
-              sh 'node --version'
-              sh "npm version ${publish_version} --no-git-tag-version --force"
-              sh "npm publish --tag ${publish_tag} --ignore-scripts"
+              sh('node --version')
+              sh("npm version ${publish_version} --no-git-tag-version --force")
+              sh("npm publish --tag ${publish_tag} --ignore-scripts")
             }
           }
         }
