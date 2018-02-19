@@ -33,7 +33,7 @@ pipeline {
         script {
           raw_package_version = sh(script: 'node --print --eval "require(\'./package.json\').version"', returnStdout: true)
           package_version = raw_package_version.trim()
-          echo("Package version is '" + package_version + "'")
+          echo("Package version is '${package_version}'")
         }
         nodejs(configId: env.NPM_RC_FILE, nodeJSInstallationName: env.NODE_JS_VERSION) {
           sh('node --version')
