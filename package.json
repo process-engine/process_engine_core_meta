@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "minstall ."
+    "postinstall": "minstall --no-hoist aurelia-* ."
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "meta-npm": "0.0.18",
-    "minstall": "^3.0.3"
+    "minstall": "^3.3.0"
   }
 }
