@@ -40,7 +40,7 @@
     "@essential-projects/pki_service": "^1.0.0-rc3",
     "@essential-projects/routing": "^1.0.0-rc3",
     "@essential-projects/security_service": "^1.0.0-rc3",
-    "@essential-projects/services": "^1.0.0-rc3",
+    "@essential-projects/services": "^1.0.0-rc4",
     "@essential-projects/timing": "^1.0.0-rc3",
     "@essential-projects/validation": "^1.0.0-rc3",
     "@process-engine/consumer_api": "^0.2.0",
