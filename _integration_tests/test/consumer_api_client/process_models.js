@@ -6,7 +6,7 @@ const testSetup = require('../../application/test_setup');
 
 const testTimeoutMilliseconds = 5000;
 
-describe.only('Consumer API:   GET  ->  /process_models', function() {
+describe('Consumer API:   GET  ->  /process_models', function() {
 
   let httpBootstrapper;
   let consumerApiClientService;
@@ -32,15 +32,13 @@ describe.only('Consumer API:   GET  ->  /process_models', function() {
     
     const processModelList = await consumerApiClientService.getProcessModels();
 
-    should(processModelList.header['content-type']).equal('application/json; charset=utf-8');
-    should(processModelList.status).equal(200);
-    should(processModelList.body).have.property('process_models');
-    should(processModelList.body.process_models).be.instanceOf(Array);
+    should(processModelList).be.instanceOf(Array);
+    should(processModelList.length).be.greaterThan(0);
 
-    processModelList.body.process_models.forEach((processModel) => {
+    processModelList.forEach((processModel) => {
       should(processModel).have.property(key);
       should(processModel).have.property(startEvents);
-      should(rprocessModel.startEvents).be.instanceOf(Array);
+      should(processModel.startEvents).be.instanceOf(Array);
     });
   });
 
