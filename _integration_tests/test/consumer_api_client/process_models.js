@@ -32,12 +32,14 @@ describe('Consumer API:   GET  ->  /process_models', function() {
     
     const processModelList = await consumerApiClientService.getProcessModels();
 
-    should(processModelList).be.instanceOf(Array);
-    should(processModelList.length).be.greaterThan(0);
+    should(processModelList).have.property('process_models');
 
-    processModelList.forEach((processModel) => {
-      should(processModel).have.property(key);
-      should(processModel).have.property(startEvents);
+    should(processModelList.process_models).be.instanceOf(Array);
+    should(processModelList.process_models.length).be.greaterThan(0);
+
+    processModelList.process_models.forEach((processModel) => {
+      should(processModel).have.property('key');
+      should(processModel).have.property('startEvents');
       should(processModel.startEvents).be.instanceOf(Array);
     });
   });
