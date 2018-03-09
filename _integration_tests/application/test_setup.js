@@ -36,6 +36,7 @@ const iocModuleNames = [
   '@essential-projects/timing',
   '@essential-projects/validation',
   '@process-engine/consumer_api',
+  '@process-engine/consumer_api_client',
   '@process-engine/process_engine',
   '@process-engine/process_engine_http',
   '@process-engine/process_repository',
@@ -45,9 +46,11 @@ const iocModules = iocModuleNames.map((moduleName) => {
   return require(`${moduleName}/ioc_module`);
 });
 
-async function start() {
+let container;
+
+module.exports.initializeBootstrapper = async() => {
   
-  const container = new InvocationContainer({
+  container = new InvocationContainer({
     defaults: {
       conventionCalls: ['initialize'],
     },
@@ -67,4 +70,13 @@ async function start() {
   return bootstrapper;
 }
 
-module.exports = start;
+module.exports.resolveAsync = async(moduleName) => {
+  return container.resolveAsync(moduleName);
+};
+
+module.exports.createContext = async(role) => {
+  const iamService = await container.resolveAsync('IamService');
+  const roleToCreateContextFor = role || 'system';
+  const context = await iamService.createInternalContext(roleToCreateContextFor);
+  return context;
+};

@@ -5,16 +5,14 @@ const request = require('supertest');
 const fs = require('fs');
 const path = require('path');
 
-const HttpBootstrapper = require('@essential-projects/http_integration_testing').HttpIntegrationTestBootstrapper;
-const getBootstrapper = require('../../application/get_bootstrapper');
-
+const testSetup = require('../../application/test_setup');
 
 describe('Process-Engine   POST  ->  /processengine/execute  test_loop', function () {
   let httpBootstrapper;
   this.timeout(5000);
 
   before(async () => {
-    httpBootstrapper = await getBootstrapper();
+    httpBootstrapper = await testSetup.initializeBootstrapper();
   });
 
   after(async () => {
