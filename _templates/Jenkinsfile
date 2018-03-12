@@ -17,7 +17,7 @@
  *  (...)
  *
  */
-def cleanupWorkspace() {
+def cleanup_workspace() {
   cleanWs()
   dir("${env.WORKSPACE}@tmp") {
     deleteDir()
@@ -137,7 +137,7 @@ pipeline {
   post {
     always {
       script {
-        cleanupWorkspace();
+        cleanup_workspace();
       }
     }
   }
