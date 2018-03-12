@@ -1,5 +1,18 @@
 #!/usr/bin/env groovy
 
+def cleanup_workspace() {
+  cleanWs()
+  dir("${env.WORKSPACE}@tmp") {
+    deleteDir()
+  }
+  dir("${env.WORKSPACE}@script") {
+    deleteDir()
+  }
+  dir("${env.WORKSPACE}@script@tmp") {
+    deleteDir()
+  }
+}
+
 pipeline {
   agent any
   tools {
@@ -107,18 +120,7 @@ pipeline {
   post {
     always {
       script {
-
-        // cleanup workspace
-        cleanWs()
-        dir("${env.WORKSPACE}@tmp") {
-          deleteDir()
-        }
-        dir("${env.WORKSPACE}@script") {
-          deleteDir()
-        }
-        dir("${env.WORKSPACE}@script@tmp") {
-          deleteDir()
-        }
+        cleanup_workspace();
       }
     }
   }
