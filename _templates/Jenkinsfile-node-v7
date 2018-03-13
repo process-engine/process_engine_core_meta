@@ -1,22 +1,18 @@
 #!/usr/bin/env groovy
 
-/*
- * Template Jenkinsfile for process-engine projects.
- *
- * For this template to work you need some custom
- * scripts in your package.json. Below is a example
- * for those scripts:
- *  (...)
- *  "scripts": {
- *    "lint": "gulp lint",
- *    "build": "gulp build",
- *    "build-schemas": "gulp typescript-schema"
- *    "build-doc": "gulp doc",
- *    "test": "gulp test",
- *  },
- *  (...)
- *
- */
+def cleanup_workspace() {
+  cleanWs()
+  dir("${env.WORKSPACE}@tmp") {
+    deleteDir()
+  }
+  dir("${env.WORKSPACE}@script") {
+    deleteDir()
+  }
+  dir("${env.WORKSPACE}@script@tmp") {
+    deleteDir()
+  }
+}
+
 pipeline {
   agent any
   tools {
@@ -67,21 +63,10 @@ pipeline {
       }
     }
   }
-  post { 
-    always { 
+  post {
+    always {
       script {
-
-        // cleanup workspace
-        cleanWs()
-        dir("${env.WORKSPACE}@tmp") {
-          deleteDir()
-        }
-        dir("${env.WORKSPACE}@script") {
-          deleteDir()
-        }
-        dir("${env.WORKSPACE}@script@tmp") {
-          deleteDir()
-        }
+        cleanup_workspace();
       }
     }
   }
