@@ -47,7 +47,10 @@ const iocModules = iocModuleNames.map((moduleName) => {
 
 let container;
 
-module.exports.initializeBootstrapper = async() => {
+// NOTE: This startup script allows for the usage of the BPMN studio in conjunction with
+// the integrationtest app, which enables us to edit the integrationtests' bpmn files without having 
+// to import them manually.
+async function start() {
 
   try {
     container = new InvocationContainer({
@@ -65,24 +68,15 @@ module.exports.initializeBootstrapper = async() => {
     process.env.CONFIG_PATH = path.resolve(__dirname, 'config');
     process.env.NODE_ENV = 'development';
     const appPath = path.resolve(__dirname);
-    const bootstrapper = await container.resolveAsync('HttpIntegrationTestBootstrapper', [appPath]);
+    const bootstrapper = await container.resolveAsync('AppBootstrapper', [appPath]);
   
     logger.info('Bootstrapper started.');
   
-    return bootstrapper;
+    await bootstrapper.start();
   } catch (error) {
     logger.error('Failed to start bootstrapper!', error);
     throw error;
   }
 }
 
-module.exports.resolveAsync = async(moduleName) => {
-  return container.resolveAsync(moduleName);
-};
-
-module.exports.createContext = async(role) => {
-  const iamService = await container.resolveAsync('IamService');
-  const roleToCreateContextFor = role || 'system';
-  const context = await iamService.createInternalContext(roleToCreateContextFor);
-  return context;
-};
+start();

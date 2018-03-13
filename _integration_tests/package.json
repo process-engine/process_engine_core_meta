@@ -6,12 +6,12 @@
   "version": "0.1.0",
   "description": "integration tests",
   "license": "MIT",
-  "main": "index.js",
+  "main": "application/index.js",
   "files": [
     "tests"
   ],
   "scripts": {
-    "start": "node index.js",
+    "start": "node application/index.js",
     "test": "mocha test/** --exit"
   },
   "dependencies": {
