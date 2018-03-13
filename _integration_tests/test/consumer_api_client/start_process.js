@@ -32,9 +32,8 @@ describe('Consumer API:   POST  ->  /process_models/:process_model_key/start_eve
 
   it('should start the process and return the correlation ID (return_on = on_process_instance_started)', async () => {
 
-    // TODO: Replace with real values, once the mocks have been replaced.
-    const processModelKey = 'testModelKey';
-    const startEventKey = 'startEventKey';
+    const processModelKey = 'test_consumer_api_process_start';
+    const startEventKey = 'StartEvent_1';
     const payload = {
       correlation_id: 'randomcorrelationid',
       input_values: {},
@@ -49,9 +48,8 @@ describe('Consumer API:   POST  ->  /process_models/:process_model_key/start_eve
 
   it('should start the process and return the correlation ID (return_on = on_process_instance_finished)', async () => {
 
-    // TODO: Replace with real values, once the mocks have been replaced.
-    const processModelKey = 'testModelKey';
-    const startEventKey = 'startEventKey';
+    const processModelKey = 'test_consumer_api_process_start';
+    const startEventKey = 'StartEvent_1';
     const payload = {
       correlation_id: 'string',
       input_values: {},
@@ -66,9 +64,8 @@ describe('Consumer API:   POST  ->  /process_models/:process_model_key/start_eve
 
   it('should start the process and return a generated correlation ID, after the given end event was reached', async () => {
 
-    // TODO: Replace with real values, once the mocks have been replaced.
-    const processModelKey = 'testModelKey';
-    const startEventKey = 'startEventKey';
+    const processModelKey = 'test_consumer_api_process_start';
+    const startEventKey = 'StartEvent_1';
     const payload = {
       input_values: {},
     };
@@ -83,9 +80,8 @@ describe('Consumer API:   POST  ->  /process_models/:process_model_key/start_eve
   // TODO: Bad Path not implemented yet
   it.skip('should fail to start the process, if the given process_model_key does not exist', async () => {
 
-    // TODO: Replace with real values, once the mocks have been replaced.
     const processModelKey = 'invalidProcessModelKey';
-    const startEventKey = 'startEventKey';
+    const startEventKey = 'StartEvent_1';
     const payload = {
       correlation_id: 'string',
       input_values: {},
@@ -107,7 +103,6 @@ describe('Consumer API:   POST  ->  /process_models/:process_model_key/start_eve
   // TODO: Bad Path not implemented yet
   it.skip('should fail to start the process, if the given start_event_key does not exist', async () => {
 
-    // TODO: Replace with real values, once the mocks have been replaced.
     const processModelKey = 'processModelKey';
     const startEventKey = 'invalidStartEventKey';
     const payload = {
@@ -131,9 +126,8 @@ describe('Consumer API:   POST  ->  /process_models/:process_model_key/start_eve
   // TODO: Bad Path not implemented yet
   it.skip('should fail to start the process, if the given return_on parameter is invalid', async () => {
 
-    // TODO: Replace with real values, once the mocks have been replaced.
     const processModelKey = 'processModelKey';
-    const startEventKey = 'startEventKey';
+    const startEventKey = 'StartEvent_1';
     const payload = {
       correlation_id: 'string',
       input_values: {},
@@ -155,9 +149,8 @@ describe('Consumer API:   POST  ->  /process_models/:process_model_key/start_eve
   // TODO: Bad Path not implemented yet
   it.skip('should fail to start the process, if the given payload is invalid', async () => {
 
-    // TODO: Replace with real values, once the mocks have been replaced.
     const processModelKey = 'processModelKey';
-    const startEventKey = 'startEventKey';
+    const startEventKey = 'StartEvent_1';
     const payload = 'i am missing vital properties';
     
     const returnOn = returnOnOptions.onProcessInstanceFinished;
@@ -175,11 +168,10 @@ describe('Consumer API:   POST  ->  /process_models/:process_model_key/start_eve
 
   // TODO: Bad Path not implemented yet
   // TODO: Find a way to simulate a process error
-  it.skip('should fail, if starting the request caused process error', async () => {
+  it.skip('should fail, if starting the request caused an error', async () => {
 
-    // TODO: Replace with real values, once the mocks have been replaced.
     const processModelKey = 'processModelKey';
-    const startEventKey = 'startEventKey';
+    const startEventKey = 'StartEvent_1';
     const payload = {
       correlation_id: 'string',
       input_values: {},
@@ -202,12 +194,13 @@ describe('Consumer API:   POST  ->  /process_models/:process_model_key/start_eve
   // TODO: Find a way to simulate a process error
   it.skip('should fail, if the request was aborted before the desired return_on event was reached', async () => {
 
-    // TODO: Replace with real values, once the mocks have been replaced.
     const processModelKey = 'processModelKey';
-    const startEventKey = 'startEventKey';
+    const startEventKey = 'StartEvent_1';
     const payload = {
       correlation_id: 'string',
-      input_values: {},
+      input_values: {
+        causeError: true,
+      },
     };
     
     const returnOn = returnOnOptions.onProcessInstanceFinished;
@@ -217,7 +210,7 @@ describe('Consumer API:   POST  ->  /process_models/:process_model_key/start_eve
       should.fail(result, undefined, 'This request should have failed!');
     } catch (error) {
       const expectedErrorCode = 500;
-      const expectedErrorMessage = /caused an error/i
+      const expectedErrorMessage = /critical error/i
       should(error.code).match(expectedErrorCode);
       should(error.message).match(expectedErrorMessage);
     }

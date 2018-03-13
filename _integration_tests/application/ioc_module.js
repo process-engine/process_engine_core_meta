@@ -6,7 +6,9 @@ const path = require('path');
 const registerInContainer = (container) => {
 
   // TODO: Add processes for use in the integrationtests
-  const processes = [];
+  const processes = [
+    'test_consumer_api_process_start'
+  ];
 
   return processes.map((processFilename) => registerProcess(processFilename, container));
 };
