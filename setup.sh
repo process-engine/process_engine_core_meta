@@ -5,8 +5,6 @@ npm install -g meta gulp
 meta git update
 meta exec "git checkout develop" --exclude process_engine_meta
 meta git checkout feature/apply_consumer_api_concept --include-only consumer_api,consumer_api_contracts,consumer_api_client
-meta git checkout feature/fix_popsicle_response_handling --include-only http
-meta git checkout feature/refactor_iresponse_result_type --include-only http_contracts
 
 # install all necessary dependencies
 npm install --no-package-lock
