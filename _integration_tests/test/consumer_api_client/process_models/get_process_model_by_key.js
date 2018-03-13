@@ -2,7 +2,7 @@
 
 const should = require('should');
 
-const testSetup = require('../../application/test_setup');
+const testSetup = require('../../../application/test_setup');
 
 const testTimeoutMilliseconds = 5000;
 

@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "start": "node application/index.js",
-    "test": "mocha test/** --exit"
+    "test": "mocha test/**/*.js test/**/**/*.js --exit"
   },
   "dependencies": {
     "@essential-projects/bootstrapper": "^1.0.0-rc3",
