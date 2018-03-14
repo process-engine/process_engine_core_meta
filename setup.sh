@@ -4,7 +4,7 @@ npm install -g meta gulp
 # checkout all repos in the correct branch
 meta git update
 meta exec "git checkout develop" --exclude process_engine_meta
-meta git checkout feature/apply_consumer_api_concept --include-only consumer_api,consumer_api_contracts,consumer_api_client,skeleton
+meta git checkout feature/apply_consumer_api_concept --include-only consumer_api,consumer_api_contracts,consumer_api_client
 
 # retrieve latest versions
 meta git pull
