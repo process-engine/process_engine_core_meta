@@ -6,7 +6,7 @@ const testSetup = require('../../../application/test_setup');
 
 const testTimeoutMilliseconds = 5000;
 
-describe('Consumer API:   GET  ->  /process_models/:process_model_key/correlations/:correlation_id/user_tasks', function() {
+describe('Consumer API:   GET  ->  /process_models/:process_model_key/correlations/:correlation_id/events', function() {
 
   let httpBootstrapper;
   let consumerApiClientService;
@@ -28,19 +28,19 @@ describe('Consumer API:   GET  ->  /process_models/:process_model_key/correlatio
     await httpBootstrapper.shutdown();
   });
 
-  it('should return a list of user tasks for a given process model in a given correlation', async () => {
+  it('should return a list of events for a given process model in a given correlation', async () => {
 
-    const processModelKey = 'test_get_user_tasks';
+    const processModelKey = 'test_get_events_for_process_model';
     const correlationId = 'correlationId';
     
-    const userTaskList = await consumerApiClientService.getUserTasksForProcessModelInCorrelation(processModelKey, correlationId);
+    const eventList = await consumerApiClientService.getEventsForProcessModelInCorrelation(processModelKey, correlationId);
 
-    should(userTaskList).have.property('user_tasks');
+    should(eventList).have.property('events');
 
-    should(userTaskList.user_tasks).be.instanceOf(Array);
-    should(userTaskList.user_tasks.length).be.greaterThan(0);
+    should(eventList.events).be.instanceOf(Array);
+    should(eventList.events.length).be.greaterThan(0);
 
-    userTaskList.user_tasks.forEach((userTask) => {
+    eventList.events.forEach((userTask) => {
       should(userTask).have.property('key');
       should(userTask).have.property('id');
       should(userTask).have.property('process_instance_id');
@@ -49,13 +49,13 @@ describe('Consumer API:   GET  ->  /process_models/:process_model_key/correlatio
   });
 
   // TODO: Bad Path not implemented yet
-  it.skip('should fail to retrieve a list of user tasks, if the process_model_key does not exist', async () => {
+  it.skip('should fail to retrieve a list of events, if the process_model_key does not exist', async () => {
 
     const invalidProcessModelKey = 'invalidProcessModelKey';
     const correlationId = 'correlationId';
     
     try {
-      const processModel = await consumerApiClientService.getUserTasksForProcessModelInCorrelation(invalidProcessModelKey, correlationId);
+      const processModel = await consumerApiClientService.getEventsForProcessModelInCorrelation(invalidProcessModelKey, correlationId);
       should.fail(result, undefined, 'This request should have failed!');
     } catch (error) {
       const expectedErrorCode = 404;
@@ -66,13 +66,13 @@ describe('Consumer API:   GET  ->  /process_models/:process_model_key/correlatio
   });
 
   // TODO: Bad Path not implemented yet
-  it.skip('should fail to retrieve a list of user tasks, if the correlation_id does not exist', async () => {
+  it.skip('should fail to retrieve a list of events, if the correlation_id does not exist', async () => {
 
-    const processModelKey = 'test_get_user_tasks';
+    const processModelKey = 'test_get_events_for_process_model';
     const invalidCorrelationId = 'invalidCorrelationId';
     
     try {
-      const processModel = await consumerApiClientService.getUserTasksForProcessModelInCorrelation(processModelKey, invalidcorrelationId);
+      const processModel = await consumerApiClientService.getEventsForProcessModelInCorrelation(processModelKey, invalidcorrelationId);
       should.fail(result, undefined, 'This request should have failed!');
     } catch (error) {
       const expectedErrorCode = 404;
@@ -82,11 +82,11 @@ describe('Consumer API:   GET  ->  /process_models/:process_model_key/correlatio
     }
   });
 
-  it.skip('should fail to retrieve the correlation\'s user tasks, when the user is unauthorized', async () => {
+  it.skip('should fail to retrieve the correlation\'s events, when the user is unauthorized', async () => {
     // TODO: AuthChecks are currently not implemented.
   });
 
-  it.skip('should fail to retrieve the correlation\'s user tasks, when the user forbidden to retrieve it', async () => {
+  it.skip('should fail to retrieve the correlation\'s events, when the user forbidden to retrieve it', async () => {
     // TODO: AuthChecks are currently not implemented.
   });
 

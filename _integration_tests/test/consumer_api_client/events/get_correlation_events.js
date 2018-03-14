@@ -6,7 +6,7 @@ const testSetup = require('../../../application/test_setup');
 
 const testTimeoutMilliseconds = 5000;
 
-describe('Consumer API:   GET  ->  /correlations/:correlation_id/user_tasks', function() {
+describe('Consumer API:   GET  ->  /correlations/:correlation_id/events', function() {
 
   let httpBootstrapper;
   let consumerApiClientService;
@@ -28,18 +28,18 @@ describe('Consumer API:   GET  ->  /correlations/:correlation_id/user_tasks', fu
     await httpBootstrapper.shutdown();
   });
 
-  it('should return a correlation\'s user tasks by its correlation_id through the consumer api', async () => {
+  it('should return a correlation\'s events by its correlation_id through the consumer api', async () => {
 
-    const correlationId = 'test_get_user_tasks';
+    const correlationId = 'test_get_events_for_process_model';
     
-    const userTaskList = await consumerApiClientService.getUserTasksForCorrelation(correlationId);
+    const eventList = await consumerApiClientService.getEventsForCorrelation(correlationId);
 
-    should(userTaskList).have.property('user_tasks');
+    should(eventList).have.property('events');
 
-    should(userTaskList.user_tasks).be.instanceOf(Array);
-    should(userTaskList.user_tasks.length).be.greaterThan(0);
+    should(eventList.events).be.instanceOf(Array);
+    should(eventList.events.length).be.greaterThan(0);
 
-    userTaskList.user_tasks.forEach((userTask) => {
+    eventList.events.forEach((userTask) => {
       should(userTask).have.property('key');
       should(userTask).have.property('id');
       should(userTask).have.property('process_instance_id');
@@ -48,12 +48,12 @@ describe('Consumer API:   GET  ->  /correlations/:correlation_id/user_tasks', fu
   });
 
   // TODO: Bad Path not implemented yet
-  it.skip('should fail to retrieve the correlation\'s user tasks, if the correlation_id does not exist', async () => {
+  it.skip('should fail to retrieve the correlation\'s events, if the correlation_id does not exist', async () => {
 
     const invalidCorrelationId = 'invalidCorrelationId';
     
     try {
-      const processModel = await consumerApiClientService.getUserTasksForCorrelation(invalidcorrelationId);
+      const processModel = await consumerApiClientService.getEventsForCorrelation(invalidcorrelationId);
       should.fail(result, undefined, 'This request should have failed!');
     } catch (error) {
       const expectedErrorCode = 404;
@@ -63,11 +63,11 @@ describe('Consumer API:   GET  ->  /correlations/:correlation_id/user_tasks', fu
     }
   });
 
-  it.skip('should fail to retrieve the correlation\'s user tasks, when the user is unauthorized', async () => {
+  it.skip('should fail to retrieve the correlation\'s events, when the user is unauthorized', async () => {
     // TODO: AuthChecks are currently not implemented.
   });
 
-  it.skip('should fail to retrieve the correlation\'s user tasks, when the user forbidden to retrieve it', async () => {
+  it.skip('should fail to retrieve the correlation\'s events, when the user forbidden to retrieve it', async () => {
     // TODO: AuthChecks are currently not implemented.
   });
 
