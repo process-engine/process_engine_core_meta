@@ -6,9 +6,6 @@ bootstrapper_node
 bpmn-studio
 caching
 caching_contracts
-consumer_api
-consumer_api_contracts
-consumer_api_client
 consumer_client
 core
 core_contracts
