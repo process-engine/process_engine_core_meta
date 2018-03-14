@@ -8,7 +8,7 @@ const testSetup = require('../../../application/test_setup');
 
 const testTimeoutMilliseconds = 5000;
 
-describe('Consumer API:   POST  ->  /process_models/:process_model_key/user_tasks/:user_task_id/finish', function() {
+describe('Consumer API:   POST  ->  /process_models/:process_model_key/correlations/:correlation_id/user_tasks/:user_task_id/finish', function() {
 
   let httpBootstrapper;
   let consumerApiClientService;
@@ -32,24 +32,46 @@ describe('Consumer API:   POST  ->  /process_models/:process_model_key/user_task
 
   it('should successfully finish the given user task.', async () => {
 
+    // TODO: Replace with real values
     const processModelKey = 'test_consumer_api_user_task_finish';
+    const correlationId = 'correlationId';
     const userTaskId = 'userTaskId';
-    // TODO: Replace with real value, once the IUserTaskResult object has been defined.
     const userTaskResult = {};
     
-    await consumerApiClientService.finishUserTask(processModelKey, userTaskId, userTaskResult);
+    await consumerApiClientService.finishUserTask(processModelKey, correlationId, userTaskId, userTaskResult);
   });
 
   // TODO: Bad Path not implemented yet
   it.skip('should fail to finish the user task, if the given process_model_key does not exist', async () => {
 
+    // TODO: Replace with real values
     const processModelKey = 'invalidProcessModelKey';
+    const correlationId = 'correlationId';
     const userTaskId = 'userTaskId';
-    // TODO: Replace with real value, once the IUserTaskResult object has been defined.
     const userTaskResult = {};
 
     try {
-      await consumerApiClientService.finishUserTask(processModelKey, userTaskId, userTaskResult);
+      await consumerApiClientService.finishUserTask(processModelKey, correlationId, userTaskId, userTaskResult);
+      should.fail(result, undefined, 'This request should have failed!');
+    } catch (error) {
+      const expectedErrorCode = 404;
+      const expectedErrorMessage = /process model key not found/i
+      should(error.code).match(expectedErrorCode);
+      should(error.message).match(expectedErrorMessage);
+    }
+  });
+
+  // TODO: Bad Path not implemented yet
+  it.skip('should fail to finish the user task, if the given correlation_id does not exist', async () => {
+
+    // TODO: Replace with real values
+    const processModelKey = 'test_consumer_api_user_task_finish';
+    const correlationId = 'invalidcorrelation';
+    const userTaskId = 'userTaskId';
+    const userTaskResult = {};
+
+    try {
+      await consumerApiClientService.finishUserTask(processModelKey, correlationId, userTaskId, userTaskResult);
       should.fail(result, undefined, 'This request should have failed!');
     } catch (error) {
       const expectedErrorCode = 404;
@@ -62,13 +84,14 @@ describe('Consumer API:   POST  ->  /process_models/:process_model_key/user_task
   // TODO: Bad Path not implemented yet
   it.skip('should fail to finish the user task, if the given user_task_id does not exist', async () => {
 
+    // TODO: Replace with real values
     const processModelKey = 'test_consumer_api_user_task_finish';
+    const correlationId = 'correlationId';
     const userTaskId = 'invalidUserTaskId';
-    // TODO: Replace with real value, once the IUserTaskResult object has been defined.
     const userTaskResult = {};
 
     try {
-      await consumerApiClientService.finishUserTask(processModelKey, userTaskId, userTaskResult);
+      await consumerApiClientService.finishUserTask(processModelKey, correlationId, userTaskId, userTaskResult);
       should.fail(result, undefined, 'This request should have failed!');
     } catch (error) {
       const expectedErrorCode = 404;
@@ -81,13 +104,14 @@ describe('Consumer API:   POST  ->  /process_models/:process_model_key/user_task
   // TODO: Bad Path not implemented yet
   it.skip('should fail to finish the user task, if the given payload is invalid', async () => {
 
+    // TODO: Replace with real values
     const processModelKey = 'test_consumer_api_user_task_finish';
+    const correlationId = 'correlationId';
     const userTaskId = 'userTaskId';
-    // TODO: There is no way to know yet, what kind of payload might be considered invalid.
     const userTaskResult = {};
 
     try {
-      await consumerApiClientService.finishUserTask(processModelKey, userTaskId, userTaskResult);
+      await consumerApiClientService.finishUserTask(processModelKey, correlationId, userTaskId, userTaskResult);
       should.fail(result, undefined, 'This request should have failed!');
     } catch (error) {
       const expectedErrorCode = 400;
@@ -101,13 +125,14 @@ describe('Consumer API:   POST  ->  /process_models/:process_model_key/user_task
   // TODO: Find a way to simulate a process error
   it.skip('should fail, if attempting to finish the user task caused an error', async () => {
 
+    // TODO: Replace with real values
     const processModelKey = 'test_consumer_api_user_task_finish';
+    const correlationId = 'correlationId';
     const userTaskId = 'invalidUserTaskId';
-    // TODO: Replace with real value, once the IUserTaskResult object has been defined.
     const userTaskResult = {};
 
     try {
-      await consumerApiClientService.finishUserTask(processModelKey, userTaskId, userTaskResult);
+      await consumerApiClientService.finishUserTask(processModelKey, correlationId, userTaskId, userTaskResult);
       should.fail(result, undefined, 'This request should have failed!');
     } catch (error) {
       const expectedErrorCode = 500;
@@ -117,11 +142,11 @@ describe('Consumer API:   POST  ->  /process_models/:process_model_key/user_task
     }
   });
 
-  it.skip('should fail to finish the user task, when the user is unauthorized', async () => {
+  it.skip('should fail finish the user task, when the user is unauthorized', async () => {
     // TODO: AuthChecks are currently not implemented.
   });
 
-  it.skip('should fail to finish the user task, when the user forbidden to retrieve it', async () => {
+  it.skip('should fail finish the user task, when the user forbidden to retrieve it', async () => {
     // TODO: AuthChecks are currently not implemented.
   });
 
