@@ -60,9 +60,6 @@
     "validation": "git@github.com:essential-projects/validation.git",
     "skeleton": "git@github.com:process-engine/skeleton.git",
     "consumer_client": "git@github.com:process-engine/consumer_client.git",
-    "consumer_api_contracts": "git@github.com:process-engine/consumer_api_contracts.git",
-    "consumer_api": "git@github.com:process-engine/consumer_api.git",
-    "consumer_api_client": "git@github.com:process-engine/consumer_api_client.git",
     "http_integration_testing": "git@github.com:process-engine/http_integration_testing.git",
     "bpmn-studio": "git@github.com:process-engine/bpmn-studio.git"
   }
