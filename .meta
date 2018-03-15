@@ -32,6 +32,7 @@
     "datasource_adapter_base": "git@github.com:essential-projects/datasource_adapter_base.git",
     "datasource_adapter_postgres": "git@github.com:essential-projects/datasource_adapter_postgres.git",
     "datasource_adapter_proxy": "git@github.com:essential-projects/datasource_adapter_proxy.git",
+    "datasource_adapter_localstorage": "git@github.com:essential-projects/datasource_adapter_localstorage.git",
     "datastore": "git@github.com:essential-projects/datastore.git",
     "http": "git@github.com:essential-projects/http.git",
     "http_node": "git@github.com:essential-projects/http_node.git",
