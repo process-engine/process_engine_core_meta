@@ -4,6 +4,7 @@ bootstrapper
 bootstrapper_browser
 bootstrapper_node
 bpmn-studio
+bpmn-io_custom-bundle
 caching
 caching_contracts
 consumer_client
@@ -77,6 +78,7 @@ services_contracts
 skeleton
 timing
 timing_contracts
+tslint-config
 utils
 validation
 validation_contracts

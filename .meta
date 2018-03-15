@@ -1,5 +1,6 @@
 {
   "projects": {
+    "tslint-config": "git@github.com:essential-projects/tslint-config.git",
     "foundation": "git@github.com:essential-projects/foundation.git",
     "errors_ts": "git@github.com:essential-projects/errors_ts.git",
     "caching_contracts": "git@github.com:essential-projects/caching_contracts.git",
@@ -61,6 +62,7 @@
     "skeleton": "git@github.com:process-engine/skeleton.git",
     "consumer_client": "git@github.com:process-engine/consumer_client.git",
     "http_integration_testing": "git@github.com:process-engine/http_integration_testing.git",
+    "bpmn-io_custom-bundle": "git@github.com:process-engine/bpmn-io_custom-bundle.git",
     "bpmn-studio": "git@github.com:process-engine/bpmn-studio.git"
   }
 }
