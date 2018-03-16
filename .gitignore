@@ -4,10 +4,10 @@ bootstrapper
 bootstrapper_browser
 bootstrapper_node
 bpmn-studio
+bpmn-studio_client
 bpmn-io_custom-bundle
 caching
 caching_contracts
-consumer_client
 core
 core_contracts
 data_model
