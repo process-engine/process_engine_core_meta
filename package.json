@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "minstall --no-hoist aurelia-* ."
+    "postinstall": "minstall --no-hoist aurelia-* --trust-local-modules ."
   },
   "author": "",
   "license": "ISC",
