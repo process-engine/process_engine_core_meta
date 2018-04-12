@@ -5,8 +5,10 @@ const path = require('path');
 
 const registerInContainer = (container) => {
 
-  // TODO: Add processes for use in the integrationtests
-  const processes = [];
+  // add processes for use with the integrationtests here
+  const processes = [
+    'parse_object_model_sample'
+  ];
 
   return processes.map((processFilename) => registerProcess(processFilename, container));
 };
