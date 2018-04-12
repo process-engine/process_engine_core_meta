@@ -3,8 +3,7 @@
 const should = require('should');
 const request = require('supertest');
 
-const HttpBootstrapper = require('@essential-projects/http_integration_testing').HttpIntegrationTestBootstrapper;
-const getBootstrapper = require('../../application/get_bootstrapper');
+const setup = require('../../application/test_setup');
 
 const testTimeoutMilliseconds = 5000;
 
@@ -14,7 +13,7 @@ describe('Datastore:   GET  ->  /datastore/User', function() {
   this.timeout(testTimeoutMilliseconds);
   
   before(async () => {
-    httpBootstrapper = await getBootstrapper();
+    httpBootstrapper = await setup.initializeBootstrapper();
   });
 
   afterEach(async () => {

@@ -5,8 +5,11 @@ npm install -g meta gulp
 meta git update
 meta exec "git checkout develop" --exclude process_engine_meta
 
+# retrieve latest versions
+meta git pull
+
 # install all necessary dependencies
-npm install
+npm install --no-package-lock
 
 # fix conflicting types from jasmine and mocha
 rm -rf node_modules/@types/jasmine

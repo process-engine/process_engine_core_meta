@@ -1,9 +1,7 @@
 'use strict';
 
-const bootstrapperIocModule = require('@essential-projects/bootstrapper/ioc_module');
-const bootstrapperNodeIocModule = require('@essential-projects/bootstrapper_node/ioc_module');
 const InvocationContainer = require('addict-ioc').InvocationContainer;
-const logger = require('loggerhythm').Logger.createLogger('bootstrapper');
+const logger = require('loggerhythm').Logger.createLogger('test:bootstrapper');
 const path = require('path');
 
 const iocModuleNames = [
@@ -38,32 +36,51 @@ const iocModuleNames = [
   '@process-engine/process_engine',
   '@process-engine/process_engine_http',
   '@process-engine/process_repository',
+  '.',
 ];
 
 const iocModules = iocModuleNames.map((moduleName) => {
   return require(`${moduleName}/ioc_module`);
 });
 
-async function start() {
+let container;
+
+module.exports.initializeBootstrapper = async() => {
+
+  try {
+    container = new InvocationContainer({
+      defaults: {
+        conventionCalls: ['initialize'],
+      },
+    });
+
+    for (const iocModule of iocModules) {
+      iocModule.registerInContainer(container);
+    }
   
-  const container = new InvocationContainer({
-    defaults: {
-      conventionCalls: ['initialize'],
-    },
-  });
-
-  for (const iocModule of iocModules) {
-    iocModule.registerInContainer(container);
+    container.validateDependencies();
+  
+    process.env.CONFIG_PATH = path.resolve(__dirname, 'config');
+    process.env.NODE_ENV = 'development';
+    const appPath = path.resolve(__dirname);
+    const bootstrapper = await container.resolveAsync('HttpIntegrationTestBootstrapper', [appPath]);
+  
+    logger.info('Bootstrapper started.');
+  
+    return bootstrapper;
+  } catch (error) {
+    logger.error('Failed to start bootstrapper!', error);
+    throw error;
   }
-
-  container.validateDependencies();
-
-  process.env.CONFIG_PATH = path.resolve(__dirname, 'config');
-  process.env.NODE_ENV = 'development';
-  const appPath = path.resolve(__dirname);
-  const bootstrapper = await container.resolveAsync('HttpIntegrationTestBootstrapper', [appPath]);
-
-  return bootstrapper;
 }
 
-module.exports = start;
+module.exports.resolveAsync = async(moduleName) => {
+  return container.resolveAsync(moduleName);
+};
+
+module.exports.createContext = async(role) => {
+  const iamService = await container.resolveAsync('IamService');
+  const roleToCreateContextFor = role || 'system';
+  const context = await iamService.createInternalContext(roleToCreateContextFor);
+  return context;
+};
