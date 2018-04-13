@@ -1,6 +1,7 @@
 'use strict';
 
 const InvocationContainer = require('addict-ioc').InvocationContainer;
+const _ = require('lodash');
 const logger = require('loggerhythm').Logger.createLogger('test:bootstrapper');
 const path = require('path');
 
@@ -83,4 +84,15 @@ module.exports.createContext = async(role) => {
   const roleToCreateContextFor = role || 'system';
   const context = await iamService.createInternalContext(roleToCreateContextFor);
   return context;
+};
+
+module.exports.getProcessById = async(processName) => {
+  const processRepository = await container.resolveAsync('ProcessRepository');
+  const processes = await processRepository.getProcessesByCategory('internal');
+
+  const matchingProcess = _.find(processes, (process) => {
+    return process.name === processName;
+  });
+
+  return matchingProcess ? matchingProcess.bpmnXml : undefined;
 };
