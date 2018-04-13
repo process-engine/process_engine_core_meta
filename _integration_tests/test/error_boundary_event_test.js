@@ -3,11 +3,15 @@
 const should = require('should');
 const setup = require('../application/test_setup');
 
+const testTimeoutInMS = 5000;
+
 describe('Error Boundary Event execution', function () {
 
   let httpBootstrapper;
   let processEngineService;
   let dummyExecutionContext;
+
+  this.timeout(testTimeoutInMS);
 
   before(async () => {
     httpBootstrapper = await setup.initializeBootstrapper();
