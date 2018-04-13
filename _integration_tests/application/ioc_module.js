@@ -3,10 +3,19 @@
 const fs = require('fs');
 const path = require('path');
 
+const SampleService = require('./dist/commonjs').SampleService;
+const entityDiscoveryTag = require('@essential-projects/core_contracts').EntityDiscoveryTag;
+
+
 const registerInContainer = (container) => {
 
+  container.register('SampleService', SampleService);
+
   // TODO: Add processes for use in the integrationtests
-  const processes = [];
+  const processes = [
+    'test_error_boundary_event',
+    'parallel_gateway',
+  ];
 
   return processes.map((processFilename) => registerProcess(processFilename, container));
 };

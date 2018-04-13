@@ -5,7 +5,6 @@ const logger = require('loggerhythm').Logger.createLogger('test:bootstrapper');
 const path = require('path');
 
 const iocModuleNames = [
-  '@essential-projects/services',
   '@essential-projects/bootstrapper',
   '@essential-projects/bootstrapper_node',
   '@essential-projects/caching',
@@ -30,9 +29,13 @@ const iocModuleNames = [
   '@essential-projects/metadata',
   '@essential-projects/pki_service',
   '@essential-projects/security_service',
+  '@essential-projects/services',
   '@essential-projects/routing',
   '@essential-projects/timing',
   '@essential-projects/validation',
+  '@process-engine/consumer_api_client',
+  '@process-engine/consumer_api_core',
+  '@process-engine/consumer_api_http',
   '@process-engine/process_engine',
   '@process-engine/process_engine_http',
   '@process-engine/process_repository',
@@ -44,6 +47,7 @@ const iocModules = iocModuleNames.map((moduleName) => {
 });
 
 let container;
+let bootstrapper;
 
 module.exports.initializeBootstrapper = async() => {
 
@@ -57,16 +61,33 @@ module.exports.initializeBootstrapper = async() => {
     for (const iocModule of iocModules) {
       iocModule.registerInContainer(container);
     }
-  
+
     container.validateDependencies();
-  
-    process.env.CONFIG_PATH = path.resolve(__dirname, 'config');
-    process.env.NODE_ENV = 'development';
+
     const appPath = path.resolve(__dirname);
-    const bootstrapper = await container.resolveAsync('HttpIntegrationTestBootstrapper', [appPath]);
-  
+    bootstrapper = await container.resolveAsync('HttpIntegrationTestBootstrapper', [appPath]);
+
+    const identityFixtures = [{
+      // Default User, used to test happy paths
+      name: 'testuser',
+      password: 'testpass',
+      roles: ['user'],
+    },{
+      // Restricted user without access rights to any lanes
+      name: 'restrictedUser',
+      password: 'testpass',
+      roles: ['dummy'],
+    },{
+      // Used to test access rights to
+      name: 'laneuser',
+      password: 'testpass',
+      roles: ['dummy'],
+    }];
+
+    bootstrapper.addFixtures('User', identityFixtures);
+
     logger.info('Bootstrapper started.');
-  
+
     return bootstrapper;
   } catch (error) {
     logger.error('Failed to start bootstrapper!', error);
@@ -78,9 +99,8 @@ module.exports.resolveAsync = async(moduleName) => {
   return container.resolveAsync(moduleName);
 };
 
-module.exports.createContext = async(role) => {
+module.exports.createExecutionContext = async() => {
   const iamService = await container.resolveAsync('IamService');
-  const roleToCreateContextFor = role || 'system';
-  const context = await iamService.createInternalContext(roleToCreateContextFor);
+  const context = await iamService.createInternalContext('system');
   return context;
 };
