@@ -41,9 +41,10 @@ export class SampleService {
     return updatedToken;
   }
 
-  public async sequenceTestPart3Delay(): Promise<void> {
+  public async sequenceTestPart3Delay(currentToken: string): Promise<string> {
     await this.wait(1700);
     logger.info('sequenceTestPart3Delay has finished');
+    return currentToken;
   }
 
   private wait(milliseconds): Promise<void> {
