@@ -3,6 +3,7 @@
 const InvocationContainer = require('addict-ioc').InvocationContainer;
 const logger = require('loggerhythm').Logger.createLogger('test:bootstrapper');
 const path = require('path');
+const fs = require('fs');
 
 const iocModuleNames = [
   '@essential-projects/bootstrapper',
@@ -104,3 +105,10 @@ module.exports.createExecutionContext = async() => {
   const context = await iamService.createInternalContext('system');
   return context;
 };
+
+module.exports.importBPMNFromFile = async(executionContext, file) => {
+  const processDefEntityTypeService = await container.resolveAsync('ProcessDefEntityTypeService');
+  return processDefEntityTypeService.importBpmnFromFile(executionContext, {
+    file: file,
+  });
+}

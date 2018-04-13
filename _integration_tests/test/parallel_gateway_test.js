@@ -18,6 +18,7 @@ describe('Parallel Gateway execution', function () {
     await httpBootstrapper.start();
     dummyExecutionContext = await setup.createExecutionContext();
     processEngineService = await setup.resolveAsync('ProcessEngineService');
+    await setup.importBPMNFromFile(dummyExecutionContext, `${__dirname}/parallel_gateway_test.bpmn`);
   });
 
   after(async () => {

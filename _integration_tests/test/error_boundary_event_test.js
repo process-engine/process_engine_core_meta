@@ -18,6 +18,7 @@ describe('Error Boundary Event execution', function () {
     await httpBootstrapper.start();
     dummyExecutionContext = await setup.createExecutionContext();
     processEngineService = await setup.resolveAsync('ProcessEngineService');
+    await setup.importBPMNFromFile(dummyExecutionContext, `${__dirname}/error_boundary_event_test.bpmn`);
   });
 
   after(async () => {
@@ -26,7 +27,7 @@ describe('Error Boundary Event execution', function () {
   });
 
   it(`should successfully detect the error and contain the result in the token history.`, async () => {
-    const processKey = 'test_error_boundary_event';
+    const processKey = 'error_boundary_event_test';
 
     const initialToken = {};
     const result = await processEngineService.executeProcess(dummyExecutionContext, undefined, processKey, initialToken);

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definition_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.8.0">
    <bpmn:collaboration id="Collaboration_1cidyxu">
-      <bpmn:participant id="Participant_0px403d" name="ErrorBoundaryEvent" processRef="test_error_boundary_event" />
+      <bpmn:participant id="Participant_0px403d" name="ErrorBoundaryEvent" processRef="error_boundary_event_test" />
    </bpmn:collaboration>
-   <bpmn:process id="test_error_boundary_event" name="ErrorBoundaryEvent" isExecutable="false">
+   <bpmn:process id="error_boundary_event_test" name="ErrorBoundaryEvent" isExecutable="false">
       <bpmn:laneSet>
          <bpmn:lane id="Lane_1xzf0d3" name="Lane">
             <bpmn:extensionElements>
