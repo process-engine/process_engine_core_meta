@@ -4,25 +4,42 @@ const should = require('should');
 const request = require('supertest');
 const fs = require('fs');
 const path = require('path');
+const inspect = require('util').inspect;
 
 const testSetup = require('../../application/test_setup');
 
-describe('Process-Engine   Parse BPMN Process into new object model', function () {
+describe.only('Process-Engine   Parse BPMN Process into new object model', function () {
   let httpBootstrapper;
   this.timeout(5000);
+
+  const sampleProcessName = 'parse_object_model_sample';
 
   let sampleBpmnXmlCode;
   let bpmnModelParser;
 
   before(async () => {
     httpBootstrapper = await testSetup.initializeBootstrapper();
-    sampleBpmnXmlCode = await testSetup.resolveAsync('parse_object_model_sample');
-    bpmnModelParser = await testSetup.resolveAsync('BpmnModelParserService');
+    sampleBpmnXmlCode = await testSetup.getProcessById(sampleProcessName);
+    bpmnModelParser = await testSetup.resolveAsync('BpmnModelParser');
   });
 
   after(async () => {
     await httpBootstrapper.reset();
     await httpBootstrapper.shutdown();
   });
+
+  it('Should successfully and correctly parse a BPMN diagram into an ObjectModel object', async() => {
+
+    const inspectOptions = {
+      showHidden: false,
+      depth: 9,
+      maxArrayLength: 100,
+    };
+
+    // TODO: Add assertions
+    // console.log(sampleBpmnXmlCode);
+    const parsingResult = await bpmnModelParser.parseXmlToObjectModel(sampleBpmnXmlCode);
+    console.log(inspect(parsingResult, inspectOptions));
+  })
 
 });
