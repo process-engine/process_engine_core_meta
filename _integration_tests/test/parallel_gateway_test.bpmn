@@ -292,7 +292,7 @@
                     SequenceFlow_1qotyv2
                 </bpmn:outgoing>
                 <bpmn:script>
-                    return token.history
+                    return JSON.parse(JSON.stringify(token.history))
                 </bpmn:script>
             </bpmn:scriptTask>
             <bpmn:association id="Association_1ktjqvm" sourceRef="IntermediateThrowEvent_0etgzl7" targetRef="TextAnnotation_16klgqo" />

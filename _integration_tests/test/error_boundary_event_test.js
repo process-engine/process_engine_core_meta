@@ -31,7 +31,7 @@ describe('Error Boundary Event execution', function () {
 
     const initialToken = {};
     const result = await processEngineService.executeProcess(dummyExecutionContext, undefined, processKey, initialToken);
-
+    
     const expectedHistoryEntry = 'message';
     const expectedTaskResult = 'test';
 
