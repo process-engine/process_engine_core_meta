@@ -112,8 +112,10 @@ pipeline {
             testresults = sh(script: "cat result.txt", returnStdout: true).trim();
 
             test_failed = false;
+            currentBuild.result = 'SUCCESS'
             if (error_code > 0) {
               test_failed = true;
+              currentBuild.result = 'FAILURE'
             }
           }
         }
@@ -142,9 +144,7 @@ pipeline {
   post {
     always {
       script {
-
         cleanup_workspace();
-
         cleanup_docker();
       }
     }
