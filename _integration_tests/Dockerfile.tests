@@ -9,3 +9,4 @@ COPY application /usr/src/app/application
 COPY test /usr/src/app/test
 
 RUN npm install
+RUN npm run build
