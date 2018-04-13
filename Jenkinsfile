@@ -36,13 +36,13 @@ def slack_send_summary(testlog, test_failed) {
 
   def color_string     =  '"color":"good"';
   def markdown_string  =  '"mrkdwn_in":["text","title"]';
-  def title_string     =  "\"title\":\":white_check_mark: processengine tests for ${env.BRANCH_NAME} succeeded!\"";
+  def title_string     =  "\"title\":\":white_check_mark: Process Engine Integration Tests for ${env.BRANCH_NAME} Succeeded!\"";
   def result_string    =  "\"text\":\"${passing}\\n${failing}\\n${pending}\"";
   def action_string    =  "\"actions\":[{\"name\":\"open_jenkins\",\"type\":\"button\",\"text\":\"Open this run\",\"url\":\"${RUN_DISPLAY_URL}\"}]";
 
   if (test_failed == true) {
     color_string = '"color":"danger"';
-    title_string =  "\"title\":\":boom: processengine tests for ${env.BRANCH_NAME} failed!\"";
+    title_string =  "\"title\":\":boom: Process Engine Integration Tests for ${env.BRANCH_NAME} Failed!\"";
   }
 
   slackSend(attachments: "[{$color_string, $title_string, $markdown_string, $result_string, $action_string}]");
@@ -54,7 +54,7 @@ def slack_send_testlog(testlog) {
     def requestBody = [
       "token=${SLACK_TOKEN}",
       "content=${testlog}",
-      "filename=processengine_api_integration_tests.txt",
+      "filename=process_engine_integration_tests.txt",
       "channels=process-engine_ci"
     ];
 
@@ -79,8 +79,8 @@ pipeline {
           def safe_branch_name = env.BRANCH_NAME.replace("/", "_");
           def image_tag = "${safe_branch_name}-${first_seven_digits_of_git_hash}-b${env.BUILD_NUMBER}";
 
-          db_image       = docker.build("processenginetest_db_image:${image_tag}", '--file _integration_tests/Dockerfile.database _integration_tests');
-          server_image   = docker.build("processenginetest_server_image:${image_tag}", '--no-cache --file _integration_tests/Dockerfile.tests _integration_tests');
+          db_image       = docker.build("process_engine_test_db_image:${image_tag}", '--file _integration_tests/Dockerfile.database _integration_tests');
+          server_image   = docker.build("process_engine_test_server_image:${image_tag}", '--no-cache --file _integration_tests/Dockerfile.tests _integration_tests');
 
           db_imageI_id     = db_image.id;
           server_image_id  = server_image.id;
@@ -98,7 +98,7 @@ pipeline {
         }
       }
     }
-    stage('processengine Tests') {
+    stage('Process Engine Tests') {
       steps {
         script {
           // image.inside mounts the current Workspace as the working directory in the container
