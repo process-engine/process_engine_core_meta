@@ -48,8 +48,9 @@
     "@process-engine/process_engine_http": "^1.0.0",
     "@process-engine/process_repository": "^1.0.0",
     "addict-ioc": "^2.2.11",
+    "lodash": "^4.17.5",
     "loggerhythm": "^3.0.0",
-    "mocha": "^4.0.1",
+    "mocha": "^5.0.0",
     "should": "^13.1.3",
     "supertest": "^3.0.0"
   },
