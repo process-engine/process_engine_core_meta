@@ -94,5 +94,5 @@ module.exports.getProcessById = async(processName) => {
     return process.name === processName;
   });
 
-  return matchingProcess ? matchingProcess.bpmnXml : undefined;
+  return matchingProcess;
 };

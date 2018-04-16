@@ -14,12 +14,12 @@ describe.only('Process-Engine   Parse BPMN Process into new object model', funct
 
   const sampleProcessName = 'parse_object_model_sample';
 
-  let sampleBpmnXmlCode;
+  let sampleBpmnFile;
   let bpmnModelParser;
 
   before(async () => {
     httpBootstrapper = await testSetup.initializeBootstrapper();
-    sampleBpmnXmlCode = await testSetup.getProcessById(sampleProcessName);
+    sampleBpmnFile = await testSetup.getProcessById(sampleProcessName);
     bpmnModelParser = await testSetup.resolveAsync('BpmnModelParser');
   });
 
@@ -37,8 +37,8 @@ describe.only('Process-Engine   Parse BPMN Process into new object model', funct
     };
 
     // TODO: Add assertions
-    // console.log(sampleBpmnXmlCode);
-    const parsingResult = await bpmnModelParser.parseXmlToObjectModel(sampleBpmnXmlCode);
+    console.log(sampleBpmnFile);
+    const parsingResult = await bpmnModelParser.parseXmlToObjectModel(sampleBpmnFile.bpmnXml);
     console.log(inspect(parsingResult, inspectOptions));
   })
 
