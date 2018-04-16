@@ -21,8 +21,8 @@
         <bpmn:flowNodeRef>ServiceTask_Lane1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ParallelSplitGateway_Lane1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ScriptTask_Lane1</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>ExclusiveGateway_Lane1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Signal End Event</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ExclusiveGateway_Lane1</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_02n0nfw" name="Lane 2">
         <bpmn:flowNodeRef>EndEvent_Lane2</bpmn:flowNodeRef>
@@ -116,15 +116,6 @@
       <bpmn:incoming>SequenceFlow_1kbi24j</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1kjic6v</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_Lane1" name="">
-      <bpmn:extensionElements>
-        <camunda:executionListener class="" event="" />
-        <camunda:properties />
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_0bs6ox8</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_16dvlvn</bpmn:outgoing>
-      <bpmn:outgoing>SequenceFlow_1w4tpk6</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_16dvlvn" name="Continue after script" sourceRef="ExclusiveGateway_Lane1" targetRef="ParallelJoinGateway_Lane2">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
@@ -141,6 +132,15 @@
       <bpmn:incoming>SequenceFlow_1w4tpk6</bpmn:incoming>
       <bpmn:signalEventDefinition />
     </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_Lane1" name="">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="" event="" />
+        <camunda:properties />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0bs6ox8</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1w4tpk6</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_16dvlvn</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
     <bpmn:association id="Association_1kx2otp" sourceRef="ServiceTask_Lane1" targetRef="TextAnnotation_1j133w4" />
     <bpmn:textAnnotation id="TextAnnotation_1j133w4">
       <bpmn:extensionElements>
@@ -159,23 +159,25 @@
           <camunda:properties />
         </bpmn:extensionElements>
         <bpmn:flowNodeRef>StartEvent_2</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>ExclusiveGateway_1y17p49</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>ExclusiveGateway_0glmcrs</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>EndEvent_1oon9p1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_0nw7zuy</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_1g68bpz</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_0ju1xi5</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>EventBasedGateway_1f960xd</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>IntermediateCatchEvent_0djs92b</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>IntermediateThrowEvent_101e6av</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ParallelGateway_0glmcrs</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ParallelGateway_1y17p49</bpmn:flowNodeRef>
         <bpmn:childLaneSet xsi:type="bpmn:tLaneSet">
           <bpmn:lane id="Lane_0m0ehz7" name="Lane 44 1/5">
             <bpmn:documentation>Child Lane 1 of Process 2</bpmn:documentation>
             <bpmn:flowNodeRef>StartEvent_2</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>ExclusiveGateway_1y17p49</bpmn:flowNodeRef>
-            <bpmn:flowNodeRef>ExclusiveGateway_0glmcrs</bpmn:flowNodeRef>
             <bpmn:flowNodeRef>EndEvent_1oon9p1</bpmn:flowNodeRef>
             <bpmn:flowNodeRef>Task_1g68bpz</bpmn:flowNodeRef>
             <bpmn:flowNodeRef>Task_0ju1xi5</bpmn:flowNodeRef>
+            <bpmn:flowNodeRef>IntermediateThrowEvent_101e6av</bpmn:flowNodeRef>
+            <bpmn:flowNodeRef>ParallelGateway_0glmcrs</bpmn:flowNodeRef>
+            <bpmn:flowNodeRef>ParallelGateway_1y17p49</bpmn:flowNodeRef>
           </bpmn:lane>
           <bpmn:lane id="Lane_1363s21" name="Lane 12 4/9">
             <bpmn:flowNodeRef>Task_0nw7zuy</bpmn:flowNodeRef>
@@ -185,12 +187,12 @@
         </bpmn:childLaneSet>
       </bpmn:lane>
     </bpmn:laneSet>
-    <bpmn:sequenceFlow id="SequenceFlow_1339jmt" sourceRef="ExclusiveGateway_0glmcrs" targetRef="EndEvent_1oon9p1" />
-    <bpmn:sequenceFlow id="SequenceFlow_1xv2c6c" sourceRef="Task_0nw7zuy" targetRef="ExclusiveGateway_0glmcrs" />
+    <bpmn:sequenceFlow id="SequenceFlow_1339jmt" sourceRef="ParallelGateway_0glmcrs" targetRef="EndEvent_1oon9p1" />
+    <bpmn:sequenceFlow id="SequenceFlow_1xv2c6c" sourceRef="Task_0nw7zuy" targetRef="ParallelGateway_0glmcrs" />
     <bpmn:sequenceFlow id="SequenceFlow_1ypbxbx" sourceRef="Task_1g68bpz" targetRef="Task_0ju1xi5" />
-    <bpmn:sequenceFlow id="SequenceFlow_0z9wdvw" sourceRef="ExclusiveGateway_1y17p49" targetRef="Task_1g68bpz" />
-    <bpmn:sequenceFlow id="SequenceFlow_19d8tjv" sourceRef="ExclusiveGateway_1y17p49" targetRef="Task_0nw7zuy" />
-    <bpmn:sequenceFlow id="SequenceFlow_1qpmc7k" sourceRef="StartEvent_2" targetRef="ExclusiveGateway_1y17p49" />
+    <bpmn:sequenceFlow id="SequenceFlow_0z9wdvw" sourceRef="ParallelGateway_1y17p49" targetRef="Task_1g68bpz" />
+    <bpmn:sequenceFlow id="SequenceFlow_19d8tjv" sourceRef="ParallelGateway_1y17p49" targetRef="Task_0nw7zuy" />
+    <bpmn:sequenceFlow id="SequenceFlow_1qpmc7k" sourceRef="StartEvent_2" targetRef="ParallelGateway_1y17p49" />
     <bpmn:startEvent id="StartEvent_2" name="Start Process 2">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
@@ -198,24 +200,6 @@
       </bpmn:extensionElements>
       <bpmn:outgoing>SequenceFlow_1qpmc7k</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_1y17p49" name="">
-      <bpmn:extensionElements>
-        <camunda:executionListener class="" event="" />
-        <camunda:properties />
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_1qpmc7k</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0z9wdvw</bpmn:outgoing>
-      <bpmn:outgoing>SequenceFlow_19d8tjv</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_0glmcrs">
-      <bpmn:extensionElements>
-        <camunda:executionListener class="" event="" />
-        <camunda:properties />
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_1xv2c6c</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_1d4dvjh</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1339jmt</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
     <bpmn:endEvent id="EndEvent_1oon9p1" name="Finish second process">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
@@ -240,7 +224,7 @@
       <bpmn:incoming>SequenceFlow_0z9wdvw</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1ypbxbx</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1d4dvjh" sourceRef="Task_0ju1xi5" targetRef="ExclusiveGateway_0glmcrs" />
+    <bpmn:sequenceFlow id="SequenceFlow_1d4dvjh" sourceRef="Task_0ju1xi5" targetRef="ParallelGateway_0glmcrs" />
     <bpmn:serviceTask id="Task_0ju1xi5" name="Do some more subprocessing">
       <bpmn:documentation>Testing the behavior of multiple task types in one lane</bpmn:documentation>
       <bpmn:incoming>SequenceFlow_1ypbxbx</bpmn:incoming>
@@ -253,10 +237,35 @@
     </bpmn:eventBasedGateway>
     <bpmn:intermediateCatchEvent id="IntermediateCatchEvent_0djs92b" name="Event based endpoint">
       <bpmn:incoming>SequenceFlow_1athuwr</bpmn:incoming>
-      <bpmn:messageEventDefinition />
+      <bpmn:messageEventDefinition messageRef="Message_0d1wtj6" />
     </bpmn:intermediateCatchEvent>
     <bpmn:sequenceFlow id="SequenceFlow_1athuwr" sourceRef="EventBasedGateway_1f960xd" targetRef="IntermediateCatchEvent_0djs92b" />
+    <bpmn:sequenceFlow id="SequenceFlow_1y1v66x" sourceRef="ParallelGateway_0glmcrs" targetRef="IntermediateThrowEvent_101e6av" />
+    <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_101e6av" name="Some sample throw event">
+      <bpmn:incoming>SequenceFlow_1y1v66x</bpmn:incoming>
+      <bpmn:messageEventDefinition messageRef="Message_0d1wtj6" camunda:expression="token.history.stuff !== undefined" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:parallelGateway id="ParallelGateway_0glmcrs">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="" event="" />
+        <camunda:properties />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1d4dvjh</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1xv2c6c</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1y1v66x</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1339jmt</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:parallelGateway id="ParallelGateway_1y17p49" name="">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="" event="" />
+        <camunda:properties />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1qpmc7k</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_19d8tjv</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0z9wdvw</bpmn:outgoing>
+    </bpmn:parallelGateway>
   </bpmn:process>
+  <bpmn:message id="Message_0d1wtj6" name="Message_2qgauch" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1cidyxu">
       <bpmndi:BPMNShape id="Participant_0px403d_di" bpmnElement="Participant_0px403d">
@@ -333,7 +342,7 @@
         <di:waypoint xsi:type="dc:Point" x="686" y="83" />
         <di:waypoint xsi:type="dc:Point" x="786" y="83" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="736" y="61.5" width="0" height="13" />
+          <dc:Bounds x="691" y="62" width="90" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ExclusiveGateway_0vr6yu9_di" bpmnElement="ExclusiveGateway_Lane2" isMarkerVisible="true">
@@ -386,12 +395,6 @@
       <bpmndi:BPMNShape id="UserTask_13vg8nb_di" bpmnElement="UserTask_Lane2">
         <dc:Bounds x="403" y="369" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ExclusiveGateway_1f7g88o_di" bpmnElement="ExclusiveGateway_Lane1" isMarkerVisible="true">
-        <dc:Bounds x="786" y="58" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="811" y="111" width="0" height="13" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_16dvlvn_di" bpmnElement="SequenceFlow_16dvlvn">
         <di:waypoint xsi:type="dc:Point" x="811" y="108" />
         <di:waypoint xsi:type="dc:Point" x="811" y="384" />
@@ -434,12 +437,6 @@
           <dc:Bounds x="932" y="719" width="68" height="25" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ExclusiveGateway_0glmcrs_di" bpmnElement="ExclusiveGateway_0glmcrs" isMarkerVisible="true">
-        <dc:Bounds x="705" y="662" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="685" y="715" width="90" height="13" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1339jmt_di" bpmnElement="SequenceFlow_1339jmt">
         <di:waypoint xsi:type="dc:Point" x="755" y="687" />
         <di:waypoint xsi:type="dc:Point" x="948" y="687" />
@@ -463,12 +460,6 @@
           <dc:Bounds x="449" y="665.5" width="90" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ExclusiveGateway_1y17p49_di" bpmnElement="ExclusiveGateway_1y17p49" isMarkerVisible="true">
-        <dc:Bounds x="271" y="662" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="251" y="715" width="90" height="13" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0z9wdvw_di" bpmnElement="SequenceFlow_0z9wdvw">
         <di:waypoint xsi:type="dc:Point" x="321" y="687" />
         <di:waypoint xsi:type="dc:Point" x="357" y="687" />
@@ -510,7 +501,7 @@
         <di:waypoint xsi:type="dc:Point" x="631" y="687" />
         <di:waypoint xsi:type="dc:Point" x="705" y="687" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="668" y="665.5" width="0" height="13" />
+          <dc:Bounds x="623" y="665.5" width="90" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_0e78ba1_di" bpmnElement="Task_0ju1xi5">
@@ -542,6 +533,37 @@
           <dc:Bounds x="851.5" y="858" width="0" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1y1v66x_di" bpmnElement="SequenceFlow_1y1v66x">
+        <di:waypoint xsi:type="dc:Point" x="730" y="662" />
+        <di:waypoint xsi:type="dc:Point" x="730" y="636" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="745" y="642.5" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="IntermediateThrowEvent_0cbx8bp_di" bpmnElement="IntermediateThrowEvent_101e6av">
+        <dc:Bounds x="712" y="600" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="768" y="605" width="68" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1f7g88o_di" bpmnElement="ExclusiveGateway_Lane1" isMarkerVisible="true">
+        <dc:Bounds x="786" y="58" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="766" y="111" width="90" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ParallelGateway_1bagzhr_di" bpmnElement="ParallelGateway_0glmcrs">
+        <dc:Bounds x="705" y="662" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="685" y="715" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ParallelGateway_17kfhkt_di" bpmnElement="ParallelGateway_1y17p49">
+        <dc:Bounds x="271" y="662" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="251" y="715" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
