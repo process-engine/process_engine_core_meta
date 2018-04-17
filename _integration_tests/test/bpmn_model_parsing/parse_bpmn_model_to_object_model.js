@@ -12,7 +12,7 @@ describe.only('Process-Engine   Parse BPMN Process into new object model', funct
   let httpBootstrapper;
   this.timeout(5000);
 
-  const sampleProcessName = 'parse_object_model_sample';
+  const sampleProcessName = 'bs_payone_sample';
 
   let sampleBpmnFile;
   let bpmnModelParser;
