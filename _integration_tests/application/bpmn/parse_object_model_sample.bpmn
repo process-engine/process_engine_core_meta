@@ -32,6 +32,7 @@
         <bpmn:flowNodeRef>ErrorEndEvent_Lane2</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ServiceTask_Lane2</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>UserTask_Lane2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CallActivity_01_Lane2</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:startEvent id="StartEvent_1" name="Start Event">
@@ -56,6 +57,7 @@
       <bpmn:incoming>SequenceFlow_1kjic6v</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1ql5s08</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_0hfpoma</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_07o95v9</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_1ql5s08" name="User Task Success" sourceRef="ExclusiveGateway_Lane2" targetRef="ParallelJoinGateway_Lane2">
       <bpmn:documentation>testidi test</bpmn:documentation>
@@ -156,6 +158,11 @@
         <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">60</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_07o95v9" sourceRef="ExclusiveGateway_Lane2" targetRef="CallActivity_01_Lane2" />
+    <bpmn:callActivity id="CallActivity_01_Lane2" name="Call stuff" calledElement="element.bpmn" camunda:calledElementBinding="version" camunda:calledElementVersion="asdads" camunda:calledElementTenantId="tenant" camunda:variableMappingDelegateExpression="a = b">
+      <bpmn:documentation>call activity documentation</bpmn:documentation>
+      <bpmn:incoming>SequenceFlow_07o95v9</bpmn:incoming>
+    </bpmn:callActivity>
     <bpmn:association id="Association_1kx2otp" sourceRef="ServiceTask_Lane1" targetRef="TextAnnotation_1j133w4" />
     <bpmn:textAnnotation id="TextAnnotation_1j133w4">
       <bpmn:extensionElements>
@@ -617,6 +624,16 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="187" y="180" width="73" height="13" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_07o95v9_di" bpmnElement="SequenceFlow_07o95v9">
+        <di:waypoint xsi:type="dc:Point" x="621" y="384" />
+        <di:waypoint xsi:type="dc:Point" x="621" y="351" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="636" y="361" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="CallActivity_1hg8pxt_di" bpmnElement="CallActivity_01_Lane2">
+        <dc:Bounds x="571" y="271" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
