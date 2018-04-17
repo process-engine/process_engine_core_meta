@@ -227,7 +227,9 @@
     <bpmn:serviceTask id="Task_1g68bpz" name="Do some subprocessing">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
-        <camunda:properties />
+        <camunda:properties>
+          <camunda:property name="service" value="www.google.de" />
+        </camunda:properties>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0z9wdvw</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1ypbxbx</bpmn:outgoing>
@@ -235,6 +237,11 @@
     <bpmn:sequenceFlow id="SequenceFlow_1d4dvjh" sourceRef="Task_0ju1xi5" targetRef="ParallelGateway_0glmcrs" />
     <bpmn:serviceTask id="Task_0ju1xi5" name="Do some more subprocessing">
       <bpmn:documentation>Testing the behavior of multiple task types in one lane</bpmn:documentation>
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="some-non-invoker-property" value="value" />
+        </camunda:properties>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1ypbxbx</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1d4dvjh</bpmn:outgoing>
     </bpmn:serviceTask>
