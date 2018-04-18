@@ -1,7 +1,7 @@
 'use strict';
 
-const fixture = require('../application/dist/commonjs/process_engine_service_test_fixture')
 const should = require('should');
+const fixture = require('../dist/commonjs/process_engine_service_test_fixture');
 
 const testTimeoutInMS = 5000;
 

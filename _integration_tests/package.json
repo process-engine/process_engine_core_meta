@@ -11,9 +11,9 @@
     "tests"
   ],
   "scripts": {
-    "start": "cross-env NODE_ENV=test CONFIG_PATH=application/config node application/index.js",
-    "test": "cross-env NODE_ENV=test CONFIG_PATH=application/config mocha test/**/*.js --exit",
-    "build": "cd application && gulp build"
+    "start": "cross-env NODE_ENV=test CONFIG_PATH=config node index.js",
+    "test": "cross-env NODE_ENV=test CONFIG_PATH=config mocha test/**/*.js --exit",
+    "build": "gulp build"
   },
   "dependencies": {
     "@essential-projects/bootstrapper": "^1.0.0",
