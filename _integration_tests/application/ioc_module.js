@@ -8,7 +8,6 @@ const registerInContainer = (container) => {
   // add processes for use with the integrationtests here
   const processes = [
     'bs_payone_sample',
-    'parse_object_model_sample'
   ];
 
   return processes.map((processFilename) => registerProcess(processFilename, container));
