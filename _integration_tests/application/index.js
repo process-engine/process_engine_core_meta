@@ -3,7 +3,6 @@
 const InvocationContainer = require('addict-ioc').InvocationContainer;
 const logger = require('loggerhythm').Logger.createLogger('test:bootstrapper');
 const path = require('path');
-const fs = require('fs');
 
 const iocModuleNames = [
   '@essential-projects/bootstrapper',
@@ -34,6 +33,9 @@ const iocModuleNames = [
   '@essential-projects/routing',
   '@essential-projects/timing',
   '@essential-projects/validation',
+  '@process-engine/consumer_api_client',
+  '@process-engine/consumer_api_core',
+  '@process-engine/consumer_api_http',
   '@process-engine/process_engine',
   '@process-engine/process_engine_http',
   '@process-engine/process_repository',
@@ -45,9 +47,11 @@ const iocModules = iocModuleNames.map((moduleName) => {
 });
 
 let container;
-let bootstrapper;
 
-module.exports.initializeBootstrapper = async() => {
+// NOTE: This startup script allows for the usage of the BPMN studio in conjunction with
+// the integrationtest app, which enables us to edit the integrationtests' bpmn files without having 
+// to import them manually.
+async function start() {
 
   try {
     container = new InvocationContainer({
@@ -59,53 +63,19 @@ module.exports.initializeBootstrapper = async() => {
     for (const iocModule of iocModules) {
       iocModule.registerInContainer(container);
     }
-
+  
     container.validateDependencies();
-
+    
     const appPath = path.resolve(__dirname);
-    bootstrapper = await container.resolveAsync('HttpIntegrationTestBootstrapper', [appPath]);
-
-    const identityFixtures = [{
-      // Default User, used to test happy paths
-      name: 'testuser',
-      password: 'testpass',
-      roles: ['user'],
-    },{
-      // Restricted user without access rights to any lanes
-      name: 'restrictedUser',
-      password: 'testpass',
-      roles: ['dummy'],
-    },{
-      // Used to test access rights to
-      name: 'laneuser',
-      password: 'testpass',
-      roles: ['dummy'],
-    }];
-
-    bootstrapper.addFixtures('User', identityFixtures);
+    const bootstrapper = await container.resolveAsync('AppBootstrapper', [appPath]);
 
     logger.info('Bootstrapper started.');
-
-    return bootstrapper;
+  
+    await bootstrapper.start();
   } catch (error) {
     logger.error('Failed to start bootstrapper!', error);
     throw error;
   }
 }
 
-module.exports.resolveAsync = async(moduleName) => {
-  return container.resolveAsync(moduleName);
-};
-
-module.exports.createExecutionContext = async() => {
-  const iamService = await container.resolveAsync('IamService');
-  const context = await iamService.createInternalContext('system');
-  return context;
-};
-
-module.exports.importBPMNFromFile = async(executionContext, file) => {
-  const processDefEntityTypeService = await container.resolveAsync('ProcessDefEntityTypeService');
-  return processDefEntityTypeService.importBpmnFromFile(executionContext, {
-    file: file,
-  });
-}
+start();
