@@ -12,7 +12,7 @@ describe('Error Boundary Event execution', function () {
   this.timeout(testTimeoutInMS);
 
   before(async () => {
-    processEngineServiceFixture = new fixture.ProcessEngineServiceTestFixture(`${__dirname}/error_boundary_event_test.bpmn`);
+    processEngineServiceFixture = new fixture.ProcessEngineServiceTestFixture(`${__dirname}/../application/bpmn/error_boundary_event_test.bpmn`);
     await processEngineServiceFixture.setup();
   });
 

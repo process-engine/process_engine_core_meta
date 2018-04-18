@@ -1,1 +1,1 @@
-export * from './sample_service';
+export * from './parallel_gateway_test_service';

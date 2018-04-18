@@ -12,7 +12,7 @@ describe('Parallel Gateway execution', function () {
   this.timeout(testTimeoutInMS);
 
   before(async () => {
-    processEngineServiceFixture = new fixture.ProcessEngineServiceTestFixture(`${__dirname}/parallel_gateway_test.bpmn`);
+    processEngineServiceFixture = new fixture.ProcessEngineServiceTestFixture(`${__dirname}/../application/bpmn/parallel_gateway_test.bpmn`);
     await processEngineServiceFixture.setup();
   });
 

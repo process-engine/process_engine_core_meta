@@ -103,7 +103,7 @@
             <bpmn:serviceTask id="st_currentTokenTestPart1" name="Setting token.current before &#34;long task&#34; finishes">
                 <bpmn:extensionElements>
                     <camunda:properties>
-                        <camunda:property name="module" value="SampleService" />
+                        <camunda:property name="module" value="ParallelGatewayTestService" />
                         <camunda:property name="method" value="currentTokenTestPart1" />
                         <camunda:property name="params" value="[]" />
                     </camunda:properties>
@@ -146,7 +146,7 @@
             <bpmn:serviceTask id="st_currentTokenTestPart2" name="Receiving token.current after &#34;long task&#34; finishes">
                 <bpmn:extensionElements>
                     <camunda:properties>
-                        <camunda:property name="module" value="SampleService" />
+                        <camunda:property name="module" value="ParallelGatewayTestService" />
                         <camunda:property name="method" value="currentTokenTestPart2" />
                         <camunda:property name="params" value="[token.current]" />
                     </camunda:properties>
@@ -175,7 +175,7 @@
                 <bpmn:extensionElements>
                     <camunda:executionListener class="" event="" />
                     <camunda:properties>
-                        <camunda:property name="module" value="SampleService" />
+                        <camunda:property name="module" value="ParallelGatewayTestService" />
                         <camunda:property name="method" value="longRunningFunction" />
                         <camunda:property name="params" value="[]" />
                     </camunda:properties>
@@ -191,7 +191,7 @@
                 <bpmn:extensionElements>
                     <camunda:executionListener class="" event="" />
                     <camunda:properties>
-                        <camunda:property name="module" value="SampleService" />
+                        <camunda:property name="module" value="ParallelGatewayTestService" />
                         <camunda:property name="method" value="veryLongRunningFunction" />
                         <camunda:property name="params" value="[]" />
                     </camunda:properties>
@@ -207,7 +207,7 @@
                 <bpmn:extensionElements>
                     <camunda:executionListener class="" event="" />
                     <camunda:properties>
-                        <camunda:property name="module" value="SampleService" />
+                        <camunda:property name="module" value="ParallelGatewayTestService" />
                         <camunda:property name="method" value="secondVeryLongRunningFunction" />
                         <camunda:property name="params" value="[]" />
                     </camunda:properties>
@@ -226,7 +226,7 @@
             <bpmn:serviceTask id="st_SequenceTestTask2" name="Sequence Test 2">
                 <bpmn:extensionElements>
                     <camunda:properties>
-                        <camunda:property name="module" value="SampleService" />
+                        <camunda:property name="module" value="ParallelGatewayTestService" />
                         <camunda:property name="method" value="sequenceTestPart2UpdateToken" />
                         <camunda:property name="params" value="[token.current]" />
                     </camunda:properties>
@@ -241,7 +241,7 @@
             <bpmn:serviceTask id="st_SequenceTestTask3" name="Sequence Test 3">
                 <bpmn:extensionElements>
                     <camunda:properties>
-                        <camunda:property name="module" value="SampleService" />
+                        <camunda:property name="module" value="ParallelGatewayTestService" />
                         <camunda:property name="method" value="sequenceTestPart3Delay" />
                         <camunda:property name="params" value="[token.current]" />
                     </camunda:properties>

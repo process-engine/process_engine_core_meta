@@ -1,8 +1,8 @@
 import {Logger} from 'loggerhythm';
 
-const logger: any = Logger.createLogger('parallel_gateway:sample_service');
+const logger: any = Logger.createLogger('parallel_gateway:parallel_gateway_test_service');
 
-export class SampleService {
+export class ParallelGatewayTestService {
 
   public async currentTokenTestPart1(): Promise<string> {
     const currentTokenValue: string = 'current token test value';
