@@ -5,7 +5,7 @@ const ProcessEngineServiceTestFixture = require('../dist/commonjs/process_engine
 
 const testTimeoutInMS = 5000;
 
-describe.only('Terminate End Event', function () {
+describe('Terminate End Event', function () {
 
   let processEngineServiceFixture;
 
