@@ -1,11 +1,19 @@
 'use strict';
 
+const fs = require('fs');
+const path = require('path');
+
+const ParallelGatewayTestService = require('./dist/commonjs').ParallelGatewayTestService;
+
 const registerInContainer = (container) => {
   const processes = [
-    'parallel_gateway_test_service',
+    'parallel_gateway_test',
+    'error_boundary_event_test'
   ];
 
-  return processes.map((processFilename) => registerProcess(processFilename, container));
+  container.register('ParallelGatewayTestService', ParallelGatewayTestService);
+
+  processes.map((processFilename) => registerProcess(processFilename, container));
 };
 
 const registerProcess = (processFilename, container) => {
