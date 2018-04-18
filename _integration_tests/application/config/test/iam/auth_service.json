@@ -30,15 +30,16 @@
         "rolesInherited": ["user", "_iam_internal"]
       },
       "default": {
-        "rolesInherited": ["user"]
+        "rolesInherited": ["guest"]
       },
       "guest": {
-        "rolesInherited": [
-          "user"
-        ]
+        "rolesInherited": []
       },
       "user": {
-        "rolesInherited": []
+        "rolesInherited": ["default"]
+      },
+      "dummy": {
+        "rolesInherited": ["default"]
       },
       "agent": {
         "rolesInherited": ["default"]

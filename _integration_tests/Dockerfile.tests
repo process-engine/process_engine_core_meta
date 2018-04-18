@@ -1,0 +1,12 @@
+FROM node:8-alpine
+
+RUN apk add --no-cache git
+
+WORKDIR /usr/src/app
+
+COPY package.json ./
+COPY application /usr/src/app/application
+COPY test /usr/src/app/test
+
+RUN npm install
+RUN npm run build

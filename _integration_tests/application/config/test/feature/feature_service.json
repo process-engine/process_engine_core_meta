@@ -1,0 +1,13 @@
+{
+  "applications": {
+    "skeleton_server": {
+      "features": {
+        "Name": "Skeleton_Server",
+        "Environment": "Server",
+        "Platform": "NodeJS",
+        "PlatformVersion": "7.6.0",
+        "UI": true
+      }
+    }
+  }
+}
