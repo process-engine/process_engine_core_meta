@@ -6,12 +6,15 @@ const path = require('path');
 const ParallelGatewayTestService = require('./dist/commonjs').ParallelGatewayTestService;
 
 const registerInContainer = (container) => {
+  
+  container.register('ParallelGatewayTestService', ParallelGatewayTestService);
+
+  // TODO: Add processes for use in the integrationtests
   const processes = [
     'parallel_gateway_test',
-    'error_boundary_event_test'
+    'error_boundary_event_test',
+    'terminate_end_event_sample',
   ];
-
-  container.register('ParallelGatewayTestService', ParallelGatewayTestService);
 
   processes.map((processFilename) => registerProcess(processFilename, container));
 };
