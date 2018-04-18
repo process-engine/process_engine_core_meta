@@ -11,9 +11,9 @@
     "tests"
   ],
   "scripts": {
-    "start": "cross-env NODE_ENV=test CONFIG_PATH=application/config node application/index.js",
-    "test": "cross-env NODE_ENV=test CONFIG_PATH=application/config mocha test/**/*.js test/*.js --exit",
-    "build": "cd application && gulp build"
+    "start": "cross-env NODE_ENV=test CONFIG_PATH=config node index.js",
+    "test": "cross-env NODE_ENV=test CONFIG_PATH=config mocha test/**/*.js test/*.js --exit",
+    "build": "gulp build"
   },
   "dependencies": {
     "@essential-projects/bootstrapper": "^1.0.0",
@@ -45,6 +45,7 @@
     "@essential-projects/timing": "^1.0.0",
     "@essential-projects/validation": "^1.0.0",
     "@process-engine/process_engine": "feature~prepare_terminate_end_event",
+    "@process-engine/process_engine_contracts": "feature~prepare_terminate_end_event",
     "@process-engine/process_engine_http": "^1.0.0",
     "@process-engine/process_repository": "^1.0.0",
     "addict-ioc": "^2.2.11",

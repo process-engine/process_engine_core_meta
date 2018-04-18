@@ -4,6 +4,20 @@
     <bpmn:participant id="DemoProcess.TerminateEndEvent" name="Terminate End Event Sample" processRef="terminate_end_event_sample" />
   </bpmn:collaboration>
   <bpmn:process id="terminate_end_event_sample" name="terminate_end_event_sample" isExecutable="true">
+    <bpmn:laneSet>
+      <bpmn:lane id="Lane_0iq41av" name="Random Lane">
+        <bpmn:flowNodeRef>ProcessInputEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>TerminateEndEvent_SplitGateway</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>IntermediateThrowEvent_0nus2bm</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>SampleScriptTask1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>UnreachableScriptTask_1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>TerminateEndEvent_JoinGateway</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ProcessResultEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>TerminateEndEvent_07x6hi6</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>IntermediateThrowEvent_0u06sa6</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>UnreachableScriptTask_2</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
     <bpmn:sequenceFlow id="ProcessInput" sourceRef="ProcessInputEvent" targetRef="TerminateEndEvent_SplitGateway" />
     <bpmn:sequenceFlow id="EncryptInput" sourceRef="TerminateEndEvent_SplitGateway" targetRef="IntermediateThrowEvent_0nus2bm" />
     <bpmn:sequenceFlow id="StoreInput" sourceRef="TerminateEndEvent_JoinGateway" targetRef="ProcessResultEvent">
@@ -62,11 +76,11 @@
       <bpmn:incoming>SequenceFlow_0w50vbx</bpmn:incoming>
       <bpmn:terminateEventDefinition />
     </bpmn:endEvent>
-    <bpmn:intermediateCatchEvent id="IntermediateThrowEvent_0u06sa6" name="EdgeCase: 1s delay">
+    <bpmn:intermediateCatchEvent id="IntermediateThrowEvent_0u06sa6" name="10s Delay">
       <bpmn:incoming>SequenceFlow_0urlq2s</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1jc91ao</bpmn:outgoing>
       <bpmn:timerEventDefinition>
-        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P0Y0M0DT0H0M1S</bpmn:timeDuration>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P0Y0M0DT0H0M10S</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:intermediateCatchEvent>
     <bpmn:sequenceFlow id="SequenceFlow_1jc91ao" sourceRef="IntermediateThrowEvent_0u06sa6" targetRef="UnreachableScriptTask_2" />
@@ -185,7 +199,7 @@
       <bpmndi:BPMNShape id="IntermediateCatchEvent_1abr857_di" bpmnElement="IntermediateThrowEvent_0u06sa6">
         <dc:Bounds x="458" y="458" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="442" y="497" width="70" height="25" />
+          <dc:Bounds x="453" y="497" width="49" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1jc91ao_di" bpmnElement="SequenceFlow_1jc91ao">
@@ -206,6 +220,9 @@
           <dc:Bounds x="716.5" y="453.5" width="0" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Lane_0iq41av_di" bpmnElement="Lane_0iq41av">
+        <dc:Bounds x="133" y="168" width="788" height="374" />
+      </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
