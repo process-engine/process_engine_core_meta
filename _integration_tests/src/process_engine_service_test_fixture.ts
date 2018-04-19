@@ -12,6 +12,10 @@ export class ProcessEngineServiceTestFixture {
     this.processEngineService = await setup.resolveAsync('ProcessEngineService');
   }
 
+  public async resolveAsync(registrationName: string): Promise<any> {
+    return setup.resolveAsync(registrationName);
+  }
+
   public async executeProcess(processKey: string, initialToken: any = {}): Promise<any> {
     return this.processEngineService.executeProcess(this.dummyExecutionContext, undefined, processKey, initialToken);
   }

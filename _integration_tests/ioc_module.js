@@ -11,9 +11,9 @@ const registerInContainer = (container) => {
 
   // add processes for use with the integrationtests here
   const processes = [
-    'bs_payone_sample',
+    'error_boundary_event_test',
+    'generic_sample',
     'parallel_gateway_test',
-    'error_boundary_event_test'
   ];
 
   processes.map((processFilename) => registerProcess(processFilename, container));

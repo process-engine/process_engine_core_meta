@@ -1,36 +1,36 @@
 'use strict';
 
 const should = require('should');
-const request = require('supertest');
-const fs = require('fs');
-const path = require('path');
 
 const SequenceFlow = require('@process-engine/process_engine_contracts').Model.Types.SequenceFlow;
 const FlowNode = require('@process-engine/process_engine_contracts').Model.Base.FlowNode;
 
-const testSetup = require('../../application/test_setup');
+const ProcessEngineServiceTestFixture = require('../dist/commonjs/process_engine_service_test_fixture').ProcessEngineServiceTestFixture;
+
+const testTimeoutInMS = 5000;
 
 describe('Process-Engine   Parse BPMN Process into new object model', function () {
-  let httpBootstrapper;
+
   this.timeout(5000);
 
-  const sampleProcessName = 'bs_payone_sample';
-
-  let sampleBpmnFile;
+  let processEngineServiceFixture;
   let bpmnModelParser;
 
+  this.timeout(testTimeoutInMS);
+
   before(async () => {
-    httpBootstrapper = await testSetup.initializeBootstrapper();
-    sampleBpmnFile = await testSetup.getProcessById(sampleProcessName);
-    bpmnModelParser = await testSetup.resolveAsync('BpmnModelParser');
+    processEngineServiceFixture = new ProcessEngineServiceTestFixture();
+    await processEngineServiceFixture.setup();
+    bpmnModelParser = await processEngineServiceFixture.resolveAsync('BpmnModelParser');
   });
 
   after(async () => {
-    await httpBootstrapper.reset();
-    await httpBootstrapper.shutdown();
+    await processEngineServiceFixture.tearDown();
   });
 
   it('Should successfully and correctly parse the BS Payone Sample BPMN into a ObjectModel structure', async() => {
+
+    const sampleProcessName = 'generic_sample';
 
     const result = await bpmnModelParser.parseXmlToObjectModel(sampleBpmnFile.bpmnXml);
 
