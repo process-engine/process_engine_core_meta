@@ -1,5 +1,6 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import * as _ from 'lodash';
 
 import {InvocationContainer} from 'addict-ioc';
 import {Logger} from 'loggerhythm';
@@ -86,6 +87,17 @@ export class TestFixtureProvider {
   public async resolveAsync(moduleName): Promise<any> {
     return this.container.resolveAsync(moduleName);
   };
+
+  public async getProcessbyId(bpmnFilename: string): Promise<any> {
+    const processRepository = await this.resolveAsync('ProcessRepository');
+    const processes = await processRepository.getProcessesByCategory('internal');
+  
+    const matchingProcess = _.find(processes, (process) => {
+      return process.name === bpmnFilename;
+    });
+  
+    return matchingProcess;
+  }
 
   public async getProcessFromFile(bpmnFilename: string): Promise<any> {
     const processDefEntityTypeService: any = await this.container.resolveAsync('ProcessDefEntityTypeService');
