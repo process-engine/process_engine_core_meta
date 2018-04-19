@@ -104,7 +104,7 @@ module.exports.createExecutionContext = async() => {
   return context;
 };
 
-module.exports.getProcessById = async(processName) => {
+module.exports.getProcessbyId = async(processName) => {
   const processRepository = await container.resolveAsync('ProcessRepository');
   const processes = await processRepository.getProcessesByCategory('internal');
 
