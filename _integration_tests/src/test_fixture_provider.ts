@@ -5,6 +5,7 @@ import {InvocationContainer} from 'addict-ioc';
 import {Logger} from 'loggerhythm';
 
 import {IProcessEngineService} from '@process-engine/process_engine_contracts';
+import { ExecutionContext } from '../../core_contracts/dist/execution_context';
 
 const logger: Logger = Logger.createLogger('test:bootstrapper');
 
@@ -50,10 +51,14 @@ const iocModules: Array<any> = iocModuleNames.map((moduleName: string): any => {
 export class TestFixtureProvider {
   private httpBootstrapper: any;
   private _processEngineService : IProcessEngineService;
-  private dummyExecutionContext: any;
+  private _dummyExecutionContext: ExecutionContext;
 
   private container: InvocationContainer;
   private bootstrapper: any;
+
+  public get context(): ExecutionContext {
+    return this._dummyExecutionContext;
+  }
 
   public get processEngineService(): IProcessEngineService {
     return this._processEngineService;
@@ -62,12 +67,20 @@ export class TestFixtureProvider {
   public async initializeAndStart(): Promise<void> {
     this.httpBootstrapper = await this.initializeBootstrapper();
     await this.httpBootstrapper.start();
-    this.dummyExecutionContext = await this.createExecutionContext();
+    this._dummyExecutionContext = await this.createExecutionContext();
     this._processEngineService = await this.resolveAsync('ProcessEngineService');
   }
 
   public async executeProcess(processKey: string, initialToken: any = {}): Promise<any> {
-    return this.processEngineService.executeProcess(this.dummyExecutionContext, undefined, processKey, initialToken);
+    return this.processEngineService.executeProcess(this.context, undefined, processKey, initialToken);
+  }
+
+  public async createProcessInstance(processModelKey: string): Promise<any> {
+    return this.processEngineService.createProcessInstance(this.context, undefined, processModelKey);
+  }
+
+  public async executeProcessInstance(processInstanceId: string, initialToken: any = {}): Promise<any> {
+    return this.processEngineService.executeProcessInstance(this.context, processInstanceId, undefined, initialToken);
   }
   
   public async resolveAsync(moduleName): Promise<any> {
@@ -76,7 +89,7 @@ export class TestFixtureProvider {
 
   public async getProcessFromFile(bpmnFilename: string): Promise<any> {
     const processDefEntityTypeService: any = await this.container.resolveAsync('ProcessDefEntityTypeService');
-    return processDefEntityTypeService.importBpmnFromFile(this.dummyExecutionContext, {
+    return processDefEntityTypeService.importBpmnFromFile(this.context, {
       file: bpmnFilename,
     });
   }
