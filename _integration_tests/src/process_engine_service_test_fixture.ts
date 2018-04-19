@@ -1,5 +1,7 @@
 const setup = require('../../test_setup');
 
+const _ = require('lodash');
+
 export class ProcessEngineServiceTestFixture {
   private httpBootstrapper: any;
   private processEngineService : any;
@@ -12,8 +14,23 @@ export class ProcessEngineServiceTestFixture {
     this.processEngineService = await setup.resolveAsync('ProcessEngineService');
   }
 
+  public async resolveAsync(registrationName: string): Promise<any> {
+    return setup.resolveAsync(registrationName);
+  }
+
   public async executeProcess(processKey: string, initialToken: any = {}): Promise<any> {
     return this.processEngineService.executeProcess(this.dummyExecutionContext, undefined, processKey, initialToken);
+  }
+
+  public async getProcessbyId(bpmnFilename: string): Promise<any> {
+    const processRepository = await setup.resolveAsync('ProcessRepository');
+    const processes = await processRepository.getProcessesByCategory('internal');
+  
+    const matchingProcess = _.find(processes, (process) => {
+      return process.name === bpmnFilename;
+    });
+  
+    return matchingProcess;
   }
 
   public async getProcessFromFile(bpmnFilename: string): Promise<any> {
