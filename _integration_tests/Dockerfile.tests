@@ -4,9 +4,16 @@ RUN apk add --no-cache git
 
 WORKDIR /usr/src/app
 
+COPY gulpfile.js ./
+COPY index.js ./
+COPY ioc_module.js ./
 COPY package.json ./
-COPY application /usr/src/app/application
-COPY test /usr/src/app/test
+COPY test_setup.js ./
+COPY tsconfig.json ./
+COPY bpmn ./bpmn
+COPY config ./config
+COPY src ./src
+COPY test ./test
 
 RUN npm install
 RUN npm run build
