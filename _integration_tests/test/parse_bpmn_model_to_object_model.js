@@ -50,14 +50,14 @@ describe('Process-Engine   Parse BPMN Process into new object model', function (
 
     const participant = collaboration.participants[0];
 
-    should(participant.id).be.equal('DemoProcess.Orchestration');
-    should(participant.name).be.equal('Akka.NET - DemoProcess');
-    should(participant.processReference).be.equal('TellProcess');
+    should(participant.id).be.equal('GenericSample');
+    should(participant.name).be.equal('Generic Sample');
+    should(participant.processReference).be.equal('generic_sample');
 
     // Process-Properties
     const process = result.processes[0];
-    should(process.id).be.equal('TellProcess');
-    should(process.name).be.equal('TellProcess');
+    should(process.id).be.equal('generic_sample');
+    should(process.name).be.equal('generic_sample');
     should(process.isExecutable).be.equal(true);
     should(process.flowNodes.length).be.equal(10);
     should(process.sequenceFlows.length).be.equal(10);
