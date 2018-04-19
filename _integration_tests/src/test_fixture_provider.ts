@@ -5,7 +5,7 @@ import {InvocationContainer} from 'addict-ioc';
 import {Logger} from 'loggerhythm';
 
 import {IProcessEngineService} from '@process-engine/process_engine_contracts';
-import { ExecutionContext } from '../../core_contracts/dist/execution_context';
+import { ExecutionContext } from '@essential-projects/core_contracts';
 
 const logger: Logger = Logger.createLogger('test:bootstrapper');
 
