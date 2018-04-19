@@ -16,7 +16,7 @@ The goal of this is to make sure that the process engine is behaving as describe
 ### Setup/Installation
 
 1. Make sure you have a PostgresDB running. You can see/set the required
-   credentials, database and port in [`./application/config/test/data_sources/postgres.json`](https://github.com/process-engine/process_engine_meta/blob/develop/_integration_tests/application/config/test/data_sources/postgres.json).
+   credentials, database and port in [`./config/test/data_sources/postgres.json`](https://github.com/process-engine/process_engine_meta/blob/develop/_integration_tests/config/test/data_sources/postgres.json).
 
    For a dockerized and ready-to-go database setup, see the
    [skeleton database](https://github.com/process-engine/skeleton/tree/develop/database)

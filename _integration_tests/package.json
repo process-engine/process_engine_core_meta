@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "start": "cross-env NODE_ENV=test CONFIG_PATH=config node index.js",
-    "test": "cross-env NODE_ENV=test CONFIG_PATH=config mocha test/**/*.js test/*.js --exit",
+    "test": "cross-env NODE_ENV=test CONFIG_PATH=config mocha test/*.js --exit",
     "build": "gulp build"
   },
   "dependencies": {
