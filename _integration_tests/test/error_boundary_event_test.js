@@ -1,7 +1,7 @@
 'use strict';
 
 const should = require('should');
-const fixture = require('../dist/commonjs/process_engine_service_test_fixture');
+const ProcessEngineServiceTestFixture = require('../dist/commonjs/process_engine_service_test_fixture').ProcessEngineServiceTestFixture;
 
 const testTimeoutInMS = 5000;
 
@@ -12,7 +12,7 @@ describe('Error Boundary Event execution', function () {
   this.timeout(testTimeoutInMS);
 
   before(async () => {
-    processEngineServiceFixture = new fixture.ProcessEngineServiceTestFixture(`${__dirname}/../application/bpmn/error_boundary_event_test.bpmn`);
+    processEngineServiceFixture = new ProcessEngineServiceTestFixture();
     await processEngineServiceFixture.setup();
   });
 
