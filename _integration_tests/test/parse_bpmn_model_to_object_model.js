@@ -20,7 +20,7 @@ describe('Process-Engine   Parse BPMN Process into new object model', function (
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
-    await testFixtureProvider.setup();
+    await testFixtureProvider.initializeAndStart();
     bpmnModelParser = await testFixtureProvider.resolveAsync('BpmnModelParser');
   });
 
