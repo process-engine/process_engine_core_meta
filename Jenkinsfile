@@ -103,12 +103,12 @@ pipeline {
         script {
           // image.inside mounts the current Workspace as the working directory in the container
           def node_env = '--env NODE_ENV=test';
-          def config_path = '--env CONFIG_PATH=/usr/src/app/application/config';
+          def config_path = '--env CONFIG_PATH=/usr/src/app/config';
           def db_host = '--env datastore__service__data_sources__default__adapter__server__host=db';
           def db_link = "--link ${db_container_id}:db";
 
           server_image.inside("${node_env} ${config_path} ${db_host} ${db_link}") {
-            error_code = sh(script: "node /usr/src/app/node_modules/.bin/mocha /usr/src/app/test/**/*.js --exit > result.txt", returnStatus: true);
+            error_code = sh(script: "node /usr/src/app/node_modules/.bin/mocha /usr/src/app/test/*.js --exit > result.txt", returnStatus: true);
             testresults = sh(script: "cat result.txt", returnStdout: true).trim();
 
             test_failed = false;
