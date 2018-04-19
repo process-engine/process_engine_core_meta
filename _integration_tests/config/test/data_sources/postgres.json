@@ -4,7 +4,7 @@
     "skipMigration": false,
     "server": {
       "host": "localhost",
-      "port": 5432,
+      "port": 45678,
       "database": "processengine",
       "user": "admin",
       "password": "admin",

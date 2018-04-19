@@ -8,7 +8,6 @@ COPY gulpfile.js ./
 COPY index.js ./
 COPY ioc_module.js ./
 COPY package.json ./
-COPY test_setup.js ./
 COPY tsconfig.json ./
 COPY bpmn ./bpmn
 COPY config ./config

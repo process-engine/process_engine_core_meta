@@ -1,30 +1,30 @@
 'use strict';
 
 const should = require('should');
-const ProcessEngineServiceTestFixture = require('../dist/commonjs/process_engine_service_test_fixture').ProcessEngineServiceTestFixture;
+const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
 const testTimeoutInMS = 5000;
 
 describe('Parallel Gateway execution', function () {
 
-  let processEngineServiceFixture;
+  let testFixtureProvider;
 
   this.timeout(testTimeoutInMS);
 
   before(async () => {
-    processEngineServiceFixture = new ProcessEngineServiceTestFixture();
-    await processEngineServiceFixture.setup();
+    testFixtureProvider = new TestFixtureProvider();
+    await testFixtureProvider.initializeAndStart();
   });
 
   after(async () => {
-    await processEngineServiceFixture.tearDown();
+    await testFixtureProvider.tearDown();
   });
 
   // TODO: This test currently fails, because the parallel gateway does not behave as expected.
   // See Issue: https://github.com/process-engine/process_engine/issues/48
   it(`should successfully run two parallel tasks and contain the result of each task in the token history.`, async () => {
     const processKey = 'parallel_gateway';
-    const result = await processEngineServiceFixture.executeProcess(processKey);
+    const result = await testFixtureProvider.executeProcess(processKey);
 
     const expectedHistoryEntryForTask1 = 'st_longTask';
     const expectedHistoryEntryForTask2 = 'st_veryLongTask';
