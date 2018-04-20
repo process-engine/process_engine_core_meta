@@ -1,34 +1,33 @@
 'use strict';
 
 const should = require('should');
-const ProcessEngineServiceTestFixture = require('../dist/commonjs/process_engine_service_test_fixture').ProcessEngineServiceTestFixture;
+const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
 const testTimeoutInMS = 5000;
 
 describe('Error Boundary Event execution', function () {
 
-  let processEngineServiceFixture;
+  let testFixtureProvider;
 
   this.timeout(testTimeoutInMS);
 
   before(async () => {
-    processEngineServiceFixture = new ProcessEngineServiceTestFixture();
-    await processEngineServiceFixture.setup();
+    testFixtureProvider = new TestFixtureProvider();
+    await testFixtureProvider.initializeAndStart();
   });
 
   after(async () => {
-    await processEngineServiceFixture.tearDown();
+    await testFixtureProvider.tearDown();
   });
 
   it(`should successfully detect the error and contain the result in the token history.`, async () => {
     const processKey = 'error_boundary_event_test';
 
-    const result = await processEngineServiceFixture.executeProcess(processKey);
+    const result = await testFixtureProvider.executeProcess(processKey);
     
-    const expectedHistoryEntry = 'message';
     const expectedTaskResult = 'test';
 
-    should(result).have.key(expectedHistoryEntry);
-    should(result[expectedHistoryEntry]).be.equal(expectedTaskResult);
+    should.exist(result);
+    should(result.message).be.equal(expectedTaskResult);
   });
 });
