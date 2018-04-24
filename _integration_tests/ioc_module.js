@@ -16,6 +16,7 @@ const registerInContainer = (container) => {
     'parallel_gateway_test',
     'error_boundary_event_test',
     'terminate_end_event_sample',
+    'subprocess_test'
   ];
 
   processes.map((processFilename) => registerProcess(processFilename, container));
