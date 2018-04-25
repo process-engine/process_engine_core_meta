@@ -9,7 +9,6 @@ const testTimeoutInMS = 5000;
 const BpmnType = require('@process-engine/process_engine_contracts').BpmnType;
 
 describe('SubProcess', function () {
-  debugger;
   let testFixtureProvider;
 
   let nodeInstanceEntityTypeService;
@@ -19,8 +18,6 @@ describe('SubProcess', function () {
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
-
-    nodeInstanceEntityTypeService = await testFixtureProvider.resolveAsync('NodeInstanceEntityTypeService');
   });
 
   after(async () => {
