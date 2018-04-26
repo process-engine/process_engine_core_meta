@@ -109,6 +109,9 @@ pipeline {
           def db_link = "--link ${db_container_id}:db";
 
           server_image.inside("${node_env} ${junit_report_path} ${config_path} ${db_host} ${db_link}") {
+            sh("ls")
+            sh("ls ..")
+            sh("ls -r")
             error_code = sh(script: "npm run test-jenkins", returnStatus: true);
             testresults = sh(script: "cat result.txt", returnStdout: true).trim();
 
@@ -147,8 +150,8 @@ pipeline {
   post {
     always {
       script {
-        cleanup_workspace();
-        cleanup_docker();
+        //cleanup_workspace();
+        //cleanup_docker();
       }
     }
   }
