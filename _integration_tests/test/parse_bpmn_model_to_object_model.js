@@ -12,8 +12,6 @@ describe('Process-Engine   Parse BPMN Process into new object model', function (
   let testFixtureProvider;
   let bpmnModelParser;
 
-  this.timeout(testTimeoutInMS);
-
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
