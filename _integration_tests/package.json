@@ -14,7 +14,6 @@
     "start": "cross-env NODE_ENV=test CONFIG_PATH=config node index.js",
     "test": "cross-env NODE_ENV=test CONFIG_PATH=config mocha -t 15000 test/*.js --exit",
     "test-debug": "cross-env NODE_ENV=test CONFIG_PATH=config mocha --inspect-brk test/*.js --exit",
-    "test-jenkins": "mocha /usr/src/app/test/*.js --colors --reporter mocha-jenkins-reporter --exit > result.txt",
     "build": "gulp build"
   },
   "dependencies": {
