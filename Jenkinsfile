@@ -109,19 +109,18 @@ pipeline {
           def db_link = "--link ${db_container_id}:db";
 
           server_image.inside("${node_env} ${junit_report_path} ${config_path} ${db_host} ${db_link}") {
-            sh("ls")
-            sh("ls ..")
-            sh("ls -r")
-            error_code = sh(script: "npm run test-jenkins", returnStatus: true);
-            testresults = sh(script: "cat result.txt", returnStdout: true).trim();
+            dir("_integration_tests") {
+              error_code = sh(script: "npm run test-jenkins", returnStatus: true);
+              testresults = sh(script: "cat result.txt", returnStdout: true).trim();
 
-            junit 'report.xml'
+              junit 'report.xml'
 
-            test_failed = false;
-            currentBuild.result = 'SUCCESS'
-            if (error_code > 0) {
-              test_failed = true;
-              currentBuild.result = 'FAILURE'
+              test_failed = false;
+              currentBuild.result = 'SUCCESS'
+              if (error_code > 0) {
+                test_failed = true;
+                currentBuild.result = 'FAILURE'
+              }
             }
           }
         }
