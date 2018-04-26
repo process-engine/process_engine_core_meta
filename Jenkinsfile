@@ -149,10 +149,11 @@ pipeline {
   }
   post {
     always {
-      // script {
-      //   //cleanup_workspace();
-      //   //cleanup_docker();
-      // }
+      script {
+        echo "empty";
+        //cleanup_workspace();
+        //cleanup_docker();
+      }
     }
   }
 }
