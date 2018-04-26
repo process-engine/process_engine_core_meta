@@ -51,7 +51,7 @@
       <bpmn:incoming>EncryptInput</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0wj07mz</bpmn:outgoing>
       <bpmn:timerEventDefinition>
-        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">P0Y0M0DT0H0M5S</bpmn:timeCycle>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P0Y0M0DT0H0M5S</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:intermediateCatchEvent>
     <bpmn:scriptTask id="SampleScriptTask1" name="Script Task should be called">
