@@ -17,7 +17,8 @@ const registerInContainer = (container) => {
     'error_boundary_event_test',
     'terminate_end_event_sample',
     'simple_xor_gateway_test',
-    'xor_evaluate_script_result'
+    'xor_evaluate_script_result',
+    'nested_xor',
   ];
 
   processes.map((processFilename) => registerProcess(processFilename, container));
