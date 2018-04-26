@@ -4,8 +4,6 @@ const Promise = require('bluebird');
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-const testTimeoutInMS = 5000;
-
 const BpmnType = require('@process-engine/process_engine_contracts').BpmnType;
 
 describe('Terminate End Event', function () {
@@ -13,8 +11,6 @@ describe('Terminate End Event', function () {
   let testFixtureProvider;
 
   let nodeInstanceEntityTypeService;
-
-  this.timeout(testTimeoutInMS);
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();

@@ -7,11 +7,7 @@ const FlowNode = require('@process-engine/process_engine_contracts').Model.Base.
 
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-const testTimeoutInMS = 5000;
-
 describe('Process-Engine   Parse BPMN Process into new object model', function () {
-
-  this.timeout(5000);
 
   let testFixtureProvider;
   let bpmnModelParser;
