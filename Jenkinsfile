@@ -149,10 +149,10 @@ pipeline {
   }
   post {
     always {
-      script {
-        //cleanup_workspace();
-        //cleanup_docker();
-      }
+      // script {
+      //   //cleanup_workspace();
+      //   //cleanup_docker();
+      // }
     }
   }
 }
