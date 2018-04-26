@@ -103,13 +103,16 @@ pipeline {
         script {
           // image.inside mounts the current Workspace as the working directory in the container
           def node_env = '--env NODE_ENV=test';
+          def junit_report_path = '--env JUNIT_REPORT_PATH=report.xml';
           def config_path = '--env CONFIG_PATH=/usr/src/app/config';
           def db_host = '--env datastore__service__data_sources__default__adapter__server__host=db';
           def db_link = "--link ${db_container_id}:db";
 
-          server_image.inside("${node_env} ${config_path} ${db_host} ${db_link}") {
-            error_code = sh(script: "node /usr/src/app/node_modules/.bin/mocha /usr/src/app/test/*.js --exit > result.txt", returnStatus: true);
+          server_image.inside("${node_env} ${junit_report_path} ${config_path} ${db_host} ${db_link}") {
+            error_code = sh(script: "node /usr/src/app/node_modules/.bin/mocha /usr/src/app/test/*.js --colors --reporter mocha-jenkins-reporter --exit > result.txt", returnStatus: true);
             testresults = sh(script: "cat result.txt", returnStdout: true).trim();
+
+            junit 'report.xml'
 
             test_failed = false;
             currentBuild.result = 'SUCCESS'
