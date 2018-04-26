@@ -60,6 +60,7 @@ messagebus_contracts
 messagebus_http
 metadata
 metadata_contracts
+package-lock.json
 pki_service
 pki_service_contracts
 process_engine
