@@ -2,9 +2,6 @@
 
 const should = require('should');
 
-const SequenceFlow = require('@process-engine/process_engine_contracts').Model.Types.SequenceFlow;
-const FlowNode = require('@process-engine/process_engine_contracts').Model.Base.FlowNode;
-
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
 const testTimeoutInMS = 5000;
@@ -63,14 +60,6 @@ describe('Process-Engine   Parse BPMN Process into new object model', function t
     should(process.isExecutable).be.equal(true);
     should(process.flowNodes.length).be.equal(10);
     should(process.sequenceFlows.length).be.equal(10);
-
-    process.flowNodes.forEach((item) => {
-      should(item).be.an.instanceof(FlowNode);
-    });
-
-    process.sequenceFlows.forEach((item) => {
-      should(item).be.an.instanceof(SequenceFlow);
-    });
   });
 
 });
