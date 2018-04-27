@@ -46,7 +46,7 @@
                     SequenceFlow_0s95q7w
                 </bpmn:outgoing>
                 <bpmn:script>
-                    return JSON.parse(JSON.stringify(Token));
+                    return JSON.parse(JSON.stringify(token));
                 </bpmn:script>
             </bpmn:scriptTask>
             <bpmn:sequenceFlow id="SequenceFlow_0s95q7w" sourceRef="Objectify" targetRef="EndEvent_1dfpo2o" />
