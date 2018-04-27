@@ -1,5 +1,6 @@
-const should = require('should')
-const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider
+'use strict';
+const should = require('should');
+const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
 describe('Script Task - Return Value', () => {
   let testFixtureProvider;
@@ -10,27 +11,27 @@ describe('Script Task - Return Value', () => {
   });
 
   after(async () => {
-    await testFixtureProvider.tearDown()
+    await testFixtureProvider.tearDown();
   });
 
   it('should run a script, that simply returns the value 1.', async () => {
-    
-    //Key of the process
+
+    // Key of the process
     const processKey = 'simple_script_task_test';
 
-    //Expected Token
+    // Expected Token
     const expectedToken = {
-      'current': 1,
-      'history': {
-        'StartEvent_1': {},
-        'Task1': 1,
-      }
+      current: 1,
+      history: {
+        StartEvent_1: {},
+        Task1: 1,
+      },
     };
 
-    //Execute the process
+    // Execute the process
     const result = await testFixtureProvider.executeProcess(processKey);
 
-    //Check the result
-    result.should.be.eql(expectedToken)
+    // Check the result
+    result.should.be.eql(expectedToken);
   });
 });

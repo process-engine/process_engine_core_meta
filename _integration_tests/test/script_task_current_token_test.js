@@ -1,5 +1,6 @@
+'use strict';
 const should = require('should');
-const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider
+const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
 describe('Script Task - Access current Token value', () => {
   let testFixtureProvider;
@@ -11,26 +12,26 @@ describe('Script Task - Access current Token value', () => {
 
   after(async () => {
     await testFixtureProvider.tearDown();
-  })
+  });
 
   it('should read the current token value and increment it.', async () => {
 
     const processKey = 'script_task_current_token_test';
 
-    //The expected token object
+    // The expected token object
     const expectedToken = {
       current: 2,
       history: {
         StartEvent_1: {},
         Task1: 1,
-        Task2: 2
-      }
+        Task2: 2,
+      },
     };
 
-    //Execute the process
+    // Execute the process
     const result = await testFixtureProvider.executeProcess(processKey);
 
-    //Compare the results
+    // Compare the results
     result.should.be.eql(expectedToken);
   });
 });
