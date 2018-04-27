@@ -4,10 +4,12 @@ const fs = require('fs');
 const path = require('path');
 
 const ParallelGatewayTestService = require('./dist/commonjs').ParallelGatewayTestService;
+const ServiceTaskTestService = require('./dist/commonjs/service_task_test_service').ServiceTaskTestService;
 
 const registerInContainer = (container) => {
 
   container.register('ParallelGatewayTestService', ParallelGatewayTestService);
+  container.register('ServiceTaskTestService', ServiceTaskTestService);
 
   // add processes for use with the integrationtests here
   const processes = [
@@ -19,6 +21,7 @@ const registerInContainer = (container) => {
     'simple_xor_gateway_test',
     'xor_evaluate_script_result',
     'nested_xor',
+    'simple_service_task_test',
   ];
 
   processes.map((processFilename) => registerProcess(processFilename, container));
