@@ -1,7 +1,7 @@
-const should = require("should");
-const TestFixtureProvider = require("../dist/commonjs/test_fixture_provider").TestFixtureProvider
+const should = require('should');
+const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider
 
-describe.only("Script Task - Access current Token value", () => {
+describe('Script Task - Access current Token value', () => {
   let testFixtureProvider;
 
   before(async () => {
@@ -13,9 +13,9 @@ describe.only("Script Task - Access current Token value", () => {
     await testFixtureProvider.tearDown();
   })
 
-  it("should read the current token value and increment it.", async () => {
+  it('should read the current token value and increment it.', async () => {
 
-    const processKey = "script_task_current_token_test";
+    const processKey = 'script_task_current_token_test';
 
     //The expected token object
     const expectedToken = {
