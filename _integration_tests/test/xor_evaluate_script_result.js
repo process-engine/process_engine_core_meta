@@ -5,8 +5,8 @@ describe('Exclusive Gateway - Token split', async () => {
   let testFixtureProvider;
 
   before(async () => {
-      testFixtureProvider = new TestFixtureProvider();
-      await testFixtureProvider.initializeAndStart();
+    testFixtureProvider = new TestFixtureProvider();
+    await testFixtureProvider.initializeAndStart();
   })
 
   after(async () => {
@@ -14,25 +14,25 @@ describe('Exclusive Gateway - Token split', async () => {
   })
 
   it('should evaluate the current token value correct and direct the token the right path', async () => {
-      //ID of the process
-      const processModelKey = 'xor_eval_script_result';
+    //ID of the process
+    const processModelKey = 'xor_eval_script_result';
 
-      //Expected Token Object
-      const expectedResult = {
-          current: 2,
-          history: {
-              'StartEvent_1': {},
-              'Task1': 1,
-              'XORSplit1': 1,
-              'Task2': 2,
-              'XORJoin1': 2
-          }
-      };
+    //Expected Token Object
+    const expectedResult = {
+      current: 2,
+      history: {
+        'StartEvent_1': {},
+        'Task1': 1,
+        'XORSplit1': 1,
+        'Task2': 2,
+        'XORJoin1': 2
+      }
+    };
 
-      //Execute the process
-      const result = await testFixtureProvider.executeProcess(processModelKey);
+    //Execute the process
+    const result = await testFixtureProvider.executeProcess(processModelKey);
 
-      //Compare the Token
-      result.should.be.eql(expectedResult);
+    //Compare the Token
+    result.should.be.eql(expectedResult);
   })
 })

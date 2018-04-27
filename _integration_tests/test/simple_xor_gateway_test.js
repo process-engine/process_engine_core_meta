@@ -8,8 +8,8 @@ describe('Exclusive Gateway - Conditional evaluation', () => {
    * Initialize the test.
    */
   before(async () => {
-      testFixtureProvider = new TestFixtureProvider();
-      await testFixtureProvider.initializeAndStart();
+    testFixtureProvider = new TestFixtureProvider();
+    await testFixtureProvider.initializeAndStart();
   })
 
   /**
@@ -20,25 +20,25 @@ describe('Exclusive Gateway - Conditional evaluation', () => {
   })
 
   it('should return the correct value for the right path.', async () => {
-      //The ID of the test process
-      const processModelkey = 'simple_xor_gateway_test';
+    //The ID of the test process
+    const processModelkey = 'simple_xor_gateway_test';
 
-      //Content of the token, that should returned by the end of the process execution.
-      const expectedToken = {
-          'current': 1,
-          'history': {
-              'StartEvent_1': {},
-              'XORSplit1': {},
-              'Task1': 1,
-              'XORJoin1': 1
-          }
-      };
+    //Content of the token, that should returned by the end of the process execution.
+    const expectedToken = {
+      'current': 1,
+      'history': {
+        'StartEvent_1': {},
+        'XORSplit1': {},
+        'Task1': 1,
+        'XORJoin1': 1
+      }
+    };
 
-      //Execute the process
-      const result = await testFixtureProvider.executeProcess(processModelkey);
+    //Execute the process
+    const result = await testFixtureProvider.executeProcess(processModelkey);
 
-      //Compare the results
-      result.should.be.eql(expectedToken);
+    //Compare the results
+    result.should.be.eql(expectedToken);
 
   })
 })
