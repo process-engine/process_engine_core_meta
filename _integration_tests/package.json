@@ -50,6 +50,7 @@
     "@process-engine/process_engine_http": "^1.0.0",
     "@process-engine/process_repository": "^1.0.0",
     "addict-ioc": "^2.2.11",
+    "bluebird": "^3.5.1",
     "gulptraum-typescript": "^1.5.0",
     "lodash": "^4.17.5",
     "loggerhythm": "^3.0.0",
