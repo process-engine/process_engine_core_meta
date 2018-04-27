@@ -1,7 +1,7 @@
 const should = require('should')
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider
 
-describe.only('Script Task - Access token history', () => {
+describe('Script Task - Access token history', () => {
   let testFixtureProvider;
 
   before(async () => {
