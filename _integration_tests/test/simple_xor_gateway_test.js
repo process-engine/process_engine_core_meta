@@ -10,14 +10,14 @@ describe('Exclusive Gateway - Conditional evaluation', () => {
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
-  })
+  });
 
   /**
    * Clean up after running the test
    */
   after(async () => {
     await testFixtureProvider.tearDown();
-  })
+  });
 
   it('should return the correct value for the right path.', async () => {
     //The ID of the test process
@@ -25,12 +25,12 @@ describe('Exclusive Gateway - Conditional evaluation', () => {
 
     //Content of the token, that should returned by the end of the process execution.
     const expectedToken = {
-      'current': 1,
-      'history': {
-        'StartEvent_1': {},
-        'XORSplit1': {},
-        'Task1': 1,
-        'XORJoin1': 1
+      current: 1,
+      history: {
+        StartEvent_1: {},
+        XORSplit1: {},
+        Task1: 1,
+        XORJoin1: 1,
       }
     };
 
@@ -40,5 +40,5 @@ describe('Exclusive Gateway - Conditional evaluation', () => {
     //Compare the results
     result.should.be.eql(expectedToken);
 
-  })
-})
+  });
+});
