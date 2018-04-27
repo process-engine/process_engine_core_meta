@@ -22,6 +22,7 @@ const registerInContainer = (container) => {
     'simple_script_task_test',
     'script_returns_object_test',
     'script_task_current_token_test',
+    'script_task_access_token_history_test',
   ];
 
   processes.map((processFilename) => registerProcess(processFilename, container));
