@@ -2,37 +2,37 @@ const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
 describe('Exclusive Gateway - Token split', async () => {
-    let testFixtureProvider;
+  let testFixtureProvider;
 
-    before(async () => {
-        testFixtureProvider = new TestFixtureProvider();
-        await testFixtureProvider.initializeAndStart();
-    })
+  before(async () => {
+      testFixtureProvider = new TestFixtureProvider();
+      await testFixtureProvider.initializeAndStart();
+  })
 
-    it('should evaluate the current token value correct and direct the token the right path', async () => {
-        //ID of the process
-        const processModelKey = 'xor_eval_script_result';
+  after(async () => {
+    await testFixtureProvider.tearDown();
+  })
 
-        //Expected Token Object
-        const expectedResult = {
-            current: 2,
-            history: {
-                'StartEvent_1': {},
-                'Task1': 1,
-                'XORSplit1': 1,
-                'Task2': 2,
-                'XORJoin1': 2
-            }
-        };
+  it('should evaluate the current token value correct and direct the token the right path', async () => {
+      //ID of the process
+      const processModelKey = 'xor_eval_script_result';
 
-        //Execute the process
-        const result = await testFixtureProvider.executeProcess(processModelKey);
+      //Expected Token Object
+      const expectedResult = {
+          current: 2,
+          history: {
+              'StartEvent_1': {},
+              'Task1': 1,
+              'XORSplit1': 1,
+              'Task2': 2,
+              'XORJoin1': 2
+          }
+      };
 
-        //Compare the Token
-        result.should.be.eql(expectedResult);
-    })
+      //Execute the process
+      const result = await testFixtureProvider.executeProcess(processModelKey);
 
-    after(async () => {
-        await testFixtureProvider.tearDown();
-    })
+      //Compare the Token
+      result.should.be.eql(expectedResult);
+  })
 })
