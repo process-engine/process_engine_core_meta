@@ -21,6 +21,7 @@ const registerInContainer = (container) => {
     'nested_xor',
     'simple_script_task_test',
     'script_returns_object_test',
+    'script_task_current_token_test',
   ];
 
   processes.map((processFilename) => registerProcess(processFilename, container));
