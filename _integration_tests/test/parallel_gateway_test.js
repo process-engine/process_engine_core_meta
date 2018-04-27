@@ -5,7 +5,7 @@ const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').Te
 
 const testTimeoutInMS = 5000;
 
-describe('Parallel Gateway execution', function () {
+describe('Parallel Gateway execution', function testParallelGateway() {
 
   let testFixtureProvider;
 
@@ -22,7 +22,7 @@ describe('Parallel Gateway execution', function () {
 
   // TODO: This test currently fails, because the parallel gateway does not behave as expected.
   // See Issue: https://github.com/process-engine/process_engine/issues/48
-  it(`should successfully run two parallel tasks and contain the result of each task in the token history.`, async () => {
+  it('should successfully run two parallel tasks and contain the result of each task in the token history.', async () => {
     const processKey = 'parallel_gateway';
     const result = await testFixtureProvider.executeProcess(processKey);
 

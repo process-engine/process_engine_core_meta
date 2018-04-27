@@ -1,3 +1,5 @@
+'use strict';
+
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
@@ -14,10 +16,10 @@ describe('Exclusive Gateway - Nested Branches', () => {
   });
 
   it('should returns the right token value.', async () => {
-    //Id of the process
+    // Id of the process
     const processModelKey = 'nested_xor';
 
-    //Expected Token Result
+    // Expected Token Result
     const expectedToken = {
       current: 4,
       history: {
@@ -30,13 +32,13 @@ describe('Exclusive Gateway - Nested Branches', () => {
         XORJoin2: 3,
         Task6: 4,
         XORJoin1: 4,
-      }
+      },
     };
 
-    //Execute the process and store the token
+    // Execute the process and store the token
     const result = await testFixtureprovider.executeProcess(processModelKey);
 
-    //Compare the results
+    // Compare the results
     result.should.be.eql(expectedToken);
   });
 });

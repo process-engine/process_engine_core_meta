@@ -9,7 +9,7 @@ const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').Te
 
 const testTimeoutInMS = 5000;
 
-describe('Process-Engine   Parse BPMN Process into new object model', function () {
+describe('Process-Engine   Parse BPMN Process into new object model', function testBpmnModelParser() {
 
   this.timeout(5000);
 

@@ -8,7 +8,7 @@ const testTimeoutInMS = 5000;
 
 const BpmnType = require('@process-engine/process_engine_contracts').BpmnType;
 
-describe('Terminate End Event', function () {
+describe('Terminate End Event', function testTerminateEndEvent() {
 
   let testFixtureProvider;
 
@@ -26,67 +26,6 @@ describe('Terminate End Event', function () {
   after(async () => {
     await testFixtureProvider.tearDown();
   });
-
-  it(`should successfully terminate a process upon reaching a TerminateEndEvent.`, async () => {
-
-    const processModelKey = 'terminate_end_event_sample';
-
-    // NOTE: We require the process instance ID for later assertions.
-    const processInstanceId = await testFixtureProvider.createProcessInstance(processModelKey);
-    try {
-      const result = await testFixtureProvider.executeProcessInstance(processInstanceId);
-      should.fail(result, undefined, 'This should have caused an error!');
-    } catch (error) {
-      const expectedError = /process was terminated.*?TerminateEndEvent_1/i
-
-      // NOTE: This only shows the Blackbox Result of the test. To verify that the process- and all corresponding nodes 
-      // were actually terminated, we need to query the database.
-      should(error.message).match(expectedError);
-      await assertActiveNodeInstancesWereTerminated(processInstanceId);
-      await assertPendingNodesWereNotCreated(processInstanceId);
-    }
-
-  });
-
-  async function assertActiveNodeInstancesWereTerminated(processInstanceId) {
-
-    const expectedTerminatedNodeInstances = [{
-        key: 'FiveSecondDelayTimerEvent',
-        type: BpmnType.intermediateCatchEvent
-      }, {
-        key: 'TenSecondTimerDelayEvent',
-        type: BpmnType.intermediateCatchEvent
-      }, {
-        key: 'TerminateEndEvent_1', type: BpmnType.endEvent
-      },
-    ];
-
-    await Promise.mapSeries(expectedTerminatedNodeInstances, async(instanceConfig) => {
-      const entity = await queryNodeInstanceByKey(processInstanceId, instanceConfig);
-      should.exist(entity);
-      should(entity.state).be.equal('terminate');
-    });
-  }
-
-  async function assertPendingNodesWereNotCreated(processInstanceId) {
-
-    const expectedNonExistingNodeInstances = [{
-        key: 'UnreachableScriptTask_1',
-        type: BpmnType.scriptTask
-      }, {
-        key: 'UnreachableScriptTask_2',
-        type: BpmnType.scriptTask
-      }, {
-        key: 'RegularEndEvent',
-        type: BpmnType.endEvent
-      },
-    ];
-
-    await Promise.mapSeries(expectedNonExistingNodeInstances, async(instanceConfig) => {
-      const entity = await queryNodeInstanceByKey(processInstanceId, instanceConfig);
-      should.not.exist(entity);
-    });
-  }
 
   async function queryNodeInstanceByKey(processInstanceId, instanceConfig) {
 
@@ -114,4 +53,68 @@ describe('Terminate End Event', function () {
 
     return result;
   }
+
+  async function assertActiveNodeInstancesWereTerminated(processInstanceId) {
+
+    const expectedTerminatedNodeInstances = [
+      {
+        key: 'FiveSecondDelayTimerEvent',
+        type: BpmnType.intermediateCatchEvent,
+      }, {
+        key: 'TenSecondTimerDelayEvent',
+        type: BpmnType.intermediateCatchEvent,
+      }, {
+        key: 'TerminateEndEvent_1', type: BpmnType.endEvent,
+      },
+    ];
+
+    await Promise.mapSeries(expectedTerminatedNodeInstances, async (instanceConfig) => {
+      const entity = await queryNodeInstanceByKey(processInstanceId, instanceConfig);
+      should.exist(entity);
+      should(entity.state).be.equal('terminate');
+    });
+  }
+
+  async function assertPendingNodesWereNotCreated(processInstanceId) {
+
+    const expectedNonExistingNodeInstances = [
+      {
+        key: 'UnreachableScriptTask_1',
+        type: BpmnType.scriptTask,
+      }, {
+        key: 'UnreachableScriptTask_2',
+        type: BpmnType.scriptTask,
+      }, {
+        key: 'RegularEndEvent',
+        type: BpmnType.endEvent,
+      },
+    ];
+
+    await Promise.mapSeries(expectedNonExistingNodeInstances, async (instanceConfig) => {
+      const entity = await queryNodeInstanceByKey(processInstanceId, instanceConfig);
+      should.not.exist(entity);
+    });
+  }
+
+  it('should successfully terminate a process upon reaching a TerminateEndEvent.', async () => {
+
+    const processModelKey = 'terminate_end_event_sample';
+
+    // NOTE: We require the process instance ID for later assertions.
+    const processInstanceId = await testFixtureProvider.createProcessInstance(processModelKey);
+    try {
+      const result = await testFixtureProvider.executeProcessInstance(processInstanceId);
+      should.fail(result, undefined, 'This should have caused an error!');
+    } catch (error) {
+      const expectedError = /process was terminated.*?TerminateEndEvent_1/i;
+
+      // NOTE: This only shows the Blackbox Result of the test. To verify that the process- and all corresponding nodes
+      // were actually terminated, we need to query the database.
+      should(error.message)
+        .match(expectedError);
+      await assertActiveNodeInstancesWereTerminated(processInstanceId);
+      await assertPendingNodesWereNotCreated(processInstanceId);
+    }
+
+  });
 });
