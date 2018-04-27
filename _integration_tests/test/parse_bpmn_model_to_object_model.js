@@ -28,7 +28,7 @@ describe('Process-Engine   Parse BPMN Process into new object model', function (
     await testFixtureProvider.tearDown();
   });
 
-  it('Should successfully and correctly parse the BS Payone Sample BPMN into a ObjectModel structure', async() => {
+  it('Should successfully and correctly parse the BS Payone Sample BPMN into a ObjectModel structure', async () => {
 
     const sampleProcessName = 'generic_sample';
 
@@ -71,6 +71,6 @@ describe('Process-Engine   Parse BPMN Process into new object model', function (
     process.sequenceFlows.forEach((item) => {
       should(item).be.an.instanceof(SequenceFlow);
     });
-  })
+  });
 
 });
