@@ -7,11 +7,11 @@ describe('Exclusive Gateway - Nested Branches', () => {
   before(async () => {
     testFixtureprovider = new TestFixtureProvider();
     await testFixtureprovider.initializeAndStart();
-  })
+  });
 
   after(async () => {
     await testFixtureprovider.tearDown();
-  })
+  });
 
   it('should returns the right token value.', async () => {
     //Id of the process
@@ -19,17 +19,17 @@ describe('Exclusive Gateway - Nested Branches', () => {
 
     //Expected Token Result
     const expectedToken = {
-      'current': 4,
-      'history': {
-        'StartEvent_1': {},
-        'Task1': 1,
-        'XORSplit1': 1,
-        'Task2': 2,
-        'XORSplit2': 2,
-        'Task4': 3,
-        'XORJoin2': 3,
-        'Task6': 4,
-        'XORJoin1': 4
+      current: 4,
+      history: {
+        StartEvent_1: {},
+        Task1: 1,
+        XORSplit1: 1,
+        Task2: 2,
+        XORSplit2: 2,
+        Task4: 3,
+        XORJoin2: 3,
+        Task6: 4,
+        XORJoin1: 4,
       }
     };
 
@@ -38,5 +38,5 @@ describe('Exclusive Gateway - Nested Branches', () => {
 
     //Compare the results
     result.should.be.eql(expectedToken);
-  })
-})
+  });
+});

@@ -71,6 +71,6 @@ describe('Process-Engine   Parse BPMN Process into new object model', function (
     process.sequenceFlows.forEach((item) => {
       should(item).be.an.instanceof(SequenceFlow);
     });
-  })
+  });
 
 });
