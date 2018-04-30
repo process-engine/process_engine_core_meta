@@ -16,11 +16,11 @@ describe('Error Boundary Event execution', function () {
     await testFixtureProvider.tearDown();
   });
 
-  it(`should successfully detect the error and contain the result in the token history.`, async () => {
+  it('should successfully detect the error and contain the result in the token history.', async () => {
     const processKey = 'error_boundary_event_test';
 
     const result = await testFixtureProvider.executeProcess(processKey);
-    
+
     const expectedTaskResult = 'test';
 
     should.exist(result);

@@ -1,12 +1,13 @@
-import * as path from 'path';
 import * as fs from 'fs';
+// tslint:disable-next-line:import-blacklist
 import * as _ from 'lodash';
+import * as path from 'path';
 
 import {InvocationContainer} from 'addict-ioc';
 import {Logger} from 'loggerhythm';
 
+import {ExecutionContext} from '@essential-projects/core_contracts';
 import {IProcessEngineService} from '@process-engine/process_engine_contracts';
-import { ExecutionContext } from '@essential-projects/core_contracts';
 
 const logger: Logger = Logger.createLogger('test:bootstrapper');
 
@@ -51,7 +52,7 @@ const iocModules: Array<any> = iocModuleNames.map((moduleName: string): any => {
 
 export class TestFixtureProvider {
   private httpBootstrapper: any;
-  private _processEngineService : IProcessEngineService;
+  private _processEngineService: IProcessEngineService;
   private _dummyExecutionContext: ExecutionContext;
 
   private container: InvocationContainer;
@@ -83,24 +84,25 @@ export class TestFixtureProvider {
   public async executeProcessInstance(processInstanceId: string, initialToken: any = {}): Promise<any> {
     return this.processEngineService.executeProcessInstance(this.context, processInstanceId, undefined, initialToken);
   }
-  
-  public async resolveAsync(moduleName): Promise<any> {
+
+  public async resolveAsync(moduleName: string): Promise<any> {
     return this.container.resolveAsync(moduleName);
-  };
+  }
 
   public async getProcessbyId(bpmnFilename: string): Promise<any> {
-    const processRepository = await this.resolveAsync('ProcessRepository');
-    const processes = await processRepository.getProcessesByCategory('internal');
-  
-    const matchingProcess = _.find(processes, (process) => {
+    const processRepository: any = await this.resolveAsync('ProcessRepository');
+    const processes: any = await processRepository.getProcessesByCategory('internal');
+
+    const matchingProcess: any = _.find(processes, (process: any) => {
       return process.name === bpmnFilename;
     });
-  
+
     return matchingProcess;
   }
 
   public async getProcessFromFile(bpmnFilename: string): Promise<any> {
     const processDefEntityTypeService: any = await this.container.resolveAsync('ProcessDefEntityTypeService');
+
     return processDefEntityTypeService.importBpmnFromFile(this.context, {
       file: bpmnFilename,
     });
@@ -112,54 +114,55 @@ export class TestFixtureProvider {
   }
 
   private async initializeBootstrapper(): Promise<any> {
-  
+
     try {
       this.container = new InvocationContainer({
         defaults: {
           conventionCalls: ['initialize'],
         },
       });
-  
+
       for (const iocModule of iocModules) {
         iocModule.registerInContainer(this.container);
       }
-  
+
       this.container.validateDependencies();
-  
+
       const appPath: string = path.resolve(__dirname);
       this.bootstrapper = await this.container.resolveAsync('HttpIntegrationTestBootstrapper', [appPath]);
-  
+
       const identityFixtures: Array<any> = [{
         // Default User, used to test happy paths
         name: 'testuser',
         password: 'testpass',
         roles: ['user'],
-      },{
+      }, {
         // Restricted user without access rights to any lanes
         name: 'restrictedUser',
         password: 'testpass',
         roles: ['dummy'],
-      },{
+      }, {
         // Used to test access rights to
         name: 'laneuser',
         password: 'testpass',
         roles: ['dummy'],
       }];
-  
+
       this.bootstrapper.addFixtures('User', identityFixtures);
-  
+
       logger.info('Bootstrapper started.');
-  
+
       return this.bootstrapper;
     } catch (error) {
       logger.error('Failed to start bootstrapper!', error);
       throw error;
     }
   }
-  
+
   private async createExecutionContext(): Promise<any> {
     const iamService: any = await this.container.resolveAsync('IamService');
     const context: any = await iamService.createInternalContext('system');
+
     return context;
   }
 }

@@ -6,7 +6,7 @@ const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').Te
 
 const BpmnType = require('@process-engine/process_engine_contracts').BpmnType;
 
-describe('Terminate End Event', function () {
+describe('Terminate End Event', function testTerminateEndEvent() {
 
   let testFixtureProvider;
 
@@ -23,7 +23,7 @@ describe('Terminate End Event', function () {
     await testFixtureProvider.tearDown();
   });
 
-  it(`should successfully terminate a process upon reaching a TerminateEndEvent.`, async () => {
+  it('should successfully terminate a process upon reaching a TerminateEndEvent.', async () => {
 
     const processModelKey = 'terminate_end_event_sample';
 
@@ -33,11 +33,12 @@ describe('Terminate End Event', function () {
       const result = await testFixtureProvider.executeProcessInstance(processInstanceId);
       should.fail(result, undefined, 'This should have caused an error!');
     } catch (error) {
-      const expectedError = /process was terminated.*?TerminateEndEvent_1/i
+      const expectedError = /process was terminated.*?TerminateEndEvent_1/i;
 
-      // NOTE: This only shows the Blackbox Result of the test. To verify that the process- and all corresponding nodes 
+      // NOTE: This only shows the Blackbox Result of the test. To verify that the process- and all corresponding nodes
       // were actually terminated, we need to query the database.
-      should(error.message).match(expectedError);
+      should(error.message)
+        .match(expectedError);
       await assertActiveNodeInstancesWereTerminated(processInstanceId);
       await assertPendingNodesWereNotCreated(processInstanceId);
     }
@@ -46,18 +47,19 @@ describe('Terminate End Event', function () {
 
   async function assertActiveNodeInstancesWereTerminated(processInstanceId) {
 
-    const expectedTerminatedNodeInstances = [{
+    const expectedTerminatedNodeInstances = [
+      {
         key: 'FiveSecondDelayTimerEvent',
-        type: BpmnType.intermediateCatchEvent
+        type: BpmnType.intermediateCatchEvent,
       }, {
         key: 'TenSecondTimerDelayEvent',
-        type: BpmnType.intermediateCatchEvent
+        type: BpmnType.intermediateCatchEvent,
       }, {
-        key: 'TerminateEndEvent_1', type: BpmnType.endEvent
+        key: 'TerminateEndEvent_1', type: BpmnType.endEvent,
       },
     ];
 
-    await Promise.mapSeries(expectedTerminatedNodeInstances, async(instanceConfig) => {
+    await Promise.mapSeries(expectedTerminatedNodeInstances, async (instanceConfig) => {
       const entity = await queryNodeInstanceByKey(processInstanceId, instanceConfig);
       should.exist(entity);
       should(entity.state).be.equal('terminate');
@@ -66,19 +68,20 @@ describe('Terminate End Event', function () {
 
   async function assertPendingNodesWereNotCreated(processInstanceId) {
 
-    const expectedNonExistingNodeInstances = [{
+    const expectedNonExistingNodeInstances = [
+      {
         key: 'UnreachableScriptTask_1',
-        type: BpmnType.scriptTask
+        type: BpmnType.scriptTask,
       }, {
         key: 'UnreachableScriptTask_2',
-        type: BpmnType.scriptTask
+        type: BpmnType.scriptTask,
       }, {
         key: 'RegularEndEvent',
-        type: BpmnType.endEvent
+        type: BpmnType.endEvent,
       },
     ];
 
-    await Promise.mapSeries(expectedNonExistingNodeInstances, async(instanceConfig) => {
+    await Promise.mapSeries(expectedNonExistingNodeInstances, async (instanceConfig) => {
       const entity = await queryNodeInstanceByKey(processInstanceId, instanceConfig);
       should.not.exist(entity);
     });
