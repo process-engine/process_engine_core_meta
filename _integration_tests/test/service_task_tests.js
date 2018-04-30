@@ -2,7 +2,7 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe('Service Task - Simle Service Task', () => {
+describe('Service Task - Simple Service Task', () => {
   let testFixtureProvider;
 
   before(async () => {
@@ -16,7 +16,7 @@ describe('Service Task - Simle Service Task', () => {
 
   it('should returns the value, which the test service provides.', async () => {
 
-    const processKey = 'basic_service_task_tests';
+    const processKey = 'service_task_basic_test';
 
     // The exptected token object should looks like this
     const exptectedToken = {
@@ -44,7 +44,10 @@ describe('Service Task - Simle Service Task', () => {
 
     const processKey = 'service_task_exception_test';
 
+    // Expected exception content
+    const expectedExceptionContent = RegExp('Failed.*');
+
     // Check, if the exception is thrown and the promise is rejected.
-    await testFixtureProvider.executeProcess(processKey).should.be.rejected();
+    await testFixtureProvider.executeProcess(processKey).should.be.rejectedWith(expectedExceptionContent);
   });
 });
