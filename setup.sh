@@ -4,6 +4,7 @@ npm install -g meta gulp
 # checkout all repos in the correct branch
 meta git update
 meta exec "git checkout develop" --exclude process_engine_meta
+meta exec "git checkout feature/update_major_for_data_model_dependencies" --exclude process_engine_meta
 
 # retrieve latest versions
 meta git pull
@@ -15,8 +16,8 @@ npm install --no-package-lock
 rm -rf node_modules/@types/jasmine
 
 # build all packages and schemas
-meta exec "npm run build-schemas && npm run build" --exclude process_engine_meta,skeleton,documentation,bpmn-studio,bpmn-io_custom-bundle,tslint-config
-meta exec "npm run build" --include-only skeleton,bpmn-studio,bpmn-io_custom-bundle
+meta exec "GULPTRAUM_TRANSPILE_ONLY=1 npm run build-schemas && npm run build" --exclude process_engine_meta,skeleton,documentation,bpmn-studio,bpmn-io_custom-bundle,tslint-config
+meta exec "GULPTRAUM_TRANSPILE_ONLY=1 npm run build" --include-only skeleton,bpmn-studio,bpmn-io_custom-bundle
 
 # create a database
 cd skeleton/database
