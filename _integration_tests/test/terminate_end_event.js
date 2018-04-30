@@ -4,8 +4,6 @@ const Promise = require('bluebird');
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-const testTimeoutInMS = 5000;
-
 const BpmnType = require('@process-engine/process_engine_contracts').BpmnType;
 
 describe('Terminate End Event', function testTerminateEndEvent() {
@@ -13,8 +11,6 @@ describe('Terminate End Event', function testTerminateEndEvent() {
   let testFixtureProvider;
 
   let nodeInstanceEntityTypeService;
-
-  this.timeout(testTimeoutInMS);
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
@@ -27,32 +23,27 @@ describe('Terminate End Event', function testTerminateEndEvent() {
     await testFixtureProvider.tearDown();
   });
 
-  async function queryNodeInstanceByKey(processInstanceId, instanceConfig) {
+  it('should successfully terminate a process upon reaching a TerminateEndEvent.', async () => {
 
-    const entityType = await nodeInstanceEntityTypeService.getEntityTypeFromBpmnType(instanceConfig.type);
+    const processModelKey = 'terminate_end_event_sample';
 
-    const queryOptions = {
-      query: {
-        operator: 'and',
-        queries: [
-          {
-            attribute: 'process',
-            operator: '=',
-            value: processInstanceId,
-          },
-          {
-            attribute: 'key',
-            operator: '=',
-            value: instanceConfig.key,
-          },
-        ],
-      },
-    };
+    // NOTE: We require the process instance ID for later assertions.
+    const processInstanceId = await testFixtureProvider.createProcessInstance(processModelKey);
+    try {
+      const result = await testFixtureProvider.executeProcessInstance(processInstanceId);
+      should.fail(result, undefined, 'This should have caused an error!');
+    } catch (error) {
+      const expectedError = /process was terminated.*?TerminateEndEvent_1/i;
 
-    const result = await entityType.findOne(testFixtureProvider.context, queryOptions);
+      // NOTE: This only shows the Blackbox Result of the test. To verify that the process- and all corresponding nodes
+      // were actually terminated, we need to query the database.
+      should(error.message)
+        .match(expectedError);
+      await assertActiveNodeInstancesWereTerminated(processInstanceId);
+      await assertPendingNodesWereNotCreated(processInstanceId);
+    }
 
-    return result;
-  }
+  });
 
   async function assertActiveNodeInstancesWereTerminated(processInstanceId) {
 
@@ -96,25 +87,30 @@ describe('Terminate End Event', function testTerminateEndEvent() {
     });
   }
 
-  it('should successfully terminate a process upon reaching a TerminateEndEvent.', async () => {
+  async function queryNodeInstanceByKey(processInstanceId, instanceConfig) {
 
-    const processModelKey = 'terminate_end_event_sample';
+    const entityType = await nodeInstanceEntityTypeService.getEntityTypeFromBpmnType(instanceConfig.type);
 
-    // NOTE: We require the process instance ID for later assertions.
-    const processInstanceId = await testFixtureProvider.createProcessInstance(processModelKey);
-    try {
-      const result = await testFixtureProvider.executeProcessInstance(processInstanceId);
-      should.fail(result, undefined, 'This should have caused an error!');
-    } catch (error) {
-      const expectedError = /process was terminated.*?TerminateEndEvent_1/i;
+    const queryOptions = {
+      query: {
+        operator: 'and',
+        queries: [
+          {
+            attribute: 'process',
+            operator: '=',
+            value: processInstanceId,
+          },
+          {
+            attribute: 'key',
+            operator: '=',
+            value: instanceConfig.key,
+          },
+        ],
+      },
+    };
 
-      // NOTE: This only shows the Blackbox Result of the test. To verify that the process- and all corresponding nodes
-      // were actually terminated, we need to query the database.
-      should(error.message)
-        .match(expectedError);
-      await assertActiveNodeInstancesWereTerminated(processInstanceId);
-      await assertPendingNodesWereNotCreated(processInstanceId);
-    }
+    const result = await entityType.findOne(testFixtureProvider.context, queryOptions);
 
-  });
+    return result;
+  }
 });

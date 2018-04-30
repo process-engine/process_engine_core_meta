@@ -22,6 +22,7 @@ const registerInContainer = (container) => {
     'script_task_basic_test',
     'invalid_script_task',
     'script_task_throws_exception',
+    'subprocess_test',
   ];
 
   processes.map((processFilename) => registerProcess(processFilename, container));
