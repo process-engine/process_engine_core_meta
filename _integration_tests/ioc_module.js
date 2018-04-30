@@ -19,10 +19,7 @@ const registerInContainer = (container) => {
     'simple_xor_gateway_test',
     'xor_evaluate_script_result',
     'nested_xor',
-    'simple_script_task_test',
-    'script_returns_object_test',
-    'script_task_current_token_test',
-    'script_task_access_token_history_test',
+    'script_task_basic_test',
   ];
 
   processes.map((processFilename) => registerProcess(processFilename, container));
