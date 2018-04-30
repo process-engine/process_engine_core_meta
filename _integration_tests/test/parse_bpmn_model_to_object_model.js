@@ -4,16 +4,10 @@ const should = require('should');
 
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-const testTimeoutInMS = 5000;
-
-describe('Process-Engine   Parse BPMN Process into new object model', function testBpmnModelParser() {
-
-  this.timeout(5000);
+describe('Process-Engine   Parse BPMN Process into new object model', function () {
 
   let testFixtureProvider;
   let bpmnModelParser;
-
-  this.timeout(testTimeoutInMS);
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();

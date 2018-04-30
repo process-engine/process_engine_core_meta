@@ -3,13 +3,9 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-const testTimeoutInMS = 5000;
-
 describe('Parallel Gateway execution', function testParallelGateway() {
 
   let testFixtureProvider;
-
-  this.timeout(testTimeoutInMS);
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
