@@ -6,7 +6,7 @@ const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').Te
 
 const BpmnType = require('@process-engine/process_engine_contracts').BpmnType;
 
-describe('SubProcess', function () {
+describe('SubProcess', () => {
   let testFixtureProvider;
 
   let nodeInstanceEntityTypeService;
@@ -20,15 +20,16 @@ describe('SubProcess', function () {
     await testFixtureProvider.tearDown();
   });
 
-  it(`should execute SubProcess and update token.`, async () => {
+  it('should execute SubProcess and update token.', async () => {
 
     const processKey = 'SubProcess_test';
     const result = await testFixtureProvider.executeProcess(processKey);
     const expectedResult = {
-      secondTest: '123456'
+      secondTest: '123456',
     };
 
-    should(result).eql(expectedResult);
+    should(result)
+      .eql(expectedResult);
   });
 
 });
