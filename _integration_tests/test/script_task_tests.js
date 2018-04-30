@@ -2,7 +2,7 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe('Script Task', () => {
+describe.only('Script Task', () => {
   let testFixtureProvider;
 
   before(async () => {
@@ -45,14 +45,19 @@ describe('Script Task', () => {
   it('should reject the promise, when trying to execute the faulty script task', async () => {
     const processKey = 'invalid_script_task';
 
+    // Regular Expression that should matched by the error message.
+    const expectedMessage = new RegExp('.*?a.*?not.*?defined.*');
+
     // Execute the process with the faulty script task and see, if the process is sucessfully rejected.
-    await testFixtureProvider.executeProcess(processKey).should.be.rejected();
+    await testFixtureProvider.executeProcess(processKey).should.be.rejectedWith(expectedMessage);
   });
 
   it('should throw an exception', async () => {
     const processKey = 'script_throws_exception';
 
+    const expectedMessage = new RegExp('.*?Failed.*');
+
     // Execute the process and see, if the exception is throw and if the promise is rejected
-    await testFixtureProvider.executeProcess(processKey).should.be.rejected();
+    await testFixtureProvider.executeProcess(processKey).should.be.rejectedWith(expectedMessage);
   });
 });
