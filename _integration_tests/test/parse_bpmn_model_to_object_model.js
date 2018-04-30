@@ -4,7 +4,7 @@ const should = require('should');
 
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe('Process-Engine   Parse BPMN Process into new object model', function () {
+describe('Process-Engine   Parse BPMN Process into new object model', () => {
 
   let testFixtureProvider;
   let bpmnModelParser;

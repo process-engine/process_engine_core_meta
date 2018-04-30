@@ -13,13 +13,15 @@ const registerInContainer = (container) => {
   const processes = [
     'error_boundary_event_test',
     'generic_sample',
-    'parallel_gateway_test',
-    'error_boundary_event_test',
-    'terminate_end_event_sample',
-    'simple_xor_gateway_test',
-    'xor_evaluate_script_result',
     'nested_xor',
-    'subprocess_test'
+    'script_task_invalid_script',
+    'parallel_gateway_test',
+    'script_task_basic_test',
+    'script_task_throws_exception',
+    'simple_xor_gateway_test',
+    'subprocess_test',
+    'terminate_end_event_sample',
+    'xor_evaluate_script_result',
   ];
 
   processes.map((processFilename) => registerProcess(processFilename, container));
