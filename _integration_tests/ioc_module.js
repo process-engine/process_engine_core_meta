@@ -4,19 +4,23 @@ const fs = require('fs');
 const path = require('path');
 
 const ParallelGatewayTestService = require('./dist/commonjs').ParallelGatewayTestService;
+const ServiceTaskTestService = require('./dist/commonjs/service_task_test_service').ServiceTaskTestService;
 
 const registerInContainer = (container) => {
 
   container.register('ParallelGatewayTestService', ParallelGatewayTestService);
+  container.register('ServiceTaskTestService', ServiceTaskTestService);
 
   // add processes for use with the integrationtests here
   const processes = [
     'error_boundary_event_test',
     'generic_sample',
     'nested_xor',
-    'script_task_invalid_script',
+    'service_task_basic_test',
+    'service_task_exception_test',
     'parallel_gateway_test',
     'script_task_basic_test',
+    'script_task_invalid_script',
     'script_task_throws_exception',
     'simple_xor_gateway_test',
     'subprocess_test',
