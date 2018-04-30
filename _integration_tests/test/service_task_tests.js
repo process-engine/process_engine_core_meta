@@ -45,7 +45,7 @@ describe('Service Task - Simple Service Task', () => {
     const processKey = 'service_task_exception_test';
 
     // Expected exception content
-    const expectedExceptionContent = RegExp('Failed.*');
+    const expectedExceptionContent = /Failed/i;
 
     // Check, if the exception is thrown and the promise is rejected.
     await testFixtureProvider.executeProcess(processKey).should.be.rejectedWith(expectedExceptionContent);
