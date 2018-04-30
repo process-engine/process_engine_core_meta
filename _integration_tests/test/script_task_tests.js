@@ -14,7 +14,7 @@ describe('Script Task', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should execute a process with 4 chained script tasks.', async () => {
+  it('should execute a process with five chained script tasks.', async () => {
 
     // Key of the process
     const processKey = 'script_task_basic_test';
@@ -27,7 +27,11 @@ describe('Script Task', () => {
         Task1: 1,
         Task2: 2,
         Task3: 3,
-        Task4: 2,
+        Task4: {
+          prop1: 1337,
+          prop2: 'Hello World',
+        },
+        Task5: 2,
       },
     };
 
@@ -38,4 +42,11 @@ describe('Script Task', () => {
     result.should.be.eql(expectedToken);
   });
 
+  it('should reject the promise, when trying to execute the faulty script task', async () => {
+    const processKey = 'invalid_script_task';
+
+    // Execute the process with the faulty script task and see, if the process is sucessfully rejected.
+    await testFixtureProvider.executeProcess(processKey).should.be.rejected();
+
+  });
 });
