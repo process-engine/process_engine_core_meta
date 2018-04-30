@@ -1,11 +1,15 @@
 'use strict';
 
+const Promise = require('bluebird');
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe('Error Boundary Event execution', function () {
+const BpmnType = require('@process-engine/process_engine_contracts').BpmnType;
 
+describe('SubProcess', function () {
   let testFixtureProvider;
+
+  let nodeInstanceEntityTypeService;
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
@@ -16,14 +20,15 @@ describe('Error Boundary Event execution', function () {
     await testFixtureProvider.tearDown();
   });
 
-  it('should successfully detect the error and contain the result in the token history.', async () => {
-    const processKey = 'error_boundary_event_test';
+  it(`should execute SubProcess and update token.`, async () => {
 
+    const processKey = 'SubProcess_test';
     const result = await testFixtureProvider.executeProcess(processKey);
+    const expectedResult = {
+      secondTest: '123456'
+    };
 
-    const expectedTaskResult = 'test';
-
-    should.exist(result);
-    should(result.message).be.equal(expectedTaskResult);
+    should(result).eql(expectedResult);
   });
+
 });

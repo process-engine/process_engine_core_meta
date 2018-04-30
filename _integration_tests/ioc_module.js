@@ -23,6 +23,7 @@ const registerInContainer = (container) => {
     'nested_xor',
     'basic_service_task_tests',
     'service_task_exception_test',
+    'subprocess_test',
   ];
 
   processes.map((processFilename) => registerProcess(processFilename, container));
