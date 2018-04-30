@@ -3,7 +3,7 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe('Parallel Gateway execution', function testParallelGateway() {
+describe('Parallel Gateway execution', () => {
 
   let testFixtureProvider;
 
