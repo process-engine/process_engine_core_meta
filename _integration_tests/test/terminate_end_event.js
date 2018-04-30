@@ -6,7 +6,7 @@ const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').Te
 
 const BpmnType = require('@process-engine/process_engine_contracts').BpmnType;
 
-describe('Terminate End Event', function testTerminateEndEvent() {
+describe('Terminate End Event', () => {
 
   let testFixtureProvider;
 
