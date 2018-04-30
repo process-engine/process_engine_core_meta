@@ -39,4 +39,12 @@ describe.only('Service Task - Simle Service Task', () => {
     // Compare the results
     result.should.be.eql(exptectedToken);
   });
+
+  it('should throw an exception.', async () => {
+
+    const processKey = 'service_task_exception_test';
+
+    // Check, if the exception is thrown and the promise is rejected.
+    await testFixtureProvider.executeProcess(processKey).should.be.rejected();
+  });
 });

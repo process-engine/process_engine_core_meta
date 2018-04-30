@@ -14,6 +14,9 @@ export class ServiceTaskTestService {
     return 1;
   }
 
+  /**
+   * Sample function that returns a simple object.
+   */
   public async returnObject(): Promise<any> {
     logger.info('Starting Service: Return Object');
 
@@ -33,9 +36,23 @@ export class ServiceTaskTestService {
     return message;
   }
 
+  /**
+   * Add two numbers.
+   * @param firstNumber First addend
+   * @param secondNumber Second addend
+   */
   public async addNumbers(firstNumber: number, secondNumber: number): Promise<number> {
     logger.info('Starting Service: Add Numbers');
 
     return firstNumber + secondNumber;
+  }
+
+  /**
+   * Throw an exceptionn.
+   */
+  public async throwException(): Promise<void> {
+    logger.info('Starting Service: Throw Exception');
+
+    throw new Error('Failed');
   }
 }
