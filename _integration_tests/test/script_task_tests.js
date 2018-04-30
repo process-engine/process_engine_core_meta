@@ -43,7 +43,7 @@ describe('Script Task', () => {
   });
 
   it('should reject the promise, when trying to execute the faulty script task', async () => {
-    const processKey = 'invalid_script_task';
+    const processKey = 'script_task_invalid_script';
 
     // Regular Expression that should matched by the error message.
     const expectedMessage = new RegExp('.*?a.*?not.*?defined.*');
