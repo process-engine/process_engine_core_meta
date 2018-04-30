@@ -2,7 +2,7 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe.only('Service Task - Simle Service Task', () => {
+describe('Service Task - Simle Service Task', () => {
   let testFixtureProvider;
 
   before(async () => {
