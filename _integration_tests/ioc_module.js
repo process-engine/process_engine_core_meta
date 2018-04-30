@@ -21,6 +21,7 @@ const registerInContainer = (container) => {
     'nested_xor',
     'script_task_basic_test',
     'invalid_script_task',
+    'script_task_throws_exception',
   ];
 
   processes.map((processFilename) => registerProcess(processFilename, container));

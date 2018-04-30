@@ -41,7 +41,7 @@
                     SequenceFlow_1hq2kg9
                 </bpmn:outgoing>
                 <bpmn:script>
-                    return 1;
+                    return a;
                 </bpmn:script>
             </bpmn:scriptTask>
             <bpmn:scriptTask id="Objectify" name="Objectify Token">
