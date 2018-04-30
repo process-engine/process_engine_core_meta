@@ -46,7 +46,7 @@ describe('Script Task', () => {
     const processKey = 'script_task_invalid_script';
 
     // Regular Expression that should matched by the error message.
-    const expectedMessage = new RegExp('.*?a.*?not.*?defined.*');
+    const expectedMessage = new RegExp('a.*?not.*?defined.*');
 
     // Execute the process with the faulty script task and see, if the process is sucessfully rejected.
     await testFixtureProvider.executeProcess(processKey).should.be.rejectedWith(expectedMessage);
@@ -55,7 +55,7 @@ describe('Script Task', () => {
   it('should throw an exception', async () => {
     const processKey = 'script_throws_exception';
 
-    const expectedMessage = new RegExp('.*?Failed.*');
+    const expectedMessage = new RegExp('Failed.*');
 
     // Execute the process and see, if the exception is throw and if the promise is rejected
     await testFixtureProvider.executeProcess(processKey).should.be.rejectedWith(expectedMessage);
