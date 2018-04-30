@@ -16,14 +16,20 @@ describe.only('Service Task - Simle Service Task', () => {
 
   it('should returns the value, which the test service provides.', async () => {
 
-    const processKey = 'simple_service_task_test';
+    const processKey = 'basic_service_task_tests';
 
     // The exptected token object should looks like this
     const exptectedToken = {
-      current: 1,
+      current: 5,
       history: {
         StartEvent_1: {},
         Task1: 1,
+        Task2: {
+          prop1: 1337,
+          prop2: 'Hello World',
+        },
+        Task3: 1,
+        Task4: 5,
       },
     };
 
