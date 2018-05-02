@@ -25,6 +25,7 @@ const registerInContainer = (container) => {
     'simple_xor_gateway_test',
     'subprocess_test',
     'terminate_end_event_sample',
+    'timer_boundary_event_base_test',
     'xor_evaluate_script_result',
   ];
 
