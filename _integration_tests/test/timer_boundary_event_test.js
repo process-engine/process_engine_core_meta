@@ -31,6 +31,9 @@ describe.only('Timer Boundary Event Tests', () => {
     // Check, if the resulting token is not undefined.
     result.should.not.be.undefined();
 
+    // Check, if the resulting token is not empty
+    result.should.not.be.empty();
+
     // Check, if the result contains the right keys
     result.should.have.keys(expectedKeysInHistory);
 
@@ -39,5 +42,6 @@ describe.only('Timer Boundary Event Tests', () => {
 
     // Check, if the ellapsed time after the second service task ist the expected one.
     result.XORJoin2.should.be.equal(expectedTimeElapsedTask2);
+
   });
 });
