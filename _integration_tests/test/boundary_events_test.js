@@ -19,10 +19,10 @@ describe.only('Boundary Events', () => {
     // TODO: Also implement a tests for the non interrupting boundary events.
 
     const mainProcessKey = 'boundary_event_test';
-    //const throwEventsProcessKey = 'boundary_event_throw_events';
+    const throwEventsProcessKey = 'boundary_event_throw_events';
 
     // Start the process that throws the events
-    //await testFixtureProvider.executeProcess(throwEventsProcessKey);
+    await testFixtureProvider.executeProcess(throwEventsProcessKey);
 
     // Start the main test process
     const result = await testFixtureProvider.executeProcess(mainProcessKey);
