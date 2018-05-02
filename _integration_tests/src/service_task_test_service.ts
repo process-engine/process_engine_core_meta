@@ -55,4 +55,23 @@ export class ServiceTaskTestService {
 
     throw new Error('Failed');
   }
+
+  /**
+   * Delay a given amount of seconds.
+   * @param timeInSeconds Time in seconds that the service should take.
+   */
+  public async delay(timeInSeconds: number): Promise<void> {
+    logger.info('Starting Service: Delay');
+    logger.info('Waiting ${timeInSeconds} seconds.');
+
+    const thousand: number = 1000;
+    const secondsToWait: number = timeInSeconds * thousand;
+
+    // Wait, until the timeout is over.
+    await new Promise((resolve: Function): void => {
+      setTimeout(resolve, secondsToWait);
+    }).then(() => {
+      logger.info('Timeout over');
+    });
+  }
 }
