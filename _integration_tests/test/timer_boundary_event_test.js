@@ -29,7 +29,7 @@ describe.only('Timer Boundary Event Tests', () => {
     const result = await testFixtureProvider.executeProcess(processKey);
 
     // Check, if the resulting token is not undefined.
-    result.should.not.be.undefined();
+    should(result).not.be.undefined();
 
     // Check, if the resulting token is not empty
     result.should.not.be.empty();
