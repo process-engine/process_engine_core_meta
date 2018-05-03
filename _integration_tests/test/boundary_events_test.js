@@ -3,8 +3,8 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe.only('Boundary Events', () => {
-  let testFixtureProvider; 
+describe('Boundary Events', () => {
+  let testFixtureProvider;
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
