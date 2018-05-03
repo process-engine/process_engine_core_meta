@@ -8,7 +8,7 @@ describe.only('Intermediate Catch Throw events test', () => {
   let testFixtureProvider;
 
   // Set the timeout to 2 seconds per test.
-  const testTimeOut = 2000;
+  const testTimeOut = 4000;
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
@@ -19,83 +19,70 @@ describe.only('Intermediate Catch Throw events test', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should catch a message that is thrown in a different process', async () => {
-    const processKey = 'catch_message_test';
-    const throwProcessKey = 'catch_throw_event_throw_message';
+  it('should throw and receive a message.', async () => {
+    const processKey = 'catch_throw_event_message_base_test';
 
-    // Expected Token for the catch process.
-    const expectedCatchToken = {
+    // Expected token object after the test finished.
+    const expectedToken = {
       current: 2,
       history: {
-        StartEvent_1: {},
         Task1: 1,
+        ParallelSplit1: 1,
+        TimerEvent1: 1,
         CatchMessage1: 1,
-        Task2: 2,
-      },
-    };
-
-    // Expected Token for the throw process.
-    const expectedThrowToken = {
-      current: 2,
-      history: {
-        StartEvent_1: {},
-        Task1: 1,
         ThrowMessage1: 1,
+        ParallelJoin1: 1,
         Task2: 2,
       },
     };
 
-    // Start the main process
-    const catchEventResult = await testFixtureProvider.executeProcess(processKey);
+    const result = await testFixtureProvider.executeProcess(processKey);
 
-    // Now start the process, that throws the message.
-    const throwEventResult = await testFixtureProvider.executeProcess(throwProcessKey);
+    // Check if the result exists.
+    should(result).be.not.undefined();
 
-    // Check the token after the catch event finished.
-    catchEventResult.should.be.equl(expectedCatchToken);
+    // Check, if the result is an object.
+    should(result).be.Object();
 
-    // Check the token after the throw event finished.
-    throwEventResult.should.be.eql(expectedThrowToken);
+    // Check if the result is not empty
+    result.should.be.not.empty();
+
+    // Compare the result with the expected token
+    result.should.be.eql(expectedToken);
   })
     .timeout(testTimeOut);
 
-  it('should catch a signal that is thrown in a different process', async () => {
-    const processKey = 'catch_throw_event_catch_signal';
-    const throwProcessKey = 'catch_throw_event_throw_signal';
+  it('should throw and receive a message.', async () => {
+    const processKey = 'catch_throw_event_signal_base_test';
 
-    // Expected Token for the catch process.
-    const expectedCatchToken = {
+    // Expected token object after the test finished.
+    const expectedToken = {
       current: 2,
       history: {
-        StartEvent_1: {},
         Task1: 1,
+        ParallelSplit1: 1,
+        TimerEvent1: 1,
         CatchSignal1: 1,
-        Task2: 2,
-      },
-    };
-
-    // Expected Token for the throw process.
-    const expectedThrowToken = {
-      current: 2,
-      history: {
-        StartEvent_1: {},
-        Task1: 1,
         ThrowSignal1: 1,
+        ParallelJoin1: 1,
         Task2: 2,
       },
     };
 
-    // Start the main process
-    const catchEventResult = await testFixtureProvider.executeProcess(processKey);
+    const result = await testFixtureProvider.executeProcess(processKey);
 
-    // Now start the process, that throws the message.
-    const throwEventResult = await testFixtureProvider.executeProcess(throwProcessKey);
+    // Check if the result exists.
+    should(result).be.not.undefined();
 
-    // Check the token after the catch event finished.
-    catchEventResult.should.be.equl(expectedCatchToken);
+    // Check, if the result is an object.
+    should(result).be.Object();
 
-    // Check the token after the throw event finished.
-    throwEventResult.should.be.eql(expectedThrowToken);
+    // Check if the result is not empty
+    result.should.be.not.empty();
+
+    // Compare the result with the expected token
+    result.should.be.eql(expectedToken);
   })
     .timeout(testTimeOut);
+
 });
