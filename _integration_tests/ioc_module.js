@@ -13,6 +13,8 @@ const registerInContainer = (container) => {
 
   // add processes for use with the integrationtests here
   const processes = [
+    'catch_throw_event_catch_message',
+    'catch_throw_event_throw_message',
     'error_boundary_event_test',
     'generic_sample',
     'nested_xor',
