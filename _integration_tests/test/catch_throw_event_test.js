@@ -7,6 +7,9 @@ describe.only('Intermediate Catch Throw events test', () => {
 
   let testFixtureProvider;
 
+  // Set the timeout to 2 seconds per test.
+  const testTimeOut = 2000;
+
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
@@ -54,5 +57,45 @@ describe.only('Intermediate Catch Throw events test', () => {
     // Check the token after the throw event finished.
     throwEventResult.should.be.eql(expectedThrowToken);
   })
-    .timeout(5000);
+    .timeout(testTimeOut);
+
+  it('should catch a signal that is thrown in a different process', async () => {
+    const processKey = 'catch_throw_event_catch_signal';
+    const throwProcessKey = 'catch_throw_event_throw_signal';
+
+    // Expected Token for the catch process.
+    const expectedCatchToken = {
+      current: 2,
+      history: {
+        StartEvent_1: {},
+        Task1: 1,
+        CatchSignal1: 1,
+        Task2: 2,
+      },
+    };
+
+    // Expected Token for the throw process.
+    const expectedThrowToken = {
+      current: 2,
+      history: {
+        StartEvent_1: {},
+        Task1: 1,
+        ThrowSignal1: 1,
+        Task2: 2,
+      },
+    };
+
+    // Start the main process
+    const catchEventResult = await testFixtureProvider.executeProcess(processKey);
+
+    // Now start the process, that throws the message.
+    const throwEventResult = await testFixtureProvider.executeProcess(throwProcessKey);
+
+    // Check the token after the catch event finished.
+    catchEventResult.should.be.equl(expectedCatchToken);
+
+    // Check the token after the throw event finished.
+    throwEventResult.should.be.eql(expectedThrowToken);
+  })
+    .timeout(testTimeOut);
 });

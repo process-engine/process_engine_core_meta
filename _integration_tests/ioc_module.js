@@ -15,6 +15,8 @@ const registerInContainer = (container) => {
   const processes = [
     'catch_throw_event_catch_message',
     'catch_throw_event_throw_message',
+    'catch_throw_event_throw_signal',
+    'catch_throw_event_catch_signal',
     'error_boundary_event_test',
     'generic_sample',
     'nested_xor',
