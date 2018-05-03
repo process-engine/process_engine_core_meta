@@ -62,15 +62,15 @@ export class ServiceTaskTestService {
    */
   public async delay(timeInSeconds: number, valueToReturn: any): Promise<any> {
     logger.info('Starting Service: Delay');
-    logger.info('Waiting ${timeInSeconds} seconds.');
+    logger.info(`Waiting ${timeInSeconds} seconds.`);
 
     /*tslint:disable:no-magic-numbers*/
     // Disable the linter check because to calculate milliseconds from seconds is kinda obvious.
-    const secondsToWait: number = timeInSeconds * 1000;
+    const millisecondsToWait: number = timeInSeconds * 1000;
 
     // Wait, until the timeout is over.
     await new Promise((resolve: Function): void => {
-      setTimeout(resolve, secondsToWait);
+      setTimeout(resolve, millisecondsToWait);
     }).then(() => {
       logger.info('Timeout over');
     });
