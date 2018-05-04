@@ -15,25 +15,27 @@ const registerInContainer = (container) => {
   const processes = [
     'error_boundary_event_test',
     'generic_sample',
-    'service_task_basic_test',
-    'service_task_exception_test',
     'parallel_gateway_test',
     'script_task_basic_test',
     'script_task_invalid_script',
     'script_task_throws_exception',
+    'service_task_basic_test',
+    'service_task_exception_test',
     'subprocess_test',
     'terminate_end_event_sample',
     'xor_gateway_base_test',
     'xor_gateway_nested',
   ];
 
-  processes.map((processFilename) => registerProcess(processFilename, container));
+  processes.map((processFilename) => {
+    return registerProcess(processFilename, container);
+  });
 };
 
-const registerProcess = (processFilename, container) => {
+function registerProcess(processFilename, container) {
   const processFilePath = path.join(__dirname, 'bpmn', `${processFilename}.bpmn`);
   const processFile = fs.readFileSync(processFilePath, 'utf8');
- 
+
   return container.registerObject(processFilename, processFile)
     .setTag('bpmn_process', 'internal')
     .setTag('module', 'process_engine_meta')

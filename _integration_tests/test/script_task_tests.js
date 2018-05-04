@@ -42,7 +42,7 @@ describe('Script Task', () => {
     result.should.be.eql(expectedToken);
   });
 
-  it('should reject the promise, when trying to execute the faulty script task', async () => {
+  it('should throw an error, when trying to execute the faulty script task', async () => {
     const processKey = 'script_task_invalid_script';
 
     // Regular Expression that should matched by the error message.
@@ -52,7 +52,7 @@ describe('Script Task', () => {
     await testFixtureProvider.executeProcess(processKey).should.be.rejectedWith(expectedMessage);
   });
 
-  it('should throw an exception', async () => {
+  it('should throw the expected script error', async () => {
     const processKey = 'script_task_throws_exception';
 
     const expectedMessage = /Failed/i;
