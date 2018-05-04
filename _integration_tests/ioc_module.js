@@ -14,7 +14,7 @@ const registerInContainer = (container) => {
   // add processes for use with the integrationtests here
   const processes = [
     'call_activity_base_test',
-    'call_activity_called_process',
+    'call_activity_normal_process',
     'error_boundary_event_test',
     'generic_sample',
     'nested_xor',

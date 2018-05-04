@@ -19,17 +19,26 @@ describe.only('Call activity tests', () => {
   it('should execute the process, which was specified in the call activity.', async () => {
     const processKey = 'call_activity_base_test';
 
+    // Define the ingoing token object.
+    const inToken = {
+      operation: 'basic_test',
+    };
+
+    // Token, that should be returned from the process.
     const expectedToken = {
       current: 3,
       history: {
-        StartEvent_1: {},
+        StartEvent_1: inToken,
+        XORSplit1: inToken,
         Task1: 1,
         CallActivity1: 2,
         Task2: 3,
+        XORJoin1: 3,
       },
     };
-
-    const result = await testFixtureProvider.executeProcess(processKey);
+    
+    // Execute the process with the given token.
+    const result = await testFixtureProvider.executeProcess(processKey, inToken);
 
     // Test, if the token result exists and is an object
     should(result).not.be.undefined();
