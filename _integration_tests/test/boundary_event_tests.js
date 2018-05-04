@@ -3,7 +3,7 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe.only('Boundary Event', () => {
+describe('Boundary Event', () => {
   let testFixtureProvider;
 
   // Set the test timeout to 15 seconds.
