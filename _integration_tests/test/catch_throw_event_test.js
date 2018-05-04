@@ -52,7 +52,7 @@ describe.only('Intermediate Catch Throw events test', () => {
   })
     .timeout(testTimeOut);
 
-  it('should throw and receive a message.', async () => {
+  it('should throw and receive a signal.', async () => {
     const processKey = 'catch_throw_event_signal_base_test';
 
     // Expected token object after the test finished.
