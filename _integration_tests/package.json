@@ -46,7 +46,7 @@
     "@essential-projects/services": "^1.0.1",
     "@essential-projects/timing": "^1.0.0",
     "@essential-projects/validation": "^1.0.0",
-    "@process-engine/process_engine": "feature~fix_error_boundary_event_token_destruction",
+    "@process-engine/process_engine": "^2.2.0",
     "@process-engine/process_engine_contracts": "^5.0.0",
     "@process-engine/process_engine_http": "^1.0.0",
     "@process-engine/process_repository": "^1.0.0",
