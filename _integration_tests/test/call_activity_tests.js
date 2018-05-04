@@ -77,7 +77,5 @@ describe.only('Call activity tests', () => {
 
     // Compare the resulting token with the returned one.
     result.should.be.eql(expectedToken);
-
-    console.log(result)
   });
 });
