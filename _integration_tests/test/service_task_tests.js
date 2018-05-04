@@ -14,7 +14,7 @@ describe('Service Task - Simple Service Task', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should returns the value, which the test service provides.', async () => {
+  it('should return the values provided by the sample service.', async () => {
 
     const processKey = 'service_task_basic_test';
 
@@ -40,7 +40,7 @@ describe('Service Task - Simple Service Task', () => {
     result.should.be.eql(exptectedToken);
   });
 
-  it('should throw an exception.', async () => {
+  it('should throw an error.', async () => {
 
     const processKey = 'service_task_exception_test';
 
