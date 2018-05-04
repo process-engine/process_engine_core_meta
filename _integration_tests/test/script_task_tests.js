@@ -53,7 +53,7 @@ describe('Script Task', () => {
   });
 
   it('should throw an exception', async () => {
-    const processKey = 'script_throws_exception';
+    const processKey = 'script_task_throws_exception';
 
     const expectedMessage = /Failed/i;
 
