@@ -38,14 +38,8 @@ describe('Boundary Event', () => {
 
     const result = await testFixtureProvider.executeProcess(processKey);
 
-    // Check, if the result is not undefined
-    should(result).not.be.undefined();
-
-    // Check, if the result is an object
-    should(result).be.Object();
-
     // Compare the result objects
-    result.should.be.eql(expectedToken);
+    should(result).be.eql(expectedToken);
   });
 
   it('should interrupt the running service task, when a signal arrives.', async () => {
@@ -68,13 +62,7 @@ describe('Boundary Event', () => {
 
     const result = await testFixtureProvider.executeProcess(processKey);
 
-    // Check, if the result is not undefined
-    should(result).not.be.undefined();
-
-    // Check, if the result is an object
-    should(result).be.Object();
-
     // Compare the result objects
-    result.should.be.eql(expectedToken);
+    should(result).be.eql(expectedToken);
   });
 });
