@@ -112,8 +112,8 @@ describe('Call activity tests', () => {
       history: {
         StartEvent1: inToken,
         XORSplit1: inToken,
-        Task2: 2,
         CallActivity2: 1,
+        Task2: 2,
         XORJoin1: 2,
       },
     };
