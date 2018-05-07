@@ -36,16 +36,7 @@ describe('Timer Boundary Event Tests', () => {
     // Execute the process
     const result = await testFixtureProvider.executeProcess(processKey);
 
-    // Check, if the resulting token is not undefined.
-    should(result).not.be.undefined();
-
-    // Check, if the resulting token is an object
-    should(result).be.Object();
-
-    // Check, if the resulting token is not empty
-    result.should.not.be.empty();
-
     // Check the token, that was returned.
-    result.should.be.eql(expectedToken);
+    should(result).be.eql(expectedToken);
   });
 });
