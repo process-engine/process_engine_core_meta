@@ -16,7 +16,7 @@ describe('Boundary Event', () => {
   });
 
   it('should interrupt the running service task, when a message arrives.', async () => {
-    const processKey = 'boundary_event_message_base_test';
+    const processKey = 'boundary_event_message_test';
 
     const expectedToken = {
       current: 2,
@@ -40,7 +40,7 @@ describe('Boundary Event', () => {
   });
 
   it('should interrupt the running service task, when a signal arrives.', async () => {
-    const processKey = 'boundary_event_signal_base_test';
+    const processKey = 'boundary_event_signal_test';
 
     const expectedToken = {
       current: 2,

@@ -17,7 +17,7 @@ describe('Timer Boundary Event Tests', () => {
   });
 
   it('should interrupt a service task after two seconds and not interrupt a task service, that finishes before the timer was over.', async () => {
-    const processKey = 'timer_boundary_event_base_test';
+    const processKey = 'boundary_event_timer_test';
 
     // Expected Token Object
     const expectedToken = {
