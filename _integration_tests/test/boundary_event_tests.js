@@ -6,9 +6,6 @@ const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').Te
 describe('Boundary Event', () => {
   let testFixtureProvider;
 
-  // Set the test timeout to 15 seconds.
-  const testTimeout = 15000;
-
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
