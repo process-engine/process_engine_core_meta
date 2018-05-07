@@ -55,4 +55,28 @@ export class ServiceTaskTestService {
 
     throw new Error('Failed');
   }
+
+  /**
+   * Delay a given amount of seconds.
+   * @param timeInSeconds Time in seconds that the service should take.
+   */
+  public async delay(timeInSeconds: number, valueToReturn: any): Promise<any> {
+    logger.info('Starting Service: Delay');
+    logger.info(`Waiting ${timeInSeconds} seconds.`);
+
+    /*tslint:disable:no-magic-numbers*/
+    // Disable the linter check because to calculate milliseconds from seconds is kinda obvious.
+    const millisecondsToWait: number = timeInSeconds * 1000;
+
+    // Wait, until the timeout is over.
+    await new Promise((resolve: Function): void => {
+      setTimeout(() => {
+        logger.info('Timeout over');
+        resolve();
+      }, millisecondsToWait);
+    });
+
+    return valueToReturn;
+  }
+
 }
