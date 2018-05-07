@@ -19,7 +19,7 @@ describe('Error Boundary Event - ', () => {
   });
 
   it('should not alter the execution path, if the node instance, to which the event is attached, was executed successfully.', async () => {
-    const processKey = 'error_boundary_event_test';
+    const processKey = 'boundary_event_error_test';
 
     const initialToken = {
       raiseError: false,
@@ -34,7 +34,7 @@ describe('Error Boundary Event - ', () => {
   });
 
   it('should successfully catch the error, alter the execution path and write the result to the token history.', async () => {
-    const processKey = 'error_boundary_event_test';
+    const processKey = 'boundary_event_error_test';
 
     const initialToken = {
       raiseError: true,
