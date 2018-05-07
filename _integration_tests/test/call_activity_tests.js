@@ -41,7 +41,7 @@ describe('Call activity tests', () => {
     const result = await testFixtureProvider.executeProcess(processKey, inToken);
 
     // Compare the resulting token with the expecting token.
-    result.should.be.eql(expectedToken);
+    should(result).be.eql(expectedToken);
   });
 
   it('should exectue one process which executes another process.', async () => {
@@ -68,7 +68,7 @@ describe('Call activity tests', () => {
     const result = await testFixtureProvider.executeProcess(processKey, inToken);
 
     // Compare the resulting token with the returned one.
-    result.should.be.eql(expectedToken);
+    should(result).be.eql(expectedToken);
   });
 
   it('should call an activity that throws an exception which will be handled inside the call activity.', async () => {
