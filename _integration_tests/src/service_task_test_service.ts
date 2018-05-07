@@ -70,9 +70,10 @@ export class ServiceTaskTestService {
 
     // Wait, until the timeout is over.
     await new Promise((resolve: Function): void => {
-      setTimeout(resolve, millisecondsToWait);
-    }).then(() => {
-      logger.info('Timeout over');
+      setTimeout(() => {
+        logger.info('Timeout over');
+        resolve();
+      }, millisecondsToWait);
     });
 
     return valueToReturn;
