@@ -25,6 +25,7 @@ const registerInContainer = (container) => {
     'service_task_exception_test',
     'subprocess_test',
     'terminate_end_event_sample',
+    'timer_boundary_event_base_test',
     'xor_gateway_base_test',
     'xor_gateway_nested',
   ];
