@@ -15,6 +15,8 @@ const registerInContainer = (container) => {
   const processes = [
     'call_activity_base_test',
     'call_activity_normal_process',
+    'call_activity_throw_exception',
+    'call_activity_throw_exception_test',
     'error_boundary_event_test',
     'generic_sample',
     'nested_xor',

@@ -4,7 +4,7 @@ const should = require('should');
 
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe.only('Call activity tests', () => {
+describe('Call activity tests', () => {
   let testFixtureProvider;
 
   before(async () => {
@@ -40,10 +40,6 @@ describe.only('Call activity tests', () => {
     // Execute the process with the given token.
     const result = await testFixtureProvider.executeProcess(processKey, inToken);
 
-    // Test, if the token result exists and is an object
-    should(result).not.be.undefined();
-    should(result).be.Object();
-
     // Compare the resulting token with the expecting token.
     result.should.be.eql(expectedToken);
   });
@@ -71,11 +67,61 @@ describe.only('Call activity tests', () => {
     // Execute the process with the defined token
     const result = await testFixtureProvider.executeProcess(processKey, inToken);
 
-    // Check, if the resulting token exists and is an object
-    should(result).not.be.undefined();
-    should(result).be.Object();
-
     // Compare the resulting token with the returned one.
     result.should.be.eql(expectedToken);
+  });
+
+  it('should call an activity that throws an exception which will be handled inside the call activity.', async () => {
+    const processKey = 'call_activity_exception_test';
+
+    // Define the ingoing token
+    const inToken = {
+      handle_exception: true,
+    };
+
+    // Define the expected token object
+    const expectedToken = {
+      current: 2,
+      history: {
+        StartEvent1: inToken,
+        XORSplit1: inToken,
+        CallActivity1: 1,
+        Task1: 2,
+        XORJoin1: 2,
+      },
+    };
+
+    // Execute the process
+    const result = await testFixtureProvider.executeProcess(processKey, inToken);
+
+    // Compare the results
+    should(result).should.be.eql(expectedToken);
+  });
+
+  it('should call an activity that throws an unexpected exception and catch it via a boundary event.', async () => {
+    const processKey = 'call_activity_exception_test';
+
+    // Define the ingoing token
+    const inToken = {
+      handle_exception: false,
+    };
+
+    // Define the expected token object
+    const expectedToken = {
+      current: 2,
+      history: {
+        StartEvent1: inToken,
+        XORSplit1: inToken,
+        Task2: 2,
+        CallActivity2: 1,
+        XORJoin1: 2,
+      },
+    };
+
+    // Execute the process
+    const result = await testFixtureProvider.executeProcess(processKey, inToken);
+
+    // Compare the results
+    should(result).should.be.eql(expectedToken);
   });
 });
