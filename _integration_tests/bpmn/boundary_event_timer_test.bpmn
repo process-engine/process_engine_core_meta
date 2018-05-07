@@ -20,7 +20,7 @@
           <camunda:executionListener class="" event="" />
           <camunda:properties />
         </bpmn:extensionElements>
-        <bpmn:flowNodeRef>StartEvent_01</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task2</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task3</bpmn:flowNodeRef>
@@ -34,7 +34,7 @@
         <bpmn:flowNodeRef>EndEvent_0nvdzre</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
-    <bpmn:startEvent id="StartEvent_01" name="Start">
+    <bpmn:startEvent id="StartEvent_1" name="Start">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
         <camunda:properties />
@@ -66,7 +66,7 @@
       </bpmn:timerEventDefinition>
     </bpmn:boundaryEvent>
     <bpmn:sequenceFlow id="SequenceFlow_14jiq0l" sourceRef="Task2" targetRef="XORJoin1" />
-    <bpmn:sequenceFlow id="SequenceFlow_05i47eo" sourceRef="StartEvent_01" targetRef="Task1" />
+    <bpmn:sequenceFlow id="SequenceFlow_05i47eo" sourceRef="StartEvent_1" targetRef="Task1" />
     <bpmn:scriptTask id="Task1" name="Set the current token value to 1">
       <bpmn:incoming>SequenceFlow_05i47eo</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_155dsxu</bpmn:outgoing>
@@ -140,7 +140,7 @@
           <dc:Bounds x="1662" y="250" width="20" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="StartEvent_16du69e_di" bpmnElement="StartEvent_01">
+      <bpmndi:BPMNShape id="StartEvent_16du69e_di" bpmnElement="StartEvent_1">
         <dc:Bounds x="170" y="211.07" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="176" y="250" width="24" height="13" />
