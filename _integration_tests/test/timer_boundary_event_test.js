@@ -23,6 +23,7 @@ describe('Timer Boundary Event Tests', () => {
     const expectedToken = {
       current: 3,
       history: {
+        StartEvent_1: {},
         Task1: 1,
         TimerBoudary1: 1,
         Task2: 2,

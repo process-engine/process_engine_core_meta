@@ -21,6 +21,7 @@ describe('Boundary Event', () => {
     const expectedToken = {
       current: 2,
       history: {
+        StartEvent_1: {},
         Task1: 1,
         ParallelSplit1: 1,
         TimerEvent1: 1,
@@ -45,6 +46,7 @@ describe('Boundary Event', () => {
     const expectedToken = {
       current: 2,
       history: {
+        StartEvent_1: {},
         Task1: 1,
         ParallelSplit1: 1,
         TimerEvent1: 1,
