@@ -3,12 +3,9 @@ const should = require('should');
 const logger = require('loggerhythm');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe.only('Intermediate Catch Throw events test', () => {
+describe('Intermediate Catch Throw events test', () => {
 
   let testFixtureProvider;
-
-  // Set the timeout to 2 seconds per test.
-  const testTimeOut = 4000;
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
@@ -38,19 +35,9 @@ describe.only('Intermediate Catch Throw events test', () => {
 
     const result = await testFixtureProvider.executeProcess(processKey);
 
-    // Check if the result exists.
-    should(result).be.not.undefined();
-
-    // Check, if the result is an object.
-    should(result).be.Object();
-
-    // Check if the result is not empty
-    result.should.be.not.empty();
-
     // Compare the result with the expected token
-    result.should.be.eql(expectedToken);
-  })
-    .timeout(testTimeOut);
+    should(result).be.eql(expectedToken);
+  });
 
   it('should throw and receive a signal.', async () => {
     const processKey = 'catch_throw_event_signal_base_test';
@@ -71,18 +58,8 @@ describe.only('Intermediate Catch Throw events test', () => {
 
     const result = await testFixtureProvider.executeProcess(processKey);
 
-    // Check if the result exists.
-    should(result).be.not.undefined();
-
-    // Check, if the result is an object.
-    should(result).be.Object();
-
-    // Check if the result is not empty
-    result.should.be.not.empty();
-
     // Compare the result with the expected token
-    result.should.be.eql(expectedToken);
-  })
-    .timeout(testTimeOut);
+    should(result).be.eql(expectedToken);
+  });
 
 });
