@@ -3,7 +3,8 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe('Exclusive Gateway - Token split', async () => {
+describe('Timer Boundary Event Tests', () => {
+
   let testFixtureProvider;
 
   before(async () => {
@@ -15,26 +16,28 @@ describe('Exclusive Gateway - Token split', async () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should evaluate the current token value correct and direct the token the right path', async () => {
-    // ID of the process
-    const processModelKey = 'xor_eval_script_result';
+  it('should interrupt a service task after two seconds and not interrupt a task service, that finishes before the timer was over.', async () => {
+    const processKey = 'boundary_event_timer_test';
 
     // Expected Token Object
-    const expectedResult = {
-      current: 2,
+    const expectedToken = {
+      current: 3,
       history: {
         StartEvent_1: {},
         Task1: 1,
-        XORSplit1: 1,
+        TimerBoudary1: 1,
         Task2: 2,
         XORJoin1: 2,
+        Task4: 2,
+        Task5: 3,
+        XORJoin2: 3,
       },
     };
 
     // Execute the process
-    const result = await testFixtureProvider.executeProcess(processModelKey);
+    const result = await testFixtureProvider.executeProcess(processKey);
 
-    // Compare the Token
-    result.should.be.eql(expectedResult);
+    // Check the token, that was returned.
+    should(result).be.eql(expectedToken);
   });
 });

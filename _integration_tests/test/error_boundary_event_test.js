@@ -3,7 +3,9 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe('Error Boundary Event execution', () => {
+const testTimeoutInMS = 5000;
+
+describe('Error Boundary Event - ', () => {
 
   let testFixtureProvider;
 
@@ -16,14 +18,33 @@ describe('Error Boundary Event execution', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should successfully detect the error and contain the result in the token history.', async () => {
-    const processKey = 'error_boundary_event_test';
+  it('should not alter the execution path, if the node instance, to which the event is attached, was executed successfully.', async () => {
+    const processKey = 'boundary_event_error_test';
 
-    const result = await testFixtureProvider.executeProcess(processKey);
+    const initialToken = {
+      raiseError: false,
+    };
 
-    const expectedTaskResult = 'test';
+    const result = await testFixtureProvider.executeProcess(processKey, initialToken);
+
+    const expectedTaskResult = /success/i;
 
     should.exist(result);
-    should(result.message).be.equal(expectedTaskResult);
+    should(result).be.match(expectedTaskResult);
+  });
+
+  it('should successfully catch the error, alter the execution path and write the result to the token history.', async () => {
+    const processKey = 'boundary_event_error_test';
+
+    const initialToken = {
+      raiseError: true,
+    };
+
+    const result = await testFixtureProvider.executeProcess(processKey, initialToken);
+
+    const expectedTaskResult = /test/i;
+
+    should.exist(result);
+    should(result.message).be.match(expectedTaskResult);
   });
 });
