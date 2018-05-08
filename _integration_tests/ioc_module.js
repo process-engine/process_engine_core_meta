@@ -5,15 +5,22 @@ const path = require('path');
 
 const ParallelGatewayTestService = require('./dist/commonjs').ParallelGatewayTestService;
 const ServiceTaskTestService = require('./dist/commonjs/service_task_test_service').ServiceTaskTestService;
+const ConsumerApiClientService = require('../../consumer_api_meta/consumer_api_contracts/dist/commonjs/iconsumer_api_service').ConsumerApiClientService;
 
 const registerInContainer = (container) => {
 
   container.register('ParallelGatewayTestService', ParallelGatewayTestService);
   container.register('ServiceTaskTestService', ServiceTaskTestService);
+  container.register('ConsumerApiClientService', ConsumerApiClientService);
 
   // add processes for use with the integrationtests here
   const processes = [
-    'error_boundary_event_test',
+    'boundary_event_message_test',
+    'boundary_event_signal_test',
+    'boundary_event_error_test',
+    'boundary_event_timer_test',
+    'catch_throw_event_message_base_test',
+    'catch_throw_event_signal_base_test',
     'generic_sample',
     'parallel_gateway_test',
     'script_task_basic_test',

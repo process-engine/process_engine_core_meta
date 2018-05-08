@@ -9,6 +9,8 @@ import {Logger} from 'loggerhythm';
 import {ExecutionContext} from '@essential-projects/core_contracts';
 import {IProcessEngineService} from '@process-engine/process_engine_contracts';
 
+import {ConsumerContext, IConsumerApiService} from '../../../consumer_api_meta/consumer_api_contracts';
+
 const logger: Logger = Logger.createLogger('test:bootstrapper');
 
 const iocModuleNames: Array<string> = [
@@ -58,6 +60,9 @@ export class TestFixtureProvider {
   private container: InvocationContainer;
   private bootstrapper: any;
 
+  private _consumerApiClientService: IConsumerApiService;
+  private _consumerContext: {[name: string]: ConsumerContext};
+
   public get context(): ExecutionContext {
     return this._dummyExecutionContext;
   }
@@ -66,11 +71,19 @@ export class TestFixtureProvider {
     return this._processEngineService;
   }
 
+  public get consumerApiClientService(): IConsumerApiService {
+    return this._consumerApiClientService;
+  }
+
   public async initializeAndStart(): Promise<void> {
     this.httpBootstrapper = await this.initializeBootstrapper();
     await this.httpBootstrapper.start();
     this._dummyExecutionContext = await this.createExecutionContext();
     this._processEngineService = await this.resolveAsync('ProcessEngineService');
+
+    //Services for the consumer api
+    this._consumerContext.defaultUser = await this.createConsumerContext('testuser', 'testpass');
+    this._consumerApiClientService = await this.resolveAsync('ConsumerApiClientService');
   }
 
   public async executeProcess(processKey: string, initialToken: any = {}): Promise<any> {
@@ -164,5 +177,13 @@ export class TestFixtureProvider {
     const context: any = await iamService.createInternalContext('system');
 
     return context;
+  }
+
+  private async createConsumerContext(user: string, password: string): Promise<ConsumerContext> {
+    const authToken: any = await this.bootstrapper.getTokenFromAuth(user, password);
+  
+    return <ConsumerContext> {
+      identity: authToken,
+    }
   }
 }
