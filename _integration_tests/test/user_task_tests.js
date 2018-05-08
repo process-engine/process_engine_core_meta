@@ -26,13 +26,13 @@ describe.only('User Tasks', () => {
       input_values: {},
     };
 
-    const callbackType = startCallbackType.CallbackOnProcessInstanceCreated;
+    // Start the process
+    const correlationId = await startProcessAndReturnCorrelationId(processKey, inputValues);
 
-    const correlationId = await testFixtureProvider.consumerApiService.startProcessInstance(
-      consumerContext, processKey, 'StartEvent_1', inputValues, callbackType);
+    // Optain the running user tasks
+    const userTask = getRunningUserTasksForCorrelationId(correlationId);
 
-    const userTask = await testFixtureProvider.consumerApiService.getUserTasksForCorrelation(consumerContext, correlationId.correlation_id);
-
+    // Result that the running user task should receive.
     const userTaskResult = {
       form_fields: {
         Sample_Form_Field: 'Hello',
@@ -41,10 +41,37 @@ describe.only('User Tasks', () => {
 
     console.log(userTask);
 
+    // Result of the user task.
     const utres = await testFixtureProvider.consumerApiService.finishUserTask(consumerContext,
       processKey, correlationId.correlation_id, userTask.user_tasks[0].key, userTaskResult);
 
     console.log(utres);
 
   });
+
+  /**
+   * Start a process with the given process model key and return the resulting correlation id.
+   * @param {string} processModelKey Key of the process Model.
+   * @param {InputValues} inputValues Initial token value.
+   */
+  async function startProcessAndReturnCorrelationId(processModelKey, inputValues) {
+    const callbackType = startCallbackType.CallbackOnProcessInstanceCreated;
+    const result = await testFixtureProvider
+      .consumerApiService
+      .startProcessInstance(consumerContext, processModelKey, 'StartEvent_1', inputValues, callbackType);
+
+    return result.correlation_id;
+  }
+
+  /**
+   * Returns all user tasks that are running with the given correlation id.
+   * @param {Object} correlationId correlation id of the process
+   */
+  async function getRunningUserTasksForCorrelationId(correlationId) {
+    const userTasks = await testFixtureProvider
+      .consumerApiService
+      .getUserTasksForCorrelation(consumerContext, correlationId);
+
+    return userTasks;
+  }
 });
