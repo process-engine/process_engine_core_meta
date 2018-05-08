@@ -1,70 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
-    <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_11yezp1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.13.1">
-        <bpmn:collaboration id="Collaboration_18n2phw">
-            <bpmn:participant id="Participant_1v57tyo" name="User Task Base Test" processRef="user_tasks_base_test" />
-        </bpmn:collaboration>
-        <bpmn:process id="user_tasks_base_test" isExecutable="true">
-            <bpmn:laneSet>
-                <bpmn:lane id="Lane_1jet88a" name="">
-                    <bpmn:extensionElements>
-                        <camunda:executionListener class="" event="" />
-                        <camunda:properties />
-                    </bpmn:extensionElements>
-                    <bpmn:flowNodeRef>
-                        StartEvent_1dijd72
-                    </bpmn:flowNodeRef>
-                    <bpmn:flowNodeRef>
-                        Task_0brzaip
-                    </bpmn:flowNodeRef>
-                </bpmn:lane>
-            </bpmn:laneSet>
-            <bpmn:startEvent id="StartEvent_1dijd72" name="Start">
-                <bpmn:extensionElements>
-                    <camunda:executionListener class="" event="" />
-                    <camunda:properties />
-                </bpmn:extensionElements>
-                <bpmn:outgoing>
-                    SequenceFlow_0brgxzv
-                </bpmn:outgoing>
-            </bpmn:startEvent>
-            <bpmn:sequenceFlow id="SequenceFlow_0brgxzv" sourceRef="StartEvent_1dijd72" targetRef="Task_0brzaip" />
-            <bpmn:userTask id="Task_0brzaip" name="User Enters 1">
-                <bpmn:extensionElements>
-                    <camunda:executionListener class="" event="" />
-                    <camunda:properties />
-                    <camunda:formData>
-                        <camunda:formField id="Input Field" label="UserInput" type="long" defaultValue="0" />
-                    </camunda:formData>
-                </bpmn:extensionElements>
-                <bpmn:incoming>
-                    SequenceFlow_0brgxzv
-                </bpmn:incoming>
-            </bpmn:userTask>
-        </bpmn:process>
-        <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-            <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_18n2phw">
-                <bpmndi:BPMNShape id="Participant_1v57tyo_di" bpmnElement="Participant_1v57tyo">
-                    <dc:Bounds x="138" y="232" width="896" height="364" />
-                </bpmndi:BPMNShape>
-                <bpmndi:BPMNShape id="Lane_1jet88a_di" bpmnElement="Lane_1jet88a">
-                    <dc:Bounds x="168" y="232" width="866" height="364" />
-                </bpmndi:BPMNShape>
-                <bpmndi:BPMNShape id="StartEvent_1dijd72_di" bpmnElement="StartEvent_1dijd72">
-                    <dc:Bounds x="216" y="394.093" width="36" height="36" />
-                    <bpmndi:BPMNLabel>
-                        <dc:Bounds x="222" y="433" width="24" height="13" />
-                    </bpmndi:BPMNLabel>
-                </bpmndi:BPMNShape>
-                <bpmndi:BPMNEdge id="SequenceFlow_0brgxzv_di" bpmnElement="SequenceFlow_0brgxzv">
-                    <di:waypoint x="252" y="412" />
-                    <di:waypoint x="302" y="412" />
-                    <bpmndi:BPMNLabel>
-                        <dc:Bounds x="277" y="390.5" width="0" height="13" />
-                    </bpmndi:BPMNLabel>
-                </bpmndi:BPMNEdge>
-                <bpmndi:BPMNShape id="UserTask_17v1rvr_di" bpmnElement="Task_0brzaip">
-                    <dc:Bounds x="302" y="372" width="100" height="80" />
-                </bpmndi:BPMNShape>
-            </bpmndi:BPMNPlane>
-        </bpmndi:BPMNDiagram>
-    </bpmn:definitions>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_11yezp1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.13.1">
+  <bpmn:collaboration id="Collaboration_18n2phw">
+    <bpmn:participant id="Participant_1v57tyo" name="User Task Base Test" processRef="user_tasks_base_test" />
+  </bpmn:collaboration>
+  <bpmn:process id="user_tasks_base_test" isExecutable="true">
+    <bpmn:extensionElements>
+      <camunda:properties>
+        <camunda:property name="role" value="testuser" />
+      </camunda:properties>
+    </bpmn:extensionElements>
+    <bpmn:laneSet>
+      <bpmn:lane id="Lane_1jet88a" name="Lane">
+        <bpmn:extensionElements>
+          <camunda:executionListener class="" event="" />
+          <camunda:properties>
+            <camunda:property name="role" value="testuser" />
+          </camunda:properties>
+        </bpmn:extensionElements>
+        <bpmn:flowNodeRef>Task_0brzaip</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_1s58e7p</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="StartEvent_1" name="Start">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="" event="" />
+      </bpmn:extensionElements>
+      <bpmn:outgoing>SequenceFlow_0brgxzv</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Task_0brzaip" name="User Enters 1">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="" event="" />
+        <camunda:properties />
+        <camunda:formData>
+          <camunda:formField id="Input Field" label="UserInput" type="long" defaultValue="0" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0brgxzv</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0tcl2on</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="EndEvent_1s58e7p" name="End">
+      <bpmn:incoming>SequenceFlow_0tcl2on</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0brgxzv" sourceRef="StartEvent_1" targetRef="Task_0brzaip" />
+    <bpmn:sequenceFlow id="SequenceFlow_0tcl2on" sourceRef="Task_0brzaip" targetRef="EndEvent_1s58e7p" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_18n2phw">
+      <bpmndi:BPMNShape id="Participant_1v57tyo_di" bpmnElement="Participant_1v57tyo">
+        <dc:Bounds x="138" y="232" width="458" height="157" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1jet88a_di" bpmnElement="Lane_1jet88a">
+        <dc:Bounds x="168" y="232" width="428" height="157" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1dijd72_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="245" y="287" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="251" y="326" width="24" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0brgxzv_di" bpmnElement="SequenceFlow_0brgxzv">
+        <di:waypoint x="281" y="305" />
+        <di:waypoint x="331" y="305" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="261" y="284" width="90" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_17v1rvr_di" bpmnElement="Task_0brzaip">
+        <dc:Bounds x="331" y="265" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1s58e7p_di" bpmnElement="EndEvent_1s58e7p">
+        <dc:Bounds x="481" y="287" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="489" y="326" width="20" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0tcl2on_di" bpmnElement="SequenceFlow_0tcl2on">
+        <di:waypoint x="431" y="305" />
+        <di:waypoint x="481" y="305" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="456" y="283" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

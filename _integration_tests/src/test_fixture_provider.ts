@@ -9,7 +9,7 @@ import {Logger} from 'loggerhythm';
 import {ExecutionContext} from '@essential-projects/core_contracts';
 import {IProcessEngineService} from '@process-engine/process_engine_contracts';
 
-import {ConsumerContext, IConsumerApiService} from '../../../consumer_api_meta/consumer_api_contracts';
+import {ConsumerContext, IConsumerApiService} from '@process-engine/consumer_api_contracts';
 
 const logger: Logger = Logger.createLogger('test:bootstrapper');
 
@@ -45,6 +45,7 @@ const iocModuleNames: Array<string> = [
   '@process-engine/process_engine',
   '@process-engine/process_engine_http',
   '@process-engine/process_repository',
+  '@process-engine/consumer_api_core',
   '../../',
 ];
 
@@ -60,8 +61,8 @@ export class TestFixtureProvider {
   private container: InvocationContainer;
   private bootstrapper: any;
 
-  private _consumerApiClientService: IConsumerApiService;
-  private _consumerContext: {[name: string]: ConsumerContext};
+  private _consumerApiService: IConsumerApiService;
+  private _consumerContext: ConsumerContext;
 
   public get context(): ExecutionContext {
     return this._dummyExecutionContext;
@@ -71,9 +72,15 @@ export class TestFixtureProvider {
     return this._processEngineService;
   }
 
-  public get consumerApiClientService(): IConsumerApiService {
-    return this._consumerApiClientService;
+  public get consumerApiService(): IConsumerApiService {
+    return this._consumerApiService;
   }
+
+  public get consumerContext(): ConsumerContext {
+    return this._consumerContext;
+  }
+
+
 
   public async initializeAndStart(): Promise<void> {
     this.httpBootstrapper = await this.initializeBootstrapper();
@@ -82,8 +89,8 @@ export class TestFixtureProvider {
     this._processEngineService = await this.resolveAsync('ProcessEngineService');
 
     //Services for the consumer api
-    this._consumerContext.defaultUser = await this.createConsumerContext('testuser', 'testpass');
-    this._consumerApiClientService = await this.resolveAsync('ConsumerApiClientService');
+    this._consumerContext = await this.createConsumerContext('testuser', 'testpass');
+    this._consumerApiService = await this.resolveAsync('ConsumerApiService');
   }
 
   public async executeProcess(processKey: string, initialToken: any = {}): Promise<any> {

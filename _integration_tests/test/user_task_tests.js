@@ -5,10 +5,12 @@ const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').Te
 
 describe.only('User Tasks', () => {
   let testFixtureProvider;
+  let consumerContext;
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
+    consumerContext = testFixtureProvider.consumerContext;
   });
 
   after(async () => {
@@ -16,6 +18,15 @@ describe.only('User Tasks', () => {
   });
 
   it('should execute the user task.', async () => {
-    console.log('todo');
+
+    const processKey = 'user_tasks_base_test';
+
+    console.log(consumerContext);
+
+
+    const correlationId = await testFixtureProvider.consumerApiService.startProcessInstance(consumerContext, processKey, 'StartEvent_1');
+
+    console.log(correlationId);
+
   });
 });
