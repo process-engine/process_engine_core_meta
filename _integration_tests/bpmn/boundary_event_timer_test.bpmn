@@ -31,8 +31,8 @@
         <bpmn:flowNodeRef>XORJoin2</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>TimerBoundary2</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>EndEvent_0nvdzre</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_05e5bng</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_1ff7w5g</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>FailTask1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>FailTask2</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task3</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
@@ -73,7 +73,6 @@
       <bpmn:outgoing>SequenceFlow_155dsxu</bpmn:outgoing>
       <bpmn:script>return 1;</bpmn:script>
     </bpmn:scriptTask>
-    <bpmn:sequenceFlow id="SequenceFlow_155dsxu" sourceRef="Task1" targetRef="Task2" />
     <bpmn:sequenceFlow id="SequenceFlow_181wovy" sourceRef="TimerBoundary1" targetRef="Task3" />
     <bpmn:sequenceFlow id="SequenceFlow_04hoc8f" sourceRef="Task3" targetRef="XORJoin1" />
     <bpmn:sequenceFlow id="SequenceFlow_0cz9lp0" sourceRef="XORJoin2" targetRef="Objectify" />
@@ -120,16 +119,16 @@
     <bpmn:endEvent id="EndEvent_0nvdzre" name="End">
       <bpmn:incoming>SequenceFlow_1x79rp3</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_0polrqr" sourceRef="Task2" targetRef="Task_05e5bng" />
-    <bpmn:scriptTask id="Task_05e5bng" name="Throw exception">
+    <bpmn:sequenceFlow id="SequenceFlow_0polrqr" sourceRef="Task2" targetRef="FailTask1" />
+    <bpmn:scriptTask id="FailTask1" name="Throw exception">
       <bpmn:incoming>SequenceFlow_0polrqr</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0z7zym7</bpmn:outgoing>
       <bpmn:script>throw new Error('The Timer Boundary Event was not executed after 2 Seconds')</bpmn:script>
     </bpmn:scriptTask>
-    <bpmn:sequenceFlow id="SequenceFlow_0z7zym7" sourceRef="Task_05e5bng" targetRef="XORJoin1" />
-    <bpmn:sequenceFlow id="SequenceFlow_0deyt3o" sourceRef="TimerBoundary2" targetRef="Task_1ff7w5g" />
-    <bpmn:sequenceFlow id="SequenceFlow_094t0us" sourceRef="Task_1ff7w5g" targetRef="XORJoin2" />
-    <bpmn:scriptTask id="Task_1ff7w5g" name="Throw Exception">
+    <bpmn:sequenceFlow id="SequenceFlow_0z7zym7" sourceRef="FailTask1" targetRef="XORJoin1" />
+    <bpmn:sequenceFlow id="SequenceFlow_0deyt3o" sourceRef="TimerBoundary2" targetRef="FailTask2" />
+    <bpmn:sequenceFlow id="SequenceFlow_094t0us" sourceRef="FailTask2" targetRef="XORJoin2" />
+    <bpmn:scriptTask id="FailTask2" name="Throw Exception">
       <bpmn:incoming>SequenceFlow_0deyt3o</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_094t0us</bpmn:outgoing>
       <bpmn:script>throw new Error('The boundary event should not be executed since the task already ends..');</bpmn:script>
@@ -139,6 +138,7 @@
       <bpmn:outgoing>SequenceFlow_04hoc8f</bpmn:outgoing>
       <bpmn:script>return token.current + 1</bpmn:script>
     </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="SequenceFlow_155dsxu" sourceRef="Task1" targetRef="Task2" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="test_lane">
@@ -207,13 +207,6 @@
       <bpmndi:BPMNShape id="ScriptTask_0unabo5_di" bpmnElement="Task1">
         <dc:Bounds x="256" y="189" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_155dsxu_di" bpmnElement="SequenceFlow_155dsxu">
-        <di:waypoint x="356" y="229" />
-        <di:waypoint x="456" y="229" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="406" y="207" width="0" height="13" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_181wovy_di" bpmnElement="SequenceFlow_181wovy">
         <di:waypoint x="556" y="287" />
         <di:waypoint x="556" y="339" />
@@ -274,7 +267,7 @@
           <dc:Bounds x="606" y="207.5" width="0" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ScriptTask_1mdk3my_di" bpmnElement="Task_05e5bng">
+      <bpmndi:BPMNShape id="ScriptTask_1mdk3my_di" bpmnElement="FailTask1">
         <dc:Bounds x="656" y="189" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0z7zym7_di" bpmnElement="SequenceFlow_0z7zym7">
@@ -300,9 +293,16 @@
           <dc:Bounds x="1305" y="317.5" width="0" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ScriptTask_1757m19_di" bpmnElement="Task_1ff7w5g">
+      <bpmndi:BPMNShape id="ScriptTask_1757m19_di" bpmnElement="FailTask2">
         <dc:Bounds x="1152" y="299" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_155dsxu_di" bpmnElement="SequenceFlow_155dsxu">
+        <di:waypoint x="356" y="229" />
+        <di:waypoint x="456" y="229" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="361" y="207" width="90" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
