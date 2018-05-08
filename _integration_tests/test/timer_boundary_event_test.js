@@ -25,7 +25,7 @@ describe('Timer Boundary Event Tests', () => {
       history: {
         StartEvent_1: {},
         Task1: 1,
-        TimerBoudary1: 1,
+        TimerBoundary1: 1,
         Task3: 2,
         XORJoin1: 2,
         Task4: 3,
