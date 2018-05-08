@@ -28,6 +28,7 @@ describe('Timer Boundary Event Tests', () => {
         TimerBoudary1: 1,
         Task3: 2,
         XORJoin1: 2,
+        Task4: 3,
         Task5: 3,
         XORJoin2: 3,
       },
