@@ -22,7 +22,7 @@ const registerInContainer = (container) => {
     'generic_sample',
     'parallel_gateway_test',
     'script_task_test',
-    'service_task_exception_test',
+    'service_task_test',
     'subprocess_test',
     'terminate_end_event_sample',
     'xor_gateway_base_test',

@@ -2,7 +2,7 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe.only('Script Task', () => {
+describe('Script Task', () => {
   let testFixtureProvider;
 
   // Every test case uses the same process.
