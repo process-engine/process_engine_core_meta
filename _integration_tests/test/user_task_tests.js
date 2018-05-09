@@ -30,22 +30,21 @@ describe.only('User Tasks', () => {
     const correlationId = await startProcessAndReturnCorrelationId(processKey, inputValues);
 
     // Optain the running user tasks
-    const userTask = getRunningUserTasksForCorrelationId(correlationId);
+    const runningUserTasks = await getRunningUserTasksForCorrelationId(correlationId);
 
     // Result that the running user task should receive.
-    const userTaskResult = {
+    const userTaskInput = {
       form_fields: {
         Sample_Form_Field: 'Hello',
       },
     };
 
-    console.log(userTask);
-
     // Result of the user task.
-    const utres = await testFixtureProvider.consumerApiService.finishUserTask(consumerContext,
-      processKey, correlationId.correlation_id, userTask.user_tasks[0].key, userTaskResult);
+    const userTaskResult = await testFixtureProvider.consumerApiService.finishUserTask(consumerContext,
+      processKey, correlationId, runningUserTasks.user_tasks[0].key, userTaskInput);
 
-    console.log(utres);
+    // Test, if the list of user tasks containt exactly one user task
+    should(runningUserTasks.user_tasks.length).be.equal(1);
 
   });
 
