@@ -3,7 +3,7 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe('Timer Boundary Event - ', () => {
+describe.only('Timer Boundary Event - ', () => {
 
   let testFixtureProvider;
 
@@ -34,7 +34,7 @@ describe('Timer Boundary Event - ', () => {
         XORSplit1: initialToken,
         ITask1: 1,
         ITimerBoundary1: 1,
-        ITask2: 2,
+        ITask3: 2,
         IXORJoin1: 2,
         XORJoin1: 2,
       },
