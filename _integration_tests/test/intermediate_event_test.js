@@ -3,7 +3,7 @@ const should = require('should');
 const logger = require('loggerhythm');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe.only('Intermediate Catch Throw events test', () => {
+describe('Intermediate Catch Throw events test', () => {
 
   let testFixtureProvider;
 
