@@ -68,6 +68,10 @@ export class TestFixtureProvider {
     return this._dummyExecutionContext;
   }
 
+  public get consumerContext(): ConsumerContext {
+    return this._consumerContext;
+  }
+
   public get processEngineService(): IProcessEngineService {
     return this._processEngineService;
   }
@@ -76,19 +80,13 @@ export class TestFixtureProvider {
     return this._consumerApiService;
   }
 
-  public get consumerContext(): ConsumerContext {
-    return this._consumerContext;
-  }
-
-
-
   public async initializeAndStart(): Promise<void> {
     this.httpBootstrapper = await this.initializeBootstrapper();
     await this.httpBootstrapper.start();
     this._dummyExecutionContext = await this.createExecutionContext();
     this._processEngineService = await this.resolveAsync('ProcessEngineService');
 
-    //Services for the consumer api
+    // Services for the consumer api
     this._consumerContext = await this.createConsumerContext('testuser', 'testpass');
     this._consumerApiService = await this.resolveAsync('ConsumerApiService');
   }
@@ -188,9 +186,9 @@ export class TestFixtureProvider {
 
   private async createConsumerContext(user: string, password: string): Promise<ConsumerContext> {
     const authToken: any = await this.bootstrapper.getTokenFromAuth(user, password);
-  
+
     return <ConsumerContext> {
       identity: authToken,
-    }
+    };
   }
 }
