@@ -44,7 +44,7 @@ describe('Call activity tests', () => {
     should(result).be.eql(expectedToken);
   });
 
-  it('should exectue one process which executes another process.', async () => {
+  it('should exectue a process which executes another process.', async () => {
     const processKey = 'call_activity_base_test';
 
     // Define the ingoing token
@@ -71,7 +71,7 @@ describe('Call activity tests', () => {
     should(result).be.eql(expectedToken);
   });
 
-  it('should call an activity that throws an exception which will be handled inside the call activity.', async () => {
+  it('should call an activity that throws an exception which will be handled inside the executed call activity itself.', async () => {
     const processKey = 'call_activity_exception_test';
 
     // Define the ingoing token
