@@ -4,7 +4,7 @@ const should = require('should');
 
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe.only('Call activity tests', () => {
+describe('Call activity tests', () => {
   let testFixtureProvider;
 
   before(async () => {
