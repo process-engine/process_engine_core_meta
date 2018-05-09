@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_019scie" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.13.1">
   <bpmn:collaboration id="Collaboration_1dwnbx6">
-    <bpmn:participant id="Participant_1ndejx1" name="Interediate Catch Throw events base test" processRef="catch_throw_event_signal_base_test" />
+    <bpmn:participant id="Participant_1ndejx1" name="intermediate_event_signal_test" processRef="catch_throw_event_signal_base_test" />
   </bpmn:collaboration>
   <bpmn:process id="catch_throw_event_signal_base_test" isExecutable="true">
     <bpmn:laneSet>
