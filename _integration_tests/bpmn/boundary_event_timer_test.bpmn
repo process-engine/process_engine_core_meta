@@ -101,10 +101,10 @@
       <bpmn:outgoing>SequenceFlow_12kce5b</bpmn:outgoing>
       <bpmn:script>return token.current + 1;</bpmn:script>
     </bpmn:scriptTask>
-    <bpmn:boundaryEvent id="TimerBoundary2" name="Break after 5 seconds" attachedToRef="NITask2">
+    <bpmn:boundaryEvent id="TimerBoundary2" name="Break after 20 seconds" attachedToRef="NITask2">
       <bpmn:outgoing>SequenceFlow_082fvqw</bpmn:outgoing>
       <bpmn:timerEventDefinition>
-        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P0Y0M0DT0H0M5S</bpmn:timeDuration>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P0Y0M0DT0H0M20S</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:boundaryEvent>
     <bpmn:boundaryEvent id="ITimerBoundary1" name="Break after 2 seconds" attachedToRef="ITask2">
@@ -201,7 +201,7 @@
       <bpmndi:BPMNShape id="BoundaryEvent_0s0q33f_di" bpmnElement="TimerBoundary2">
         <dc:Bounds x="600" y="537" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="641" y="542.5" width="63" height="25" />
+          <dc:Bounds x="638" y="543" width="70" height="25" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_1ons7lm_di" bpmnElement="IXORJoin1" isMarkerVisible="true">
