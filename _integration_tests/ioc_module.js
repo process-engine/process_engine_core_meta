@@ -14,6 +14,7 @@ const registerInContainer = (container) => {
   // add processes for use with the integrationtests here
   const processes = [
     'boundary_event_message_test',
+    'boundary_event_conditional',
     'boundary_event_signal_test',
     'boundary_event_error_test',
     'boundary_event_timer_test',
