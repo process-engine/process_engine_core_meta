@@ -13,20 +13,16 @@ const registerInContainer = (container) => {
 
   // add processes for use with the integrationtests here
   const processes = [
-<<<<<<< HEAD
-    'call_activity_base_test',
-    'call_activity_normal_process',
-    'call_activity_throw_exception',
-    'call_activity_throw_exception_test',
-    'error_boundary_event_test',
-=======
     'boundary_event_message_test',
     'boundary_event_signal_test',
     'boundary_event_error_test',
     'boundary_event_timer_test',
+    'call_activity_base_test',
+    'call_activity_normal_process',
+    'call_activity_throw_exception',
+    'call_activity_throw_exception_test',
     'catch_throw_event_message_base_test',
     'catch_throw_event_signal_base_test',
->>>>>>> develop
     'generic_sample',
     'parallel_gateway_test',
     'script_task_basic_test',
