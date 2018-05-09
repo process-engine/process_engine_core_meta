@@ -3,7 +3,7 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe('Timer Boundary Event Tests', () => {
+describe('Timer Boundary Event - ', () => {
 
   let testFixtureProvider;
 
@@ -16,7 +16,7 @@ describe('Timer Boundary Event Tests', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should interrupt a service task after two seconds and not interrupt a task service, that finishes before the timer was over.', async () => {
+  it('should interrupt a service task after two seconds and not interrupt a service task, that finishes before the timer was over.', async () => {
     const processKey = 'boundary_event_timer_test';
 
     // Expected Token Object

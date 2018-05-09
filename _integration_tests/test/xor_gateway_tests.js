@@ -3,7 +3,7 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe('Exclusive Gateway', async () => {
+describe('Exclusive Gateway - ', async () => {
   let testFixtureProvider;
 
   before(async () => {

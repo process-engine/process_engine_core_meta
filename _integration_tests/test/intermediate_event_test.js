@@ -3,7 +3,7 @@ const should = require('should');
 const logger = require('loggerhythm');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe('Intermediate Catch Throw events test', () => {
+describe('Intermediate Events - ', () => {
 
   let testFixtureProvider;
 
@@ -16,7 +16,7 @@ describe('Intermediate Catch Throw events test', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should throw and receive a message.', async () => {
+  it('should throw and receive a message', async () => {
     const processKey = 'intermediate_event_message_test';
 
     // Expected token object after the test finished.
@@ -40,7 +40,7 @@ describe('Intermediate Catch Throw events test', () => {
     should(result).be.eql(expectedToken);
   });
 
-  it('should throw and receive a signal.', async () => {
+  it('should throw and receive a signal', async () => {
     const processKey = 'intermediate_event_signal_test';
 
     // Expected token object after the test finished.

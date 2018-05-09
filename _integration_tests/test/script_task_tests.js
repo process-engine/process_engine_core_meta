@@ -2,7 +2,7 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe('Script Task', () => {
+describe('Script Tasks - ', () => {
   let testFixtureProvider;
 
   // Every test case uses the same process.
@@ -17,7 +17,7 @@ describe('Script Task', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should execute different simple script tasks, that access the token history and return different values.', async () => {
+  it('should execute different script tasks, that access the token history and return different values', async () => {
 
     // Initial token object
     const initialToken = {
@@ -52,7 +52,7 @@ describe('Script Task', () => {
 
   });
 
-  it('should throw an error, when trying to execute the faulty script task', async () => {
+  it('should throw an error, when trying to execute a faulty script task', async () => {
 
     // Initial token object
     const initialToken = {

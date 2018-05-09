@@ -70,12 +70,12 @@
         <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P0Y0M0DT0H0M1S</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_05gvqu7" sourceRef="ThrowMessage1" targetRef="ParallelJoin1" />
     <bpmn:intermediateThrowEvent id="ThrowMessage1" name="Throw message 1234">
       <bpmn:incoming>SequenceFlow_1bv3yyn</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_05gvqu7</bpmn:outgoing>
       <bpmn:messageEventDefinition messageRef="Message_1emkdwq" />
     </bpmn:intermediateThrowEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_05gvqu7" sourceRef="ThrowMessage1" targetRef="ParallelJoin1" />
   </bpmn:process>
   <bpmn:message id="Message_1emkdwq" name="1234" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -128,15 +128,15 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1bv3yyn_di" bpmnElement="SequenceFlow_1bv3yyn">
         <di:waypoint x="526" y="123" />
-        <di:waypoint x="607" y="123" />
+        <di:waypoint x="709" y="123" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="566.5" y="101.5" width="0" height="13" />
+          <dc:Bounds x="572.5" y="101.5" width="90" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="IntermediateThrowEvent_112vi1m_di" bpmnElement="ThrowMessage1">
-        <dc:Bounds x="607" y="105" width="36" height="36" />
+        <dc:Bounds x="709" y="105" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="586" y="144" width="79" height="25" />
+          <dc:Bounds x="688" y="144" width="79" height="25" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0cmkc9h_di" bpmnElement="SequenceFlow_0cmkc9h">
@@ -204,11 +204,11 @@
         <dc:Bounds x="141" y="23" width="1093" height="429" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_05gvqu7_di" bpmnElement="SequenceFlow_05gvqu7">
-        <di:waypoint x="643" y="123" />
+        <di:waypoint x="745" y="123" />
         <di:waypoint x="815" y="123" />
         <di:waypoint x="815" y="186" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="729" y="101.5" width="0" height="13" />
+          <dc:Bounds x="735" y="101.5" width="90" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>

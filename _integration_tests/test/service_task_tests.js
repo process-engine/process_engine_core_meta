@@ -2,7 +2,7 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe.only('Service Task - Simple Service Task', () => {
+describe('Service Task - Simple Service Task', () => {
   let testFixtureProvider;
 
   // Every test uses the same process key.
