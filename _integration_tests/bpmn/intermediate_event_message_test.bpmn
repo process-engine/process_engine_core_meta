@@ -3,7 +3,7 @@
   <bpmn:collaboration id="Collaboration_1dwnbx6">
     <bpmn:participant id="Participant_1ndejx1" name="intermediate_event_message_test" processRef="intermediate_event_message_test" />
   </bpmn:collaboration>
-  <bpmn:process id="intermediate_event_message_test" isExecutable="true">
+  <bpmn:process id="intermediate_event_message_test" name="intermediate_event_message_test&#10;" isExecutable="true">
     <bpmn:laneSet>
       <bpmn:lane id="Lane_1jhpx27" name="Lane">
         <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>

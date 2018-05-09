@@ -8,7 +8,7 @@
       </bpmn:extensionElements>
     </bpmn:participant>
   </bpmn:collaboration>
-  <bpmn:process id="boundary_event_timer_test" name="" isExecutable="true">
+  <bpmn:process id="boundary_event_timer_test" name="boundary_event_timer_test" isExecutable="true">
     <bpmn:extensionElements>
       <camunda:properties>
         <camunda:property name="role" value="agend" />

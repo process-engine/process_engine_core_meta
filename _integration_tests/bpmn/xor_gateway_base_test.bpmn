@@ -3,7 +3,7 @@
   <bpmn:collaboration id="Collaboration_1cidyxu">
     <bpmn:participant id="Participant_0px403d" name="xor_gateway_test" processRef="xor_gateway_base_test" />
   </bpmn:collaboration>
-  <bpmn:process id="xor_gateway_base_test" name="[XOR-01]Simple XOR Gateway test 1" isExecutable="false">
+  <bpmn:process id="xor_gateway_base_test" name="xor_gateway_base_test" isExecutable="false">
     <bpmn:laneSet>
       <bpmn:lane id="Lane_1xzf0d3" name="Lane">
         <bpmn:extensionElements>
