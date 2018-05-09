@@ -18,7 +18,6 @@ const registerInContainer = (container) => {
     'boundary_event_error_test',
     'boundary_event_timer_test',
     'call_activity_base_test',
-    'call_activity_normal_process',
     'call_activity_throw_exception',
     'call_activity_throw_exception_test',
     'catch_throw_event_message_base_test',
