@@ -3,9 +3,12 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe.only('Timer Boundary Event - ', () => {
+describe('Timer Boundary Event - ', () => {
 
   let testFixtureProvider;
+
+  // Raise the timout for this test to 30 seconds.
+  const testTimeout = 30000;
 
   // Every Test uses the same process model.
   const processKey = 'boundary_event_timer_test';
@@ -45,7 +48,8 @@ describe.only('Timer Boundary Event - ', () => {
 
     // Check the token, that was returned.
     should(result).be.eql(expectedToken);
-  });
+  })
+    .timeout(testTimeout);
 
   it('should not interrupt a service task that finishes, before the timespan of the timer boundary event is over', async () => {
 
@@ -74,5 +78,6 @@ describe.only('Timer Boundary Event - ', () => {
     // Check the returned token
     should(result).be.eql(expectedToken);
 
-  });
+  })
+    .timeout(testTimeout);
 });
