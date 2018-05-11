@@ -4,7 +4,7 @@ const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 const startCallbackType = require('@process-engine/consumer_api_contracts').StartCallbackType;
 
-describe.only('User Tasks - ', () => {
+describe('User Tasks - ', () => {
   let testFixtureProvider;
   let consumerContext;
 
@@ -51,13 +51,13 @@ describe.only('User Tasks - ', () => {
 
   /**
    * Start a process with the given process model key and return the resulting correlation id.
-   * @param {InputValues} inputValues Initial token value.
+   * @param {TokenObject} initialToken Initial token value.
    */
-  async function startProcessAndReturnCorrelationId(inputValues) {
+  async function startProcessAndReturnCorrelationId(initialToken) {
     const callbackType = startCallbackType.CallbackOnProcessInstanceCreated;
     const result = await testFixtureProvider
       .consumerApiService
-      .startProcessInstance(consumerContext, processModelKey, 'StartEvent_1', {}, callbackType);
+      .startProcessInstance(consumerContext, processModelKey, 'StartEvent_1', initialToken, callbackType);
 
     return result.correlation_id;
   }
