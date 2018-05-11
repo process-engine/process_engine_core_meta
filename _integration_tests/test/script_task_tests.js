@@ -17,7 +17,7 @@ describe('Script Tasks - ', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should execute different script tasks, that access the token history and return different values', async () => {
+  it('should execute different script tasks that access the token history and return different values', async () => {
 
     // Initial token object
     const initialToken = {
@@ -52,7 +52,7 @@ describe('Script Tasks - ', () => {
 
   });
 
-  it('should throw an error, when trying to execute a faulty script task', async () => {
+  it('should throw an error when trying to execute a faulty script task', async () => {
 
     // Initial token object
     const initialToken = {
@@ -66,7 +66,7 @@ describe('Script Tasks - ', () => {
     await testFixtureProvider.executeProcess(processKey, initialToken).should.be.rejectedWith(expectedMessage);
   });
 
-  it('should throw the expected script error', async () => {
+  it('should throw an expected error, thrown by the script task', async () => {
     // Initial token object
     const initialToken = {
       test_type: 'throw_exception',

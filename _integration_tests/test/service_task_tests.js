@@ -2,7 +2,7 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe('Service Task - Simple Service Task', () => {
+describe('Service Task - ', () => {
   let testFixtureProvider;
 
   // Every test uses the same process key.
@@ -17,7 +17,7 @@ describe('Service Task - Simple Service Task', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should return the values which are provided by the sample test service.', async () => {
+  it('should return the values which is provided by the test service.', async () => {
 
     // Initial token object
     const initialToken = {
