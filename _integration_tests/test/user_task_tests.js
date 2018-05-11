@@ -4,9 +4,11 @@ const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 const startCallbackType = require('@process-engine/consumer_api_contracts').StartCallbackType;
 
-describe.only('User Tasks', () => {
+describe.only('User Tasks - ', () => {
   let testFixtureProvider;
   let consumerContext;
+
+  const processModelKey = 'user_task_test';
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
@@ -20,14 +22,13 @@ describe.only('User Tasks', () => {
 
   it('should execute the user task.', async () => {
 
-    const processKey = 'user_tasks_base_test';
-
-    const inputValues = {
+    // Initial Token Object
+    const initialToken = {
       input_values: {},
     };
 
     // Start the process
-    const correlationId = await startProcessAndReturnCorrelationId(processKey, inputValues);
+    const correlationId = await startProcessAndReturnCorrelationId(initialToken);
 
     // Optain the running user tasks
     const runningUserTasks = await getRunningUserTasksForCorrelationId(correlationId);
@@ -41,7 +42,7 @@ describe.only('User Tasks', () => {
 
     // Result of the user task.
     const userTaskResult = await testFixtureProvider.consumerApiService.finishUserTask(consumerContext,
-      processKey, correlationId, runningUserTasks.user_tasks[0].key, userTaskInput);
+      processModelKey, correlationId, runningUserTasks.user_tasks[0].key, userTaskInput);
 
     // Test, if the list of user tasks containt exactly one user task
     should(runningUserTasks.user_tasks.length).be.equal(1);
@@ -50,14 +51,13 @@ describe.only('User Tasks', () => {
 
   /**
    * Start a process with the given process model key and return the resulting correlation id.
-   * @param {string} processModelKey Key of the process Model.
    * @param {InputValues} inputValues Initial token value.
    */
-  async function startProcessAndReturnCorrelationId(processModelKey, inputValues) {
+  async function startProcessAndReturnCorrelationId(inputValues) {
     const callbackType = startCallbackType.CallbackOnProcessInstanceCreated;
     const result = await testFixtureProvider
       .consumerApiService
-      .startProcessInstance(consumerContext, processModelKey, 'StartEvent_1', inputValues, callbackType);
+      .startProcessInstance(consumerContext, processModelKey, 'StartEvent_1', {}, callbackType);
 
     return result.correlation_id;
   }

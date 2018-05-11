@@ -1,7 +1,7 @@
 {
   "claimConfig": {
     "testuser": [
-      "user_task_test",
+      "user_task_test_lane",
       "can_view_usertask",
       "Lane A",
       "Lane B"
