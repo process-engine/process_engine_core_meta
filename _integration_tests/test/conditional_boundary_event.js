@@ -18,7 +18,7 @@ describe('Conditional Boundary Event', () => {
   it('should return "lesser" if token is 4 or lesser.', async () => {
     const processKey = 'boundary_event_conditional';
 
-    const result = await testFixtureProvider.executeProcess(processKey, 5);
+    const result = await testFixtureProvider.executeProcess(processKey, 4);
     console.log(result);
 
     // Compare the result objects
