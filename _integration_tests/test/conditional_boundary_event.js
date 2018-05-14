@@ -19,7 +19,6 @@ describe('Conditional Boundary Event', () => {
     const processKey = 'boundary_event_conditional';
 
     const result = await testFixtureProvider.executeProcess(processKey, 4);
-    console.log(result);
 
     // Compare the result objects
     should(result.current).be.eql('lesser');
@@ -29,7 +28,6 @@ describe('Conditional Boundary Event', () => {
     const processKey = 'boundary_event_conditional';
 
     const result = await testFixtureProvider.executeProcess(processKey, 6);
-    console.log(result);
 
     // Compare the result objects
     should(result.current).be.eql('greater');
