@@ -23,6 +23,7 @@
                         <camunda:properties />
                         <camunda:properties />
                         <camunda:properties />
+                        <camunda:properties />
                     </bpmn:extensionElements>
                     <bpmn:flowNodeRef>
                         StartEvent_1
@@ -67,6 +68,7 @@
                     <camunda:properties />
                     <camunda:properties />
                     <camunda:properties />
+                    <camunda:properties />
                 </bpmn:extensionElements>
                 <bpmn:outgoing>
                     SequenceFlow_16gvzxi
@@ -75,6 +77,7 @@
             <bpmn:scriptTask id="Task_1" name="Return token">
                 <bpmn:extensionElements>
                     <camunda:executionListener class="" event="" />
+                    <camunda:properties />
                     <camunda:properties />
                     <camunda:properties />
                     <camunda:properties />
@@ -125,6 +128,7 @@
                     <camunda:properties />
                     <camunda:properties />
                     <camunda:properties />
+                    <camunda:properties />
                 </bpmn:extensionElements>
                 <bpmn:outgoing>
                     SequenceFlow_0a4srpj
@@ -146,6 +150,7 @@
                 <bpmn:boundaryEvent id="BoundaryEvent_06qbafc" name="" attachedToRef="Task_1">
                     <bpmn:extensionElements>
                         <camunda:executionListener class="" event="" />
+                        <camunda:properties />
                         <camunda:properties />
                     </bpmn:extensionElements>
                     <bpmn:outgoing>
