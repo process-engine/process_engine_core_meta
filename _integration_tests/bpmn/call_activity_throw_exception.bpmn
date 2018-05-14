@@ -72,7 +72,7 @@
     <bpmn:scriptTask id="Task5" name="Set the current token value to 1">
       <bpmn:incoming>SequenceFlow_0rl0oni</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0slr8bl</bpmn:outgoing>
-      <bpmn:script>return token.current + 1;</bpmn:script>
+      <bpmn:script>return 1;</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:scriptTask id="ErrorTask1" name="Set the current token value to -2">
       <bpmn:incoming>SequenceFlow_18chndf</bpmn:incoming>
