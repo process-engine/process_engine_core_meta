@@ -4,7 +4,7 @@ const should = require('should');
 
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe('Call activity tests', () => {
+describe.only('Call activity tests', () => {
   let testFixtureProvider;
 
   before(async () => {
@@ -83,7 +83,7 @@ describe('Call activity tests', () => {
     const expectedResultToken = {
       current: 2,
       history: {
-        StartEvent1: initialToken,
+        StartEvent_1: initialToken,
         XORSplit1: initialToken,
         CallActivity1: 1,
         Task1: 2,
@@ -95,7 +95,7 @@ describe('Call activity tests', () => {
     const result = await testFixtureProvider.executeProcess(processKey, initialToken);
 
     // Compare the results
-    should(result).should.be.eql(expectedResultToken);
+    should(result).be.eql(expectedResultToken);
   });
 
   it('should call an activity that throws an unexpected exception and catch it via a boundary event.', async () => {
@@ -122,6 +122,6 @@ describe('Call activity tests', () => {
     const result = await testFixtureProvider.executeProcess(processKey, initialToken);
 
     // Compare the results
-    should(result).should.be.eql(expectedResultToken);
+    should(result).be.eql(expectedResultToken);
   });
 });

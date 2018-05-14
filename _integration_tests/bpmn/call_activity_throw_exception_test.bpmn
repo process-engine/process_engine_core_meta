@@ -6,7 +6,7 @@
   <bpmn:process id="call_activity_exception_test" isExecutable="true">
     <bpmn:laneSet>
       <bpmn:lane id="Lane_1mpflpe">
-        <bpmn:flowNodeRef>StartEvent_15iy39b</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>XORSplit1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>CallActivity2</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>BoundaryEvent_0d9zz19</bpmn:flowNodeRef>
@@ -19,7 +19,7 @@
         <bpmn:flowNodeRef>Task1</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
-    <bpmn:startEvent id="StartEvent_15iy39b" name="Start">
+    <bpmn:startEvent id="StartEvent_1" name="Start">
       <bpmn:outgoing>SequenceFlow_0kktwad</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:exclusiveGateway id="XORSplit1">
@@ -27,7 +27,7 @@
       <bpmn:outgoing>SequenceFlow_1iz5126</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_0tbe8pb</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_0kktwad" sourceRef="StartEvent_15iy39b" targetRef="XORSplit1" />
+    <bpmn:sequenceFlow id="SequenceFlow_0kktwad" sourceRef="StartEvent_1" targetRef="XORSplit1" />
     <bpmn:sequenceFlow id="SequenceFlow_1iz5126" name="The Called Process should handle the exception" sourceRef="XORSplit1" targetRef="CallActivity1">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">token.current.handle_exception == true</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -94,7 +94,7 @@
       <bpmndi:BPMNShape id="Lane_1mpflpe_di" bpmnElement="Lane_1mpflpe">
         <dc:Bounds x="239" y="247" width="965" height="401" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="StartEvent_15iy39b_di" bpmnElement="StartEvent_15iy39b">
+      <bpmndi:BPMNShape id="StartEvent_15iy39b_di" bpmnElement="StartEvent_1">
         <dc:Bounds x="263" y="394" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="269" y="433" width="24" height="13" />

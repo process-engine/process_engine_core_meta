@@ -56,8 +56,7 @@
       <bpmn:incoming>SequenceFlow_0ra776h</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0kfvd5b</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_07fn5cu</bpmn:outgoing>
-      <bpmn:script>throw new Error("This exception is not handled");
-</bpmn:script>
+      <bpmn:script>throw new Error("This exception is not handled");</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:sequenceFlow id="SequenceFlow_0kfvd5b" sourceRef="Task4" targetRef="ErrorTask2" />
     <bpmn:exclusiveGateway id="ExclusiveGateway_0ahd5ql">
@@ -75,18 +74,18 @@
       <bpmn:outgoing>SequenceFlow_0slr8bl</bpmn:outgoing>
       <bpmn:script>return token.current + 1;</bpmn:script>
     </bpmn:scriptTask>
-    <bpmn:scriptTask id="ErrorTask1" name="Set the current token value to -1">
+    <bpmn:scriptTask id="ErrorTask1" name="Set the current token value to -2">
       <bpmn:incoming>SequenceFlow_18chndf</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0agyu1r</bpmn:outgoing>
       <bpmn:script>return -2;</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:sequenceFlow id="SequenceFlow_07fn5cu" sourceRef="Task4" targetRef="ErrorTask2" />
     <bpmn:sequenceFlow id="SequenceFlow_0pln5o7" sourceRef="ErrorTask2" targetRef="ExclusiveGateway_0ahd5ql" />
-    <bpmn:scriptTask id="ErrorTask2" name="Set the current token value to -1">
+    <bpmn:scriptTask id="ErrorTask2" name="Set the current token value to -2">
       <bpmn:incoming>SequenceFlow_07fn5cu</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_0kfvd5b</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0pln5o7</bpmn:outgoing>
-      <bpmn:script>return -1;</bpmn:script>
+      <bpmn:script>return -2;</bpmn:script>
     </bpmn:scriptTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
