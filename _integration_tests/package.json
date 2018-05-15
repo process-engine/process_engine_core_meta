@@ -47,7 +47,7 @@
     "@essential-projects/timing": "^1.0.0",
     "@essential-projects/validation": "^1.0.0",
     "@process-engine/process_engine": "feature~execution_refactoring_poc_new_object_model",
-    "@process-engine/process_engine_contracts": "^5.1.0",
+    "@process-engine/process_engine_contracts": "feature~execution_refactoring_poc_new_object_model",
     "@process-engine/process_engine_http": "^1.0.0",
     "@process-engine/process_repository": "^1.0.0",
     "addict-ioc": "^2.2.11",
