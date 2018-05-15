@@ -109,14 +109,14 @@ export class TestFixtureProvider {
     const processDefEntityTypeService: any = await this.container.resolveAsync('ProcessDefEntityTypeService');
     const integrationTestRootDir: string = '_integration_tests';
 
-    /* tslint:disable:prefer-template*/
-    const checkAppendRootDirRegEx: RegExp = RegExp('.*' + integrationTestRootDir);
+    // TODO: Maybe refactor
 
-    // Check if the current working directory contains the root directory of the integration test module.
-    // If not, append the name of the integration test root directory.
-    const filePathToRootDir: string = process.cwd().match(checkAppendRootDirRegEx)
-          ? process.cwd()
-          : path.join(process.cwd(), integrationTestRootDir);
+    // Check if the current working directory is the root directoy of the test (which is given, when the package.json file
+    // Exists in the current working directory).
+    const filePathToRootDir: string = fs.existsSync(
+      path.join(process.cwd(), 'package.json'))
+        ? process.cwd()
+        : path.join(process.cwd(), integrationTestRootDir);
 
     for (const file of filelist) {
       const filePath: string = path.join(filePathToRootDir, directoryName, file);
