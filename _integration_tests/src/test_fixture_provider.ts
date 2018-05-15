@@ -110,7 +110,8 @@ export class TestFixtureProvider {
 
     for (const file of filelist) {
       const filePath: string = path.join(directoryName, file);
-      await this.getProcessFromFile(filePath, processDefEntityTypeService);
+      const absoulteFilePath: string = path.resolve(filePath);
+      await this.getProcessFromFile(absoulteFilePath, processDefEntityTypeService);
     }
   }
 
