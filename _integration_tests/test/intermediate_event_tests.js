@@ -21,7 +21,6 @@ describe('Intermediate Events - ', () => {
 
     // Expected token object after the test finished.
     const expectedToken = {
-      current: 2,
       history: {
         StartEvent_1: {},
         Task1: 1,
@@ -45,7 +44,6 @@ describe('Intermediate Events - ', () => {
 
     // Expected token object after the test finished.
     const expectedToken = {
-      current: 2,
       history: {
         StartEvent_1: {},
         Task1: 1,

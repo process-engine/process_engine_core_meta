@@ -19,7 +19,6 @@ describe('Boundary Event - ', () => {
     const processKey = 'boundary_event_message_test';
 
     const expectedToken = {
-      current: 2,
       history: {
         StartEvent_1: {},
         Task1: 1,
@@ -44,7 +43,6 @@ describe('Boundary Event - ', () => {
     const processKey = 'boundary_event_signal_test';
 
     const expectedToken = {
-      current: 2,
       history: {
         StartEvent_1: {},
         Task1: 1,
