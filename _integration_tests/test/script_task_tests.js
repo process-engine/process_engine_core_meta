@@ -47,7 +47,7 @@ describe('Script Tasks - ', () => {
     // Execute the process
     const result = await testFixtureProvider.executeProcess(processKey, initialToken);
 
-    result.should.be.eql(expectedToken);
+    should(result).be.eql(expectedToken);
 
   });
 

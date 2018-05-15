@@ -15,7 +15,7 @@ describe('Boundary Event - ', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should interrupt the running service task when a message arrives', async () => {
+  it.skip('should interrupt the running service task when a message arrives', async () => {
     const processKey = 'boundary_event_message_test';
 
     const expectedToken = {
@@ -38,7 +38,7 @@ describe('Boundary Event - ', () => {
     should(result).be.eql(expectedToken);
   });
 
-  it('should interrupt the running service task when a signal arrives', async () => {
+  it.skip('should interrupt the running service task when a signal arrives', async () => {
     const processKey = 'boundary_event_signal_test';
 
     const expectedToken = {

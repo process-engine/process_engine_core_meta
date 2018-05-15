@@ -16,7 +16,7 @@ describe('Intermediate Events - ', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should throw and receive a message', async () => {
+  it.skip('should throw and receive a message', async () => {
     const processKey = 'intermediate_event_message_test';
 
     // Expected token object after the test finished.
@@ -38,7 +38,7 @@ describe('Intermediate Events - ', () => {
     should(result).be.eql(expectedToken);
   });
 
-  it('should throw and receive a signal', async () => {
+  it.skip('should throw and receive a signal', async () => {
     const processKey = 'intermediate_event_signal_test';
 
     // Expected token object after the test finished.

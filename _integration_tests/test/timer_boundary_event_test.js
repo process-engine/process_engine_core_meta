@@ -50,7 +50,7 @@ describe('Timer Boundary Event - ', () => {
   })
     .timeout(testTimeout);
 
-  it('should not interrupt a service task that finishes, before the timespan of the timer boundary event is over', async () => {
+  it.skip('should not interrupt a service task that finishes, before the timespan of the timer boundary event is over', async () => {
 
     // Initial token object
     const initialToken = {

@@ -56,7 +56,7 @@ describe('Call activity tests', () => {
     should(result).be.eql(expectedResultToken);
   });
 
-  it('should exectue a process which executes another process', async () => {
+  it.skip('should exectue a process which executes another process', async () => {
     const processKey = 'call_activity_base_test';
 
     // Define the ingoing token
@@ -108,7 +108,7 @@ describe('Call activity tests', () => {
     should(result).be.eql(expectedResultToken);
   });
 
-  it('should call an activity that throws an unexpected exception which is catched it via a boundary event', async () => {
+  it.skip('should call an activity that throws an unexpected exception which is catched it via a boundary event', async () => {
     const processKey = 'call_activity_exception_test';
 
     // Define the ingoing token
