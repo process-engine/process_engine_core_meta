@@ -46,7 +46,6 @@ describe('Timer Boundary Event - ', () => {
     // Execute the process
     const result = await testFixtureProvider.executeProcess(processKey, initialToken);
 
-    // Check the token, that was returned.
     should(result).be.eql(expectedToken);
   })
     .timeout(testTimeout);
@@ -75,7 +74,6 @@ describe('Timer Boundary Event - ', () => {
     // Execute the process
     const result = await testFixtureProvider.executeProcess(processKey, initialToken);
 
-    // Check the returned token
     should(result).be.eql(expectedToken);
 
   })

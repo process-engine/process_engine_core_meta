@@ -35,7 +35,6 @@ describe('Boundary Event - ', () => {
 
     const result = await testFixtureProvider.executeProcess(processKey);
 
-    // Compare the result objects
     should(result).be.eql(expectedToken);
   });
 
@@ -59,7 +58,6 @@ describe('Boundary Event - ', () => {
 
     const result = await testFixtureProvider.executeProcess(processKey);
 
-    // Compare the result objects
     should(result).be.eql(expectedToken);
   });
 });

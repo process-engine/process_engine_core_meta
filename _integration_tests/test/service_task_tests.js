@@ -17,7 +17,7 @@ describe('Service Task - ', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should return the values which is provided by the test service.', async () => {
+  it('should return the values which is provided by the test service', async () => {
 
     // Initial token object
     const initialToken = {
@@ -45,11 +45,10 @@ describe('Service Task - ', () => {
     // Execute the process
     const result = await testFixtureProvider.executeProcess(processKey, initialToken);
 
-    // Compare the results
     result.should.be.eql(exptectedToken);
   });
 
-  it('should throw an error.', async () => {
+  it('should throw an error', async () => {
 
     // Initial token object
     const initialToken = {
@@ -59,7 +58,6 @@ describe('Service Task - ', () => {
     // Expected exception content
     const expectedExceptionContent = /Failed/i;
 
-    // Check, if the exception is thrown and the promise is rejected.
     await testFixtureProvider.executeProcess(processKey, initialToken).should.be.rejectedWith(expectedExceptionContent);
   });
 });

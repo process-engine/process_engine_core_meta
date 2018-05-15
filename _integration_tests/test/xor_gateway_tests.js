@@ -34,7 +34,6 @@ describe('Exclusive Gateway - ', async () => {
     // Execute the process
     const result = await testFixtureProvider.executeProcess(processModelKey);
 
-    // Compare the Token
     result.should.be.eql(expectedResult);
   });
 
@@ -61,7 +60,6 @@ describe('Exclusive Gateway - ', async () => {
     // Execute the process
     const result = await testFixtureProvider.executeProcess(processKey);
 
-    // Compare the resulting token of the process with the expected token.
     result.should.be.eql(expectedToken);
 
   });

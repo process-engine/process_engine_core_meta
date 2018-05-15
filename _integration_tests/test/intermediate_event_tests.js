@@ -35,7 +35,6 @@ describe('Intermediate Events - ', () => {
 
     const result = await testFixtureProvider.executeProcess(processKey);
 
-    // Compare the result with the expected token
     should(result).be.eql(expectedToken);
   });
 
@@ -58,7 +57,6 @@ describe('Intermediate Events - ', () => {
 
     const result = await testFixtureProvider.executeProcess(processKey);
 
-    // Compare the result with the expected token
     should(result).be.eql(expectedToken);
   });
 
