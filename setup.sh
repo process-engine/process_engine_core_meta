@@ -4,6 +4,7 @@ npm install -g meta gulp
 # checkout all repos in the correct branch
 meta git update
 meta exec "git checkout develop" --exclude process_engine_meta
+meta exec "git checkout feature/execution_refactoring_poc_new_object_model" --exclude process_engine_meta
 
 # retrieve latest versions
 meta git pull
