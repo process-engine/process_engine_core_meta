@@ -92,7 +92,6 @@ export class TestFixtureProvider {
   public async getProcessbyId(bpmnFilename: string): Promise<any> {
     const processRepository: any = await this.resolveAsync('ProcessRepository');
     const processes: any = await processRepository.getProcessesByCategory('internal');
-
     const matchingProcess: any = _.find(processes, (process: any) => {
       return process.name === bpmnFilename;
     });
@@ -100,8 +99,29 @@ export class TestFixtureProvider {
     return matchingProcess;
   }
 
-  public async getProcessFromFile(bpmnFilename: string): Promise<any> {
+  /**
+   * Load all given processes with their matching process definition files.
+   * @param directoryName Name of the directory which contains the bpmn files that should be loaded.
+   * @param filelist List of the process definition bpmn files. The filename must end with .bmpn.
+   */
+  public async loadProcessesFromBPMNFiles(directoryName: string, filelist: Array<string>): Promise<void> {
+    // Load the Process Definition Entity Type Service once to prevent an ioc container lookup on every iteration.
     const processDefEntityTypeService: any = await this.container.resolveAsync('ProcessDefEntityTypeService');
+
+    for (const file of filelist) {
+      const filePath: string = path.join(directoryName, file);
+      await this.getProcessFromFile(filePath, processDefEntityTypeService);
+    }
+  }
+
+  /**
+   * Load a process definition with the given name.
+   * @param bpmnFilename Filename of the process definition
+   * @param processDefEntityTypeServiceInstance If set, use the given reference to the process definition entity typeservice. If unset, get a new
+   * instance by asking the ioc container.
+   */
+  public async getProcessFromFile(bpmnFilename: string, processDefEntityTypeServiceInstance: any): Promise<any> {
+    const processDefEntityTypeService: any = processDefEntityTypeServiceInstance || await this.resolveAsync('ProcessDefEntityTypeService');
 
     return processDefEntityTypeService.importBpmnFromFile(this.context, {
       file: bpmnFilename,
