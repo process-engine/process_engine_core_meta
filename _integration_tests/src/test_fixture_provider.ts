@@ -107,15 +107,17 @@ export class TestFixtureProvider {
   public async loadProcessesFromBPMNFiles(directoryName: string, filelist: Array<string>): Promise<void> {
     // Load the Process Definition Entity Type Service once to prevent an ioc container lookup on every iteration.
     const processDefEntityTypeService: any = await this.container.resolveAsync('ProcessDefEntityTypeService');
-    const integrationTestDirName: string = '_integration_tests';
 
     // TODO: Maybe refactor the following.
 
     // Check if the current working directory contains the root directory of the integration test module.
     // If not, append the name of the integration test root directory.
-    const rootDirPath: string = process.cwd().endsWith(integrationTestDirName)
-          ? process.cwd()
-          : path.join(process.cwd(), integrationTestDirName);
+    let rootDirPath: string = process.cwd();
+    const integrationTestDirName: string = '_integration_tests';
+
+    if (!rootDirPath.endsWith(integrationTestDirName)) {
+      rootDirPath = path.join(rootDirPath, integrationTestDirName);
+    }
 
     for (const file of filelist) {
       const filePath: string = path.join(rootDirPath, directoryName, file);
