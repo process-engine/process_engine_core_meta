@@ -16,6 +16,12 @@ describe('Timer Boundary Event - ', () => {
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
+
+    const bpmnProcessDefDirectory = 'bpmn';
+    const processDefFileList = ['boundary_event_timer_test.bpmn'];
+
+    await testFixtureProvider.loadProcessesFromBPMNFiles(bpmnProcessDefDirectory, processDefFileList);
+
   });
 
   after(async () => {

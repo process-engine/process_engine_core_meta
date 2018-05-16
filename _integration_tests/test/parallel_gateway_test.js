@@ -10,6 +10,12 @@ describe('Parallel Gateway execution', () => {
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
+
+    const bpmnProcessDefDirectory = 'bpmn';
+    const processDefFileList = ['parallel_gateway_test.bpmn'];
+
+    await testFixtureProvider.loadProcessesFromBPMNFiles(bpmnProcessDefDirectory, processDefFileList);
+
   });
 
   after(async () => {

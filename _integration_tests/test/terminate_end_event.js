@@ -16,6 +16,11 @@ describe('Terminate End Event', () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
 
+    const bpmnProcessDefDirectory = 'bpmn';
+    const processDefFileList = ['terminate_end_event_sample.bpmn'];
+
+    await testFixtureProvider.loadProcessesFromBPMNFiles(bpmnProcessDefDirectory, processDefFileList);
+
     nodeInstanceEntityTypeService = await testFixtureProvider.resolveAsync('NodeInstanceEntityTypeService');
   });
 

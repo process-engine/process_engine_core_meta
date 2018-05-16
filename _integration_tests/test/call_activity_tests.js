@@ -13,7 +13,6 @@ describe('Call activity tests', () => {
     await testFixtureProvider.initializeAndStart();
 
     const bpmnProcessDefDirectory = 'bpmn';
-
     const processDefFileList = ['call_activity_base_test.bpmn',
       'call_activity_nested_process.bpmn',
       'call_activity_normal_process.bpmn',

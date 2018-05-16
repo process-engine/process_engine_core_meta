@@ -10,6 +10,13 @@ describe('Intermediate Events - ', () => {
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
+
+    const bpmnProcessDefDirectory = 'bpmn';
+    const processDefFileList = [
+      'intermediate_event_message_test.bpmn',
+      'intermediate_event_signal_test.bpmn'];
+
+    await testFixtureProvider.loadProcessesFromBPMNFiles(bpmnProcessDefDirectory, processDefFileList);
   });
 
   after(async () => {
