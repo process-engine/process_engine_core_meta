@@ -110,8 +110,10 @@ export class TestFixtureProvider {
 
     // TODO: Maybe refactor the following.
 
-    // Check if the current working directory contains the root directory of the integration test module.
-    // If not, append the name of the integration test root directory.
+    // Check, if the current working directory is the directory specified in integrationTestDirName.
+    // If not, append the name to the rootDirPath.
+    // This is necessary, because jenkins fails to start the tests, since the cwd on jenkins
+    // is different then on the local machine while running the tests.
     let rootDirPath: string = process.cwd();
     const integrationTestDirName: string = '_integration_tests';
 
