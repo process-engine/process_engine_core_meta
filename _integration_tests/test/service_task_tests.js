@@ -2,8 +2,11 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe('Service Task - Simple Service Task', () => {
+describe('Service Task - ', () => {
   let testFixtureProvider;
+
+  // Every test uses the same process key.
+  const processKey = 'service_task_test';
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
@@ -14,40 +17,48 @@ describe('Service Task - Simple Service Task', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should return the values provided by the sample service.', async () => {
+  it('should return the values which is provided by the test service', async () => {
 
-    const processKey = 'service_task_basic_test';
+    // Initial token object
+    const initialToken = {
+      test_type: 'basic_test',
+    };
+
+    const simpleObject = {
+      prop1: 1337,
+      prop2: 'Hello World',
+    };
 
     // The exptected token object should looks like this
     const exptectedToken = {
-      current: 5,
+      current: simpleObject,
       history: {
-        StartEvent_1: {},
-        Task1: 1,
-        Task2: {
-          prop1: 1337,
-          prop2: 'Hello World',
-        },
-        Task3: 1,
-        Task4: 5,
+        StartEvent_1: initialToken,
+        XORSplit1: initialToken,
+        BTTask1: 1,
+        BTTask2: simpleObject,
+        BTTask3: simpleObject,
+        XORJoin1: simpleObject,
       },
     };
 
     // Execute the process
-    const result = await testFixtureProvider.executeProcess(processKey);
+    const result = await testFixtureProvider.executeProcess(processKey, initialToken);
 
-    // Compare the results
     result.should.be.eql(exptectedToken);
   });
 
-  it('should throw an error.', async () => {
+  it('should throw an error', async () => {
 
-    const processKey = 'service_task_exception_test';
+    // Initial token object
+    const initialToken = {
+      test_type: 'throw_exception',
+    };
 
     // Expected exception content
     const expectedExceptionContent = /Failed/i;
 
     // Check, if the exception is thrown and the promise is rejected.
-    await testFixtureProvider.executeProcess(processKey).should.be.rejectedWith(expectedExceptionContent);
+    await testFixtureProvider.executeProcess(processKey, initialToken).should.be.rejectedWith(expectedExceptionContent);
   });
 });
