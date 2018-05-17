@@ -13,20 +13,7 @@ const registerInContainer = (container) => {
 
   // add processes for use with the integrationtests here
   const processes = [
-    'boundary_event_message_test',
-    'boundary_event_signal_test',
-    'boundary_event_error_test',
-    'boundary_event_timer_test',
-    'intermediate_event_message_test',
-    'intermediate_event_signal_test',
     'generic_sample',
-    'parallel_gateway_test',
-    'script_task_test',
-    'service_task_test',
-    'subprocess_test',
-    'terminate_end_event_sample',
-    'xor_gateway_base_test',
-    'xor_gateway_nested',
   ];
 
   processes.map((processFilename) => {
