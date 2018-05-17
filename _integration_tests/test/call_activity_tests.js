@@ -12,15 +12,15 @@ describe('Call activity tests', () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
 
-    const bpmnProcessDefDirectory = 'bpmn';
     const processDefFileList = ['call_activity_base_test.bpmn',
       'call_activity_nested_process.bpmn',
       'call_activity_normal_process.bpmn',
       'call_activity_throw_exception.bpmn',
-      'call_activity_throw_exception_test.bpmn'];
+      'call_activity_throw_exception_test.bpmn',
+    ];
 
     // Load all processes definitions that belongs to the test
-    await testFixtureProvider.loadProcessesFromBPMNFiles(bpmnProcessDefDirectory, processDefFileList);
+    await testFixtureProvider.loadProcessesFromBPMNFiles(processDefFileList);
 
   });
 

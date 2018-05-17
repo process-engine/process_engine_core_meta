@@ -10,12 +10,12 @@ describe('Boundary Event - ', () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
 
-    const bpmnProcessDefDirectory = 'bpmn';
     const processDefList = [
       'boundary_event_message_test.bpmn',
-      'boundary_event_signal_test.bpmn'];
+      'boundary_event_signal_test.bpmn',
+    ];
 
-    await testFixtureProvider.loadProcessesFromBPMNFiles(bpmnProcessDefDirectory, processDefList);
+    await testFixtureProvider.loadProcessesFromBPMNFiles(processDefList);
   });
 
   after(async () => {
