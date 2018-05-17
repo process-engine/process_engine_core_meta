@@ -8,33 +8,33 @@
       </bpmn:extensionElements>
     </bpmn:participant>
   </bpmn:collaboration>
-  <bpmn:process id="call_activity_base_test" name="[CA1]Call Activity base test" isExecutable="false">
+  <bpmn:process id="call_activity_base_test" name="[CA1]Call Activity base test" isExecutable="true">
     <bpmn:laneSet>
-      <bpmn:lane id="Lane_1xzf0d3" name="Lane">
+      <bpmn:lane id="Lane_1xzf0d3" name="Call Activity Lane">
         <bpmn:extensionElements>
           <camunda:executionListener class="" event="" />
           <camunda:properties />
         </bpmn:extensionElements>
         <bpmn:flowNodeRef>CallActivity2</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>CallActivity1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Objectify</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>XORSplit1</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>XORJoin1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ExclusiveGatewaySplit_92vrb290b1c</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ExclusiveGatewayJoin_08v1crf3cvf1v19c</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>EndEvent_1ix3iyx</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task1</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:sequenceFlow id="SequenceFlow_1qh6ra1" sourceRef="StartEvent_1" targetRef="Task1" />
-    <bpmn:sequenceFlow id="SequenceFlow_08qdbhe" name="Basic Subprocess" sourceRef="XORSplit1" targetRef="CallActivity1">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[token.current.operation === 'basic_test';]]></bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_08qdbhe" name="Basic Subprocess" sourceRef="ExclusiveGatewaySplit_92vrb290b1c" targetRef="CallActivity1">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[token.history.StartEvent_1.operation === 'basic_test';]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_03amt7x" name="Nested Subprocesses" sourceRef="XORSplit1" targetRef="CallActivity2">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[token.current.operation === 'nested_test';]]></bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="SequenceFlow_03amt7x" name="Nested Subprocesses" sourceRef="ExclusiveGatewaySplit_92vrb290b1c" targetRef="CallActivity2">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[token.history.StartEvent_1.operation === 'nested_test';]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0jrnh8c" sourceRef="CallActivity2" targetRef="XORJoin1" />
-    <bpmn:sequenceFlow id="SequenceFlow_0kht2qx" sourceRef="CallActivity1" targetRef="XORJoin1" />
-    <bpmn:sequenceFlow id="SequenceFlow_1bikbuc" sourceRef="XORJoin1" targetRef="Objectify" />
+    <bpmn:sequenceFlow id="SequenceFlow_0jrnh8c" sourceRef="CallActivity2" targetRef="ExclusiveGatewayJoin_08v1crf3cvf1v19c" />
+    <bpmn:sequenceFlow id="SequenceFlow_0kht2qx" sourceRef="CallActivity1" targetRef="ExclusiveGatewayJoin_08v1crf3cvf1v19c" />
+    <bpmn:sequenceFlow id="SequenceFlow_1bikbuc" sourceRef="ExclusiveGatewayJoin_08v1crf3cvf1v19c" targetRef="Objectify" />
     <bpmn:sequenceFlow id="SequenceFlow_0yuqmzo" sourceRef="Objectify" targetRef="EndEvent_1ix3iyx" />
     <bpmn:startEvent id="StartEvent_1" name="[CA1]Call Activity base test">
       <bpmn:extensionElements>
@@ -45,7 +45,7 @@
       </bpmn:extensionElements>
       <bpmn:outgoing>SequenceFlow_1qh6ra1</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:exclusiveGateway id="XORSplit1" name="">
+    <bpmn:exclusiveGateway id="ExclusiveGatewaySplit_92vrb290b1c" name="">
       <bpmn:incoming>SequenceFlow_03j02na</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_08qdbhe</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_03amt7x</bpmn:outgoing>
@@ -54,12 +54,7 @@
       <bpmn:incoming>SequenceFlow_03amt7x</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0jrnh8c</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:sequenceFlow id="SequenceFlow_03j02na" sourceRef="Task1" targetRef="XORSplit1" />
-    <bpmn:scriptTask id="Task1" name="Set the current token value to 1">
-      <bpmn:incoming>SequenceFlow_1qh6ra1</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_03j02na</bpmn:outgoing>
-      <bpmn:script>return 1;</bpmn:script>
-    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="SequenceFlow_03j02na" sourceRef="Task1" targetRef="ExclusiveGatewaySplit_92vrb290b1c" />
     <bpmn:callActivity id="CallActivity1" name="Increment current token value with external process" calledElement="call_activity_normal_process">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
@@ -69,7 +64,7 @@
       <bpmn:incoming>SequenceFlow_08qdbhe</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0kht2qx</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:exclusiveGateway id="XORJoin1">
+    <bpmn:exclusiveGateway id="ExclusiveGatewayJoin_08v1crf3cvf1v19c">
       <bpmn:incoming>SequenceFlow_0jrnh8c</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_0kht2qx</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1bikbuc</bpmn:outgoing>
@@ -86,6 +81,11 @@
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0yuqmzo</bpmn:incoming>
     </bpmn:endEvent>
+    <bpmn:scriptTask id="Task1" name="Set the current token value to 1">
+      <bpmn:incoming>SequenceFlow_1qh6ra1</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_03j02na</bpmn:outgoing>
+      <bpmn:script>return 1;</bpmn:script>
+    </bpmn:scriptTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1cidyxu">
@@ -111,7 +111,7 @@
         <dc:Bounds x="417" y="28" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ScriptTask_1qua8gh_di" bpmnElement="Task1">
-        <dc:Bounds x="182" y="111" width="100" height="80" />
+        <dc:Bounds x="170" y="111" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0yuqmzo_di" bpmnElement="SequenceFlow_0yuqmzo">
         <di:waypoint xsi:type="dc:Point" x="752" y="151" />
@@ -123,7 +123,7 @@
       <bpmndi:BPMNShape id="ScriptTask_1mg69tu_di" bpmnElement="Objectify">
         <dc:Bounds x="652" y="111" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ExclusiveGateway_1y0w572_di" bpmnElement="XORSplit1" isMarkerVisible="true">
+      <bpmndi:BPMNShape id="ExclusiveGateway_1y0w572_di" bpmnElement="ExclusiveGatewaySplit_92vrb290b1c" isMarkerVisible="true">
         <dc:Bounds x="307" y="126" width="50" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="342" y="113" width="55" height="25" />
@@ -131,9 +131,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1qh6ra1_di" bpmnElement="SequenceFlow_1qh6ra1">
         <di:waypoint xsi:type="dc:Point" x="129" y="151" />
-        <di:waypoint xsi:type="dc:Point" x="182" y="151" />
+        <di:waypoint xsi:type="dc:Point" x="170" y="151" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="110.5" y="129.5" width="90" height="13" />
+          <dc:Bounds x="104.5" y="129.5" width="90" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_08qdbhe_di" bpmnElement="SequenceFlow_08qdbhe">
@@ -144,7 +144,7 @@
           <dc:Bounds x="298" y="35" width="89" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ExclusiveGateway_197m51j_di" bpmnElement="XORJoin1" isMarkerVisible="true">
+      <bpmndi:BPMNShape id="ExclusiveGateway_197m51j_di" bpmnElement="ExclusiveGatewayJoin_08v1crf3cvf1v19c" isMarkerVisible="true">
         <dc:Bounds x="569" y="126" width="50" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="549" y="186" width="90" height="13" />
@@ -185,10 +185,10 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_03j02na_di" bpmnElement="SequenceFlow_03j02na">
-        <di:waypoint xsi:type="dc:Point" x="282" y="151" />
+        <di:waypoint xsi:type="dc:Point" x="270" y="151" />
         <di:waypoint xsi:type="dc:Point" x="307" y="151" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="294.5" y="129.5" width="0" height="13" />
+          <dc:Bounds x="243.5" y="129.5" width="90" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>

@@ -8,9 +8,9 @@
       </bpmn:extensionElements>
     </bpmn:participant>
   </bpmn:collaboration>
-  <bpmn:process id="call_activity_normal_process" name="[CA2]Called Process" isExecutable="false">
+  <bpmn:process id="call_activity_normal_process" name="[CA2]Called Process" isExecutable="true">
     <bpmn:laneSet>
-      <bpmn:lane id="Lane_1xzf0d3" name="Lane">
+      <bpmn:lane id="Lane_1xzf0d3" name="Call Activity Lane">
         <bpmn:extensionElements>
           <camunda:executionListener class="" event="" />
           <camunda:properties />

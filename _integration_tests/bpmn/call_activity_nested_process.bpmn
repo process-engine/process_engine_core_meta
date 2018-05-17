@@ -5,7 +5,7 @@
   </bpmn:collaboration>
   <bpmn:process id="Process_1" isExecutable="true">
     <bpmn:laneSet>
-      <bpmn:lane id="Lane_0b8n12c" name="Lane">
+      <bpmn:lane id="Lane_0b8n12c" name="Call Activity Lane">
         <bpmn:flowNodeRef>StartEvent_00rrn0z</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_1q44u8o</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_0biodng</bpmn:flowNodeRef>
