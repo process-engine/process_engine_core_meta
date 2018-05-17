@@ -3,25 +3,31 @@ const should = require('should');
 const logger = require('loggerhythm');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe('Intermediate Catch Throw events test', () => {
+describe('Intermediate Events - ', () => {
 
   let testFixtureProvider;
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
+
+    const processDefFileList = [
+      'intermediate_event_message_test.bpmn',
+      'intermediate_event_signal_test.bpmn',
+    ];
+
+    await testFixtureProvider.loadProcessesFromBPMNFiles(processDefFileList);
   });
 
   after(async () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should throw and receive a message.', async () => {
-    const processKey = 'catch_throw_event_message_base_test';
+  it.skip('should throw and receive a message', async () => {
+    const processKey = 'intermediate_event_message_test';
 
     // Expected token object after the test finished.
     const expectedToken = {
-      current: 2,
       history: {
         StartEvent_1: {},
         Task1: 1,
@@ -36,16 +42,14 @@ describe('Intermediate Catch Throw events test', () => {
 
     const result = await testFixtureProvider.executeProcess(processKey);
 
-    // Compare the result with the expected token
     should(result).be.eql(expectedToken);
   });
 
-  it('should throw and receive a signal.', async () => {
-    const processKey = 'catch_throw_event_signal_base_test';
+  it.skip('should throw and receive a signal', async () => {
+    const processKey = 'intermediate_event_signal_test';
 
     // Expected token object after the test finished.
     const expectedToken = {
-      current: 2,
       history: {
         StartEvent_1: {},
         Task1: 1,
@@ -60,7 +64,6 @@ describe('Intermediate Catch Throw events test', () => {
 
     const result = await testFixtureProvider.executeProcess(processKey);
 
-    // Compare the result with the expected token
     should(result).be.eql(expectedToken);
   });
 

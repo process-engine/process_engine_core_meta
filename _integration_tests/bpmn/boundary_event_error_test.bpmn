@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definition_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.10.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definition_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.13.1">
   <bpmn:collaboration id="Collaboration_1cidyxu">
-    <bpmn:participant id="Participant_0px403d" name="ErrorBoundaryEvent" processRef="boundary_event_error_test" />
+    <bpmn:participant id="Participant_0px403d" name="boundary_event_error_test" processRef="boundary_event_error_test" />
   </bpmn:collaboration>
-  <bpmn:process id="boundary_event_error_test" name="ErrorBoundaryEvent" isExecutable="false">
+  <bpmn:process id="boundary_event_error_test" name="boundary_event_error_test" isExecutable="false">
     <bpmn:laneSet>
       <bpmn:lane id="Lane_1xzf0d3" name="Lane">
         <bpmn:extensionElements>
@@ -51,8 +51,8 @@
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_18lguz5</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1dir57p</bpmn:outgoing>
-      <bpmn:script><![CDATA[console.log('Error Boundary Event triggered!');
-console.log(token.history.ScriptTask_ErrorRaiser);]]></bpmn:script>
+      <bpmn:script>console.log('Error Boundary Event triggered!');
+console.log(token.history.ScriptTask_ErrorRaiser);</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:sequenceFlow id="SequenceFlow_0szmujr" name="" sourceRef="ScriptTask_ErrorRaiser" targetRef="ScriptTask_Success" />
     <bpmn:sequenceFlow id="SequenceFlow_0ue80rd" sourceRef="ScriptTask_Success" targetRef="EndEvent_0ax00t6">
@@ -69,9 +69,9 @@ console.log(token.history.ScriptTask_ErrorRaiser);]]></bpmn:script>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0szmujr</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ue80rd</bpmn:outgoing>
-      <bpmn:script><![CDATA[console.log('Continue normal execution');
+      <bpmn:script>console.log('Continue normal execution');
 console.log(token.history.ScriptTask_ErrorRaiser);
-return 'success!';]]></bpmn:script>
+return 'success!';</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:sequenceFlow id="SequenceFlow_1dir57p" sourceRef="ScriptTask_AfterErrorThrown" targetRef="EndEvent_14s92ha">
       <bpmn:extensionElements>
@@ -87,9 +87,9 @@ return 'success!';]]></bpmn:script>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0gshgcn</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0szmujr</bpmn:outgoing>
-      <bpmn:script><![CDATA[if (token.history.StartEvent_1.raiseError === true) {
+      <bpmn:script>if (token.history.StartEvent_1.raiseError === true) {
   throw new Error('test');
-}]]></bpmn:script>
+}</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:boundaryEvent id="BoundaryEvent_14fwi4a" attachedToRef="ScriptTask_ErrorRaiser">
       <bpmn:extensionElements>
@@ -115,8 +115,8 @@ return 'success!';]]></bpmn:script>
         <dc:Bounds x="35" y="4" width="553" height="311" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0gshgcn_di" bpmnElement="SequenceFlow_0gshgcn">
-        <di:waypoint xsi:type="dc:Point" x="137" y="83" />
-        <di:waypoint xsi:type="dc:Point" x="216" y="83" />
+        <di:waypoint x="137" y="83" />
+        <di:waypoint x="216" y="83" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="131.5" y="61.5" width="90" height="13" />
         </bpmndi:BPMNLabel>
@@ -140,8 +140,8 @@ return 'success!';]]></bpmn:script>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_18lguz5_di" bpmnElement="SequenceFlow_18lguz5">
-        <di:waypoint xsi:type="dc:Point" x="316" y="141" />
-        <di:waypoint xsi:type="dc:Point" x="316" y="189" />
+        <di:waypoint x="316" y="141" />
+        <di:waypoint x="316" y="189" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="286" y="158.5" width="90" height="13" />
         </bpmndi:BPMNLabel>
@@ -150,15 +150,15 @@ return 'success!';]]></bpmn:script>
         <dc:Bounds x="266" y="189" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0szmujr_di" bpmnElement="SequenceFlow_0szmujr">
-        <di:waypoint xsi:type="dc:Point" x="316" y="83" />
-        <di:waypoint xsi:type="dc:Point" x="370" y="83" />
+        <di:waypoint x="316" y="83" />
+        <di:waypoint x="370" y="83" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="298" y="61.5" width="90" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0ue80rd_di" bpmnElement="SequenceFlow_0ue80rd">
-        <di:waypoint xsi:type="dc:Point" x="470" y="83" />
-        <di:waypoint xsi:type="dc:Point" x="523" y="83" />
+        <di:waypoint x="470" y="83" />
+        <di:waypoint x="523" y="83" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="496.5" y="61.5" width="0" height="13" />
         </bpmndi:BPMNLabel>
@@ -167,8 +167,8 @@ return 'success!';]]></bpmn:script>
         <dc:Bounds x="370" y="43" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1dir57p_di" bpmnElement="SequenceFlow_1dir57p">
-        <di:waypoint xsi:type="dc:Point" x="366" y="229" />
-        <di:waypoint xsi:type="dc:Point" x="523" y="229" />
+        <di:waypoint x="366" y="229" />
+        <di:waypoint x="523" y="229" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="444.5" y="207" width="0" height="13" />
         </bpmndi:BPMNLabel>
