@@ -12,7 +12,8 @@ describe('Exclusive Gateway - ', async () => {
 
     const processDefFileList = [
       'xor_gateway_base_test.bpmn',
-      'xor_gateway_nested.bpmn'];
+      'xor_gateway_nested.bpmn',
+    ];
 
     await testFixtureProvider.loadProcessesFromBPMNFiles(processDefFileList);
   });
