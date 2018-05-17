@@ -100,18 +100,10 @@ export class TestFixtureProvider {
   }
 
   /**
-   * Load all given processes with their matching process definition files.
-   * @param directoryName Name of the directory which contains the bpmn files that should be loaded.
-   * @param filelist List of the process definition bpmn files. The filename must end with .bmpn.
+   * Generate an absoulte file path, which points to the bpmn process definition files.
+   * @param directoryName Name of the directory, which contains the bpmn files
    */
-  public async loadProcessesFromBPMNFiles(directoryName: string, filelist: Array<string>): Promise<void> {
-    // Load the Process Definition Entity Type Service once to prevent an ioc container lookup on every iteration.
-    const processDefEntityTypeService: any = await this.container.resolveAsync('ProcessDefEntityTypeService');
-
-    // Check, if the current working directory is the directory specified in integrationTestDirName.
-    // If not, append the name to the rootDirPath.
-    // This is necessary, because jenkins fails to start the tests, since the cwd on jenkins
-    // is different then on the local machine while running the tests.
+  private generateFilePath(directoryName: string): string {
 
     // TODO: Maybe refacor.
     // This works, but is not really nice. There are currently some edge cases, where this method
@@ -125,8 +117,29 @@ export class TestFixtureProvider {
       rootDirPath = path.join(rootDirPath, integrationTestDirName);
     }
 
+    return path.join(rootDirPath, directoryName);
+  }
+
+  /**
+   * Load all given processes with their matching process definition files.
+   * @param filelist List of the process definition bpmn files. The filename must end with .bmpn.
+   * @param directoryName If set, load the bpmn process definition file from this directory. If unset, use
+   * bpmn/  as a default directory.
+   */
+  public async loadProcessesFromBPMNFiles(filelist: Array<string>, directoryName: string): Promise<void> {
+    // Load the Process Definition Entity Type Service once to prevent an ioc container lookup on every iteration.
+    const processDefEntityTypeService: any = await this.container.resolveAsync('ProcessDefEntityTypeService');
+
+    const bpmnDefFileDirectoryName: string = directoryName || 'bpmn';
+
+    // Check, if the current working directory is the directory specified in integrationTestDirName.
+    // If not, append the name to the rootDirPath.
+    // This is necessary, because jenkins fails to start the tests, since the cwd on jenkins
+    // is different then on the local machine while running the tests.
+    const bpmnFilePath: string = this.generateFilePath(bpmnDefFileDirectoryName);
+
     for (const file of filelist) {
-      const filePath: string = path.join(rootDirPath, directoryName, file);
+      const filePath: string = path.join(bpmnFilePath, file);
       await this.getProcessFromFile(filePath, processDefEntityTypeService);
     }
   }
