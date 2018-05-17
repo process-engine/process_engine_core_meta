@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definition_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.13.1">
   <bpmn:collaboration id="Collaboration_1cidyxu">
-    <bpmn:participant id="Participant_0px403d" name="[XOR4]Nestend XOR" processRef="xor_gateway_nested" />
+    <bpmn:participant id="Participant_0px403d" name="xor_gateway_nested_test" processRef="xor_gateway_nested" />
   </bpmn:collaboration>
   <bpmn:process id="xor_gateway_nested" name="[XOR4]Nestend XOR" isExecutable="false">
     <bpmn:laneSet>
