@@ -15,21 +15,21 @@ describe('Conditional Boundary Event', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should return "lesser" if token is 4 or lesser.', async () => {
+  it('should return "lesser" if the initial token is lesser or equal then four.', async () => {
     const processKey = 'boundary_event_conditional';
 
     const result = await testFixtureProvider.executeProcess(processKey, 4);
 
-    // Compare the result objects
+    should.exists(result);
     should(result.current).be.eql('lesser');
   });
 
-  it('should return "greater" if token is 6 or greater.', async () => {
+  it('should return "greater" if the initial token is greater or equal then six.', async () => {
     const processKey = 'boundary_event_conditional';
 
     const result = await testFixtureProvider.executeProcess(processKey, 6);
 
-    // Compare the result objects
+    should.exists(result);
     should(result.current).be.eql('greater');
   });
 });
