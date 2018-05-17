@@ -6,8 +6,8 @@ import * as path from 'path';
 import {InvocationContainer} from 'addict-ioc';
 import {Logger} from 'loggerhythm';
 
-import {ExecutionContext} from '@essential-projects/core_contracts';
-import {IProcessEngineService} from '@process-engine/process_engine_contracts';
+import {ExecutionContext, IIamService, TokenType} from '@essential-projects/core_contracts';
+import {IProcessEngineService, IProcessRepository, IProcessDefEntityTypeService} from '@process-engine/process_engine_contracts';
 
 const logger: Logger = Logger.createLogger('test:bootstrapper');
 
@@ -52,7 +52,6 @@ const iocModules: Array<any> = iocModuleNames.map((moduleName: string): any => {
 });
 
 export class TestFixtureProvider {
-  private httpBootstrapper: any;
   private _processEngineService: IProcessEngineService;
   private _dummyExecutionContext: ExecutionContext;
 
@@ -68,10 +67,12 @@ export class TestFixtureProvider {
   }
 
   public async initializeAndStart(): Promise<void> {
-    this.httpBootstrapper = await this.initializeBootstrapper();
-    await this.httpBootstrapper.start();
-    this._dummyExecutionContext = await this.createExecutionContext();
-    this._processEngineService = await this.resolveAsync('ProcessEngineService');
+    await this.initializeBootstrapper();
+
+    await this.bootstrapper.start();
+
+    this._dummyExecutionContext = await this.createExecutionContext('testuser', 'testpass');
+    this._processEngineService = await this.resolveAsync<IProcessEngineService>('ProcessEngineService');
   }
 
   public async executeProcess(processKey: string, initialToken: any = {}): Promise<any> {
@@ -86,12 +87,12 @@ export class TestFixtureProvider {
     return this.processEngineService.executeProcessInstance(this.context, processInstanceId, undefined, initialToken);
   }
 
-  public async resolveAsync(moduleName: string): Promise<any> {
-    return this.container.resolveAsync(moduleName);
+  public async resolveAsync<T>(moduleName: string): Promise<any> {
+    return this.container.resolveAsync<T>(moduleName);
   }
 
   public async getProcessbyId(bpmnFilename: string): Promise<any> {
-    const processRepository: any = await this.resolveAsync('ProcessRepository');
+    const processRepository: any = await this.resolveAsync<IProcessRepository>('ProcessRepository');
     const processes: any = await processRepository.getProcessesByCategory('internal');
     const matchingProcess: any = _.find(processes, (process: any) => {
       return process.name === bpmnFilename;
@@ -133,12 +134,14 @@ export class TestFixtureProvider {
    * bpmn/  as a default directory.
    */
   public async loadProcessesFromBPMNFiles(filelist: Array<string>, directoryName: string = 'bpmn'): Promise<void> {
-    // Load the Process Definition Entity Type Service once to prevent an ioc container lookup on every iteration.
-    const processDefEntityTypeService: any = await this.container.resolveAsync('ProcessDefEntityTypeService');
+
+    const processDefEntityTypeService: any = await this.resolveAsync('ProcessDefEntityTypeService');
     const bpmnDirPath: string = this.resolvePath(directoryName);
 
-    for (const file of filelist) {
-      const filePath: string = path.join(bpmnDirPath, file);
+    for (const fileName of filelist) {
+      // TODO: The import is currently broken (existing processes are duplicated, not overwritten).
+      // Until this is fixed, use the "classic" ioc registration
+      const filePath: string = path.join(bpmnDirPath, fileName);
       await this.getProcessFromFile(filePath, processDefEntityTypeService);
     }
   }
@@ -149,20 +152,29 @@ export class TestFixtureProvider {
    * @param processDefEntityTypeServiceInstance If set, use the given reference to the process definition entity typeservice. If unset, get a new
    * instance by asking the ioc container.
    */
-  public async getProcessFromFile(bpmnFilename: string, processDefEntityTypeServiceInstance: any): Promise<any> {
-    const processDefEntityTypeService: any = processDefEntityTypeServiceInstance || await this.resolveAsync('ProcessDefEntityTypeService');
-
-    return processDefEntityTypeService.importBpmnFromFile(this.context, {
+  public async getProcessFromFile(bpmnFilename: string, processDefEntityTypeServiceInstance: IProcessDefEntityTypeService): Promise<any> {
+    // TODO: Import is currently broken (see above)
+    return processDefEntityTypeServiceInstance.importBpmnFromFile(this.context, {
       file: bpmnFilename,
+    }, {
+      overwriteExisting: true,
     });
   }
 
-  public async tearDown(): Promise<void> {
-    await this.httpBootstrapper.reset();
-    await this.httpBootstrapper.shutdown();
+  public async createExecutionContext(user: string, password: string): Promise<ExecutionContext> {
+    const authToken: any = await this.bootstrapper.getTokenFromAuth(user, password);
+    const iamService: IIamService = await this.resolveAsync<IIamService>('IamService');
+    const executionContext: ExecutionContext = await iamService.resolveExecutionContext(authToken, TokenType.jwt);
+
+    return executionContext;
   }
 
-  private async initializeBootstrapper(): Promise<any> {
+  public async tearDown(): Promise<void> {
+    await this.bootstrapper.reset();
+    await this.bootstrapper.shutdown();
+  }
+
+  private async initializeBootstrapper(): Promise<void> {
 
     try {
       this.container = new InvocationContainer({
@@ -200,18 +212,9 @@ export class TestFixtureProvider {
       this.bootstrapper.addFixtures('User', identityFixtures);
 
       logger.info('Bootstrapper started.');
-
-      return this.bootstrapper;
     } catch (error) {
       logger.error('Failed to start bootstrapper!', error);
       throw error;
     }
-  }
-
-  private async createExecutionContext(): Promise<any> {
-    const iamService: any = await this.container.resolveAsync('IamService');
-    const context: any = await iamService.createInternalContext('system');
-
-    return context;
   }
 }
