@@ -105,6 +105,11 @@ export class TestFixtureProvider {
    */
   private resolvePath(directoryName: string): string {
 
+    // Check, if the current working directory is the directory specified in integrationTestDirName (see below).
+    // If not, append the name to the rootDirPath.
+    // This is necessary, because jenkins fails to start the tests, since the cwd on jenkins
+    // is different then on the local machine while running the tests.
+
     // TODO: Maybe refacor.
     // This works, but is not really nice. There are currently some edge cases, where this method
     // method should fail. For Example when there are two nested integration test directories. In a directory
@@ -129,11 +134,6 @@ export class TestFixtureProvider {
   public async loadProcessesFromBPMNFiles(filelist: Array<string>, directoryName: string = 'bpmn'): Promise<void> {
     // Load the Process Definition Entity Type Service once to prevent an ioc container lookup on every iteration.
     const processDefEntityTypeService: any = await this.container.resolveAsync('ProcessDefEntityTypeService');
-
-    // Check, if the current working directory is the directory specified in integrationTestDirName.
-    // If not, append the name to the rootDirPath.
-    // This is necessary, because jenkins fails to start the tests, since the cwd on jenkins
-    // is different then on the local machine while running the tests.
     const bpmnDirPath: string = this.resolvePath(directoryName);
 
     for (const file of filelist) {
