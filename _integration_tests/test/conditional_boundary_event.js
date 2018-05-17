@@ -9,6 +9,9 @@ describe('Conditional Boundary Event', () => {
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
+
+    const testProcessDefFileName = ['boundary_event_conditional.bpmn'];
+    await testFixtureProvider.loadProcessesFromBPMNFiles(testProcessDefFileName);
   });
 
   after(async () => {
