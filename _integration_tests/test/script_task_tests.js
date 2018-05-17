@@ -11,6 +11,10 @@ describe('Script Tasks - ', () => {
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
+
+    const processDefFiles = ['script_task_test.bpmn'];
+    await testFixtureProvider.loadProcessesFromBPMNFiles(processDefFiles);
+
   });
 
   after(async () => {

@@ -11,6 +11,9 @@ describe('Service Task - ', () => {
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
+
+    const processDefFileList = ['service_task_test.bpmn'];
+    await testFixtureProvider.loadProcessesFromBPMNFiles(processDefFileList);
   });
 
   after(async () => {

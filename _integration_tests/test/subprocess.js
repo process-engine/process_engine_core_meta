@@ -14,6 +14,9 @@ describe('SubProcess', () => {
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
+
+    const processDefFileList = ['subprocess_test.bpmn'];
+    await testFixtureProvider.loadProcessesFromBPMNFiles(processDefFileList);
   });
 
   after(async () => {
