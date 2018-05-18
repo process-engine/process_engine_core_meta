@@ -110,7 +110,6 @@ export class TestFixtureProvider {
   public async getProcessbyId(bpmnFilename: string): Promise<any> {
     const processRepository: any = await this.resolveAsync('ProcessRepository');
     const processes: any = await processRepository.getProcessesByCategory('internal');
-
     const matchingProcess: any = _.find(processes, (process: any) => {
       return process.name === bpmnFilename;
     });
@@ -118,8 +117,57 @@ export class TestFixtureProvider {
     return matchingProcess;
   }
 
-  public async getProcessFromFile(bpmnFilename: string): Promise<any> {
+  /**
+   * Generate an absoulte file path, which points to the bpmn process definition files.
+   * @param directoryName Name of the directory, which contains the bpmn files
+   */
+  private resolvePath(directoryName: string): string {
+
+    // Check, if the current working directory is the directory specified in integrationTestDirName (see below).
+    // If not, append the name to the rootDirPath.
+    // This is necessary, because jenkins fails to start the tests, since the cwd on jenkins
+    // is different then on the local machine while running the tests.
+
+    // TODO: Maybe refacor.
+    // This works, but is not really nice. There are currently some edge cases, where this method
+    // method should fail. For Example when there are two nested integration test directories. In a directory
+    // structure shuch as /path/to/test/_integration_tests/_integration_tests/ it should fail.
+
+    let rootDirPath: string = process.cwd();
+    const integrationTestDirName: string = '_integration_tests';
+
+    if (!rootDirPath.endsWith(integrationTestDirName)) {
+      rootDirPath = path.join(rootDirPath, integrationTestDirName);
+    }
+
+    return path.join(rootDirPath, directoryName);
+  }
+
+  /**
+   * Load all given processes with their matching process definition files.
+   * @param filelist List of the process definition bpmn files. The filename must end with .bmpn.
+   * @param directoryName If set, load the bpmn process definition file from this directory. If unset, use
+   * bpmn/  as a default directory.
+   */
+  public async loadProcessesFromBPMNFiles(filelist: Array<string>, directoryName: string = 'bpmn'): Promise<void> {
+    // Load the Process Definition Entity Type Service once to prevent an ioc container lookup on every iteration.
     const processDefEntityTypeService: any = await this.container.resolveAsync('ProcessDefEntityTypeService');
+    const bpmnDirPath: string = this.resolvePath(directoryName);
+
+    for (const file of filelist) {
+      const filePath: string = path.join(bpmnDirPath, file);
+      await this.getProcessFromFile(filePath, processDefEntityTypeService);
+    }
+  }
+
+  /**
+   * Load a process definition with the given name.
+   * @param bpmnFilename Filename of the process definition
+   * @param processDefEntityTypeServiceInstance If set, use the given reference to the process definition entity typeservice. If unset, get a new
+   * instance by asking the ioc container.
+   */
+  public async getProcessFromFile(bpmnFilename: string, processDefEntityTypeServiceInstance: any): Promise<any> {
+    const processDefEntityTypeService: any = processDefEntityTypeServiceInstance || await this.resolveAsync('ProcessDefEntityTypeService');
 
     return processDefEntityTypeService.importBpmnFromFile(this.context, {
       file: bpmnFilename,

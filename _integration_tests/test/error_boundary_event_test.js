@@ -12,6 +12,11 @@ describe('Error Boundary Event - ', () => {
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
+
+    const processDefFileList = ['boundary_event_error_test.bpmn'];
+
+    await testFixtureProvider.loadProcessesFromBPMNFiles(processDefFileList);
+
   });
 
   after(async () => {

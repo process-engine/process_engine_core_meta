@@ -3,23 +3,29 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe('Boundary Event', () => {
+describe('Boundary Event - ', () => {
   let testFixtureProvider;
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
+
+    const processDefList = [
+      'boundary_event_message_test.bpmn',
+      'boundary_event_signal_test.bpmn',
+    ];
+
+    await testFixtureProvider.loadProcessesFromBPMNFiles(processDefList);
   });
 
   after(async () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should interrupt the running service task, when a message arrives.', async () => {
+  it.skip('should interrupt the running service task when a message arrives', async () => {
     const processKey = 'boundary_event_message_test';
 
     const expectedToken = {
-      current: 2,
       history: {
         StartEvent_1: {},
         Task1: 1,
@@ -36,15 +42,13 @@ describe('Boundary Event', () => {
 
     const result = await testFixtureProvider.executeProcess(processKey);
 
-    // Compare the result objects
     should(result).be.eql(expectedToken);
   });
 
-  it('should interrupt the running service task, when a signal arrives.', async () => {
+  it.skip('should interrupt the running service task when a signal arrives', async () => {
     const processKey = 'boundary_event_signal_test';
 
     const expectedToken = {
-      current: 2,
       history: {
         StartEvent_1: {},
         Task1: 1,
@@ -61,7 +65,6 @@ describe('Boundary Event', () => {
 
     const result = await testFixtureProvider.executeProcess(processKey);
 
-    // Compare the result objects
     should(result).be.eql(expectedToken);
   });
 });
