@@ -4,7 +4,7 @@ const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 const startCallbackType = require('@process-engine/consumer_api_contracts').StartCallbackType;
 
-describe('User Tasks - ', () => {
+describe.only('User Tasks - ', () => {
   let testFixtureProvider;
   let consumerContext;
 
@@ -14,6 +14,9 @@ describe('User Tasks - ', () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
     consumerContext = testFixtureProvider.consumerContext;
+
+    const processDefinitionFiles = ['user_task_test.bpmn'];
+    await testFixtureProvider.loadProcessesFromBPMNFiles(processDefinitionFiles);
   });
 
   after(async () => {
