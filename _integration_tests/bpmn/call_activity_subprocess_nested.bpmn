@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_0p9nein" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.10.0">
   <bpmn:collaboration id="Collaboration_1nztpgd">
-    <bpmn:participant id="Participant_08uh7et" name="[CA4]Nested Call Activity" processRef="Process_1" />
+    <bpmn:participant id="Participant_08uh7et" name="[CA4]Nested Call Activity" processRef="call_activity_subprocess_nested" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_1" isExecutable="true">
+  <bpmn:process id="call_activity_subprocess_nested" isExecutable="true">
     <bpmn:laneSet>
       <bpmn:lane id="Lane_0b8n12c" name="Call Activity Lane">
         <bpmn:flowNodeRef>StartEvent_00rrn0z</bpmn:flowNodeRef>
@@ -18,9 +18,9 @@
     <bpmn:scriptTask id="Task_1q44u8o" name="Increment current token value">
       <bpmn:incoming>SequenceFlow_0k8j3gi</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1og0qr1</bpmn:outgoing>
-      <bpmn:script>return token.current + 1;</bpmn:script>
+      <bpmn:script>return token.history.StartEvent_00rrn0z + 1;</bpmn:script>
     </bpmn:scriptTask>
-    <bpmn:callActivity id="Task_0biodng" name="Increment current token value with external process" calledElement="call_activity_normal_process">
+    <bpmn:callActivity id="Task_0biodng" name="Increment current token value with external process" calledElement="call_activity_subprocess">
       <bpmn:incoming>SequenceFlow_1og0qr1</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ch5tb6</bpmn:outgoing>
     </bpmn:callActivity>

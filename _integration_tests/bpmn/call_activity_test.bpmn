@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definition_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.10.0">
   <bpmn:collaboration id="Collaboration_1cidyxu">
-    <bpmn:participant id="Participant_0px403d" name="[CA1]Call Activity base test" processRef="call_activity_base_test">
+    <bpmn:participant id="Participant_0px403d" name="[CA1]Call Activity base test" processRef="call_activity_test">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
         <camunda:properties />
       </bpmn:extensionElements>
     </bpmn:participant>
   </bpmn:collaboration>
-  <bpmn:process id="call_activity_base_test" name="[CA1]Call Activity base test" isExecutable="true">
+  <bpmn:process id="call_activity_test" name="[CA1]Call Activity base test" isExecutable="true">
     <bpmn:laneSet>
       <bpmn:lane id="Lane_1xzf0d3" name="Call Activity Lane">
         <bpmn:extensionElements>
@@ -50,17 +50,12 @@
       <bpmn:outgoing>SequenceFlow_08qdbhe</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_03amt7x</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:callActivity id="CallActivity2" name="Increment token value with nested process" calledElement="call_activity_nested_process">
+    <bpmn:callActivity id="CallActivity2" name="Increment token value with nested process" calledElement="call_activity_subprocess_nested">
       <bpmn:incoming>SequenceFlow_03amt7x</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0jrnh8c</bpmn:outgoing>
     </bpmn:callActivity>
     <bpmn:sequenceFlow id="SequenceFlow_03j02na" sourceRef="Task1" targetRef="ExclusiveGatewaySplit_92vrb290b1c" />
-    <bpmn:callActivity id="CallActivity1" name="Increment current token value with external process" calledElement="call_activity_normal_process">
-      <bpmn:extensionElements>
-        <camunda:executionListener class="" event="" />
-        <camunda:properties />
-        <camunda:properties />
-      </bpmn:extensionElements>
+    <bpmn:callActivity id="CallActivity1" name="Increment current token value with external process" calledElement="call_activity_subprocess">
       <bpmn:incoming>SequenceFlow_08qdbhe</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0kht2qx</bpmn:outgoing>
     </bpmn:callActivity>
