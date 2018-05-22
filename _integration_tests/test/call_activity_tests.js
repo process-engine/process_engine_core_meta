@@ -6,7 +6,7 @@ const util = require('util');
 
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe.only('Call activity tests', () => {
+describe('Call activity tests', () => {
   let testFixtureProvider;
 
   before(async () => {
@@ -24,7 +24,6 @@ describe.only('Call activity tests', () => {
     //  'call_activity_test_error.bpmn',
     // ];
 
-    // // Load all processes definitions that belongs to the test
     // await testFixtureProvider.loadProcessesFromBPMNFiles(processDefFileList);
   });
 
