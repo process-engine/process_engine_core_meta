@@ -16,9 +16,11 @@ describe('Terminate End Event', () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
 
-    const processDefFileList = ['terminate_end_event_sample.bpmn'];
-
-    await testFixtureProvider.loadProcessesFromBPMNFiles(processDefFileList);
+    // TODO: The import is currently broken (existing processes are duplicated, not overwritten).
+    // Until this is fixed, use the "classic" ioc registration
+    //
+    // const processDefFileList = ['terminate_end_event_sample.bpmn'];
+    // await testFixtureProvider.loadProcessesFromBPMNFiles(processDefFileList);
 
     nodeInstanceEntityTypeService = await testFixtureProvider.resolveAsync('NodeInstanceEntityTypeService');
   });

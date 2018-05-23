@@ -1,15 +1,10 @@
 {
   "claimConfig": {
     "testuser": [
-      "can_start_process",
-      "can_view_usertask",
-      "Lane A",
-      "Lane B"
+      "Call Activity Lane"
     ],
     "laneuser": [
-      "Lane A",
-      "Lane C",
-      "Lane D"
+      "Call Activity Lane"
     ]
   }
 }

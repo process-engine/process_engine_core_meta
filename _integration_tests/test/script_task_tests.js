@@ -12,9 +12,11 @@ describe('Script Tasks - ', () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
 
-    const processDefFiles = ['script_task_test.bpmn'];
-    await testFixtureProvider.loadProcessesFromBPMNFiles(processDefFiles);
-
+    // TODO: The import is currently broken (existing processes are duplicated, not overwritten).
+    // Until this is fixed, use the "classic" ioc registration
+    //
+    // const processDefFiles = ['script_task_test.bpmn'];
+    // await testFixtureProvider.loadProcessesFromBPMNFiles(processDefFiles);
   });
 
   after(async () => {
