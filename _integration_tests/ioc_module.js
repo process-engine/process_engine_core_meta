@@ -22,6 +22,7 @@ const registerInContainer = (container) => {
     'call_activity_subprocess_nested',
     'call_activity_test',
     'call_activity_test_error',
+    'boundary_event_conditional',
     'exclusive_gateway_base_test',
     'exclusive_gateway_nested',
     'generic_sample',
