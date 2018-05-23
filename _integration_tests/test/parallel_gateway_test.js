@@ -3,13 +3,19 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe('Parallel Gateway execution', function testParallelGateway() {
+describe('Parallel Gateway execution', () => {
 
   let testFixtureProvider;
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
+
+    // TODO: The import is currently broken (existing processes are duplicated, not overwritten).
+    // Until this is fixed, use the "classic" ioc registration
+    //
+    // const processDefFileList = ['parallel_gateway_test.bpmn'];
+    // await testFixtureProvider.loadProcessesFromBPMNFiles(processDefFileList);
   });
 
   after(async () => {

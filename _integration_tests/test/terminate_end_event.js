@@ -6,7 +6,7 @@ const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').Te
 
 const BpmnType = require('@process-engine/process_engine_contracts').BpmnType;
 
-describe('Terminate End Event', function testTerminateEndEvent() {
+describe('Terminate End Event', () => {
 
   let testFixtureProvider;
 
@@ -15,6 +15,12 @@ describe('Terminate End Event', function testTerminateEndEvent() {
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
+
+    // TODO: The import is currently broken (existing processes are duplicated, not overwritten).
+    // Until this is fixed, use the "classic" ioc registration
+    //
+    // const processDefFileList = ['terminate_end_event_sample.bpmn'];
+    // await testFixtureProvider.loadProcessesFromBPMNFiles(processDefFileList);
 
     nodeInstanceEntityTypeService = await testFixtureProvider.resolveAsync('NodeInstanceEntityTypeService');
   });
