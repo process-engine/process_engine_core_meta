@@ -7,7 +7,7 @@ import {InvocationContainer} from 'addict-ioc';
 import {Logger} from 'loggerhythm';
 
 import {ExecutionContext, IIamService, TokenType} from '@essential-projects/core_contracts';
-import {IProcessEngineService, IProcessRepository, IProcessDefEntityTypeService} from '@process-engine/process_engine_contracts';
+import {IProcessDefEntityTypeService, IProcessEngineService, IProcessRepository} from '@process-engine/process_engine_contracts';
 
 const logger: Logger = Logger.createLogger('test:bootstrapper');
 
@@ -103,20 +103,13 @@ export class TestFixtureProvider {
 
   /**
    * Generate an absoulte file path, which points to the bpmn process definition files.
+   *
+   * Checks if the cwd is "_integration_tests". If not, that directory name is appended.
+   * This is necessary, because Jenkins uses a different cwd than the local machines usually do.
+   *
    * @param directoryName Name of the directory, which contains the bpmn files
    */
   private resolvePath(directoryName: string): string {
-
-    // Check, if the current working directory is the directory specified in integrationTestDirName (see below).
-    // If not, append the name to the rootDirPath.
-    // This is necessary, because jenkins fails to start the tests, since the cwd on jenkins
-    // is different then on the local machine while running the tests.
-
-    // TODO: Maybe refacor.
-    // This works, but is not really nice. There are currently some edge cases, where this method
-    // method should fail. For Example when there are two nested integration test directories. In a directory
-    // structure shuch as /path/to/test/_integration_tests/_integration_tests/ it should fail.
-
     let rootDirPath: string = process.cwd();
     const integrationTestDirName: string = '_integration_tests';
 
