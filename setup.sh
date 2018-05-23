@@ -29,5 +29,4 @@ cd ../..
 # tell the user how to run stuff
 echo "run 'npm start' in 'skeleton/process-engine-server-demo' to run the process-engine"
 echo "run 'npm start' in 'bpmn-studio' to run the frontend"
---exclude tslint-config,foundation,pki_service,pki_service_contracts,errors_ts,process_engine_meta
-iam_contracts
+# --exclude tslint-config,foundation,pki_service,pki_service_contracts,errors_ts,process_engine_meta,iam_contracts
