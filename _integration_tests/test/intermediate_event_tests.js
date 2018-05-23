@@ -11,12 +11,15 @@ describe('Intermediate Events - ', () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
 
-    const processDefFileList = [
-      'intermediate_event_message_test.bpmn',
-      'intermediate_event_signal_test.bpmn',
-    ];
+    // TODO: The import is currently broken (existing processes are duplicated, not overwritten).
+    // Until this is fixed, use the "classic" ioc registration
+    //
+    // const processDefFileList = [
+    //   'intermediate_event_message_test.bpmn',
+    //   'intermediate_event_signal_test.bpmn',
+    // ];
 
-    await testFixtureProvider.loadProcessesFromBPMNFiles(processDefFileList);
+    // await testFixtureProvider.loadProcessesFromBPMNFiles(processDefFileList);
   });
 
   after(async () => {
