@@ -109,7 +109,7 @@ pipeline {
           def db_link = "--link ${db_container_id}:db";
 
           server_image.inside("${node_env} ${junit_report_path} ${config_path} ${db_host} ${db_link}") {
-            error_code = sh(script: "node /usr/src/app/node_modules/.bin/mocha --timeout 60000 /usr/src/app/test/*.js --colors --reporter mocha-jenkins-reporter --exit > result.txt", returnStatus: true);
+            error_code = sh(script: "node /usr/src/app/node_modules/.bin/mocha --timeout 60000 /usr/src/app/test/*.js --colors --reporter mocha-jenkins-reporter > result.txt", returnStatus: true);
             testresults = sh(script: "cat result.txt", returnStdout: true).trim();
 
             junit 'report.xml'
