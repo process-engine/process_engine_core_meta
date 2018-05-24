@@ -5,7 +5,7 @@ npm install --no-package-lock
 rm -rf node_modules/@types/jasmine
 
 # build all packages and schemas
-meta exec "GULPTRAUM_TRANSPILE_ONLY=1 npm run build && npm run build-schemas" --exclude process_engine_meta,skeleton,documentation,bpmn-studio,bpmn-io_custom-bundle,tslint-config
-meta exec "GULPTRAUM_TRANSPILE_ONLY=1 npm run build" --include-only skeleton,bpmn-studio,bpmn-io_custom-bundle
+meta exec "npm run build && npm run build-schemas" --exclude process_engine_meta,skeleton,documentation,bpmn-studio,bpmn-io_custom-bundle,tslint-config
+meta exec "npm run build" --include-only skeleton,bpmn-studio,bpmn-io_custom-bundle
 
 echo "done"
