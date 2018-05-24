@@ -1,11 +1,9 @@
 # make sure meta and gulp are installed
 npm install -g meta gulp
 
-git checkout feature/update_major_for_data_model_dependencies
-
 # checkout all repos in the correct branch
 meta git update
-meta exec "git checkout develop" --exclude process_engine_meta
+# meta exec "git checkout develop" --exclude process_engine_meta
 meta exec "git checkout feature/update_major_for_data_model_dependencies" --exclude process_engine_meta
 
 # retrieve latest versions
