@@ -19,7 +19,7 @@ describe('Process-Engine   Parse BPMN Process into new object model', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('Should successfully and correctly parse the BS Payone Sample BPMN into a ObjectModel structure', async () => {
+  it('Should successfully and correctly parse the generic sample BPMN into a ObjectModel structure', async () => {
 
     const sampleProcessName = 'generic_sample';
 
