@@ -3,7 +3,7 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe('Signal Boundary Event - ', () => {
+describe.skip('Signal Boundary Event - ', () => {
   let testFixtureProvider;
 
   before(async () => {
@@ -21,7 +21,7 @@ describe('Signal Boundary Event - ', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it.skip('should interrupt the running service task when a signal arrives', async () => {
+  it('should interrupt the running service task when a signal arrives', async () => {
     const processKey = 'boundary_event_signal_test';
 
     const expectedToken = {
