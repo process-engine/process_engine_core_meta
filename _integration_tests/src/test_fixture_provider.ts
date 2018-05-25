@@ -2,6 +2,7 @@ import * as fs from 'fs';
 // tslint:disable-next-line:import-blacklist
 import * as _ from 'lodash';
 import * as path from 'path';
+import * as wtf from 'wtfnode';
 
 import {InvocationContainer} from 'addict-ioc';
 import {Logger} from 'loggerhythm';
@@ -165,6 +166,8 @@ export class TestFixtureProvider {
   public async tearDown(): Promise<void> {
     await this.bootstrapper.reset();
     await this.bootstrapper.shutdown();
+    console.log('DISPOSAL COMPLETE');
+    wtf.dump();
   }
 
   private async initializeBootstrapper(): Promise<void> {
