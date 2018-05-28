@@ -50,7 +50,7 @@
     "@process-engine/consumer_api_core": "^0.10.0",
     "@process-engine/process_engine": "^5.0.0",
     "@process-engine/process_engine_contracts": "^7.0.0",
-    "@process-engine/process_engine_http": "^2.0.0",
+    "@process-engine/process_engine_http": "^3.0.0",
     "@process-engine/process_repository": "^2.0.0",
     "addict-ioc": "^2.3.7",
     "bluebird": "^3.5.1",
