@@ -19,7 +19,7 @@
   "dependencies": {
     "@essential-projects/bootstrapper": "^2.0.0",
     "@essential-projects/bootstrapper_node": "^2.0.0",
-    "@essential-projects/caching": "^2.0.0",
+    "@essential-projects/caching": "^2.0.1",
     "@essential-projects/core": "^2.0.0",
     "@essential-projects/core_contracts": "^2.0.0",
     "@essential-projects/data_model": "^3.0.0",
