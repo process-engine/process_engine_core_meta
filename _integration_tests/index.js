@@ -27,7 +27,6 @@ const iocModuleNames = [
   '@essential-projects/messagebus_http',
   '@essential-projects/messagebus_adapter_faye',
   '@essential-projects/metadata',
-  '@essential-projects/pki_service',
   '@essential-projects/security_service',
   '@essential-projects/services',
   '@essential-projects/routing',
@@ -47,7 +46,7 @@ const iocModules = iocModuleNames.map((moduleName) => {
 let container;
 
 // NOTE: This startup script allows for the usage of the BPMN studio in conjunction with
-// the integrationtest app, which enables us to edit the integrationtests' bpmn files without having 
+// the integrationtest app, which enables us to edit the integrationtests' bpmn files without having
 // to import them manually.
 async function start() {
 
@@ -61,14 +60,14 @@ async function start() {
     for (const iocModule of iocModules) {
       iocModule.registerInContainer(container);
     }
-  
+
     container.validateDependencies();
-    
+
     const appPath = path.resolve(__dirname);
     const bootstrapper = await container.resolveAsync('AppBootstrapper', [appPath]);
 
     logger.info('Bootstrapper started.');
-  
+
     await bootstrapper.start();
   } catch (error) {
     logger.error('Failed to start bootstrapper!', error);
