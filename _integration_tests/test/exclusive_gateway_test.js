@@ -47,7 +47,7 @@ describe('Exclusive Gateway - ', async () => {
     result.should.be.eql(expectedResult);
   });
 
-  it('should direct the token to two nested xor gateways.', async () => {
+  it('should direct the token to two nested exclusive gateways.', async () => {
     // ID of the process
     const processKey = 'exclusive_gateway_nested';
 
