@@ -34,7 +34,6 @@ const iocModuleNames: Array<string> = [
   '@essential-projects/messagebus_http',
   '@essential-projects/messagebus_adapter_faye',
   '@essential-projects/metadata',
-  '@essential-projects/pki_service',
   '@essential-projects/security_service',
   '@essential-projects/services',
   '@essential-projects/routing',

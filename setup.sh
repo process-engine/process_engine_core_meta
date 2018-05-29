@@ -3,8 +3,6 @@ npm install -g meta gulp
 
 # checkout all repos in the correct branch
 meta git update
-# meta exec "git checkout develop" --exclude process_engine_meta
-meta exec "git checkout feature/update_major_for_data_model_dependencies" --exclude process_engine_meta
 
 # retrieve latest versions
 meta git pull
@@ -27,4 +25,3 @@ cd ../..
 # tell the user how to run stuff
 echo "run 'npm start' in 'skeleton/process-engine-server-demo' to run the process-engine"
 echo "run 'npm start' in 'bpmn-studio' to run the frontend"
-# --exclude tslint-config,foundation,pki_service,pki_service_contracts,errors_ts,process_engine_meta,iam_contracts
