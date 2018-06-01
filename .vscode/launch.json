@@ -12,8 +12,8 @@
         "--timeout",
         "15000",
         "--colors",
-        "${workspaceFolder}/_integration_tests/test", 
-        
+        "${workspaceFolder}/_integration_tests/test",
+        "--exit"
       ],
 
       "protocol": "inspector",
