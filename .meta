@@ -8,7 +8,6 @@
     "datastore_messagebus_contracts": "git@github.com:essential-projects/datastore_messagebus_contracts.git",
     "feature_contracts": "git@github.com:essential-projects/feature_contracts.git",
     "http_contracts": "git@github.com:essential-projects/http_contracts.git",
-    "pki_service_contracts": "git@github.com:essential-projects/pki_service_contracts.git",
     "security_service_contracts": "git@github.com:essential-projects/security_service_contracts.git",
     "core_contracts": "git@github.com:essential-projects/core_contracts.git",
     "metadata_contracts": "git@github.com:essential-projects/metadata_contracts.git",
@@ -54,7 +53,6 @@
     "messagebus_adapter_faye": "git@github.com:essential-projects/messagebus_adapter_faye.git",
     "messagebus_adapter_faye_browser": "git@github.com:essential-projects/messagebus_adapter_faye_browser.git",
     "messagebus_http": "git@github.com:essential-projects/messagebus_http.git",
-    "pki_service": "git@github.com:essential-projects/pki_service.git",
     "routing": "git@github.com:essential-projects/routing.git",
     "security_service": "git@github.com:essential-projects/security_service.git",
     "services": "git@github.com:essential-projects/services.git",
@@ -64,6 +62,7 @@
     "bpmn-studio_client": "git@github.com:process-engine/bpmn-studio_client.git",
     "http_integration_testing": "git@github.com:process-engine/http_integration_testing.git",
     "bpmn-io_custom-bundle": "git@github.com:process-engine/bpmn-io_custom-bundle.git",
-    "bpmn-studio": "git@github.com:process-engine/bpmn-studio.git"
+    "bpmn-studio": "git@github.com:process-engine/bpmn-studio.git",
+    "_integration_tests": "/_integration_tests.git"
   }
 }

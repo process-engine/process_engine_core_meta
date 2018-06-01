@@ -1,3 +1,12 @@
 {
-
+  "keys": {
+    "demo_master": {
+      "publicKeyPath": "sample_key_files/demo_master_rsa.pub",
+      "privateKeyPath": "sample_key_files/demo_master_rsa"
+    },
+    "demo_slave": {
+      "publicKeyPath": "sample_key_files/demo_slave_rsa.pub",
+      "privateKeyPath": "sample_key_files/demo_slave_rsa"
+      }
+  }
 }

@@ -10,12 +10,15 @@ describe('Exclusive Gateway - ', async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
 
-    const processDefFileList = [
-      'xor_gateway_base_test.bpmn',
-      'xor_gateway_nested.bpmn',
-    ];
+    // TODO: The import is currently broken (existing processes are duplicated, not overwritten).
+    // Until this is fixed, use the "classic" ioc registration
+    //
+    // const processDefFileList = [
+    //   'exclusive_gateway_base_test.bpmn',
+    //   'exclusive_gateway_nested.bpmn',
+    // ];
 
-    await testFixtureProvider.loadProcessesFromBPMNFiles(processDefFileList);
+    // await testFixtureProvider.loadProcessesFromBPMNFiles(processDefFileList);
   });
 
   after(async () => {
@@ -24,7 +27,7 @@ describe('Exclusive Gateway - ', async () => {
 
   it('should evaluate the current token value correct and direct the token the right path', async () => {
     // ID of the process
-    const processModelKey = 'xor_gateway_base_test';
+    const processModelKey = 'exclusive_gateway_base_test';
 
     // Expected Token Object
     const expectedResult = {
@@ -44,9 +47,9 @@ describe('Exclusive Gateway - ', async () => {
     result.should.be.eql(expectedResult);
   });
 
-  it('should direct the token to two nested xor gateways.', async () => {
+  it('should direct the token to two nested exclusive gateways.', async () => {
     // ID of the process
-    const processKey = 'xor_gateway_nested';
+    const processKey = 'exclusive_gateway_nested';
 
     // Expected Token Result
     const expectedToken = {

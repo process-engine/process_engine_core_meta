@@ -11,6 +11,7 @@ describe.only('User Tasks - ', () => {
   const processModelKey = 'user_task_test';
 
   before(async () => {
+    console.log(process.cwd());
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
     consumerContext = testFixtureProvider.consumerContext;
@@ -32,6 +33,8 @@ describe.only('User Tasks - ', () => {
 
     // Start the process
     const correlationId = await startProcessAndReturnCorrelationId(initialToken);
+
+    await timeoutHelper(1000);
 
     // Optain the running user tasks
     const runningUserTasks = await getRunningUserTasksForCorrelationId(correlationId);
@@ -75,5 +78,15 @@ describe.only('User Tasks - ', () => {
       .getUserTasksForCorrelation(consumerContext, correlationId);
 
     return userTasks;
+  }
+
+  async function timeoutHelper(timeInMs) {
+    return new Promise((resolve, reject) => {
+
+      setTimeout(() => {
+        resolve();
+      }, timeInMs);
+
+    });
   }
 });

@@ -2,6 +2,7 @@
 
 const should = require('should');
 const path = require('path');
+const util = require('util');
 
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
@@ -12,124 +13,81 @@ describe('Call activity tests', () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
 
-    const processDefFileList = ['call_activity_base_test.bpmn',
-      'call_activity_nested_process.bpmn',
-      'call_activity_normal_process.bpmn',
-      'call_activity_throw_exception.bpmn',
-      'call_activity_throw_exception_test.bpmn',
-    ];
+    // TODO: The import is currently broken (existing processes are duplicated, not overwritten).
+    // Until this is fixed, use the "classic" ioc registration
+    //
+    // const processDefFileList = [
+    //  'call_activity_subprocess.bpmn',
+    //  'call_activity_subprocess_error.bpmn',
+    //  'call_activity_subprocess_nested.bpmn',
+    //  'call_activity_test.bpmn',
+    //  'call_activity_test_error.bpmn',
+    // ];
 
-    // Load all processes definitions that belongs to the test
-    await testFixtureProvider.loadProcessesFromBPMNFiles(processDefFileList);
-
+    // await testFixtureProvider.loadProcessesFromBPMNFiles(processDefFileList);
   });
 
   after(async () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should execute the process, which was specified in the call activity', async () => {
-    const processKey = 'call_activity_base_test';
+  it('should execute a process which uses a call activity to increment a given token', async () => {
+    const processKey = 'call_activity_test';
 
-    // Define the ingoing token object.
     const initialToken = {
       operation: 'basic_test',
     };
 
-    // Token, that should be returned from the process.
-    const expectedResultToken = {
-      current: 3,
-      history: {
-        StartEvent_1: initialToken,
-        XORSplit1: initialToken,
-        Task1: 1,
-        CallActivity1: 2,
-        FinalIncrement: 3,
-        XORJoin1: 2,
-      },
-    };
-
-    // Execute the process with the given token.
     const result = await testFixtureProvider.executeProcess(processKey, initialToken);
 
-    should(result).be.eql(expectedResultToken);
+    should.exist(result);
+    should(result).have.property('history');
+    should(result).have.property('current');
+    should(result.history.Task1).be.eql(1, `Expected a value of 1 to be passed to the subprocess, but instead got ${result.history.Task1}`);
+    should(result.current).be.eql(2, `Expected a subprocess result of 2, but instead got ${result.current}`);
   });
 
-  it.skip('should exectue a process which executes another process', async () => {
-    const processKey = 'call_activity_base_test';
+  it('should execute a process which uses two nested call activities to increment a given token', async () => {
+    const processKey = 'call_activity_test';
 
-    // Define the ingoing token
     const initialToken = {
       operation: 'nested_test',
     };
 
-    // Expected token object
-    const expectedResultToken = {
-      current: 6,
-      history: {
-        StartEvent1: initialToken,
-        XORSplit1: initialToken,
-        Task2: 2,
-        CallActivity2: 5,
-        FinalIncrement: 6,
-      },
-    };
-
-    // Execute the process with the defined token
     const result = await testFixtureProvider.executeProcess(processKey, initialToken);
 
-    should(result).be.eql(expectedResultToken);
+    should.exist(result);
+    should(result).have.property('history');
+    should(result).have.property('current');
+    should(result.history.Task1).be.eql(1, `Expected a value of 1 to be passed to the nested subprocess, but instead got ${result.history.Task1}`);
+    should(result.current).be.eql(3, `Expected a subprocess result of 3, but instead got ${result.current}`);
   });
 
-  it('should call an activity that throws an exception which will be catched inside the executed call activity itself', async () => {
-    const processKey = 'call_activity_exception_test';
+  it('should call an erroneous call activity, whose error will be handled by the call activity itself', async () => {
+    const processKey = 'call_activity_test_error';
 
-    // Define the ingoing token
     const initialToken = {
       handle_exception: true,
     };
 
-    // Define the expected token object
-    const expectedResultToken = {
-      current: 2,
-      history: {
-        StartEvent_1: initialToken,
-        XORSplit1: initialToken,
-        CallActivity1: 1,
-        Task1: 2,
-        XORJoin1: 2,
-      },
-    };
-
-    // Execute the process
     const result = await testFixtureProvider.executeProcess(processKey, initialToken);
 
-    should(result).be.eql(expectedResultToken);
+    should.exist(result);
+    should(result).have.property('current');
+    should(result.current).be.match(/error caught by subprocess/i);
   });
 
-  it.skip('should call an activity that throws an unexpected exception which is catched it via a boundary event', async () => {
-    const processKey = 'call_activity_exception_test';
+  it('should call an erroneous call actvity, whose error will be handled by a boundary event in the calling process', async () => {
+    const processKey = 'call_activity_test_error';
 
-    // Define the ingoing token
     const initialToken = {
       handle_exception: false,
     };
 
-    // Define the expected token object
-    const expectedResultToken = {
-      current: 2,
-      history: {
-        StartEvent1: initialToken,
-        XORSplit1: initialToken,
-        CallActivity2: 1,
-        Task2: 2,
-        XORJoin1: 2,
-      },
-    };
-
-    // Execute the process
     const result = await testFixtureProvider.executeProcess(processKey, initialToken);
 
-    should(result).be.eql(expectedResultToken);
+    should.exist(result);
+    should(result).have.property('current');
+    should(result.current).be.match(/error caught by main process/i);
   });
 });
