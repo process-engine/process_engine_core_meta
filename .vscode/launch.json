@@ -15,16 +15,36 @@
         "${workspaceFolder}/_integration_tests/test",
         "--exit"
       ],
-
+      
       "protocol": "inspector",
       "stopOnEntry": true,
       "cwd": "${workspaceFolder}/_integration_tests",
       "internalConsoleOptions": "openOnSessionStart",
-      "env": { "NODE_ENV": "test", "CONFIG_PATH": "config"},
-
+      "console": "integratedTerminal",
+      "env": {
+        "NODE_ENV": "test",
+        "CONFIG_PATH": "config"
+      },
+      
       "runtimeArgs": [
         "--preserve-symlinks"
       ],
-    }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Skeleton - Start Server",
+      "program": "${workspaceFolder}/skeleton/process-engine-server/bin/start.js",
+      "args": [],
+      "cwd": "${workspaceFolder}/skeleton/process-engine-server",
+      "console": "integratedTerminal",
+      "env": {
+        "NODE_ENV": "development",
+        "CONFIG_PATH": "config",
+      },
+      "runtimeArgs": [
+        "--preserve-symlinks"
+      ]
+    },
   ]
 }
