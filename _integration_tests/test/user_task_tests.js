@@ -45,14 +45,12 @@ describe.only('User Tasks - ', () => {
         Sample_Form_Field: 'Hello',
       },
     };
+    // Test, if the list of user tasks containt exactly one user task
+    should(runningUserTasks.user_tasks).have.size(1);
 
     // Result of the user task.
     const userTaskResult = await testFixtureProvider.consumerApiService.finishUserTask(consumerContext,
       processModelKey, correlationId, runningUserTasks.user_tasks[0].key, userTaskInput);
-
-    // Test, if the list of user tasks containt exactly one user task
-    should(runningUserTasks.user_tasks.length).be.equal(1);
-
   });
 
   /**
