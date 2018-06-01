@@ -11,7 +11,6 @@ describe.only('User Tasks - ', () => {
   const processModelKey = 'user_task_test';
 
   before(async () => {
-    console.log(process.cwd());
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
     consumerContext = testFixtureProvider.consumerContext;
@@ -34,6 +33,7 @@ describe.only('User Tasks - ', () => {
     // Start the process
     const correlationId = await startProcessAndReturnCorrelationId(initialToken);
 
+    // TODO: Remove. This was for debugging and does not belong into the develop branch.
     await timeoutHelper(1000);
 
     // Optain the running user tasks
@@ -45,7 +45,10 @@ describe.only('User Tasks - ', () => {
         Sample_Form_Field: 'Hello',
       },
     };
-    // Test, if the list of user tasks containt exactly one user task
+
+    // The following test is necessary, since should().have.size() only outputs 'There is no type adaptor `forEach` for undefined',
+    // if the user_task propertys is not defined in the resulting object.
+    should(runningUserTasks).have.property('user_tasks');
     should(runningUserTasks.user_tasks).have.size(1);
 
     // Result of the user task.
@@ -78,13 +81,13 @@ describe.only('User Tasks - ', () => {
     return userTasks;
   }
 
+  // TODO: Remove. This method is only tempoary and should be removed, if
+  // everything works as expected.
   async function timeoutHelper(timeInMs) {
     return new Promise((resolve, reject) => {
-
       setTimeout(() => {
         resolve();
       }, timeInMs);
-
     });
   }
 });
