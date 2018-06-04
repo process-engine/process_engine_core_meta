@@ -34,10 +34,20 @@ describe.only('User Tasks - ', () => {
     const correlationId = await startProcessAndReturnCorrelationId(initialToken);
 
     // TODO: Remove. This was for debugging and does not belong into the develop branch.
-    await timeoutHelper(1000);
+    await timeoutHelper(5000);
 
     // Optain the running user tasks
     const runningUserTasks = await getRunningUserTasksForCorrelationId(correlationId);
+
+    // The following test is necessary, since should().have.size() only outputs 'There is no type adaptor `forEach` for undefined',
+    // if the user_task propertys is not defined in the resulting object.
+    should(runningUserTasks).have.property('user_tasks');
+    should(runningUserTasks.user_tasks).have.size(1);
+
+    // Store the running user task. Since we asserted, that the list of running user Tasks contains
+    // exactly one value, we can safely access the first element of that list.
+    // TODO: Assert that the user task object hast the property 'key'.
+    const currentRunningUserTaskKey = runningUserTasks.user_tasks[0].key;
 
     // Result that the running user task should receive.
     const userTaskInput = {
@@ -46,14 +56,9 @@ describe.only('User Tasks - ', () => {
       },
     };
 
-    // The following test is necessary, since should().have.size() only outputs 'There is no type adaptor `forEach` for undefined',
-    // if the user_task propertys is not defined in the resulting object.
-    should(runningUserTasks).have.property('user_tasks');
-    should(runningUserTasks.user_tasks).have.size(1);
-
     // Result of the user task.
     const userTaskResult = await testFixtureProvider.consumerApiService.finishUserTask(consumerContext,
-      processModelKey, correlationId, runningUserTasks.user_tasks[0].key, userTaskInput);
+      processModelKey, correlationId, currentRunningUserTaskKey, userTaskInput);
   });
 
   /**
