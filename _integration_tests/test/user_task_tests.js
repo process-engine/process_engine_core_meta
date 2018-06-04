@@ -44,8 +44,6 @@ describe.only('User Tasks - ', () => {
     should(runningUserTasks).have.property('user_tasks');
     should(runningUserTasks.user_tasks).have.size(1);
 
-    // Store the running user task. Since we asserted, that the list of running user Tasks contains
-    // exactly one value, we can safely access the first element of that list.
     // TODO: Assert that the user task object hast the property 'key'.
     const currentRunningUserTaskKey = runningUserTasks.user_tasks[0].key;
 
@@ -57,8 +55,9 @@ describe.only('User Tasks - ', () => {
     };
 
     // Result of the user task.
-    const userTaskResult = await testFixtureProvider.consumerApiService.finishUserTask(consumerContext,
-      processModelKey, correlationId, currentRunningUserTaskKey, userTaskInput);
+    const userTaskResult = await testFixtureProvider
+      .consumerApiService
+      .finishUserTask(consumerContext, processModelKey, correlationId, currentRunningUserTaskKey, userTaskInput);
   });
 
   /**
