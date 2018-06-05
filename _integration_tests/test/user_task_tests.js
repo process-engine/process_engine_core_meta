@@ -4,7 +4,7 @@ const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 const startCallbackType = require('@process-engine/consumer_api_contracts').StartCallbackType;
 
-describe.only('User Tasks - ', () => {
+describe('User Tasks - ', () => {
   let testFixtureProvider;
   let consumerContext;
 
@@ -33,14 +33,11 @@ describe.only('User Tasks - ', () => {
     // Start the process
     const correlationId = await startProcessAndReturnCorrelationId(initialToken);
 
-    // TODO: Remove. This was for debugging and does not belong into the develop branch.
-    await timeoutHelper(5000);
-
-    // Optain the running user tasks
+    // Obtain the running user tasks
     const runningUserTasks = await getRunningUserTasksForCorrelationId(correlationId);
 
     // The following test is necessary, since should().have.size() only outputs 'There is no type adaptor `forEach` for undefined',
-    // if the user_task propertys is not defined in the resulting object.
+    // if the user_task properties is not defined in the resulting object.
     should(runningUserTasks).have.property('user_tasks');
     should(runningUserTasks.user_tasks).have.size(1);
 
@@ -83,15 +80,5 @@ describe.only('User Tasks - ', () => {
       .getUserTasksForCorrelation(consumerContext, correlationId);
 
     return userTasks;
-  }
-
-  // TODO: Remove. This method is only tempoary and should be removed, if
-  // everything works as expected.
-  async function timeoutHelper(timeInMs) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve();
-      }, timeInMs);
-    });
   }
 });
