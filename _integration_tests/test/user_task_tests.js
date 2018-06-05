@@ -4,11 +4,9 @@ const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 const startCallbackType = require('@process-engine/consumer_api_contracts').StartCallbackType;
 
-describe('User Tasks - ', () => {
+describe.only('User Tasks - ', () => {
   let testFixtureProvider;
   let consumerContext;
-
-  const processModelKey = 'user_task_test';
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
@@ -28,11 +26,48 @@ describe('User Tasks - ', () => {
 
   it('should execute the user task.', async () => {
 
+    const processModelKey = 'user_task_test';
+
     const initialToken = {
       input_values: {},
     };
 
-    const correlationId = await startProcessAndReturnCorrelationId(initialToken);
+    const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
+
+    // Allow for some time for the user task to be created and set to a waiting state.
+    await new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, 500);
+    });
+
+    const runningUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
+
+    should(runningUserTasks).have.property('user_tasks');
+    should(runningUserTasks.user_tasks).have.size(1);
+
+    const currentRunningUserTaskKey = runningUserTasks.user_tasks[0].key;
+
+    const userTaskInput = {
+      form_fields: {
+        Sample_Form_Field: 'Hello',
+      },
+    };
+
+    const userTaskResult = await testFixtureProvider
+      .consumerApiService
+      .finishUserTask(consumerContext, processModelKey, correlationId, currentRunningUserTaskKey, userTaskInput);
+  });
+
+  it('should execute the very basic user task.', async () => {
+
+    const processModelKey = 'user_task_simple_test';
+
+    const initialToken = {
+      input_values: {},
+    };
+
+    const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
 
     // Allow for some time for the user task to be created and set to a waiting state.
     await new Promise((resolve, reject) => {
@@ -63,7 +98,7 @@ describe('User Tasks - ', () => {
    * Start a process with the given process model key and return the resulting correlation id.
    * @param {TokenObject} initialToken Initial token value.
    */
-  async function startProcessAndReturnCorrelationId(initialToken) {
+  async function startProcessAndReturnCorrelationId(processModelKey, initialToken) {
     const callbackType = startCallbackType.CallbackOnProcessInstanceCreated;
     const result = await testFixtureProvider
       .consumerApiService
