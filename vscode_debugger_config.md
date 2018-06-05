@@ -15,6 +15,20 @@ To start a Debugging session, you need to follow the following steps:
 
 After starting, the debugger instantly breaks at the first line of executed code. This will give you a chance to set additional breakpoints if needed. 
 
-If you're all set up, click the play button again. The debugger will continiue until it reaches a breakpoint or the end of execution.
+If you're all set up, click the play button again. The debugger will continue until it reaches a breakpoint or the end of execution.
+
+## Debugging Dependencies
+Its possible to set breakpoints in the scripts of the current module dependencies. This *only* works, if you set the Breakpoints in the imported Script, when opening the typescript file over the `node_modules` folder and *not directly from the meta repo*. 
+
+### Example
+You are editing something in the `_integration-tests` directory. Now you want to set breakpoints in the `node_instance.ts` file of the `process-engine` module. To do this, open the file that you want to debug via the `node-module` directory of `_integration-tests`. The resulting path, that you have to follow in order to debug the `node_instance.ts` script, should now look like this: 
+```
+process-engine-meta/_integration_tests/node-modules/@process-engine/src/node_instance.ts
+```
+
+Another way would be to simply open the scripts where you want to set break points over the modules pane in the debugger view.
+
+### Cause
+This caused by the way, how node and vscode handles symlinks. By default, node does not preserves symlinks which means, that before node executes a script, it resolves the symlinks into *real absolute paths*. The vscode debugger on the other hand just follows the symlinks. In order to run the debugger, we have to force node to preserve the symlinks. With this behavior, it is not possible to directly debug files from the meta repo because they never get loaded by node js. 
 
 
