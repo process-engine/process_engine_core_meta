@@ -15,8 +15,11 @@ describe('User Tasks - ', () => {
     await testFixtureProvider.initializeAndStart();
     consumerContext = testFixtureProvider.consumerContext;
 
-    const processDefinitionFiles = ['user_task_test.bpmn'];
-    await testFixtureProvider.loadProcessesFromBPMNFiles(processDefinitionFiles);
+    // TODO: The import is currently broken (existing processes are duplicated, not overwritten).
+    // Until this is fixed, use the "classic" ioc registration
+    //
+    // const processDefinitionFiles = ['user_task_test.bpmn'];
+    // await testFixtureProvider.loadProcessesFromBPMNFiles(processDefinitionFiles);
   });
 
   after(async () => {
@@ -25,33 +28,32 @@ describe('User Tasks - ', () => {
 
   it('should execute the user task.', async () => {
 
-    // Initial Token Object
     const initialToken = {
       input_values: {},
     };
 
-    // Start the process
     const correlationId = await startProcessAndReturnCorrelationId(initialToken);
 
-    // Obtain the running user tasks
-    const runningUserTasks = await getRunningUserTasksForCorrelationId(correlationId);
+    // Allow for some time for the user task to be created and set to a waiting state.
+    await new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, 500);
+    });
 
-    // The following test is necessary, since should().have.size() only outputs 'There is no type adaptor `forEach` for undefined',
-    // if the user_task properties is not defined in the resulting object.
+    const runningUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
+
     should(runningUserTasks).have.property('user_tasks');
     should(runningUserTasks.user_tasks).have.size(1);
 
-    // TODO: Assert that the user task object hast the property 'key'.
     const currentRunningUserTaskKey = runningUserTasks.user_tasks[0].key;
 
-    // Result that the running user task should receive.
     const userTaskInput = {
       form_fields: {
         Sample_Form_Field: 'Hello',
       },
     };
 
-    // Result of the user task.
     const userTaskResult = await testFixtureProvider
       .consumerApiService
       .finishUserTask(consumerContext, processModelKey, correlationId, currentRunningUserTaskKey, userTaskInput);
@@ -74,7 +76,7 @@ describe('User Tasks - ', () => {
    * Returns all user tasks that are running with the given correlation id.
    * @param {Object} correlationId correlation id of the process
    */
-  async function getRunningUserTasksForCorrelationId(correlationId) {
+  async function getWaitingUserTasksForCorrelationId(correlationId) {
     const userTasks = await testFixtureProvider
       .consumerApiService
       .getUserTasksForCorrelation(consumerContext, correlationId);
