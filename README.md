@@ -1,6 +1,47 @@
 # Process Engine Meta Project
 
-## 1 Setup Meta
+## Introduction
+This repository is the meta Repository fot the whole process engine Project. 
+
+The following content of this document describes the general installation process to obtain a development setup with all necessary dependencies.
+
+## Installation Guide
+There are currently two shell scripts that helps you, to set up the meta repository and keep it up to date, so you wont must go through all necessary meta setup scripts by yourself.
+
+### Install a development setup
+1. Clone this repository
+2. Simply run the `setup.sh` script. It should be executable by default and does not require higher privileges.
+
+
+### Update the current state
+To update your development setup with the current state, you simply have to run the `reinstall.sh` shell script.
+
+<!--- Discuss here, what the scripts does -->
+
+## About the Meta Repository
+A meta repository combines both advantages of a monolithic and a distributed repository structure by creating a _meta repository_. 
+
+The meta repository contains a clone off all component repos, that are used by the process engine. Logically it looks like the whole project is a monolithic repo. But every component is a git repository itself. So you keep every used components in one place but also can work independently on every component. 
+
+## General Workflow
+### Creating a feature branch
+<!--- Personally I dont like an ordered list here -->
+
+1. Change into the directory, where you want to create your feature. _Only create your feature branch inside the meta repo, if you really want to add a feature to the meta repository!_
+2. Create your feature branch. We recommend you to use git flow for this. If you have installed git flow, you just can type `git flow feature start <myFeature>`
+    * git flow will create a new branch named `feature/myFeature`, so keep that in mind if you want to checkout to your created feature branch. 
+3. Now you can push your changes as usual.
+4. If you want to publish your feature, you can conveniently to this with `git flow feature publish myFeature`
+
+### Package.json
+todo
+
+## About the used tools
+This section covers the used tools a bit more in depth.
+
+### Meta
+
+#### 1 Setup Meta
 
 ```
 npm install -g meta
@@ -15,9 +56,9 @@ npm install
 * This will install the NPM dependencies of the meta project
   * These dependencies can also include meta plugins
 
-## 2 Repository Management
+### 2 Repository Management
 
-### 2.1 Clone modules of the meta project
+#### 2.1 Clone modules of the meta project
 
 ```
 meta git update
@@ -25,7 +66,7 @@ meta git update
 
 * This will clone all modules into the folder of the meta project
 
-### 2.2 Add an existing module to the meta project
+#### 2.2 Add an existing module to the meta project
 
 ```
 meta project add PROJECT_NAME PROJECT_GITHUB_PATH
@@ -35,7 +76,7 @@ meta project add PROJECT_NAME PROJECT_GITHUB_PATH
 * `PROJECT_NAME` should be the name used in the package.json
 * `PROJECT_GITHUB_PATH` should be the ssh link copied to clone the repository
 
-### 2.3 Execute a command in **all** repositories
+#### 2.3 Execute a command in **all** repositories
 
 ```
 meta exec "any command"
@@ -43,7 +84,7 @@ meta exec "any command"
 
 * If the command contains spaces, make sure to wrap it in quotes
 
-### 2.4 Execute a command in **some** repositories
+#### 2.4 Execute a command in **some** repositories
 
 ```
 meta exec "any command" --exclude core,core_contracts
@@ -54,9 +95,9 @@ meta exec "any command" --include-only core,core_contracts
 * A command run with `--exclude` will be executed in every module specified in the `.meta`-file, excluding the given arguments 
 * A command run with `--include-only` will only be executed in modules contained in the argument list - modules specified in the `.meta`-file will not be included
 
-## 3 Project Workflow
+### 3 Project Workflow
 
-### 3.1 Clean all repositories
+#### 3.1 Clean all repositories
 
 ```
 meta git clean -fd
@@ -65,7 +106,7 @@ meta git clean -fd
 * removes **all** untracked changes
 * e.g.: to remove all `node_modules` folders
 
-### 3.2 Update all repositories
+#### 3.2 Update all repositories
 
 ```
 meta exec "git checkout develop"
@@ -77,7 +118,7 @@ meta exec "git pull"
 * Then pull the `develop` branch to fetch possible updates
   * If you got unsaved work on a repository that already was on the `develop` branch you will see an error that you have to manually fix
 
-### 3.3 Install NPM dependencies
+#### 3.3 Install NPM dependencies
 
 Although the meta NPM plugin provides a shortcut to install the `node_modules` for every package this involves a lot of overhead, because it starts fresh in every package and executes `npm install` in it.
 
@@ -98,7 +139,7 @@ meta npm install
 * BE CAREFUL: this can take a long time
 * Runs npm install in each module specified in the `.meta`-file individually
 
-### 3.4 Local Setup (linking local modules)
+#### 3.4 Local Setup (linking local modules)
 
 ```
 meta npm link --all
@@ -106,7 +147,7 @@ meta npm link --all
 
 * Links all modules specified in the `.meta`-file if they are a dependency to another module specified in the `.meta`-file
 
-### 3.5 Initialize git flow on all repositories
+#### 3.5 Initialize git flow on all repositories
 
 ```
 meta exec "git checkout master" // wenn git flow init auf master ausgeführt wird können alle Default-Branchnamen via Enter selektiert werden
@@ -117,7 +158,7 @@ meta exec "git flow init"
   * This will enable you to use the git flow default branch names and just hit `Enter` during initilization
 * Then `git flow init` will be run in each repository individually
 
-### 3.6 Start a feature on multiple repositories
+#### 3.6 Start a feature on multiple repositories
 
 ```
 meta exec "git flow feature start my_feature" --include-only core,core_contracts
@@ -125,7 +166,7 @@ meta exec "git flow feature start my_feature" --include-only core,core_contracts
 
 * Starts the feature "my_feature" in the modules `core` and `core_contracts`
 
-### 3.7 Publish a feature on multiple repositories
+#### 3.7 Publish a feature on multiple repositories
 
 ```
 meta exec "git flow feature publish my_feature" --include-only core,core_contracts
@@ -133,7 +174,7 @@ meta exec "git flow feature publish my_feature" --include-only core,core_contrac
 
 * Publishes the feature "my_feature" in the modules `core` and `core_contracts`
 
-### 3.8 List the git status on all repositories
+#### 3.8 List the git status on all repositories
 
 ```
 meta git status
@@ -141,10 +182,20 @@ meta git status
 
 * Runs `git status` in each module specified in the `.meta`-file individually
 
-### 3.9 Push the changed on all repositories
+#### 3.9 Push the changed on all repositories
 
 ```
 meta git push
 ```
 
 * Runs `git push` in each module specified in the `.meta`-file individually
+
+### MInstall
+Every Repository manages its own dependencies. In combination with a meta repo, this would lead to a huge amount of redundant dependencies across all different repositories. To prevent this, we use the tool _*minstall*.
+
+MInstall creates a centralized directory inside the meta repository folder, where every redundant dependency will be installed. To make sure that every module can access their needed dependencies, MInstall then creates symlink for every dependency, that is also used by another module, to the central *node_modules* folder inside the *meta repository*.
+
+This way, the node modules that depends on a specific module, can work as intended and you does not have to install redundant dependencies.
+
+### VSCode Debugger Configurations
+todo
