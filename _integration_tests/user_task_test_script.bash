@@ -1,13 +1,20 @@
 #!/bin/bash
 
-MAX_TRIES=20;
-TEST_WAS_SUCESSFULL=true;
+testWasSucessfull=true;
+maxTries=20;
+
+if [[ $1 -ne 0 ]]; then
+  maxTries=$1
+fi
+
 
 # Initially reset the database
+echo resetting database...
 node ../skeleton/database/postgres_docker.js reset demoset demo;
 
 # Run the test until the max tries is reached.
-for run in `seq 1 $MAX_TRIES`
+printf "\nStarting max $maxTries test runs\n"
+for run in `seq 1 $maxTries`
 do
   echo Running test number $run;
   npm test;
@@ -15,12 +22,12 @@ do
 
   if [[ $testExitCode != 0 ]]; then
     echo -------- Test Failed on Run $run --------
-    TEST_WAS_SUCESSFULL=false;
+    testWasSucessfull=false;
     break;
   fi
 done
 
-if $TEST_WAS_SUCESSFULL; then
-  echo ran $MAX_TRIES tests without an error!
+if $testWasSucessfull; then
+  echo ran $maxTries tests without an error!
 fi
 
