@@ -2,7 +2,7 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe.only('Script Tasks - ', () => {
+describe('Script Tasks - ', () => {
   let testFixtureProvider;
 
   const processModelKey = 'script_task_test';
