@@ -5,8 +5,7 @@ const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').Te
 describe('Script Tasks - ', () => {
   let testFixtureProvider;
 
-  // Every test case uses the same process.
-  const processKey = 'script_task_test';
+  const processModelKey = 'script_task_test';
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
@@ -25,61 +24,29 @@ describe('Script Tasks - ', () => {
 
   it('should execute different script tasks that access the token history and return different values', async () => {
 
-    // Initial token object
     const initialToken = {
       test_type: 'basic_test',
     };
 
-    // Object that should be returned from one script task.
-    const simpleObject = {
+    const expectedResult = {
       prop1: 1337,
       prop2: 'Hello',
     };
 
-    // Expected Token object
-    const expectedToken = {
-      current: simpleObject,
-      history: {
-        StartEvent_1: initialToken,
-        XORSplit1: initialToken,
-        BTTask1: 1,
-        BTTask2: 2,
-        BTTask3: 2,
-        BTTask4: simpleObject,
-        XORJoin1: simpleObject,
-      },
-    };
+    const result = await testFixtureProvider.executeProcess(processModelKey, initialToken);
 
-    // Execute the process
-    const result = await testFixtureProvider.executeProcess(processKey, initialToken);
-
-    should(result).be.eql(expectedToken);
-
+    should(result).be.eql(expectedResult);
   });
 
   it('should throw an error when trying to execute a faulty script task', async () => {
 
-    // Initial token object
     const initialToken = {
       test_type: 'faulty_task',
     };
 
-    // Regular Expression that should matched by the error message.
     const expectedMessage = /a.*?not.*?defined/i;
 
-    // Execute the process with the faulty script task and see, if the process is sucessfully rejected.
-    await testFixtureProvider.executeProcess(processKey, initialToken).should.be.rejectedWith(expectedMessage);
-  });
-
-  it('should throw an expected error, thrown by the script task', async () => {
-    // Initial token object
-    const initialToken = {
-      test_type: 'throw_exception',
-    };
-
-    const expectedMessage = /Failed/i;
-
-    // Execute the process and see, if the exception is throw and if the promise is rejected
-    await testFixtureProvider.executeProcess(processKey, initialToken).should.be.rejectedWith(expectedMessage);
+    await testFixtureProvider.executeProcess(processModelKey, initialToken)
+      .should.be.rejectedWith(expectedMessage);
   });
 });
