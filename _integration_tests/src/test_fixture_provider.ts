@@ -11,6 +11,8 @@ import {IProcessDefEntityTypeService, IProcessEngineService, IProcessRepository}
 
 import {ConsumerContext, IConsumerApiService} from '@process-engine/consumer_api_contracts';
 
+import {IDatastoreService} from "@essential-projects/data_model_contracts";
+
 const logger: Logger = Logger.createLogger('test:bootstrapper');
 
 const iocModuleNames: Array<string> = [
@@ -63,6 +65,8 @@ export class TestFixtureProvider {
   private _consumerApiService: IConsumerApiService;
   private _consumerContext: ConsumerContext;
 
+  private _datastoreService: IDatastoreService;
+
   public get context(): ExecutionContext {
     return this._dummyExecutionContext;
   }
@@ -79,6 +83,10 @@ export class TestFixtureProvider {
     return this._consumerApiService;
   }
 
+  public get datastoreService(): IDatastoreService {
+    return this._datastoreService;
+  }
+
   public async initializeAndStart(): Promise<void> {
     await this.initializeBootstrapper();
 
@@ -90,6 +98,9 @@ export class TestFixtureProvider {
     // Services for the consumer api
     this._consumerContext = await this.createConsumerContext('testuser', 'testpass');
     this._consumerApiService = await this.resolveAsync('ConsumerApiService');
+
+    // Data Store service for access the data store directly
+    this._datastoreService = await this.resolveAsync('DatastoreService');
   }
 
   public async executeProcess(processKey: string, initialToken: any = {}): Promise<any> {

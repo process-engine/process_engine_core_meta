@@ -6,6 +6,7 @@ const path = require('path');
 const ParallelGatewayTestService = require('./dist/commonjs').ParallelGatewayTestService;
 const ServiceTaskTestService = require('./dist/commonjs/service_task_test_service').ServiceTaskTestService;
 const ConsumerApiClientService = require('../../consumer_api_meta/consumer_api_contracts/dist/commonjs/iconsumer_api_service').ConsumerApiClientService;
+const DatastoreService = require('../../process_engine_meta/data_model_contracts/dist/commonjs/data_source/idata_source').DatastoreService;
 
 const registerInContainer = (container) => {
 

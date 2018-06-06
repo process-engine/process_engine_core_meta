@@ -4,14 +4,16 @@ const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 const startCallbackType = require('@process-engine/consumer_api_contracts').StartCallbackType;
 
-describe('User Tasks - ', () => {
+describe.only('User Tasks - ', () => {
   let testFixtureProvider;
   let consumerContext;
+  let datastoreService;
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
     consumerContext = testFixtureProvider.consumerContext;
+    datastoreService = testFixtureProvider.datastoreService;
 
     // TODO: The import is currently broken (existing processes are duplicated, not overwritten).
     // Until this is fixed, use the "classic" ioc registration
@@ -57,6 +59,9 @@ describe('User Tasks - ', () => {
     const userTaskResult = await testFixtureProvider
       .consumerApiService
       .finishUserTask(consumerContext, processModelKey, correlationId, currentRunningUserTaskKey, userTaskInput);
+
+    await assertUserTaskIsFinished(correlationId);
+
   });
 
   /**
@@ -82,5 +87,60 @@ describe('User Tasks - ', () => {
       .getUserTasksForCorrelation(consumerContext, correlationId);
 
     return userTasks;
+  }
+
+  /**
+   * Look up the processId for a given correlation Id and returns it.
+   *
+   * @param {string} correlationId correlation Id for the process id
+   */
+  async function getProcessIdForCorrelationId(correlationId) {
+
+    const processEntityType = await datastoreService.getEntityType('Process');
+
+    const query = {
+      query: {
+        attribute: 'correlationId',
+        operator: '=',
+        value: correlationId,
+      },
+    };
+
+    const process = await processEntityType.query(testFixtureProvider.context, query);
+    const processPoJos = await process.toPojos(testFixtureProvider.context);
+    should(processPoJos).have.property('data');
+
+    const processPojoData = processPoJos.data;
+    should(processPojoData).has.length(1, 'The list of returned processes for the correlation id');
+
+    return processPojoData[0].id;
+  }
+
+  /**
+   * Looks up in the datastore, if the user task of the process with the given is has a 'finish' state
+   *
+   * @param {string} correlationId Correlation id of the process
+   */
+  async function assertUserTaskIsFinished(correlationId) {
+    const processId = await getProcessIdForCorrelationId(correlationId);
+
+    const userTaskEntityType = await datastoreService.getEntityType('UserTask');
+
+    const query = {
+      query: {
+        attribute: 'process',
+        operator: '=',
+        value: processId,
+      },
+    };
+
+    const userTasks = await userTaskEntityType.query(testFixtureProvider.context, query);
+    const userTaskPoJos = await userTasks.toPojos(testFixtureProvider.context);
+    const userTaskPoJoData = userTaskPoJos.data;
+    should(userTaskPoJoData).has.length(1, 'The number of user tasks with the given process id');
+
+    const userTaskPoJo = userTaskPoJoData[0];
+    const userTaskState = userTaskPoJo.state;
+    should(userTaskState).be.eql('end');
   }
 });
