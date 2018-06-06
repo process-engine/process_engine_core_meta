@@ -59,41 +59,6 @@ describe('User Tasks - ', () => {
       .finishUserTask(consumerContext, processModelKey, correlationId, currentRunningUserTaskKey, userTaskInput);
   });
 
-  it('should execute the very basic user task.', async () => {
-
-    const processModelKey = 'user_task_simple_test';
-
-    const initialToken = {
-      input_values: {},
-    };
-
-    const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
-
-    // Allow for some time for the user task to be created and set to a waiting state.
-    await new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve();
-      }, 500);
-    });
-
-    const runningUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
-
-    should(runningUserTasks).have.property('user_tasks');
-    should(runningUserTasks.user_tasks).have.size(1);
-
-    const currentRunningUserTaskKey = runningUserTasks.user_tasks[0].key;
-
-    const userTaskInput = {
-      form_fields: {
-        Sample_Form_Field: 'Hello',
-      },
-    };
-
-    const userTaskResult = await testFixtureProvider
-      .consumerApiService
-      .finishUserTask(consumerContext, processModelKey, correlationId, currentRunningUserTaskKey, userTaskInput);
-  });
-
   /**
    * Start a process with the given process model key and return the resulting correlation id.
    * @param {TokenObject} initialToken Initial token value.
