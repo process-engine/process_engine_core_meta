@@ -4,7 +4,7 @@ const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 const startCallbackType = require('@process-engine/consumer_api_contracts').StartCallbackType;
 
-describe.only('User Tasks - ', () => {
+describe('User Tasks - ', () => {
   let testFixtureProvider;
   let consumerContext;
 
