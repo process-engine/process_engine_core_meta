@@ -150,10 +150,12 @@ describe('User Tasks - ', () => {
     const userTasks = await userTaskEntityType.query(testFixtureProvider.context, query);
     const userTaskPoJos = await userTasks.toPojos(testFixtureProvider.context);
     const userTaskPoJoData = userTaskPoJos.data;
-    should(userTaskPoJoData).has.length(1, 'The number of user tasks with the given process id');
+    should(userTaskPoJoData).not.be.empty('The list of the returned user tasks for a process should not be empty.');
 
-    const userTaskPoJo = userTaskPoJoData[0];
-    const userTaskState = userTaskPoJo.state;
-    should(userTaskState).be.eql('end');
+    // Iterate over all user task that belongs to the process id and assert, that the state of every user task is 'end'
+    for (const currentUserTask of userTaskPoJoData) {
+      const currentUserTaskState = currentUserTask.state;
+      should(currentUserTaskState).is.eql('end');
+    }
   }
 });
