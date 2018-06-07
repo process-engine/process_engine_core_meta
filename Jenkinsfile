@@ -93,7 +93,9 @@ pipeline {
           docker
             .image('postgres')
             .inside("--link ${db_container_id}:db") {
-              sh(script: 'while ! pg_isready -U postgres -h db ; do sleep 5; done');
+              timeout(time: 60, unit: 'SECONDS') {
+                sh(script: 'while ! pg_isready --username postgres --host db ; do sleep 5; done');
+              }
           }
         }
       }
