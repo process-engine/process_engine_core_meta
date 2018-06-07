@@ -35,28 +35,21 @@ describe('User Tasks - ', () => {
 
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
 
-    // Allow for some time for the user task to be created and set to a waiting state.
-    await delayTest(delayTimeInMs);
-
-    const runningUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
-
-    should(runningUserTasks).have.property('user_tasks');
-    should(runningUserTasks.user_tasks).have.size(1);
-
-    const currentRunningUserTaskKey = runningUserTasks.user_tasks[0].key;
-
+    const userTaskKey = 'User_Task_1';
+    
     const userTaskInput = {
       form_fields: {
         Sample_Form_Field: 'Hello',
       },
     };
 
-    const userTaskResult = await testFixtureProvider
-      .consumerApiService
-      .finishUserTask(consumerContext, processModelKey, correlationId, currentRunningUserTaskKey, userTaskInput);
+    // Allow for some time for the user task to be created and set to a waiting state.
+    await wait(delayTimeInMs);
 
-    // Give the back end some time to process the user task.
-    await delayTest(delayTimeInMs);
+    await finishUserTaskInCorrelation(correlationId, processModelKey, userTaskKey, userTaskInput);
+
+    // Give the back end some time to some time to finish the process.
+    await wait(delayTimeInMs);
 
     await assertUserTaskIsFinished(correlationId);
   });
@@ -71,7 +64,12 @@ describe('User Tasks - ', () => {
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
 
     // Allow for some time for the user task to be created and set to a waiting state.
-    await delayTest(delayTimeInMs);
+    await wait(delayTimeInMs);
+
+    const userTaskKeys = [
+      'User_Task_1',
+      'User_Task_2',
+    ];
 
     const userTaskInput = {
       form_fields: {
@@ -79,22 +77,11 @@ describe('User Tasks - ', () => {
       },
     };
 
-    for (let current = 0; current < 2; current += 1) {
-      const currentUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
-
-      should(currentUserTasks).have.property('user_tasks');
-      should(currentUserTasks.user_tasks).have.size(1, 'The process should have one waiting user task');
-
-      const currentUserTaskKey = currentUserTasks.user_tasks[0].key;
-      const userTaskResult = await testFixtureProvider
-        .consumerApiService
-        .finishUserTask(consumerContext, processModelKey, correlationId, currentUserTaskKey, userTaskInput);
-
-      await delayTest(delayTimeInMs);
+    for (const currentUserTaskKey of userTaskKeys) {
+      await finishUserTaskInCorrelation(correlationId, processModelKey, currentUserTaskKey, userTaskInput);
     }
 
     await assertUserTaskIsFinished(correlationId);
-
   });
 
   it('should execute two parallel running user tasks', async () => {
@@ -107,7 +94,7 @@ describe('User Tasks - ', () => {
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
 
     // Allow for some time for the user task to be created and set to a waiting state.
-    await delayTest(delayTimeInMs);
+    await wait(delayTimeInMs);
 
     const currentRunningUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
 
@@ -129,7 +116,8 @@ describe('User Tasks - ', () => {
         .finishUserTask(consumerContext, processModelKey, correlationId, currentWaitingUserTaskKey, userTaskInput);
     }
 
-    await delayTest(delayTimeInMs);
+    // Give the back end some time to some time to finish the process.
+    await wait(delayTimeInMs);
     await assertUserTaskIsFinished(correlationId);
   });
 
@@ -143,8 +131,7 @@ describe('User Tasks - ', () => {
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
 
     // Allow for some time for the user task to be created and set to a waiting state.
-    await delayTest(delayTimeInMs);
-
+    await wait(delayTimeInMs);
     const userTaskInput = {
       form_fields: {
         Sample_Form_Field: 'Hello',
@@ -158,7 +145,6 @@ describe('User Tasks - ', () => {
       .consumerApiService
       .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_2', userTaskInput);
     should(finishUserTaskPromise).be.rejectedWith(expectedMessage);
-
   });
 
   it('should refuse to execute a user task twice', async () => {
@@ -171,7 +157,7 @@ describe('User Tasks - ', () => {
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
 
     // Allow for some time for the user task to be created and set to a waiting state.
-    await delayTest(delayTimeInMs);
+    await wait(delayTimeInMs);
 
     const userTaskInput = {
       form_fields: {
@@ -183,7 +169,6 @@ describe('User Tasks - ', () => {
       .consumerApiService
       .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_1', userTaskInput);
 
-    // If we try to finish the user task a second time, the promise should be rejected.
     const finishUserTaskPromise = testFixtureProvider
       .consumerApiService
       .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_1', userTaskInput);
@@ -192,7 +177,6 @@ describe('User Tasks - ', () => {
     // If this issue gets resolved, change this to expect the correct rejection message.
     // see https://github.com/process-engine/consumer_api_core/issues/21
     should(finishUserTaskPromise).be.rejected();
-
   });
 
   /**
@@ -225,7 +209,7 @@ describe('User Tasks - ', () => {
    *
    * @param {number} timeInMilliseconds Delay time in milliseconds
    */
-  async function delayTest(timeInMilliseconds) {
+  async function wait(timeInMilliseconds) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve();
@@ -233,6 +217,33 @@ describe('User Tasks - ', () => {
     });
   }
 
+  /**
+   * Finishes a user task and returns the result of it.
+   *
+   * @param {string} correlationId Correlation id of the process instance with the user task
+   * @param {string} processModelKey Model key of the process that contains the user task
+   * @param {string} userTaskKey Identifier of the user task that should be finished
+   * @param {object} userTaskInput Form input data for the user task
+   * @returns Result of the finished user task
+   */
+  async function finishUserTaskInCorrelation(correlationId, processModelKey, userTaskKey, userTaskInput) {
+    const waitingUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
+
+    should(waitingUserTasks).have.property('user_tasks');
+    should(waitingUserTasks.user_tasks).have.size(1, 'The process should have one waiting user task');
+
+    const waitingUserTask = waitingUserTasks.user_tasks[0];
+
+    should(waitingUserTask.key).be.equal(userTaskKey);
+
+    const userTaskResult = await testFixtureProvider
+      .consumerApiService
+      .finishUserTask(consumerContext, processModelKey, correlationId, waitingUserTask.key, userTaskInput);
+
+    await wait(delayTimeInMs);
+
+    return userTaskResult;
+  }
   /**
    * Look up the processId for a given correlation Id and returns it.
    *
