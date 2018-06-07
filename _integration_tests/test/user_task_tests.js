@@ -97,7 +97,7 @@ describe('User Tasks - ', () => {
 
   });
 
-  it.only('should execute two parallel running user tasks', async () => {
+  it('should execute two parallel running user tasks', async () => {
     const processModelKey = 'user_task_parallel_test';
 
     const initialToken = {
