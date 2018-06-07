@@ -161,6 +161,40 @@ describe('User Tasks - ', () => {
 
   });
 
+  it('should refuse to execute a user task twice', async () => {
+    const processModelKey = 'user_task_sequential_test';
+
+    const initialToken = {
+      input_values: {},
+    };
+
+    const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
+
+    // Allow for some time for the user task to be created and set to a waiting state.
+    await delayTest(delayTimeInMs);
+
+    const userTaskInput = {
+      form_fields: {
+        Sample_Form_Field: 'Hello',
+      },
+    };
+
+    const userTaskResult = await testFixtureProvider
+      .consumerApiService
+      .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_1', userTaskInput);
+
+    // If we try to finish the user task a second time, the promise should be rejected.
+    const finishUserTaskPromise = testFixtureProvider
+      .consumerApiService
+      .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_1', userTaskInput);
+
+    // TODO: The error message of the promise rejection should not be '403 - Access to process model forbidden'!
+    // If this issue gets resolved, change this to expect the correct rejection message.
+    // see https://github.com/process-engine/consumer_api_core/issues/21
+    should(finishUserTaskPromise).be.rejected();
+
+  });
+
   /**
    * Start a process with the given process model key and return the resulting correlation id.
    * @param {TokenObject} initialToken Initial token value.
