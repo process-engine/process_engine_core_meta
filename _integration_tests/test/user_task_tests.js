@@ -133,6 +133,34 @@ describe('User Tasks - ', () => {
     await assertUserTaskIsFinished(correlationId);
   });
 
+  it('should fail to execute a user task which is not in a waiting state', async () => {
+    const processModelKey = 'user_task_sequential_test';
+
+    const initialToken = {
+      input_values: {},
+    };
+
+    const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
+
+    // Allow for some time for the user task to be created and set to a waiting state.
+    await delayTest(delayTimeInMs);
+
+    const userTaskInput = {
+      form_fields: {
+        Sample_Form_Field: 'Hello',
+      },
+    };
+
+    const expectedMessage = /.*UserTask*.User_Task_2.*not.*found/i;
+
+    // Try to finish the user task which is currently not waiting
+    const finishUserTaskPromise = testFixtureProvider
+      .consumerApiService
+      .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_2', userTaskInput);
+    should(finishUserTaskPromise).be.rejectedWith(expectedMessage);
+
+  });
+
   /**
    * Start a process with the given process model key and return the resulting correlation id.
    * @param {TokenObject} initialToken Initial token value.
