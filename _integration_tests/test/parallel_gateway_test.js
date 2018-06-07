@@ -22,8 +22,6 @@ describe('Parallel Gateway execution', () => {
     await testFixtureProvider.tearDown();
   });
 
-  // TODO: This test currently fails, because the parallel gateway does not behave as expected.
-  // See Issue: https://github.com/process-engine/process_engine/issues/48
   it('should successfully run two parallel tasks and contain the result of each task in the token history.', async () => {
     const processKey = 'parallel_gateway';
     const result = await testFixtureProvider.executeProcess(processKey);
