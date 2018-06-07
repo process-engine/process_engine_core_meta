@@ -34,6 +34,7 @@ const registerInContainer = (container) => {
     'subprocess_test',
     'terminate_end_event_sample',
     'user_task_test',
+    'user_task_sequential_test',
   ];
 
   processes.map((processFilename) => {

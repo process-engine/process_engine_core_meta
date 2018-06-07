@@ -7,6 +7,7 @@ const startCallbackType = require('@process-engine/consumer_api_contracts').Star
 describe('User Tasks - ', () => {
   let testFixtureProvider;
   let consumerContext;
+  const delayTimeInMs = 500;
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
@@ -35,7 +36,7 @@ describe('User Tasks - ', () => {
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
 
     // Allow for some time for the user task to be created and set to a waiting state.
-    await delayTest(500);
+    await delayTest(delayTimeInMs);
 
     const runningUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
 
@@ -55,9 +56,45 @@ describe('User Tasks - ', () => {
       .finishUserTask(consumerContext, processModelKey, correlationId, currentRunningUserTaskKey, userTaskInput);
 
     // Give the back end some time to process the user task.
-    await delayTest(500);
+    await delayTest(delayTimeInMs);
 
     await assertUserTaskIsFinished(correlationId);
+  });
+
+  it('should execute two sequential user tasks', async () => {
+    const processModelKey = 'user_task_sequential_test';
+
+    const initialToken = {
+      input_values: {},
+    };
+
+    const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
+
+    // Allow for some time for the user task to be created and set to a waiting state.
+    await delayTest(delayTimeInMs);
+
+    const userTaskInput = {
+      form_fields: {
+        Sample_Form_Field: 'Hello',
+      },
+    };
+
+    for (let current = 0; current < 2; current += 1) {
+      const currentUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
+
+      should(currentUserTasks).have.property('user_tasks');
+      should(currentUserTasks.user_tasks).have.size(1, 'The process should have one waiting user task');
+
+      const currentUserTaskKey = currentUserTasks.user_tasks[0].key;
+      const userTaskResult = await testFixtureProvider
+        .consumerApiService
+        .finishUserTask(consumerContext, processModelKey, correlationId, currentUserTaskKey, userTaskInput);
+
+      await delayTest(delayTimeInMs);
+    }
+
+    await assertUserTaskIsFinished(correlationId);
+
   });
 
   /**
