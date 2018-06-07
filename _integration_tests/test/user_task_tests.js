@@ -97,6 +97,42 @@ describe('User Tasks - ', () => {
 
   });
 
+  it.only('should execute two parallel running user tasks', async () => {
+    const processModelKey = 'user_task_parallel_test';
+
+    const initialToken = {
+      input_values: {},
+    };
+
+    const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
+
+    // Allow for some time for the user task to be created and set to a waiting state.
+    await delayTest(delayTimeInMs);
+
+    const currentRunningUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
+
+    should(currentRunningUserTasks).have.property('user_tasks');
+    should(currentRunningUserTasks.user_tasks).have.size(2, 'There should be two waiting user tasks');
+
+    const waitingUsersTasks = currentRunningUserTasks.user_tasks;
+
+    const userTaskInput = {
+      form_fields: {
+        Sample_Form_Field: 'Hello',
+      },
+    };
+
+    for (const currentWaitingUserTask of waitingUsersTasks) {
+      const currentWaitingUserTaskKey = currentWaitingUserTask.key;
+      const currentUserTaskResult = testFixtureProvider
+        .consumerApiService
+        .finishUserTask(consumerContext, processModelKey, correlationId, currentWaitingUserTaskKey, userTaskInput);
+    }
+
+    await delayTest(delayTimeInMs);
+    await assertUserTaskIsFinished(correlationId);
+  });
+
   /**
    * Start a process with the given process model key and return the resulting correlation id.
    * @param {TokenObject} initialToken Initial token value.
