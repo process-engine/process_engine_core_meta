@@ -1,12 +1,12 @@
 # Process Engine Meta Project
 
 ## Introduction
-This repository is the meta Repository fot the whole process engine Project. 
+This project is the meta Repository fot the whole process engine Project. 
 
 The following content of this document describes the general installation process to obtain a development setup with all necessary dependencies.
 
 ## Installation Guide
-There are currently two shell scripts that helps you, to set up the meta repository and keep it up to date, so you wont must go through all necessary meta setup scripts by yourself.
+There are currently two shell scripts that help you, to set up the meta repository and keep it up to date, so you don't have to go through all necessary meta setup scripts by yourself.
 
 ### Install a development setup
 1. Clone this repository
@@ -21,17 +21,22 @@ To update your development setup with the current state, you simply have to run 
 ## About the Meta Repository
 A meta repository combines both advantages of a monolithic and a distributed repository structure by creating a _meta repository_. 
 
-The meta repository contains a clone off all component repos, that are used by the process engine. Logically it looks like the whole project is a monolithic repo. But every component is a git repository itself. So you keep every used components in one place but also can work independently on every component. 
+The meta repository contains a clone of all component repos, that are used by the process engine. Logically it looks like the whole project is a monolithic repo. But every component is a git repository itself. So you keep every used components in one place but also can work independently on every component. 
 
 ## General Workflow
 ### Creating a feature branch
 <!--- Personally I dont like an ordered list here -->
+To demonstrate the workflow, we use an example where we create a new feature branch for an integration test.
 
-1. Change into the directory, where you want to create your feature. _Only create your feature branch inside the meta repo, if you really want to add a feature to the meta repository!_
-2. Create your feature branch. We recommend you to use git flow for this. If you have installed git flow, you just can type `git flow feature start <myFeature>`
-    * git flow will create a new branch named `feature/myFeature`, so keep that in mind if you want to checkout to your created feature branch. 
-3. Now you can push your changes as usual.
-4. If you want to publish your feature, you can conveniently to this with `git flow feature publish myFeature`
+1. Create a feature branch using `git flow feature start imaginary_element_test`
+2. Commit your changes as usual
+3. Publish your feature branch using `git flow feature publish imaginary_element_test`
+
+Now we want to create a new feature for the `process-engine` module. 
+1. Navigate into the `process-engine` directory
+2. Create a feature branch using `git flow feature start imaginary_feature`
+3. Commit your changes as usual
+4. Publish your feature branch using `git flow feature publish imaginary_feature`
 
 ### Package.json
 todo
@@ -191,9 +196,11 @@ meta git push
 * Runs `git push` in each module specified in the `.meta`-file individually
 
 ### MInstall
-Every Repository manages its own dependencies. In combination with a meta repo, this would lead to a huge amount of redundant dependencies across all different repositories. To prevent this, we use the tool _*minstall*.
+Every repository manages its own dependencies. In combination with a meta repo, this would lead to a huge amount of redundant dependencies across all different repositories. To prevent this, we use the tool *minstall*.
 
-MInstall creates a centralized directory inside the meta repository folder, where every redundant dependency will be installed. To make sure that every module can access their needed dependencies, MInstall then creates symlink for every dependency, that is also used by another module, to the central *node_modules* folder inside the *meta repository*.
+MInstall creates a centralized _node_modules_ directory, where every redundant dependency will be installed. To make sure that every module can access their needed dependencies.
+
+Then MInstall creates symlinks for every redundant dependency to the central *node_modules* folder inside the *meta repository*.
 
 This way, the node modules that depends on a specific module, can work as intended and you does not have to install redundant dependencies.
 
