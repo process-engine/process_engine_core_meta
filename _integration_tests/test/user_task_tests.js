@@ -7,13 +7,11 @@ const startCallbackType = require('@process-engine/consumer_api_contracts').Star
 describe.only('User Tasks - ', () => {
   let testFixtureProvider;
   let consumerContext;
-  let datastoreService;
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
     consumerContext = testFixtureProvider.consumerContext;
-    datastoreService = testFixtureProvider.datastoreService;
 
     // TODO: The import is currently broken (existing processes are duplicated, not overwritten).
     // Until this is fixed, use the "classic" ioc registration
@@ -37,11 +35,7 @@ describe.only('User Tasks - ', () => {
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
 
     // Allow for some time for the user task to be created and set to a waiting state.
-    await new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve();
-      }, 500);
-    });
+    await delayTest(500);
 
     const runningUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
 
@@ -60,8 +54,10 @@ describe.only('User Tasks - ', () => {
       .consumerApiService
       .finishUserTask(consumerContext, processModelKey, correlationId, currentRunningUserTaskKey, userTaskInput);
 
-    await assertUserTaskIsFinished(correlationId);
+    // Give the back end some time to process the user task.
+    await delayTest(500);
 
+    await assertUserTaskIsFinished(correlationId);
   });
 
   /**
@@ -90,13 +86,28 @@ describe.only('User Tasks - ', () => {
   }
 
   /**
+   * Delays the test execution by the given amount of milliseconds.
+   *
+   * @param {number} timeInMilliseconds Delay time in milliseconds
+   */
+  async function delayTest(timeInMilliseconds) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, timeInMilliseconds);
+    });
+  }
+
+  /**
    * Look up the processId for a given correlation Id and returns it.
    *
    * @param {string} correlationId correlation Id for the process id
    */
   async function getProcessIdForCorrelationId(correlationId) {
 
-    const processEntityType = await datastoreService.getEntityType('Process');
+    const processEntityType = await testFixtureProvider
+      .datastoreService
+      .getEntityType('Process');
 
     const query = {
       query: {
@@ -124,7 +135,9 @@ describe.only('User Tasks - ', () => {
   async function assertUserTaskIsFinished(correlationId) {
     const processId = await getProcessIdForCorrelationId(correlationId);
 
-    const userTaskEntityType = await datastoreService.getEntityType('UserTask');
+    const userTaskEntityType = await testFixtureProvider
+      .datastoreService
+      .getEntityType('UserTask');
 
     const query = {
       query: {

@@ -47,7 +47,6 @@ const iocModuleNames: Array<string> = [
   '@process-engine/process_engine',
   '@process-engine/process_engine_http',
   '@process-engine/process_repository',
-  '@process-engine/consumer_api_core',
   '../../',
 ];
 
@@ -95,11 +94,9 @@ export class TestFixtureProvider {
     this._dummyExecutionContext = await this.createExecutionContext('testuser', 'testpass');
     this._processEngineService = await this.resolveAsync<IProcessEngineService>('ProcessEngineService');
 
-    // Services for the consumer api
     this._consumerContext = await this.createConsumerContext('testuser', 'testpass');
     this._consumerApiService = await this.resolveAsync('ConsumerApiService');
 
-    // Data Store service for access the data store directly
     this._datastoreService = await this.resolveAsync('DatastoreService');
   }
 
