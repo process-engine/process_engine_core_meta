@@ -35,7 +35,7 @@ describe('User Tasks - ', () => {
 
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
 
-    const userTaskKey = 'User_Task_1';
+    const userTaskKey = 'user_task_1';
     
     const userTaskInput = {
       form_fields: {
