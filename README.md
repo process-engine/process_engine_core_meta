@@ -142,7 +142,7 @@ Although the meta NPM plugin provides a shortcut to install the `node_modules` f
 
 A better way to achieve this is by sharing the same node_modules in multiple packages wherever it is possible.
 
-We can do this by using the tool `MInstall`:
+We can do this by using the tool `Minstall`:
 
 * To run  just execute `npm install` in the root folder of the meta project
   * The package folders should already exist at this time (see `3.1`)
@@ -208,14 +208,14 @@ meta git push
 
 * Runs `git push` in each module specified in the `.meta`-file individually
 
-### MInstall
+### Minstall
 Every repository manages its own dependencies. 
 In combination with a meta repo, this would lead to a huge amount of dependencies across all repositories. 
 
-To prevent this, we use the tool *MInstall*.
-MInstall creates a centralized _node_modules_ directory, where every dependency will be installed.
+To prevent this, we use the tool *Minstall*.
+Minstall creates a centralized _node_modules_ directory, where every dependency will be installed.
 
-Then MInstall creates symlinks in each modules' `node_modules` folder.
+Then Minstall creates symlinks in each modules' `node_modules` folder.
 Each link points to a globally installed dependency..
 
 This way, each commonly used dependency will be installed only once, ensuring that your system works as expected and potentially saving you a lot of disk space.
