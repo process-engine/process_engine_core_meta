@@ -6,26 +6,31 @@ This project is the meta Repository fot the whole process engine Project.
 The following content of this document describes the general installation process to obtain a development setup with all necessary dependencies.
 
 ## Installation Guide
-There are currently two shell scripts that help you, to set up the meta repository and keep it up to date, so you don't have to go through all necessary meta setup scripts by yourself.
+There are currently two shell scripts that help you to set up the meta repository and keep it up to date.
 
 ### Install a development setup
 1. Clone this repository
-2. Simply run the `setup.sh` script. It should be executable by default and does not require higher privileges.
+2. Run the `setup.sh` script
 
 
 ### Update the current state
-To update your development setup with the current state, you simply have to run the `reinstall.sh` shell script.
+If you want to just reinstall and rebuild your installation,
+without performing git-related operations or resetting your database,
+you can use the `reinstall.sh` script.
 
 <!--- Discuss here, what the scripts does -->
 
 ## About the Meta Repository
 A meta repository combines both advantages of a monolithic and a distributed repository structure by creating a _meta repository_. 
 
-The meta repository contains a clone of all component repos, that are used by the process engine. Logically it looks like the whole project is a monolithic repo. But every component is a git repository itself. So you keep every used components in one place but also can work independently on every component. 
+The meta repository contains a clone of all component repos, that are used by the process engine. 
+
+Logically it looks like the whole project is a monolithic repo, but internally every component is a git repository itself. 
+
+So you keep every used components in one place, but also can work independently on every component. 
 
 ## General Workflow
 ### Creating a feature branch
-<!--- Personally I dont like an ordered list here -->
 To demonstrate the workflow, we use an example where we create a new feature branch for an integration test.
 
 1. Create a feature branch using `git flow feature start imaginary_element_test`
@@ -129,9 +134,9 @@ Although the meta NPM plugin provides a shortcut to install the `node_modules` f
 
 A better way to achieve this is by sharing the same node_modules in multiple packages wherever it is possible.
 
-We can do this by using the tool `minstall`:
+We can do this by using the tool `MInstall`:
 
-* To run minstall just execute `npm install` in the root folder of the meta project
+* To run  just execute `npm install` in the root folder of the meta project
   * The package folders should already exist at this time (see `3.1`)
 
 
@@ -196,13 +201,16 @@ meta git push
 * Runs `git push` in each module specified in the `.meta`-file individually
 
 ### MInstall
-Every repository manages its own dependencies. In combination with a meta repo, this would lead to a huge amount of redundant dependencies across all different repositories. To prevent this, we use the tool *minstall*.
+Every repository manages its own dependencies. 
+In combination with a meta repo, this would lead to a huge amount of dependencies across all repositories. 
 
-MInstall creates a centralized _node_modules_ directory, where every redundant dependency will be installed. To make sure that every module can access their needed dependencies.
+To prevent this, we use the tool *MInstall*.
+MInstall creates a centralized _node_modules_ directory, where every dependency will be installed.
 
-Then MInstall creates symlinks for every redundant dependency to the central *node_modules* folder inside the *meta repository*.
+Then MInstall creates symlinks in each modules' `node_modules` folder.
+Each link points to a globally installed dependency..
 
-This way, the node modules that depends on a specific module, can work as intended and you does not have to install redundant dependencies.
+This way, each commonly used dependency will be installed only once, ensuring that your system works as expected and potentially saving you a lot of disk space.
 
 ### VSCode Debugger Configurations
 todo
