@@ -36,7 +36,7 @@ describe('User Tasks - ', () => {
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
 
     const userTaskKey = 'user_task_1';
-    
+
     const userTaskInput = {
       form_fields: {
         Sample_Form_Field: 'Hello',
@@ -48,7 +48,7 @@ describe('User Tasks - ', () => {
 
     await finishUserTaskInCorrelation(correlationId, processModelKey, userTaskKey, userTaskInput);
 
-    // Give the back end some time to some time to finish the process.
+    // Give the back end some time to finish the process.
     await wait(delayTimeInMs);
 
     await assertUserTaskIsFinished(correlationId);
@@ -144,6 +144,7 @@ describe('User Tasks - ', () => {
     const finishUserTaskPromise = testFixtureProvider
       .consumerApiService
       .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_2', userTaskInput);
+
     should(finishUserTaskPromise).be.rejectedWith(expectedMessage);
   });
 
@@ -274,7 +275,7 @@ describe('User Tasks - ', () => {
   }
 
   /**
-   * Looks up in the datastore, if the user task of the process with the given is has a 'finish' state
+   * Asserts that all user tasks for the given correlation have been finished.
    *
    * @param {string} correlationId Correlation id of the process
    */
@@ -298,7 +299,6 @@ describe('User Tasks - ', () => {
     const userTaskPoJoData = userTaskPoJos.data;
     should(userTaskPoJoData).not.be.empty('The list of the returned user tasks for a process should not be empty.');
 
-    // Iterate over all user task that belongs to the process id and assert, that the state of every user task is 'end'
     for (const currentUserTask of userTaskPoJoData) {
       const currentUserTaskState = currentUserTask.state;
       should(currentUserTaskState).is.eql('end');
