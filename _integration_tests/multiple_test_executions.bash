@@ -17,11 +17,11 @@ testWasSucessfull=true;
 maxTries=20;
 resetDatabase=false;
 
-if [[ $1 =~ "^[0-9]*$" ]]; then
+if [[ "$1" =~ ^[0-9]+$ ]]; then
   maxTries=$1
 fi
 
-if [[ $1 == "--reset-datastore" ]] || [[ $2 == "--reset-datastore" ]]; then
+if [[ "$1" == "--reset-datastore" ]] || [[ "$2" == "--reset-datastore" ]]; then
   resetDatabase=true;
 fi
 
@@ -36,16 +36,16 @@ function runTestsInLoop() {
   do
     echo Running test number $run;
     npm test;
-    testExitCode=$?;
+    testExitCode="$?";
 
-    if [[ $testExitCode != 0 ]]; then
-      echo -------- Test Failed on Run $run --------
+    if [[ "$testExitCode" != 0 ]]; then
+      echo -------- Test Failed on Run "$run" --------
       testWasSucessfull=false;
       break;
     fi
   done
 
-  if $testWasSucessfull; then
+  if [[ "$testWasSucessfull" == true ]]; then
     echo ran $maxTries tests without an error!
   fi
 }
@@ -65,7 +65,7 @@ function getContainerId() {
 #   id: Id of the container that should be stopped.
 #######################################
 function stopDBContainer() {
-  containerId=$1;
+  containerId="$1";
 
   # If the container is already stopped, the resulting container ID should be empty.
   if [[ $containerId == "" ]]; then
@@ -74,7 +74,7 @@ function stopDBContainer() {
   fi
 
   echo "Stopping Postgres container..."
-  docker stop $containerId > /dev/null;
+  docker stop "$containerId" > /dev/null;
 }
 
 #######################################
@@ -83,12 +83,12 @@ function stopDBContainer() {
 #   id: Id of the container that should be removed.
 #######################################
 function removeContainer() {
-  containerId=$1;
+  containerId="$1";
 
   # Only remove the container, it if exists.
-  if [[ $containerId ]]; then
+  if [[ "$containerId" ]]; then
     echo "Removing current container....";
-    docker rm ${containerId} > /dev/null;
+    docker rm "${containerId}" > /dev/null;
   else
     echo "The container was already removed!";
   fi
@@ -98,14 +98,14 @@ function removeContainer() {
 # Removes the volume which belongs to the postgres docker container.
 #######################################
 function removeVolume() {
-  volumeId=$(docker volume ls --quiet --filter name=$DOCKER_VOLUME_NAME);
+  volumeId=$(docker volume ls --quiet --filter name="$DOCKER_VOLUME_NAME");
   
   # If the volume exists, remove it.
-  if [[ $volumeId ]]; then
-    echo "Removing volume $DOCKER_VOLUME_NAME"...;
-    docker volume rm $volumeId > /dev/null;
+  if [[ "$volumeId" ]]; then
+    echo Removing volume "$DOCKER_VOLUME_NAME"...;
+    docker volume rm "$volumeId" > /dev/null;
   else
-    echo "The volume $DOCKER_VOLUME_NAME was already removed.";
+    echo "The volume "$DOCKER_VOLUME_NAME" was already removed.";
   fi
 }
 
@@ -116,19 +116,19 @@ function createAndRunPostgresContainer() {
   echo "building new Postgres Docker Container...";
   docker build\
     --file Dockerfile.database \
-    --tag $DOCKER_IMAGE_NAME \
+    --tag "$DOCKER_IMAGE_NAME" \
     . > /dev/null;
 
   echo "starting the docker container...";
   docker run \
   --detach \
-  --env POSTGRES_USER=$PG_DEFAULT_USERNAME \
-  --env POSTGRES_PASSWORD=$PG_DEFAULT_USER_PASSWORD  \
-  --env POSTGRES_DB=$PG_DATABASE_NAME \
-  --publish $PG_DATABASE_PORT:5432 \
-  --name $DOCKER_CONTAINER_NAME \
-  --mount source=$DOCKER_VOLUME_NAME,target=/dbdata \
-  $DOCKER_IMAGE_NAME > /dev/null;
+  --env POSTGRES_USER="$PG_DEFAULT_USERNAME" \
+  --env POSTGRES_PASSWORD="$PG_DEFAULT_USER_PASSWORD"  \
+  --env POSTGRES_DB="$PG_DATABASE_NAME" \
+  --publish "$PG_DATABASE_PORT":5432 \
+  --name "$DOCKER_CONTAINER_NAME" \
+  --mount source="$DOCKER_VOLUME_NAME",target=/dbdata \
+  "$DOCKER_IMAGE_NAME" > /dev/null;
   }
 
 #######################################
@@ -139,10 +139,10 @@ function clearDocker() {
   containerId=$(getContainerId);
 
   # Stop the container
-  stopDBContainer $containerId;
+  stopDBContainer "$containerId";
 
   # Remove the container
-  removeContainer $containerId;
+  removeContainer "$containerId";
 
   # Remove the volume
   removeVolume;
@@ -154,7 +154,7 @@ function clearDocker() {
   sleep 2;
 }
 
-if [[ $resetDatabase == true ]]; then
+if [[ "$resetDatabase" == true ]]; then
   clearDocker;
 fi
 
