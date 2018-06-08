@@ -3,10 +3,12 @@
 ## Introduction
 This project is the meta Repository fot the whole process engine Project. 
 
-The following content of this document describes the general installation process to obtain a development setup with all necessary dependencies.
+The following content of this document describes the general installation process
+to obtain a development setup with all necessary dependencies.
 
 ## Installation Guide
-There are currently two shell scripts that help you to set up the meta repository and keep it up to date.
+There are currently two shell scripts that help you to set up the meta repository
+and keep it up to date.
 
 ### Install a development setup
 1. Clone this repository
@@ -21,21 +23,27 @@ you can use the `reinstall.sh` script.
 <!--- Discuss here, what the scripts does -->
 
 ## About the Meta Repository
-A meta repository combines both advantages of a monolithic and a distributed repository structure by creating a _meta repository_. 
+A meta repository combines both advantages of a monolithic and a distributed
+repository structure by creating a _meta repository_. 
 
-The meta repository contains a clone of all component repos, that are used by the process engine. 
+The meta repository contains a clone of all component repos, that are used by
+the process engine. 
 
-Logically it looks like the whole project is a monolithic repo, but internally every component is a git repository itself. 
+Logically it looks like the whole project is a monolithic repo, but internally
+every component is a git repository itself. 
 
-So you keep every used components in one place, but also can work independently on every component. 
+So you keep every used components in one place, but also can work independently
+on every component. 
 
 ## General Workflow
 ### Creating a feature branch
-To demonstrate the workflow, we use an example where we create a new feature branch for an integration test.
+To demonstrate the workflow, we use an example where we create a new feature
+branch for an integration test.
 
 1. Create a feature branch using `git flow feature start imaginary_element_test`
 2. Commit your changes as usual
-3. Publish your feature branch using `git flow feature publish imaginary_element_test`
+3. Publish your feature branch using `git flow feature publish 
+imaginary_element_test`
 
 Now we want to create a new feature for the `process-engine` module. 
 1. Navigate into the `process-engine` directory
