@@ -1,14 +1,24 @@
 # Process Engine Meta Project
 
 ## Introduction
-This project is the meta Repository fot the whole process engine Project. 
+This project is the meta Repository for the whole process engine Project. 
 
-The following content of this document describes the general installation process
-to obtain a development setup with all necessary dependencies.
+This guide describes the process for installing and setting up a complete developer setup.
 
 ## Installation Guide
 There are currently two shell scripts that help you to set up the meta repository
 and keep it up to date.
+
+### `setup.sh`
+
+This script performs a complete setup, including downloading the repositories, installing all dependencies,
+running the build process and setting/resetting the local database.
+
+### reinstall.sh
+
+If you want to just reinstall and rebuild your installation,
+without performing git-related operations or resetting your database,
+you can use this script.
 
 ### Install a development setup
 1. Clone this repository
@@ -20,19 +30,17 @@ If you want to just reinstall and rebuild your installation,
 without performing git-related operations or resetting your database,
 you can use the `reinstall.sh` script.
 
-<!--- Discuss here, what the scripts does -->
-
 ## About the Meta Repository
 A meta repository combines both advantages of a monolithic and a distributed
 repository structure by creating a _meta repository_. 
 
-The meta repository contains a clone of all component repos, that are used by
+The meta repository contains a clone of all component repos, that used by
 the process engine. 
 
-Logically it looks like the whole project is a monolithic repo, but internally
+Logically, it looks like the whole project is a monolithic repo, but internally
 every component is a git repository itself. 
 
-So you keep every used components in one place, but also can work independently
+So you keep every used component in one place, but also can work independently
 on every component. 
 
 ## General Workflow
