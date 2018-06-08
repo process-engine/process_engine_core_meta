@@ -166,6 +166,8 @@ describe('User Tasks - ', () => {
       },
     };
 
+    const expectedMessage = /.*User_Task_1.*not.*found.*/i;
+
     const userTaskResult = await testFixtureProvider
       .consumerApiService
       .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_1', userTaskInput);
@@ -174,9 +176,6 @@ describe('User Tasks - ', () => {
       .consumerApiService
       .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_1', userTaskInput);
 
-    // TODO: The error message of the promise rejection should not be '403 - Access to process model forbidden'!
-    // If this issue gets resolved, change this to expect the correct rejection message.
-    // see https://github.com/process-engine/consumer_api_core/issues/21
     should(finishUserTaskPromise).be.rejected();
   });
 
