@@ -34,7 +34,7 @@ you can use the `reinstall.sh` script.
 A meta repository combines both advantages of a monolithic and a distributed
 repository structure by creating a _meta repository_. 
 
-The meta repository contains a clone of all component repos, that used by
+The meta repository contains a clone of all component repos that are used by
 the process engine. 
 
 Logically, it looks like the whole project is a monolithic repo, but internally
