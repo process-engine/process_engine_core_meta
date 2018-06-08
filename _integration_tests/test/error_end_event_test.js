@@ -32,6 +32,30 @@ describe('Error End Event - ', () => {
     should(processInstancePromise).be.rejectedWith(expectedErrorName);
   });
 
+  it('should execute a call activity which ends with an error boundary event', async () => {
+    const processModelKey = 'error_end_event_subprocess_call_activity_test';
+
+    const initialToken = {
+      test_szenario: 'call_activity';
+    };
+
+    const result = await testFixtureProvider.executeProcess(processModelKey, initialToken);
+
+    should(result).have.property('current');
+    should(result.current).be.equal(1);
+    
+    const expectedHistoryKeys = [
+      'StartEvent_1',
+      'XORSplit', 'CallActivity1',
+      'CAErrorBoundary1',
+      'CATask1',
+      'CAXorJoin1',
+      'XORJoin'];
+
+    should(result).have.property('history');
+    should(result.history).have.keys(expectedHistoryKeys);
+
+  });
 
 
 });
