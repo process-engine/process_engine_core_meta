@@ -1,4 +1,4 @@
-# Consumer API Meta Project
+# Process Engine Meta Project
 
 ## 1 Setup Meta
 
@@ -46,8 +46,8 @@ meta exec "any command"
 ### 2.4 Execute a command in **some** repositories
 
 ```
-meta exec "any command" --exclude consumer_api,consumer_api_contracts
-meta exec "any command" --include-only consumer_api,consumer_api_contracts
+meta exec "any command" --exclude process_engine,process_engine_contracts
+meta exec "any command" --include-only process_engine,process_engine_contracts
 ```
 
 * Arguments for `--exclude` and `--include-only` are separated by commas
@@ -120,18 +120,18 @@ meta exec "git flow init"
 ### 3.6 Start a feature on multiple repositories
 
 ```
-meta exec "git flow feature start my_feature" --include-only consumer_api,consumer_api_contracts
+meta exec "git flow feature start my_feature" --include-only process_engine,process_engine_contracts
 ```
 
-* Starts the feature "my_feature" in the modules `consumer_api` and `consumer_api_contracts`
+* Starts the feature "my_feature" in the modules `process_engine` and `process_engine_contracts`
 
 ### 3.7 Publish a feature on multiple repositories
 
 ```
-meta exec "git flow feature publish my_feature" --include-only consumer_api,consumer_api_contracts
+meta exec "git flow feature publish my_feature" --include-only process_engine,process_engine_contracts
 ```
 
-* Publishes the feature "my_feature" in the modules `consumer_api` and `consumer_api_contracts`
+* Publishes the feature "my_feature" in the modules `process_engine` and `process_engine_contracts`
 
 ### 3.8 List the git status on all repositories
 
@@ -150,22 +150,41 @@ meta git push
 * Runs `git push` in each module specified in the `.meta`-file individually
 
 ## 4. VSCode Debugger configuration
-This meta repository is shipped with a configuration for the visual studio code debugger. 
 
-### Usage of the VS Code Debugger
-To use the Debugger, open VSCode inside the *consumer_api_meta* directory.
+This meta repository is shipped with a configuration for the visual studio
+code debugger.
 
-### Settings breakpoints
-You can set breakpoint in dependent modules before you start a debugging session. 
+To use the Debugger, *process_engine_meta* must be opened as a Top-Level project.
+Otherwise, VSCode will not be able to find the config file.
 
-To do that, you have to open the module in question through the `node_modules` folder.
+### 4.1 Settings breakpoints
 
-For example, if you want to debug the `node_instance.ts` file in the `process-engine` module, you would use the following path:
+You can either set breakpoints prior to launching the application or
+during runtime.
+
+For VSCode to discover them, you have to open the module in question
+through the `node_modules` folder.
+
+This is due to the fact that VSCode follows symlinks to their destination.
+Node, on the other hand, resolves symlinks to absolute paths. 
+Which means, if we want to use the debugger, we need to force node to preserve
+the symlinks.
+Because of this, we need to navigate to the target module through the
+`node_modules` folder. 
+
+Example:
+If you want to debug the `node_instance.ts` file in the `process-engine` module,
+you would use the following path:
+
 ```
-process-engine-meta/_integration_tests/node-modules/@process-engine/src/node_instance.ts
+process_engine_meta/_integration_tests/node-modules/@process-engine/src/node_instance.ts
 ```
 
-#### Start a debugging session
+You can also set breakpoints during runtime, by using the loaded modules_ panel
+from the `debugger` tab.
+
+#### 4.2 Start a debugging session
+
 You can start a debugging session as follows: 
 1. Navigate to the debugger tab
 2. Select the configuration that matches your current project
@@ -173,11 +192,7 @@ You can start a debugging session as follows:
 
 After starting, the debugger will break at the first executed line of code.
 
-If you're all set up, click the play button again. The debugger will continue until it reaches a breakpoint or the end of execution.
-
-You can also set breakpoints in loaded modules by using the _loaded modules_ panel in the debugger tab.
-
-This is due to the fact that VSCode follows symlinks to their destination.
-Node, on the other hand, resolves symlinks to absolute paths. 
-Which means, if we want to use the debugger, we need to force node to preserve the symlinks. Because of this, we need to navigate to the target module through the node_modules path. 
+Click the play button again to start the debugging process.
+The debugger will continue until it reaches a breakpoint or the end of
+the program.
 
