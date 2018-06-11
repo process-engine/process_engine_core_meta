@@ -1,4 +1,4 @@
-# Consumer API Meta Project
+# Process Engine Meta Project
 
 ## 1 Setup Meta
 
@@ -46,8 +46,8 @@ meta exec "any command"
 ### 2.4 Execute a command in **some** repositories
 
 ```
-meta exec "any command" --exclude consumer_api,consumer_api_contracts
-meta exec "any command" --include-only consumer_api,consumer_api_contracts
+meta exec "any command" --exclude core,core_contracts
+meta exec "any command" --include-only core,core_contracts
 ```
 
 * Arguments for `--exclude` and `--include-only` are separated by commas
@@ -120,18 +120,18 @@ meta exec "git flow init"
 ### 3.6 Start a feature on multiple repositories
 
 ```
-meta exec "git flow feature start my_feature" --include-only consumer_api,consumer_api_contracts
+meta exec "git flow feature start my_feature" --include-only core,core_contracts
 ```
 
-* Starts the feature "my_feature" in the modules `consumer_api` and `consumer_api_contracts`
+* Starts the feature "my_feature" in the modules `core` and `core_contracts`
 
 ### 3.7 Publish a feature on multiple repositories
 
 ```
-meta exec "git flow feature publish my_feature" --include-only consumer_api,consumer_api_contracts
+meta exec "git flow feature publish my_feature" --include-only core,core_contracts
 ```
 
-* Publishes the feature "my_feature" in the modules `consumer_api` and `consumer_api_contracts`
+* Publishes the feature "my_feature" in the modules `core` and `core_contracts`
 
 ### 3.8 List the git status on all repositories
 
@@ -153,7 +153,7 @@ meta git push
 This meta repository is shipped with a configuration for the visual studio code debugger. 
 
 ### Usage of the VS Code Debugger
-To use the Debugger, open VSCode inside the *consumer_api_meta* directory.
+To use the Debugger, open VSCode inside the *process_engine_meta* directory.
 
 ### Settings breakpoints
 You can set breakpoint in dependent modules before you start a debugging session. 
