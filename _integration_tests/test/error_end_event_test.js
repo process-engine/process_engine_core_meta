@@ -55,8 +55,30 @@ describe('Error End Event - ', () => {
 
     should(result).have.property('history');
     should(result.history).have.keys(expectedHistoryKeys);
-
   });
 
+  it('should execute a subprocess which ends with an error end event', async () => {
+    const processModelKey = 'error_end_event_subprocess_call_activity_test';
 
+    const initialToken = {
+      test_scenario: 'sub_process',
+    };
+
+    const result = await testFixtureProvider.executeProcess(processModelKey, initialToken);
+
+    should(result).have.property('current');
+    should(result.current).be.equal(1);
+
+    const expectedHistoryKeys = [
+      'StartEvent_1',
+      'XORSplit',
+      'SubProcess1',
+      'SPTask1',
+      'SPXorJoin1',
+      'XORJoin',
+    ];
+
+    should(result).have.property('history');
+    should(result.history).have.keys(expectedHistoryKeys);
+  });
 });
