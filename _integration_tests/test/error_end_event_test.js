@@ -2,7 +2,7 @@
 const should = require('should');
 const TestFixtureProver = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe('Error End Event - ', () => {
+describe.skip('Error End Event - ', () => {
 
   let testFixtureProvider;
 
