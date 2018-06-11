@@ -36,17 +36,18 @@ describe('Error End Event - ', () => {
     const processModelKey = 'error_end_event_subprocess_call_activity_test';
 
     const initialToken = {
-      test_szenario: 'call_activity';
+      test_scenario: 'call_activity',
     };
 
     const result = await testFixtureProvider.executeProcess(processModelKey, initialToken);
 
     should(result).have.property('current');
     should(result.current).be.equal(1);
-    
+
     const expectedHistoryKeys = [
       'StartEvent_1',
-      'XORSplit', 'CallActivity1',
+      'XORSplit', 
+      'CallActivity1',
       'CAErrorBoundary1',
       'CATask1',
       'CAXorJoin1',
