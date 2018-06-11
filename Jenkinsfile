@@ -93,7 +93,9 @@ pipeline {
           docker
             .image('postgres')
             .inside("--link ${db_container_id}:db") {
-              sh(script: 'while ! pg_isready -U postgres -h db ; do sleep 5; done');
+              timeout(time: 60, unit: 'SECONDS') {
+                sh(script: 'while ! pg_isready --username postgres --host db ; do sleep 5; done');
+              }
           }
         }
       }
@@ -148,7 +150,15 @@ pipeline {
     always {
       script {
         cleanup_workspace();
-        cleanup_docker();
+
+        // Ignore any failures during docker clean up.
+        // 'docker image prune --force' fails if
+        // two builds run simultaneously.
+        try {
+          cleanup_docker();
+        } catch (Exception error) {
+          echo "Failed to cleanup docker $error";
+        }
       }
     }
   }

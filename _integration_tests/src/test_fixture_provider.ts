@@ -9,6 +9,10 @@ import {Logger} from 'loggerhythm';
 import {ExecutionContext, IIamService, TokenType} from '@essential-projects/core_contracts';
 import {IProcessDefEntityTypeService, IProcessEngineService, IProcessRepository} from '@process-engine/process_engine_contracts';
 
+import {ConsumerContext, IConsumerApiService} from '@process-engine/consumer_api_contracts';
+
+import {IDatastoreService} from "@essential-projects/data_model_contracts";
+
 const logger: Logger = Logger.createLogger('test:bootstrapper');
 
 const iocModuleNames: Array<string> = [
@@ -57,12 +61,29 @@ export class TestFixtureProvider {
   private container: InvocationContainer;
   private bootstrapper: any;
 
+  private _consumerApiService: IConsumerApiService;
+  private _consumerContext: ConsumerContext;
+
+  private _datastoreService: IDatastoreService;
+
   public get context(): ExecutionContext {
     return this._dummyExecutionContext;
   }
 
+  public get consumerContext(): ConsumerContext {
+    return this._consumerContext;
+  }
+
   public get processEngineService(): IProcessEngineService {
     return this._processEngineService;
+  }
+
+  public get consumerApiService(): IConsumerApiService {
+    return this._consumerApiService;
+  }
+
+  public get datastoreService(): IDatastoreService {
+    return this._datastoreService;
   }
 
   public async initializeAndStart(): Promise<void> {
@@ -72,6 +93,11 @@ export class TestFixtureProvider {
 
     this._dummyExecutionContext = await this.createExecutionContext('testuser', 'testpass');
     this._processEngineService = await this.resolveAsync<IProcessEngineService>('ProcessEngineService');
+
+    this._consumerContext = await this.createConsumerContext('testuser', 'testpass');
+    this._consumerApiService = await this.resolveAsync('ConsumerApiService');
+
+    this._datastoreService = await this.resolveAsync('DatastoreService');
   }
 
   public async executeProcess(processKey: string, initialToken: any = {}): Promise<any> {
@@ -208,5 +234,13 @@ export class TestFixtureProvider {
       logger.error('Failed to start bootstrapper!', error);
       throw error;
     }
+  }
+
+  private async createConsumerContext(user: string, password: string): Promise<ConsumerContext> {
+    const authToken: any = await this.bootstrapper.getTokenFromAuth(user, password);
+
+    return <ConsumerContext> {
+      identity: authToken,
+    };
   }
 }

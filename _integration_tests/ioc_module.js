@@ -22,6 +22,7 @@ const registerInContainer = (container) => {
     'call_activity_subprocess_nested',
     'call_activity_test',
     'call_activity_test_error',
+    'boundary_event_conditional',
     'exclusive_gateway_base_test',
     'exclusive_gateway_nested',
     'generic_sample',
@@ -32,6 +33,9 @@ const registerInContainer = (container) => {
     'service_task_test',
     'subprocess_test',
     'terminate_end_event_sample',
+    'user_task_test',
+    'user_task_sequential_test',
+    'user_task_parallel_test',
   ];
 
   processes.map((processFilename) => {
