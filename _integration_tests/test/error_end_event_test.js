@@ -26,10 +26,15 @@ describe.skip('Error End Event - ', () => {
 
     const processInstancePromise = testFixtureProvider.executeProcess(processModelKey);
     
-    // TODO: Since the behavior of the error end event is not fully
-    // designed, the expected promise rejection message is unknown.
-    const expectedErrorName = 'Expected Error';
-    should(processInstancePromise).be.rejectedWith(expectedErrorName);
+    // TODO: Since the behavior of the error end event is not fully designed.
+    // The object that is returned from a process, that ends with an Error
+    // End event may vary.
+    const expectedErrorObject = {
+      error_code: 'expected_error',
+      name: 'Expected Error',
+    };
+
+    should(processInstancePromise).be.rejectedWith(expectedErrorObject);
   });
 
   it('should execute a call activity which ends with an error boundary event', async () => {
