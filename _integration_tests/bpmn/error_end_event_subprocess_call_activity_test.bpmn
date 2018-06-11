@@ -5,10 +5,10 @@
   </bpmn:collaboration>
   <bpmn:process id="error_end_event_subprocess_call_activity_test" name="error_end_event_subprocess_call_activity_test" isExecutable="true">
     <bpmn:sequenceFlow id="SequenceFlow_10g25lm" name="Sub Process throws end event" sourceRef="XORSplit" targetRef="SubProcess1">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">token.current.test_szenario === 'sub_process'</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">token.current.test_scenario === 'sub_process'</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1vsi2l2" name="Call Activity throws end event" sourceRef="XORSplit" targetRef="CallActivity1">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">token.current.test_szenario === 'call_activity'</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">token.current.test_scenario === 'call_activity'</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1qmrqui" sourceRef="StartEvent_1" targetRef="XORSplit" />
     <bpmn:subProcess id="SubProcess1">

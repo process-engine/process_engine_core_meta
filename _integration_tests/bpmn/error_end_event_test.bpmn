@@ -37,10 +37,10 @@
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0fyganh">
       <bpmndi:BPMNShape id="Participant_0fwyttz_di" bpmnElement="Participant_0fwyttz">
-        <dc:Bounds x="213" y="231" width="642" height="291" />
+        <dc:Bounds x="213" y="231" width="653" height="177" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_1m842hw_di" bpmnElement="Lane_1m842hw">
-        <dc:Bounds x="243" y="231" width="612" height="291" />
+        <dc:Bounds x="243" y="231" width="623" height="177" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="StartEvent_12nmke6_di" bpmnElement="StartEvent_12nmke6">
         <dc:Bounds x="280" y="294" width="36" height="36" />
