@@ -53,7 +53,7 @@ describe.skip('Error End Event - ', () => {
 
     const expectedHistoryKeys = [
       'StartEvent_1',
-      'XORSplit', 
+      'XORSplit',
       'CallActivity1',
       'CAErrorBoundary1',
       'CATask1',
