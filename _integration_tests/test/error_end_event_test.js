@@ -47,9 +47,10 @@ describe.skip('Error End Event - ', () => {
     };
 
     const result = await testFixtureProvider.executeProcess(processModelKey, initialToken);
+    const expectedResult = 'Error handled by call activity\'s error boundary event';
 
     should(result).have.property('current');
-    should(result.current).be.equal(1);
+    should(result.current).be.eql(expectedResult);
 
     const expectedHistoryKeys = [
       'StartEvent_1',
@@ -72,9 +73,10 @@ describe.skip('Error End Event - ', () => {
     };
 
     const result = await testFixtureProvider.executeProcess(processModelKey, initialToken);
+    const expectedResult = 'Error handled by sub process\'s error boundary event';
 
     should(result).have.property('current');
-    should(result.current).be.equal(1);
+    should(result.current).be.eql(expectedResult);
 
     const expectedHistoryKeys = [
       'StartEvent_1',

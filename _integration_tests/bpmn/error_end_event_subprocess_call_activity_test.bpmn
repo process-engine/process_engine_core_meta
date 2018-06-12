@@ -42,10 +42,10 @@
       <bpmn:errorEventDefinition errorRef="Error_0ji2qkd" />
     </bpmn:boundaryEvent>
     <bpmn:sequenceFlow id="SequenceFlow_0n2tkwp" sourceRef="SPErrorBoundary1" targetRef="SPTask1" />
-    <bpmn:scriptTask id="SPTask1" name="Set the current token value to 1">
+    <bpmn:scriptTask id="SPTask1" name="Return a message">
       <bpmn:incoming>SequenceFlow_0n2tkwp</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1iketkd</bpmn:outgoing>
-      <bpmn:script>return 1;</bpmn:script>
+      <bpmn:script>return "Error handled by sub process's error boundary event";</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:sequenceFlow id="SequenceFlow_0sukh82" sourceRef="SubProcess1" targetRef="SPError" />
     <bpmn:scriptTask id="SPError" name="Throw Exception">
@@ -81,10 +81,10 @@
       <bpmn:outgoing>SequenceFlow_0x7jprp</bpmn:outgoing>
       <bpmn:script>throw new Error('The Error was not catched by the Error boundary event');</bpmn:script>
     </bpmn:scriptTask>
-    <bpmn:scriptTask id="CATask1" name="Set the current token value to 1">
+    <bpmn:scriptTask id="CATask1" name="Return a message">
       <bpmn:incoming>SequenceFlow_1mzsh0y</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_11h43wx</bpmn:outgoing>
-      <bpmn:script>return 1;</bpmn:script>
+      <bpmn:script>return "Error handled by call activity's error boundary event";</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:sequenceFlow id="SequenceFlow_11h43wx" sourceRef="CATask1" targetRef="CAXorJoin1" />
     <bpmn:exclusiveGateway id="CAXorJoin1">
