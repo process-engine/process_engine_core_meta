@@ -21,14 +21,16 @@ describe.skip('Error End Event - ', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should thrown an error, when the error end event is reached', async () => {
+  it('should throw an error, when the error end event is reached', async () => {
     const processModelKey = 'error_end_event_test';
 
     const processInstancePromise = testFixtureProvider.executeProcess(processModelKey);
-    
-    // TODO: Since the behavior of the error end event is not fully designed.
-    // The object that is returned from a process, that ends with an Error
-    // End event may vary.
+
+    /*
+     * TODO: Since the behavior of the ErrorEndEvent is not fully designed,
+     * the object that is returned from a process that ends with an
+     * ErrorEndEvent may vary.
+     */
     const expectedErrorObject = {
       error_code: 'expected_error',
       name: 'Expected Error',
