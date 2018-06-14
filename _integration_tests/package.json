@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "start": "cross-env NODE_ENV=test CONFIG_PATH=config node index.js",
-    "test": "cross-env NODE_ENV=test CONFIG_PATH=config mocha -t 15000 test/*.js --exit",
+    "test": "cross-env NODE_ENV=test CONFIG_PATH=config mocha -t 15000 test/exclusive_gateway_test.js $(find test -name '*.js' -and -not -name 'exclusive_gateway_test.js' -exec echo -n {} +)  --exit",
     "test-debug": "cross-env NODE_ENV=test CONFIG_PATH=config mocha --inspect-brk test/*.js --exit",
     "build": "gulp build"
   },
