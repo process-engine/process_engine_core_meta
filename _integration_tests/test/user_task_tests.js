@@ -7,12 +7,14 @@ const startCallbackType = require('@process-engine/consumer_api_contracts').Star
 describe('User Tasks - ', () => {
   let testFixtureProvider;
   let consumerContext;
-  const delayTimeInMs = 500;
+  let flowNodeInstancePersistance;
+  const delayTimeInMs = 1500;
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
     consumerContext = testFixtureProvider.consumerContext;
+    flowNodeInstancePersistance = await testFixtureProvider.resolveAsync('FlowNodeInstancePersistance');
 
     // TODO: The import is currently broken (existing processes are duplicated, not overwritten).
     // Until this is fixed, use the "classic" ioc registration
@@ -25,12 +27,13 @@ describe('User Tasks - ', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should execute the user task.', async () => {
+  it.only('should execute the user task.', async () => {
 
     const processModelKey = 'user_task_test';
 
     const initialToken = {
-      input_values: {},
+      inputValues: {},
+      correlationId: 'user_task_correlation_1',
     };
 
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
@@ -40,13 +43,13 @@ describe('User Tasks - ', () => {
 
     const runningUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
 
-    should(runningUserTasks).have.property('user_tasks');
-    should(runningUserTasks.user_tasks).have.size(1);
+    should(runningUserTasks).have.property('userTasks');
+    should(runningUserTasks.userTasks).have.size(1);
 
-    const currentRunningUserTaskKey = runningUserTasks.user_tasks[0].key;
+    const currentRunningUserTaskKey = runningUserTasks.userTasks[0].id;
 
     const userTaskInput = {
-      form_fields: {
+      formFields: {
         Sample_Form_Field: 'Hello',
       },
     };
@@ -55,17 +58,14 @@ describe('User Tasks - ', () => {
       .consumerApiService
       .finishUserTask(consumerContext, processModelKey, correlationId, currentRunningUserTaskKey, userTaskInput);
 
-    // Give the back end some time to process the user task.
-    await delayTest(delayTimeInMs);
-
-    await assertUserTaskIsFinished(correlationId);
+    console.log(userTaskResult);
   });
 
   it('should execute two sequential user tasks', async () => {
     const processModelKey = 'user_task_sequential_test';
 
     const initialToken = {
-      input_values: {},
+      inputValues: {},
     };
 
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
@@ -74,7 +74,7 @@ describe('User Tasks - ', () => {
     await delayTest(delayTimeInMs);
 
     const userTaskInput = {
-      form_fields: {
+      formFields: {
         Sample_Form_Field: 'Hello',
       },
     };
@@ -101,7 +101,7 @@ describe('User Tasks - ', () => {
     const processModelKey = 'user_task_parallel_test';
 
     const initialToken = {
-      input_values: {},
+      inputValues: {},
     };
 
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
@@ -117,7 +117,7 @@ describe('User Tasks - ', () => {
     const waitingUsersTasks = currentRunningUserTasks.user_tasks;
 
     const userTaskInput = {
-      form_fields: {
+      formFields: {
         Sample_Form_Field: 'Hello',
       },
     };
@@ -137,7 +137,7 @@ describe('User Tasks - ', () => {
     const processModelKey = 'user_task_sequential_test';
 
     const initialToken = {
-      input_values: {},
+      inputValues: {},
     };
 
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
@@ -146,7 +146,7 @@ describe('User Tasks - ', () => {
     await delayTest(delayTimeInMs);
 
     const userTaskInput = {
-      form_fields: {
+      formFields: {
         Sample_Form_Field: 'Hello',
       },
     };
@@ -165,7 +165,8 @@ describe('User Tasks - ', () => {
     const processModelKey = 'user_task_sequential_test';
 
     const initialToken = {
-      input_values: {},
+      correlationId: 'user_task_correlation_1',
+      inputValues: {},
     };
 
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
@@ -174,7 +175,7 @@ describe('User Tasks - ', () => {
     await delayTest(delayTimeInMs);
 
     const userTaskInput = {
-      form_fields: {
+      formFields: {
         Sample_Form_Field: 'Hello',
       },
     };
@@ -199,13 +200,13 @@ describe('User Tasks - ', () => {
    * Start a process with the given process model key and return the resulting correlation id.
    * @param {TokenObject} initialToken Initial token value.
    */
-  async function startProcessAndReturnCorrelationId(processModelKey, initialToken) {
+  async function startProcessAndReturnCorrelationId(processModelKey, startRequestPayload) {
     const callbackType = startCallbackType.CallbackOnProcessInstanceCreated;
     const result = await testFixtureProvider
       .consumerApiService
-      .startProcessInstance(consumerContext, processModelKey, 'StartEvent_1', initialToken, callbackType);
+      .startProcessInstance(consumerContext, processModelKey, 'StartEvent_1', startRequestPayload, callbackType);
 
-    return result.correlation_id;
+    return result.correlationId;
   }
 
   /**
@@ -269,6 +270,12 @@ describe('User Tasks - ', () => {
    */
   async function assertUserTaskIsFinished(correlationId) {
     const processId = await getProcessIdForCorrelationId(correlationId);
+
+    // this.flowNodeInstancePersistance.
+
+
+
+
 
     const userTaskEntityType = await testFixtureProvider
       .datastoreService
