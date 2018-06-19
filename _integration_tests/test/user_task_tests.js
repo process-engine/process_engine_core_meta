@@ -56,7 +56,6 @@ describe('User Tasks - ', () => {
       .consumerApiService
       .finishUserTask(consumerContext, processModelKey, correlationId, currentRunningUserTaskKey, userTaskInput);
 
-    console.log(userTaskResult);
   });
 
   it('should execute two sequential user tasks', async () => {
