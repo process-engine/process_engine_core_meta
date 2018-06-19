@@ -7,14 +7,12 @@ const startCallbackType = require('@process-engine/consumer_api_contracts').Star
 describe('User Tasks - ', () => {
   let testFixtureProvider;
   let consumerContext;
-  let flowNodeInstancePersistance;
-  const delayTimeInMs = 1500;
+  const delayTimeInMs = 500;
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
     consumerContext = testFixtureProvider.consumerContext;
-    flowNodeInstancePersistance = await testFixtureProvider.resolveAsync('FlowNodeInstancePersistance');
 
     // TODO: The import is currently broken (existing processes are duplicated, not overwritten).
     // Until this is fixed, use the "classic" ioc registration
@@ -27,7 +25,7 @@ describe('User Tasks - ', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it.only('should execute the user task.', async () => {
+  it('should execute the user task.', async () => {
 
     const processModelKey = 'user_task_test';
 
@@ -82,18 +80,16 @@ describe('User Tasks - ', () => {
     for (let current = 0; current < 2; current += 1) {
       const currentUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
 
-      should(currentUserTasks).have.property('user_tasks');
-      should(currentUserTasks.user_tasks).have.size(1, 'The process should have one waiting user task');
+      should(currentUserTasks).have.property('userTasks');
+      should(currentUserTasks.userTasks).have.size(1, 'The process should have one waiting user task');
 
-      const currentUserTaskKey = currentUserTasks.user_tasks[0].key;
+      const currentUserTaskKey = currentUserTasks.userTasks[0].key;
       const userTaskResult = await testFixtureProvider
         .consumerApiService
         .finishUserTask(consumerContext, processModelKey, correlationId, currentUserTaskKey, userTaskInput);
 
       await delayTest(delayTimeInMs);
     }
-
-    await assertUserTaskIsFinished(correlationId);
 
   });
 
@@ -111,10 +107,10 @@ describe('User Tasks - ', () => {
 
     const currentRunningUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
 
-    should(currentRunningUserTasks).have.property('user_tasks');
-    should(currentRunningUserTasks.user_tasks).have.size(2, 'There should be two waiting user tasks');
+    should(currentRunningUserTasks).have.property('userTasks');
+    should(currentRunningUserTasks.userTasks).have.size(2, 'There should be two waiting user tasks');
 
-    const waitingUsersTasks = currentRunningUserTasks.user_tasks;
+    const waitingUsersTasks = currentRunningUserTasks.userTasks;
 
     const userTaskInput = {
       formFields: {
@@ -129,8 +125,6 @@ describe('User Tasks - ', () => {
         .finishUserTask(consumerContext, processModelKey, correlationId, currentWaitingUserTaskKey, userTaskInput);
     }
 
-    await delayTest(delayTimeInMs);
-    await assertUserTaskIsFinished(correlationId);
   });
 
   it('should fail to execute a user task which is not in a waiting state', async () => {
@@ -234,70 +228,4 @@ describe('User Tasks - ', () => {
     });
   }
 
-  /**
-   * Look up the processId for a given correlation Id and returns it.
-   *
-   * @param {string} correlationId correlation Id for the process id
-   */
-  async function getProcessIdForCorrelationId(correlationId) {
-
-    const processEntityType = await testFixtureProvider
-      .datastoreService
-      .getEntityType('Process');
-
-    const query = {
-      query: {
-        attribute: 'correlationId',
-        operator: '=',
-        value: correlationId,
-      },
-    };
-
-    const process = await processEntityType.query(testFixtureProvider.context, query);
-    const processPoJos = await process.toPojos(testFixtureProvider.context);
-    should(processPoJos).have.property('data');
-
-    const processPojoData = processPoJos.data;
-    should(processPojoData).has.length(1, 'The list of returned processes for the correlation id');
-
-    return processPojoData[0].id;
-  }
-
-  /**
-   * Looks up in the datastore, if the user task of the process with the given is has a 'finish' state
-   *
-   * @param {string} correlationId Correlation id of the process
-   */
-  async function assertUserTaskIsFinished(correlationId) {
-    const processId = await getProcessIdForCorrelationId(correlationId);
-
-    // this.flowNodeInstancePersistance.
-
-
-
-
-
-    const userTaskEntityType = await testFixtureProvider
-      .datastoreService
-      .getEntityType('UserTask');
-
-    const query = {
-      query: {
-        attribute: 'process',
-        operator: '=',
-        value: processId,
-      },
-    };
-
-    const userTasks = await userTaskEntityType.query(testFixtureProvider.context, query);
-    const userTaskPoJos = await userTasks.toPojos(testFixtureProvider.context);
-    const userTaskPoJoData = userTaskPoJos.data;
-    should(userTaskPoJoData).not.be.empty('The list of the returned user tasks for a process should not be empty.');
-
-    // Iterate over all user task that belongs to the process id and assert, that the state of every user task is 'end'
-    for (const currentUserTask of userTaskPoJoData) {
-      const currentUserTaskState = currentUserTask.state;
-      should(currentUserTaskState).is.eql('end');
-    }
-  }
 });
