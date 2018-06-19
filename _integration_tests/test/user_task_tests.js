@@ -52,10 +52,17 @@ describe('User Tasks - ', () => {
       },
     };
 
-    const userTaskResult = await testFixtureProvider
+    await testFixtureProvider
       .consumerApiService
       .finishUserTask(consumerContext, processModelKey, correlationId, currentRunningUserTaskKey, userTaskInput);
 
+    await delayTest(delayTimeInMs);
+
+    const correlationResults = await testFixtureProvider
+      .consumerApiService
+      .getAllProcessResultsForCorrelation(consumerContext, correlationId, processModelKey);
+
+    should(correlationResults).have.size(1);
   });
 
   it('should execute two sequential user tasks', async () => {
@@ -89,6 +96,12 @@ describe('User Tasks - ', () => {
 
       await delayTest(delayTimeInMs);
     }
+
+    const correlationResults = await testFixtureProvider
+      .consumerApiService
+      .getAllProcessResultsForCorrelation(consumerContext, correlationId, processModelKey);
+
+    should(correlationResults).have.size(1);
 
   });
 
@@ -124,6 +137,14 @@ describe('User Tasks - ', () => {
         .finishUserTask(consumerContext, processModelKey, correlationId, currentWaitingUserTaskKey, userTaskInput);
     }
 
+    await delayTest(delayTimeInMs);
+
+    const correlationResults = await testFixtureProvider
+      .consumerApiService
+      .getAllProcessResultsForCorrelation(consumerContext, correlationId, processModelKey);
+
+    should(correlationResults).have.size(1);
+
   });
 
   it('should fail to execute a user task which is not in a waiting state', async () => {
@@ -150,6 +171,7 @@ describe('User Tasks - ', () => {
     const finishUserTaskPromise = testFixtureProvider
       .consumerApiService
       .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_2', userTaskInput);
+    
     should(finishUserTaskPromise).be.rejectedWith(expectedMessage);
 
   });
