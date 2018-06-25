@@ -31,20 +31,11 @@ describe('User Tasks - ', () => {
 
     const initialToken = {
       inputValues: {},
-      correlationId: 'user_task_correlation_1',
     };
 
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
 
-    // Allow for some time for the user task to be created and set to a waiting state.
-    await delayTest(delayTimeInMs);
-
-    const runningUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
-
-    should(runningUserTasks).have.property('userTasks');
-    should(runningUserTasks.userTasks).have.size(1);
-
-    const currentRunningUserTaskKey = runningUserTasks.userTasks[0].id;
+    const userTaskKey = 'user_task_1';
 
     const userTaskInput = {
       formFields: {
@@ -52,20 +43,17 @@ describe('User Tasks - ', () => {
       },
     };
 
-    await testFixtureProvider
-      .consumerApiService
-      .finishUserTask(consumerContext, processModelKey, correlationId, currentRunningUserTaskKey, userTaskInput);
+    // Allow for some time for the user task to be created and set to a waiting state.
+    await wait(delayTimeInMs);
 
-    await delayTest(delayTimeInMs);
+    await finishUserTaskInCorrelation(correlationId, processModelKey, userTaskKey, userTaskInput);
+
+    // Give the back end some time to finish the process.
+    await wait(delayTimeInMs);
 
     // TODO: to be meaningful, these assertions are blocked by
     //       https://github.com/process-engine/consumer_api_contracts/issues/26
-
-    // const correlationResults = await testFixtureProvider
-    //   .consumerApiService
-    //   .getProcessResultForCorrelation(consumerContext, correlationId, processModelKey);
-
-    // should(correlationResults).have.size(1);
+    // await assertUserTaskIsFinished(correlationId);
   });
 
   it('should execute two sequential user tasks', async () => {
@@ -78,7 +66,12 @@ describe('User Tasks - ', () => {
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
 
     // Allow for some time for the user task to be created and set to a waiting state.
-    await delayTest(delayTimeInMs);
+    await wait(delayTimeInMs);
+
+    const userTaskKeys = [
+      'User_Task_1',
+      'User_Task_2',
+    ];
 
     const userTaskInput = {
       formFields: {
@@ -86,33 +79,13 @@ describe('User Tasks - ', () => {
       },
     };
 
-    const userTaskKeys = [
-      'User_Task_1',
-      'User_Task_2',
-    ];
-
     for (const currentUserTaskKey of userTaskKeys) {
-      const currentUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
-
-      should(currentUserTasks).have.property('userTasks');
-      should(currentUserTasks.userTasks).have.size(1, 'The process should have one waiting user task');
-
-      const userTaskResult = await testFixtureProvider
-        .consumerApiService
-        .finishUserTask(consumerContext, processModelKey, correlationId, currentUserTaskKey, userTaskInput);
-
-      await delayTest(delayTimeInMs);
+      await finishUserTaskInCorrelation(correlationId, processModelKey, currentUserTaskKey, userTaskInput);
     }
 
     // TODO: to be meaningful, these assertions are blocked by
     //       https://github.com/process-engine/consumer_api_contracts/issues/26
-
-    // const correlationResults = await testFixtureProvider
-    //   .consumerApiService
-    //   .getProcessResultForCorrelation(consumerContext, correlationId, processModelKey);
-
-    // should(correlationResults).have.size(1);
-
+    // await assertUserTaskIsFinished(correlationId);
   });
 
   it('should execute two parallel running user tasks', async () => {
@@ -125,14 +98,14 @@ describe('User Tasks - ', () => {
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
 
     // Allow for some time for the user task to be created and set to a waiting state.
-    await delayTest(delayTimeInMs);
+    await wait(delayTimeInMs);
 
     const currentRunningUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
 
-    should(currentRunningUserTasks).have.property('userTasks');
-    should(currentRunningUserTasks.userTasks).have.size(2, 'There should be two waiting user tasks');
+    should(currentRunningUserTasks).have.property('user_tasks');
+    should(currentRunningUserTasks.user_tasks).have.size(2, 'There should be two waiting user tasks');
 
-    const waitingUsersTasks = currentRunningUserTasks.userTasks;
+    const waitingUsersTasks = currentRunningUserTasks.user_tasks;
 
     const userTaskInput = {
       formFields: {
@@ -142,22 +115,16 @@ describe('User Tasks - ', () => {
 
     for (const currentWaitingUserTask of waitingUsersTasks) {
       const currentWaitingUserTaskKey = currentWaitingUserTask.key;
-      const currentUserTaskResult = testFixtureProvider
+      await testFixtureProvider
         .consumerApiService
         .finishUserTask(consumerContext, processModelKey, correlationId, currentWaitingUserTaskKey, userTaskInput);
     }
 
-    await delayTest(delayTimeInMs);
-
+    // Give the back end some time to some time to finish the process.
+    await wait(delayTimeInMs);
     // TODO: to be meaningful, these assertions are blocked by
     //       https://github.com/process-engine/consumer_api_contracts/issues/26
-
-    // const correlationResults = await testFixtureProvider
-    //   .consumerApiService
-    //   .getProcessResultForCorrelation(consumerContext, correlationId, processModelKey);
-
-    // should(correlationResults).have.size(1);
-
+    // await assertUserTaskIsFinished(correlationId);
   });
 
   it('should fail to execute a user task which is not in a waiting state', async () => {
@@ -170,8 +137,7 @@ describe('User Tasks - ', () => {
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
 
     // Allow for some time for the user task to be created and set to a waiting state.
-    await delayTest(delayTimeInMs);
-
+    await wait(delayTimeInMs);
     const userTaskInput = {
       formFields: {
         Sample_Form_Field: 'Hello',
@@ -186,21 +152,19 @@ describe('User Tasks - ', () => {
       .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_2', userTaskInput);
 
     should(finishUserTaskPromise).be.rejectedWith(expectedMessage);
-
   });
 
   it('should refuse to execute a user task twice', async () => {
     const processModelKey = 'user_task_sequential_test';
 
     const initialToken = {
-      correlationId: 'user_task_correlation_1',
       inputValues: {},
     };
 
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
 
     // Allow for some time for the user task to be created and set to a waiting state.
-    await delayTest(delayTimeInMs);
+    await wait(delayTimeInMs);
 
     const userTaskInput = {
       formFields: {
@@ -208,33 +172,30 @@ describe('User Tasks - ', () => {
       },
     };
 
-    const userTaskResult = await testFixtureProvider
+    const expectedMessage = /.*User_Task_1.*not.*found.*/i;
+
+    await testFixtureProvider
       .consumerApiService
       .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_1', userTaskInput);
 
-    // If we try to finish the user task a second time, the promise should be rejected.
     const finishUserTaskPromise = testFixtureProvider
       .consumerApiService
       .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_1', userTaskInput);
 
-    // TODO: The error message of the promise rejection should not be '403 - Access to process model forbidden'!
-    // If this issue gets resolved, change this to expect the correct rejection message.
-    // see https://github.com/process-engine/consumer_api_core/issues/21
-    should(finishUserTaskPromise).be.rejected();
-
+    should(finishUserTaskPromise).be.rejectedWith(expectedMessage);
   });
 
   /**
    * Start a process with the given process model key and return the resulting correlation id.
    * @param {TokenObject} initialToken Initial token value.
    */
-  async function startProcessAndReturnCorrelationId(processModelKey, startRequestPayload) {
+  async function startProcessAndReturnCorrelationId(processModelKey, initialToken) {
     const callbackType = startCallbackType.CallbackOnProcessInstanceCreated;
     const result = await testFixtureProvider
       .consumerApiService
-      .startProcessInstance(consumerContext, processModelKey, 'StartEvent_1', startRequestPayload, callbackType);
+      .startProcessInstance(consumerContext, processModelKey, 'StartEvent_1', initialToken, callbackType);
 
-    return result.correlationId;
+    return result.correlation_id;
   }
 
   /**
@@ -254,7 +215,7 @@ describe('User Tasks - ', () => {
    *
    * @param {number} timeInMilliseconds Delay time in milliseconds
    */
-  async function delayTest(timeInMilliseconds) {
+  async function wait(timeInMilliseconds) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve();
@@ -262,4 +223,90 @@ describe('User Tasks - ', () => {
     });
   }
 
+  /**
+   * Finishes a user task and returns the result of it.
+   *
+   * @param {string} correlationId Correlation id of the process instance with the user task
+   * @param {string} processModelKey Model key of the process that contains the user task
+   * @param {string} userTaskKey Identifier of the user task that should be finished
+   * @param {object} userTaskInput Form input data for the user task
+   * @returns Result of the finished user task
+   */
+  async function finishUserTaskInCorrelation(correlationId, processModelKey, userTaskKey, userTaskInput) {
+    const waitingUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
+
+    should(waitingUserTasks).have.property('user_tasks');
+    should(waitingUserTasks.user_tasks).have.size(1, 'The process should have one waiting user task');
+
+    const waitingUserTask = waitingUserTasks.user_tasks[0];
+
+    should(waitingUserTask.key).be.equal(userTaskKey);
+
+    const userTaskResult = await testFixtureProvider
+      .consumerApiService
+      .finishUserTask(consumerContext, processModelKey, correlationId, waitingUserTask.key, userTaskInput);
+
+    await wait(delayTimeInMs);
+
+    return userTaskResult;
+  }
+  /**
+   * Look up the processId for a given correlation Id and returns it.
+   *
+   * @param {string} correlationId correlation Id for the process id
+   */
+  async function getProcessIdForCorrelationId(correlationId) {
+
+    const processEntityType = await testFixtureProvider
+      .datastoreService
+      .getEntityType('Process');
+
+    const query = {
+      query: {
+        attribute: 'correlationId',
+        operator: '=',
+        value: correlationId,
+      },
+    };
+
+    const process = await processEntityType.query(testFixtureProvider.context, query);
+    const processPoJos = await process.toPojos(testFixtureProvider.context);
+    should(processPoJos).have.property('data');
+
+    const processPojoData = processPoJos.data;
+    should(processPojoData).has.length(1, 'The list of returned processes for the correlation id');
+
+    return processPojoData[0].id;
+  }
+
+  /**
+   * Asserts that all user tasks for the given correlation have been finished.
+   *
+   * @param {string} correlationId Correlation id of the process
+   */
+  async function assertUserTaskIsFinished(correlationId) {
+    const processId = await getProcessIdForCorrelationId(correlationId);
+
+    const userTaskEntityType = await testFixtureProvider
+      .datastoreService
+      .getEntityType('UserTask');
+
+    const query = {
+      query: {
+        attribute: 'process',
+        operator: '=',
+        value: processId,
+      },
+    };
+
+    const userTasks = await userTaskEntityType.query(testFixtureProvider.context, query);
+    const userTaskPoJos = await userTasks.toPojos(testFixtureProvider.context);
+    const userTaskPoJoData = userTaskPoJos.data;
+    should(userTaskPoJoData).not.be.empty('The list of the returned user tasks for a process should not be empty.');
+
+    for (const currentUserTask of userTaskPoJoData) {
+      const currentUserTaskState = currentUserTask.state;
+      should(currentUserTaskState).is.eql('end');
+    }
+  }
 });
