@@ -7,9 +7,6 @@ describe('Timer Boundary Event - ', () => {
 
   let testFixtureProvider;
 
-  // Raise the timout for this test to 30 seconds.
-  const testTimeout = 20000;
-
   // Every Test uses the same process model.
   const processKey = 'boundary_event_timer_test';
 
@@ -53,7 +50,7 @@ describe('Timer Boundary Event - ', () => {
     const result = await testFixtureProvider.executeProcess(processKey, initialToken);
 
     should(result).be.eql(expectedToken);
-  }).timeout(testTimeout);
+  });
 
   it('should not interrupt a service task that finishes, before the timespan of the timer boundary event is over', async () => {
 
@@ -81,5 +78,5 @@ describe('Timer Boundary Event - ', () => {
 
     should(result).be.eql(expectedToken);
 
-  }).timeout(testTimeout);
+  });
 });

@@ -88,7 +88,8 @@ validation_contracts
 *.DS_Store
 
 # IDE configs
-.vscode
+.vscode/*
+!.vscode/launch.json
 .idea/
 *.iml
 *.iws
