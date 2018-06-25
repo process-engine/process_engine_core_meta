@@ -5,5 +5,5 @@
   "tls": {
     "rejectUnauthorized": false
   },
-  "from": "processengine@quantusflow.com"
+  "from": "test@user.com"
 }
