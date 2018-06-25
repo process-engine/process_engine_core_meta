@@ -4,7 +4,7 @@ const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 const startCallbackType = require('@process-engine/consumer_api_contracts').StartCallbackType;
 
-describe('User Tasks - ', () => {
+describe.only('User Tasks - ', () => {
   let testFixtureProvider;
   let consumerContext;
   const delayTimeInMs = 500;
@@ -102,10 +102,10 @@ describe('User Tasks - ', () => {
 
     const currentRunningUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
 
-    should(currentRunningUserTasks).have.property('user_tasks');
-    should(currentRunningUserTasks.user_tasks).have.size(2, 'There should be two waiting user tasks');
+    should(currentRunningUserTasks).have.property('userTasks');
+    should(currentRunningUserTasks.userTasks).have.size(2, 'There should be two waiting user tasks');
 
-    const waitingUsersTasks = currentRunningUserTasks.user_tasks;
+    const waitingUsersTasks = currentRunningUserTasks.userTasks;
 
     const userTaskInput = {
       formFields: {
@@ -235,10 +235,10 @@ describe('User Tasks - ', () => {
   async function finishUserTaskInCorrelation(correlationId, processModelKey, userTaskKey, userTaskInput) {
     const waitingUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
 
-    should(waitingUserTasks).have.property('user_tasks');
-    should(waitingUserTasks.user_tasks).have.size(1, 'The process should have one waiting user task');
+    should(waitingUserTasks).have.property('userTasks');
+    should(waitingUserTasks.userTasks).have.size(1, 'The process should have one waiting user task');
 
-    const waitingUserTask = waitingUserTasks.user_tasks[0];
+    const waitingUserTask = waitingUserTasks.userTasks[0];
 
     should(waitingUserTask.key).be.equal(userTaskKey);
 
@@ -249,64 +249,5 @@ describe('User Tasks - ', () => {
     await wait(delayTimeInMs);
 
     return userTaskResult;
-  }
-  /**
-   * Look up the processId for a given correlation Id and returns it.
-   *
-   * @param {string} correlationId correlation Id for the process id
-   */
-  async function getProcessIdForCorrelationId(correlationId) {
-
-    const processEntityType = await testFixtureProvider
-      .datastoreService
-      .getEntityType('Process');
-
-    const query = {
-      query: {
-        attribute: 'correlationId',
-        operator: '=',
-        value: correlationId,
-      },
-    };
-
-    const process = await processEntityType.query(testFixtureProvider.context, query);
-    const processPoJos = await process.toPojos(testFixtureProvider.context);
-    should(processPoJos).have.property('data');
-
-    const processPojoData = processPoJos.data;
-    should(processPojoData).has.length(1, 'The list of returned processes for the correlation id');
-
-    return processPojoData[0].id;
-  }
-
-  /**
-   * Asserts that all user tasks for the given correlation have been finished.
-   *
-   * @param {string} correlationId Correlation id of the process
-   */
-  async function assertUserTaskIsFinished(correlationId) {
-    const processId = await getProcessIdForCorrelationId(correlationId);
-
-    const userTaskEntityType = await testFixtureProvider
-      .datastoreService
-      .getEntityType('UserTask');
-
-    const query = {
-      query: {
-        attribute: 'process',
-        operator: '=',
-        value: processId,
-      },
-    };
-
-    const userTasks = await userTaskEntityType.query(testFixtureProvider.context, query);
-    const userTaskPoJos = await userTasks.toPojos(testFixtureProvider.context);
-    const userTaskPoJoData = userTaskPoJos.data;
-    should(userTaskPoJoData).not.be.empty('The list of the returned user tasks for a process should not be empty.');
-
-    for (const currentUserTask of userTaskPoJoData) {
-      const currentUserTaskState = currentUserTask.state;
-      should(currentUserTaskState).is.eql('end');
-    }
   }
 });
