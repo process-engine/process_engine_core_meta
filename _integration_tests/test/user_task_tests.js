@@ -195,7 +195,7 @@ describe.only('User Tasks - ', () => {
       .consumerApiService
       .startProcessInstance(consumerContext, processModelKey, 'StartEvent_1', initialToken, callbackType);
 
-    return result.correlation_id;
+    return result.correlationId;
   }
 
   /**
