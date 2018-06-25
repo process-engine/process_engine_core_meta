@@ -83,13 +83,17 @@ describe('User Tasks - ', () => {
       },
     };
 
-    for (let current = 0; current < 2; current += 1) {
+    const userTaskKeys = [
+      'User_Task_1',
+      'User_Task_2',
+    ];
+
+    for (const currentUserTaskKey of userTaskKeys) {
       const currentUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
 
       should(currentUserTasks).have.property('userTasks');
       should(currentUserTasks.userTasks).have.size(1, 'The process should have one waiting user task');
 
-      const currentUserTaskKey = currentUserTasks.userTasks[0].key;
       const userTaskResult = await testFixtureProvider
         .consumerApiService
         .finishUserTask(consumerContext, processModelKey, correlationId, currentUserTaskKey, userTaskInput);
@@ -171,7 +175,7 @@ describe('User Tasks - ', () => {
     const finishUserTaskPromise = testFixtureProvider
       .consumerApiService
       .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_2', userTaskInput);
-    
+
     should(finishUserTaskPromise).be.rejectedWith(expectedMessage);
 
   });
