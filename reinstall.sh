@@ -6,6 +6,12 @@ echo "Done. Starting setup..."
 # install all necessary dependencies
 npm install --no-package-lock
 
+if [[ "$?" -ne "0" ]]; then
+  printf "\e[1;31mError while executing npm install!\e[0m\n";
+  printf "For details see above.\n";
+  exit 1;
+fi
+
 # fix conflicting types from jasmine and mocha
 rm -rf node_modules/@types/jasmine
 
