@@ -13,6 +13,7 @@ const registerInContainer = (container) => {
 
   // add processes for use with the integrationtests here
   const processes = [
+    'boundary_event_conditional',
     'boundary_event_error_test',
     'boundary_event_message_test',
     'boundary_event_signal_test',
@@ -22,7 +23,8 @@ const registerInContainer = (container) => {
     'call_activity_subprocess_nested',
     'call_activity_test',
     'call_activity_test_error',
-    'boundary_event_conditional',
+    'error_end_event_test',
+    'error_end_event_subprocess_call_activity_test',
     'exclusive_gateway_base_test',
     'exclusive_gateway_nested',
     'generic_sample',

@@ -2,7 +2,7 @@
 const should = require('should');
 const TestFixtureProver = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe.skip('Error End Event - ', () => {
+describe('Error End Event - ', () => {
 
   let testFixtureProvider;
 
@@ -39,7 +39,7 @@ describe.skip('Error End Event - ', () => {
     should(processInstancePromise).be.rejectedWith(expectedErrorObject);
   });
 
-  it('should execute a call activity which ends with an error boundary event', async () => {
+  it.skip('should execute a call activity which ends with an error boundary event', async () => {
     const processModelKey = 'error_end_event_subprocess_call_activity_test';
 
     const initialToken = {
@@ -62,7 +62,7 @@ describe.skip('Error End Event - ', () => {
       'XORJoin'];
 
     should(result).have.property('history');
-    should(result.history).have.keys(expectedHistoryKeys);
+    should(result.history).have.keys(...expectedHistoryKeys);
   });
 
   it('should execute a subprocess which ends with an error end event', async () => {
@@ -88,6 +88,6 @@ describe.skip('Error End Event - ', () => {
     ];
 
     should(result).have.property('history');
-    should(result.history).have.keys(expectedHistoryKeys);
+    should(result.history).have.keys(...expectedHistoryKeys);
   });
 });
