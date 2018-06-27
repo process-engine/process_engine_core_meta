@@ -1,6 +1,0 @@
-{
-  "clientId": "process-engine",
-  "clientSecret": "secret",
-  "introspectPath": "http://localhost:5000/connect/token",
-  "claimPath": "http://localhost:5000/claims/ensure"
-}
