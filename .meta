@@ -63,6 +63,7 @@
     "http_integration_testing": "git@github.com:process-engine/http_integration_testing.git",
     "bpmn-io_custom-bundle": "git@github.com:process-engine/bpmn-io_custom-bundle.git",
     "bpmn-studio": "git@github.com:process-engine/bpmn-studio.git",
-    "_integration_tests": "/_integration_tests.git"
+    "_integration_tests": "/_integration_tests.git",
+    "identity_server": "git@github.com:process-engine/identity_server.git",
   }
 }
