@@ -11,8 +11,8 @@
     "tests"
   ],
   "scripts": {
-    "test": "cross-env NODE_ENV=test CONFIG_PATH=config mocha -t 15000 test/*.js --exit",
-    "test-debug": "cross-env NODE_ENV=test CONFIG_PATH=config mocha --inspect-brk test/*.js --exit"
+    "test": "mocha -t 15000 test/*.js --exit",
+    "test-debug": "mocha --inspect-brk test/*.js --exit"
   },
   "dependencies": {
     "@essential-projects/services": "^2.0.0",
