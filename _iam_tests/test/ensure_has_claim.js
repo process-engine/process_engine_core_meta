@@ -36,10 +36,12 @@ describe('IamService - EnsureHasClaim -> ', () => {
     };
 
     const payload = {
-      grant_type: 'client_credentials',
-      scope: 'something',
-      client_id: 'process-engine',
-      client_secret: 'secret',
+      grant_type: 'password',
+      client_id: 'iam_integration_test_client',
+      client_secret: 'test',
+      scope: 'test_resource',
+      username: 'alice',
+      password: 'Admin1234*',
     };
 
     try {
@@ -60,9 +62,9 @@ describe('IamService - EnsureHasClaim -> ', () => {
 
     try {
       // Nothing will be returned upon success.
-      await iamService.ensureHasClaim(userIdentity, 'phone_number');
+      await iamService.ensureHasClaim(userIdentity, 'test_claim');
     } catch (error) {
-      should.fail(error, undefined, 'Unexpected Error!');
+      should.fail(error, undefined, error);
     }
   });
 
