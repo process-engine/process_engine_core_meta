@@ -68,6 +68,20 @@ describe('IamService - EnsureHasClaim -> ', () => {
     }
   });
 
+  it('Should succeed if the user has the given claim and the value is correct', async () => {
+
+    const userIdentity = {
+      token: testUserToken,
+    };
+
+    try {
+      // Nothing will be returned upon success.
+      await iamService.ensureHasClaim(userIdentity, 'test_claim', 'test_value');
+    } catch (error) {
+      should.fail(error, undefined, error);
+    }
+  });
+
   it('Should fail if the user does not provide an auth token', async () => {
 
     try {
@@ -102,6 +116,20 @@ describe('IamService - EnsureHasClaim -> ', () => {
 
     try {
       await iamService.ensureHasClaim(userIdentity, 'some_claim_that_does_not_exist');
+      should.fail(undefined, false, 'This request should have failed, since the user does not have the claim!');
+    } catch (error) {
+      should(error.name).be.equal('ForbiddenError');
+    }
+  });
+
+  it('Should fail if the user has the given claim, but not the required value', async () => {
+
+    const userIdentity = {
+      token: testUserToken,
+    };
+
+    try {
+      await iamService.ensureHasClaim(userIdentity, 'test_claim', 'wrong_value');
       should.fail(undefined, false, 'This request should have failed, since the user does not have the claim!');
     } catch (error) {
       should(error.name).be.equal('ForbiddenError');
