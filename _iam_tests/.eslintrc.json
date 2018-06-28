@@ -1,0 +1,10 @@
+{
+    "extends": "5minds",
+    "rules": {
+      "max-len": [2, 150, 2, {
+        "ignoreUrls": true,
+        "ignoreComments": false
+      }],
+      "no-use-before-define":"off"
+    }
+}

@@ -45,7 +45,7 @@
     "process_engine_http": "git@github.com:process-engine/process_engine_http.git",
     "process_repository": "git@github.com:process-engine/process_repository.git",
     "process_repository_browser": "git@github.com:process-engine/process_repository_browser.git",
-    "iam": "git@github.com:essential-projects/iam.git",
+    "iam": "git@github.com:process-engine/iam.git",
     "iam_browser": "git@github.com:essential-projects/iam_browser.git",
     "iam_http": "git@github.com:essential-projects/iam_http.git",
     "invocation": "git@github.com:essential-projects/invocation.git",
@@ -63,6 +63,7 @@
     "http_integration_testing": "git@github.com:process-engine/http_integration_testing.git",
     "bpmn-io_custom-bundle": "git@github.com:process-engine/bpmn-io_custom-bundle.git",
     "bpmn-studio": "git@github.com:process-engine/bpmn-studio.git",
-    "_integration_tests": "/_integration_tests.git"
+    "_integration_tests": "/_integration_tests.git",
+    "identity_server": "git@github.com:process-engine/identity_server.git"
   }
 }

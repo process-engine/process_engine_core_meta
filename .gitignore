@@ -49,6 +49,7 @@ iam
 iam_browser
 iam_contracts
 iam_http
+identity_server
 invocation
 invocation_contracts
 keyscopes
