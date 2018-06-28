@@ -30,7 +30,7 @@ describe('Error End Event - ', () => {
      * ErrorEndEvent may vary.
      */
     const expectedErrorObject = {
-      error_code: 'expected_error',
+      errorCode: 'expectedError',
       name: 'Expected Error',
     };
 

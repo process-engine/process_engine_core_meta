@@ -33,7 +33,7 @@
       <bpmn:script>return 1;</bpmn:script>
     </bpmn:scriptTask>
   </bpmn:process>
-  <bpmn:error id="Error_12bm3z7" name="Expected Error" errorCode="expected_error" />
+  <bpmn:error id="Error_12bm3z7" name="Expected Error" errorCode="expectedError" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0fyganh">
       <bpmndi:BPMNShape id="Participant_0fwyttz_di" bpmnElement="Participant_0fwyttz">
