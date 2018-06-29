@@ -46,7 +46,7 @@
     "@essential-projects/timing": "^2.0.0",
     "@essential-projects/validation": "^2.0.0",
     "@process-engine/consumer_api_contracts": "^0.8.0",
-    "@process-engine/consumer_api_core": "^0.10.0",
+    "@process-engine/consumer_api_core": "^0.12.1",
     "@process-engine/process_engine": "^6.0.0",
     "@process-engine/process_engine_contracts": "^7.0.0",
     "@process-engine/process_engine_http": "^4.0.0",

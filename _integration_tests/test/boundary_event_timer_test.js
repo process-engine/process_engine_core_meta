@@ -3,7 +3,7 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe('Timer Boundary Event - ', () => {
+describe.skip('Timer Boundary Event - ', () => {
 
   let testFixtureProvider;
 
