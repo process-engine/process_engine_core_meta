@@ -11,7 +11,7 @@ import {IProcessDefEntityTypeService, IProcessEngineService, IProcessRepository}
 
 import {ConsumerContext, IConsumerApiService} from '@process-engine/consumer_api_contracts';
 
-import {IDatastoreService} from "@essential-projects/data_model_contracts";
+import {IDatastoreService} from '@essential-projects/data_model_contracts';
 
 const logger: Logger = Logger.createLogger('test:bootstrapper');
 
