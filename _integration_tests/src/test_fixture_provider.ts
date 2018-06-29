@@ -1,6 +1,3 @@
-import * as fs from 'fs';
-// tslint:disable-next-line:import-blacklist
-import * as _ from 'lodash';
 import * as path from 'path';
 
 import {InvocationContainer} from 'addict-ioc';
@@ -11,7 +8,7 @@ import {IProcessDefEntityTypeService, IProcessEngineService, IProcessRepository}
 
 import {ConsumerContext, IConsumerApiService} from '@process-engine/consumer_api_contracts';
 
-import {IDatastoreService} from "@essential-projects/data_model_contracts";
+import {IDatastoreService} from '@essential-projects/data_model_contracts';
 
 const logger: Logger = Logger.createLogger('test:bootstrapper');
 
@@ -119,7 +116,7 @@ export class TestFixtureProvider {
   public async getProcessbyId(bpmnFilename: string): Promise<any> {
     const processRepository: any = await this.resolveAsync<IProcessRepository>('ProcessRepository');
     const processes: any = await processRepository.getProcessesByCategory('internal');
-    const matchingProcess: any = _.find(processes, (process: any) => {
+    const matchingProcess: any = processes.find((process: any) => {
       return process.name === bpmnFilename;
     });
 
