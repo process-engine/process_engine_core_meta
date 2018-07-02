@@ -144,7 +144,9 @@ describe('User Tasks - ', () => {
       },
     };
 
-    const expectedMessage = /.*UserTask*.User_Task_2.*not.*found/i;
+    const errorName = /.*not.*found/i;
+    const errorMessage = /.*User_Task_2.*/i;
+    const errorCode = 404;
 
     try {
       // Try to finish the user task which is currently not waiting
@@ -152,8 +154,15 @@ describe('User Tasks - ', () => {
         .consumerApiService
         .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_2', userTaskInput);
     } catch (error) {
-      should(error)
-        .match(expectedMessage);
+      should(error).has.properties('name', 'code', 'message');
+
+      should(error.name)
+        .match(errorName);
+
+      should(error.code).be.equal(errorCode);
+
+      should(error.message)
+        .match(errorMessage);
     }
   });
 
@@ -175,7 +184,9 @@ describe('User Tasks - ', () => {
       },
     };
 
-    const expectedMessage = /.*User_Task_1.*not.*found.*/i;
+    const errorName = /.*not.*found/i;
+    const errorMessage = /.*User_Task_1.*/i;
+    const errorCode = 404;
 
     await testFixtureProvider
       .consumerApiService
@@ -186,8 +197,15 @@ describe('User Tasks - ', () => {
         .consumerApiService
         .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_1', userTaskInput);
     } catch (error) {
-      should(error)
-        .match(expectedMessage);
+      should(error).has.properties('code', 'name', 'message');
+
+      should(error.name)
+        .match(errorName);
+
+      should(error.code).be.equal(errorCode);
+
+      should(error.message)
+        .match(errorMessage);
     }
   });
 
