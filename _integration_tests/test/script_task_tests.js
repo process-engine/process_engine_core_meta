@@ -46,7 +46,10 @@ describe('Script Tasks - ', () => {
 
     const expectedMessage = /a.*?not.*?defined/i;
 
-    await testFixtureProvider.executeProcess(processModelKey, initialToken)
-      .should.be.rejectedWith(expectedMessage);
+    try {
+      await testFixtureProvider.executeProcess(processModelKey, initialToken)
+    } catch (error) {
+      should(error.message).be.match(expectedMessage);
+    }
   });
 });

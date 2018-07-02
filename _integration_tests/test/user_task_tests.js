@@ -144,14 +144,28 @@ describe('User Tasks - ', () => {
       },
     };
 
-    const expectedMessage = /.*UserTask*.User_Task_2.*not.*found/i;
+    const errorObjectProperties = [
+      'name',
+      'code',
+      'message',
+    ];
 
-    // Try to finish the user task which is currently not waiting
-    const finishUserTaskPromise = testFixtureProvider
-      .consumerApiService
-      .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_2', userTaskInput);
+    const errorName = /.*not.*found/i;
+    const errorMessage = /.*User_Task_2.*/i;
+    const errorCode = 404;
 
-    should(finishUserTaskPromise).be.rejectedWith(expectedMessage);
+    try {
+      // Try to finish the user task which is currently not waiting
+      await testFixtureProvider
+        .consumerApiService
+        .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_2', userTaskInput);
+    } catch (error) {
+      should(error).have.properties(...errorObjectProperties);
+
+      should(error.name).be.match(errorName);
+      should(error.code).be.equal(errorCode);
+      should(error.message).be.match(errorMessage);
+    }
   });
 
   it('should refuse to execute a user task twice', async () => {
@@ -172,17 +186,31 @@ describe('User Tasks - ', () => {
       },
     };
 
-    const expectedMessage = /.*User_Task_1.*not.*found.*/i;
+    const errorObjectProperties = [
+      'name',
+      'code',
+      'message',
+    ];
+
+    const errorName = /.*not.*found/i;
+    const errorMessage = /.*User_Task_1.*/i;
+    const errorCode = 404;
 
     await testFixtureProvider
       .consumerApiService
       .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_1', userTaskInput);
 
-    const finishUserTaskPromise = testFixtureProvider
-      .consumerApiService
-      .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_1', userTaskInput);
+    try {
+      await testFixtureProvider
+        .consumerApiService
+        .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_1', userTaskInput);
+    } catch (error) {
+      should(error).have.properties(...errorObjectProperties);
 
-    should(finishUserTaskPromise).be.rejectedWith(expectedMessage);
+      should(error.name).be.match(errorName);
+      should(error.code).be.equal(errorCode);
+      should(error.message).be.match(errorMessage);
+    }
   });
 
   /**
