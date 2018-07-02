@@ -49,7 +49,7 @@ describe('Script Tasks - ', () => {
     try {
       await testFixtureProvider.executeProcess(processModelKey, initialToken)
     } catch (error) {
-      should(error)
+      should(error.message)
         .match(expectedMessage);
     }
   });

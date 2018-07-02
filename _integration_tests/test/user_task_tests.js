@@ -4,6 +4,7 @@ const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 const startCallbackType = require('@process-engine/consumer_api_contracts').StartCallbackType;
 
+/* eslint-disable  newline-per-chained-call*/
 describe('User Tasks - ', () => {
   let testFixtureProvider;
   let consumerContext;
@@ -160,15 +161,11 @@ describe('User Tasks - ', () => {
         .consumerApiService
         .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_2', userTaskInput);
     } catch (error) {
-      should(error).has.properties(...errorObjectProperties);
+      should(error).have.properties(...errorObjectProperties);
 
-      should(error.name)
-        .match(errorName);
-
+      should(error.name).match(errorName);
       should(error.code).be.equal(errorCode);
-
-      should(error.message)
-        .match(errorMessage);
+      should(error.message).match(errorMessage);
     }
   });
 
@@ -209,15 +206,11 @@ describe('User Tasks - ', () => {
         .consumerApiService
         .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_1', userTaskInput);
     } catch (error) {
-      should(error).has.properties(...errorObjectProperties);
+      should(error).have.properties(...errorObjectProperties);
 
-      should(error.name)
-        .match(errorName);
-
+      should(error.name).match(errorName);
       should(error.code).be.equal(errorCode);
-
-      should(error.message)
-        .match(errorMessage);
+      should(error.message).match(errorMessage);
     }
   });
 
