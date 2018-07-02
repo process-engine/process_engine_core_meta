@@ -153,7 +153,7 @@
       <bpmn:script>return "Error handled by sub process's error boundary event";</bpmn:script>
     </bpmn:scriptTask>
   </bpmn:process>
-  <bpmn:error id="Error_0ji2qkd" name="Expected Error" errorCode="expected_error" />
+  <bpmn:error id="Error_0ji2qkd" name="ExpectedError" errorCode="expectedError" />
   <bpmn:error id="Error_0e6riwg" name="Unrelated error" errorCode="unrelated_error" />
   <bpmn:error id="Error_1vsk9sm" name="Unrelated Error" errorCode="unrelated_error" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
