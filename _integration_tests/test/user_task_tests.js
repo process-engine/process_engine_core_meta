@@ -144,6 +144,12 @@ describe('User Tasks - ', () => {
       },
     };
 
+    const errorObjectProperties = [
+      'name',
+      'code',
+      'message',
+    ];
+
     const errorName = /.*not.*found/i;
     const errorMessage = /.*User_Task_2.*/i;
     const errorCode = 404;
@@ -154,7 +160,7 @@ describe('User Tasks - ', () => {
         .consumerApiService
         .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_2', userTaskInput);
     } catch (error) {
-      should(error).has.properties('name', 'code', 'message');
+      should(error).has.properties(...errorObjectProperties);
 
       should(error.name)
         .match(errorName);
@@ -184,6 +190,12 @@ describe('User Tasks - ', () => {
       },
     };
 
+    const errorObjectProperties = [
+      'name',
+      'code',
+      'message',
+    ];
+
     const errorName = /.*not.*found/i;
     const errorMessage = /.*User_Task_1.*/i;
     const errorCode = 404;
@@ -197,7 +209,7 @@ describe('User Tasks - ', () => {
         .consumerApiService
         .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_1', userTaskInput);
     } catch (error) {
-      should(error).has.properties('code', 'name', 'message');
+      should(error).has.properties(...errorObjectProperties);
 
       should(error.name)
         .match(errorName);
