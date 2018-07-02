@@ -52,8 +52,6 @@ describe('Error End Event - ', () => {
       errorToThrow: 'anonymous_error',
     };
 
-    const processInstancePromise = testFixtureProvider.executeProcess(processModelKey, initialToken);
-
     /*
      * TODO: Since the behavior of the ErrorEndEvent is not fully designed,
      * the object that is returned from a process that ends with an
@@ -64,7 +62,11 @@ describe('Error End Event - ', () => {
       name: '',
     };
 
-    should(processInstancePromise).be.rejectedWith(expectedErrorObject);
+    try {
+      await testFixtureProvider.executeProcess(processModelKey, initialToken);
+    } catch (error) {
+      should(error).be.eql(expectedErrorObject);
+    }
   });
 
   it.skip('should execute a call activity which ends with an error boundary event', async () => {
