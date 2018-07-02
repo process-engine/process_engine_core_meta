@@ -68,8 +68,7 @@ describe('Service Task - ', () => {
     try {
       await testFixtureProvider.executeProcess(processKey, initialToken);
     } catch (error) {
-      should(error.message)
-        .match(expectedErrorMessage);
+      should(error.message).be.match(expectedErrorMessage);
     }
   });
 });

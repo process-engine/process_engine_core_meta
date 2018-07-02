@@ -43,8 +43,7 @@ describe('Terminate End Event', () => {
 
       // NOTE: This only shows the Blackbox Result of the test. To verify that the process- and all corresponding nodes
       // were actually terminated, we need to query the database.
-      should(error.message)
-        .match(expectedError);
+      should(error.message).be.match(expectedError);
       await assertActiveNodeInstancesWereTerminated(processInstanceId);
       await assertPendingNodesWereNotCreated(processInstanceId);
     }
