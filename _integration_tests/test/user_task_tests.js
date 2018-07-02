@@ -4,7 +4,6 @@ const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 const startCallbackType = require('@process-engine/consumer_api_contracts').StartCallbackType;
 
-/* eslint-disable  newline-per-chained-call*/
 describe('User Tasks - ', () => {
   let testFixtureProvider;
   let consumerContext;
@@ -163,9 +162,9 @@ describe('User Tasks - ', () => {
     } catch (error) {
       should(error).have.properties(...errorObjectProperties);
 
-      should(error.name).match(errorName);
+      should(error.name).be.match(errorName);
       should(error.code).be.equal(errorCode);
-      should(error.message).match(errorMessage);
+      should(error.message).be.match(errorMessage);
     }
   });
 
@@ -208,9 +207,9 @@ describe('User Tasks - ', () => {
     } catch (error) {
       should(error).have.properties(...errorObjectProperties);
 
-      should(error.name).match(errorName);
+      should(error.name).be.match(errorName);
       should(error.code).be.equal(errorCode);
-      should(error.message).match(errorMessage);
+      should(error.message).be.match(errorMessage);
     }
   });
 
