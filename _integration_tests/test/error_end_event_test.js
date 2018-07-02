@@ -24,8 +24,6 @@ describe.skip('Error End Event - ', () => {
   it('should throw an error, when the error end event is reached', async () => {
     const processModelKey = 'error_end_event_test';
 
-    const processInstancePromise = testFixtureProvider.executeProcess(processModelKey);
-
     /*
      * TODO: Since the behavior of the ErrorEndEvent is not fully designed,
      * the object that is returned from a process that ends with an
@@ -36,7 +34,11 @@ describe.skip('Error End Event - ', () => {
       name: 'Expected Error',
     };
 
-    should(processInstancePromise).be.rejectedWith(expectedErrorObject);
+    try {
+      await testFixtureProvider.executeProcess(processModelKey);
+    } catch (error) {
+      should(error).be.eql(expectedErrorObject);
+    }
   });
 
   it('should execute a call activity which ends with an error boundary event', async () => {

@@ -146,12 +146,15 @@ describe('User Tasks - ', () => {
 
     const expectedMessage = /.*UserTask*.User_Task_2.*not.*found/i;
 
-    // Try to finish the user task which is currently not waiting
-    const finishUserTaskPromise = testFixtureProvider
-      .consumerApiService
-      .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_2', userTaskInput);
-
-    should(finishUserTaskPromise).be.rejectedWith(expectedMessage);
+    try {
+      // Try to finish the user task which is currently not waiting
+      await testFixtureProvider
+        .consumerApiService
+        .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_2', userTaskInput);
+    } catch (error) {
+      should(error)
+        .match(expectedMessage);
+    }
   });
 
   it('should refuse to execute a user task twice', async () => {
@@ -178,11 +181,14 @@ describe('User Tasks - ', () => {
       .consumerApiService
       .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_1', userTaskInput);
 
-    const finishUserTaskPromise = testFixtureProvider
-      .consumerApiService
-      .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_1', userTaskInput);
-
-    should(finishUserTaskPromise).be.rejectedWith(expectedMessage);
+    try {
+      await testFixtureProvider
+        .consumerApiService
+        .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_1', userTaskInput);
+    } catch (error) {
+      should(error)
+        .match(expectedMessage);
+    }
   });
 
   /**
