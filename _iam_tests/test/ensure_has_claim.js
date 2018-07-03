@@ -3,7 +3,7 @@
 const should = require('should');
 const Logger = require('loggerhythm').Logger;
 
-const logger = Logger.createLogger('test:bootstrapper');
+const logger = Logger.createLogger('test:iam_service_tests');
 
 const HttpService = require('@essential-projects/services').HttpService;
 const IamService = require('@process-engine/iam').IAMService;
