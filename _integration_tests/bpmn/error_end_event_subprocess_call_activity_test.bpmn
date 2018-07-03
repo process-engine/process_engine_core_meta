@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1hjsbpu" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.13.1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1hjsbpu" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.15.1">
   <bpmn:collaboration id="XORJoin1">
     <bpmn:participant id="Participant_1494xol" name="error_end_event_subprocess_call_activity_test" processRef="error_end_event_subprocess_call_activity_test" />
   </bpmn:collaboration>
   <bpmn:process id="error_end_event_subprocess_call_activity_test" name="error_end_event_subprocess_call_activity_test" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_0ys5poj">
+      <bpmn:lane id="Lane_0l969gq" name="Default_Test_Lane">
+        <bpmn:flowNodeRef>SubProcess1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>XORSplit</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>SPTask1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>SPError</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>SPXorJoin1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>XORJoin</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CallActivity1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CAError</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CATask1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CAXorJoin1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_13nm9n0</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_1jlqkom</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>CAErrorBoundary1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>SPErrorBoundary1</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
     <bpmn:sequenceFlow id="SequenceFlow_10g25lm" name="Sub Process throws end event" sourceRef="XORSplit" targetRef="SubProcess1">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">token.current.test_scenario === 'sub_process'</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -320,6 +339,9 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ScriptTask_0yrtkev_di" bpmnElement="Task_1jlqkom">
         <dc:Bounds x="1264" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0l969gq_di" bpmnElement="Lane_0l969gq">
+        <dc:Bounds x="157" y="57" width="1338" height="575" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
