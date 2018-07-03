@@ -213,16 +213,6 @@ export class TestFixtureProvider {
         name: 'testuser',
         password: 'testpass',
         roles: ['user'],
-      }, {
-        // Restricted user without access rights to any lanes
-        name: 'restrictedUser',
-        password: 'testpass',
-        roles: ['dummy'],
-      }, {
-        // Used to test access rights to
-        name: 'laneuser',
-        password: 'testpass',
-        roles: ['dummy'],
       }];
 
       this.bootstrapper.addFixtures('User', identityFixtures);
