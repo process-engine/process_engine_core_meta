@@ -34,6 +34,7 @@
     "@essential-projects/http_extension": "^2.0.0",
     "@essential-projects/http_integration_testing": "^2.0.0",
     "@essential-projects/iam": "^2.1.0",
+    "@essential-projects/iam_contracts": "^3.0.0",
     "@essential-projects/iam_http": "^2.0.0",
     "@essential-projects/invocation": "^2.0.0",
     "@essential-projects/messagebus": "^2.0.0",
