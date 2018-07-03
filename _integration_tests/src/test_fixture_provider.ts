@@ -3,12 +3,12 @@ import * as path from 'path';
 import {InvocationContainer} from 'addict-ioc';
 import {Logger} from 'loggerhythm';
 
-import {ExecutionContext, IIamService, TokenType} from '@essential-projects/core_contracts';
-import {IProcessDefEntityTypeService, IProcessEngineService, IProcessRepository} from '@process-engine/process_engine_contracts';
+import {ExecutionContext, IProcessDefEntityTypeService, IProcessEngineService, IProcessRepository} from '@process-engine/process_engine_contracts';
 
 import {ConsumerContext, IConsumerApiService} from '@process-engine/consumer_api_contracts';
 
 import {IDatastoreService} from '@essential-projects/data_model_contracts';
+import {IIdentity} from '@essential-projects/iam_contracts';
 
 import {loginUserAndReturnToken} from './login_provider';
 
@@ -102,13 +102,15 @@ export class TestFixtureProvider {
     return this.processEngineService.executeProcess(this.context, undefined, processKey, initialToken);
   }
 
+  // -- TODO: Refactor TerminateEndEvent tests and remove these methods afterwards
   public async createProcessInstance(processModelKey: string): Promise<any> {
-    return this.processEngineService.createProcessInstance(this.context, undefined, processModelKey);
+    return this.processEngineService.createProcessInstance(this.context as any, undefined, processModelKey);
   }
 
   public async executeProcessInstance(processInstanceId: string, initialToken: any = {}): Promise<any> {
-    return this.processEngineService.executeProcessInstance(this.context, processInstanceId, undefined, initialToken);
+    return this.processEngineService.executeProcessInstance(this.context as any, processInstanceId, undefined, initialToken);
   }
+  // --
 
   public async resolveAsync<T>(moduleName: string): Promise<any> {
     return this.container.resolveAsync<T>(moduleName);
@@ -170,7 +172,7 @@ export class TestFixtureProvider {
    */
   public async getProcessFromFile(bpmnFilename: string, processDefEntityTypeServiceInstance: IProcessDefEntityTypeService): Promise<any> {
     // TODO: Import is currently broken (see above)
-    return processDefEntityTypeServiceInstance.importBpmnFromFile(this.context, {
+    return processDefEntityTypeServiceInstance.importBpmnFromFile(this.context as any, {
       file: bpmnFilename,
     }, {
       overwriteExisting: true,
@@ -211,8 +213,10 @@ export class TestFixtureProvider {
 
     const authToken: string = await loginUserAndReturnToken();
 
-    const iamService: IIamService = await this.resolveAsync<IIamService>('IamService');
-    this._executionContext = await iamService.resolveExecutionContext(authToken, TokenType.jwt);
+    const identity: IIdentity = {
+      token: authToken,
+    };
+    this._executionContext = new ExecutionContext(identity);
 
     this._consumerContext = <ConsumerContext> {
       identity: authToken,
