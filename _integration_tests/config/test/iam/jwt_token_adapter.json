@@ -1,6 +1,6 @@
 {
-  "algorithm": "HS256",
+  "algorithm": "RS256",
   "key": "demo_master",
-  "secret": "notSoSecret",
+  "secret": "test",
   "expiresIn": "8h"
 }
