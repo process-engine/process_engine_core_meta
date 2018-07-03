@@ -10,6 +10,8 @@ import {ConsumerContext, IConsumerApiService} from '@process-engine/consumer_api
 
 import {IDatastoreService} from '@essential-projects/data_model_contracts';
 
+import {loginUserAndReturnToken} from './login_provider';
+
 const logger: Logger = Logger.createLogger('test:bootstrapper');
 
 const iocModuleNames: Array<string> = [
@@ -54,7 +56,7 @@ const iocModules: Array<any> = iocModuleNames.map((moduleName: string): any => {
 
 export class TestFixtureProvider {
   private _processEngineService: IProcessEngineService;
-  private _dummyExecutionContext: ExecutionContext;
+  private _executionContext: ExecutionContext;
 
   private container: InvocationContainer;
   private bootstrapper: any;
@@ -65,7 +67,7 @@ export class TestFixtureProvider {
   private _datastoreService: IDatastoreService;
 
   public get context(): ExecutionContext {
-    return this._dummyExecutionContext;
+    return this._executionContext;
   }
 
   public get consumerContext(): ConsumerContext {
@@ -89,13 +91,11 @@ export class TestFixtureProvider {
 
     await this.bootstrapper.start();
 
-    this._dummyExecutionContext = await this.createExecutionContext('testuser', 'testpass');
+    await this._loginTestUserAndCreateContexts();
+
     this._processEngineService = await this.resolveAsync<IProcessEngineService>('ProcessEngineService');
-
-    this._consumerContext = await this.createConsumerContext('testuser', 'testpass');
-    this._consumerApiService = await this.resolveAsync('ConsumerApiService');
-
-    this._datastoreService = await this.resolveAsync('DatastoreService');
+    this._consumerApiService = await this.resolveAsync<IConsumerApiService>('ConsumerApiService');
+    this._datastoreService = await this.resolveAsync<IDatastoreService>('DatastoreService');
   }
 
   public async executeProcess(processKey: string, initialToken: any = {}): Promise<any> {
@@ -177,14 +177,6 @@ export class TestFixtureProvider {
     });
   }
 
-  public async createExecutionContext(user: string, password: string): Promise<ExecutionContext> {
-    const authToken: any = await this.bootstrapper.getTokenFromAuth(user, password);
-    const iamService: IIamService = await this.resolveAsync<IIamService>('IamService');
-    const executionContext: ExecutionContext = await iamService.resolveExecutionContext(authToken, TokenType.jwt);
-
-    return executionContext;
-  }
-
   public async tearDown(): Promise<void> {
     await this.bootstrapper.reset();
     await this.bootstrapper.shutdown();
@@ -208,15 +200,6 @@ export class TestFixtureProvider {
       const appPath: string = path.resolve(__dirname);
       this.bootstrapper = await this.container.resolveAsync('HttpIntegrationTestBootstrapper', [appPath]);
 
-      const identityFixtures: Array<any> = [{
-        // Default User, used to test happy paths
-        name: 'testuser',
-        password: 'testpass',
-        roles: ['user'],
-      }];
-
-      this.bootstrapper.addFixtures('User', identityFixtures);
-
       logger.info('Bootstrapper started.');
     } catch (error) {
       logger.error('Failed to start bootstrapper!', error);
@@ -224,10 +207,14 @@ export class TestFixtureProvider {
     }
   }
 
-  private async createConsumerContext(user: string, password: string): Promise<ConsumerContext> {
-    const authToken: any = await this.bootstrapper.getTokenFromAuth(user, password);
+  private async _loginTestUserAndCreateContexts(): Promise<void> {
 
-    return <ConsumerContext> {
+    const authToken: string = await loginUserAndReturnToken();
+
+    const iamService: IIamService = await this.resolveAsync<IIamService>('IamService');
+    this._executionContext = await iamService.resolveExecutionContext(authToken, TokenType.jwt);
+
+    this._consumerContext = <ConsumerContext> {
       identity: authToken,
     };
   }
