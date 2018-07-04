@@ -5,11 +5,16 @@ const path = require('path');
 
 const ParallelGatewayTestService = require('./dist/commonjs').ParallelGatewayTestService;
 const ServiceTaskTestService = require('./dist/commonjs/service_task_test_service').ServiceTaskTestService;
+const IamFacadeMock = require('./dist/commonjs/iam_facade_mock').IamFacadeMock;
 
 const registerInContainer = (container) => {
 
   container.register('ParallelGatewayTestService', ParallelGatewayTestService);
   container.register('ServiceTaskTestService', ServiceTaskTestService);
+
+  // This removes the necessity for having a running IdentityServer during testing.
+  container.register('IamFacade', IamFacadeMock)
+    .singleton();
 
   // add processes for use with the integrationtests here
   const processes = [

@@ -10,8 +10,6 @@ import {ConsumerContext, IConsumerApiService} from '@process-engine/consumer_api
 import {IDatastoreService} from '@essential-projects/data_model_contracts';
 import {IIdentity} from '@essential-projects/iam_contracts';
 
-import {loginUserAndReturnToken} from './login_provider';
-
 const logger: Logger = Logger.createLogger('test:bootstrapper');
 
 const iocModuleNames: Array<string> = [
@@ -211,15 +209,15 @@ export class TestFixtureProvider {
 
   private async _loginTestUserAndCreateContexts(): Promise<void> {
 
-    const authToken: string = await loginUserAndReturnToken();
-
+    // Note: Since the iam service is mocked, it doesn't matter what kind of token is used here.
+    // It only matters that one is present.
     const identity: IIdentity = {
-      token: authToken,
+      token: 'randomtoken',
     };
     this._executionContext = new ExecutionContext(identity);
 
     this._consumerContext = <ConsumerContext> {
-      identity: authToken,
+      identity: 'randomtoken',
     };
   }
 }
