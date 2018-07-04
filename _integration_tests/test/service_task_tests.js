@@ -62,9 +62,13 @@ describe('Service Task - ', () => {
     };
 
     // Expected exception content
-    const expectedExceptionContent = /Failed/i;
+    const expectedErrorMessage = /Failed/i;
 
     // Check, if the exception is thrown and the promise is rejected.
-    await testFixtureProvider.executeProcess(processKey, initialToken).should.be.rejectedWith(expectedExceptionContent);
+    try {
+      await testFixtureProvider.executeProcess(processKey, initialToken);
+    } catch (error) {
+      should(error.message).be.match(expectedErrorMessage);
+    }
   });
 });

@@ -1,8 +1,6 @@
 'use strict';
 
 const should = require('should');
-const path = require('path');
-const util = require('util');
 
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
