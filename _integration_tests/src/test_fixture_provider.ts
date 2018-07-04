@@ -89,7 +89,7 @@ export class TestFixtureProvider {
 
     await this.bootstrapper.start();
 
-    await this._loginTestUserAndCreateContexts();
+    this._createMockContexts();
 
     this._processEngineService = await this.resolveAsync<IProcessEngineService>('ProcessEngineService');
     this._consumerApiService = await this.resolveAsync<IConsumerApiService>('ConsumerApiService');
@@ -207,7 +207,7 @@ export class TestFixtureProvider {
     }
   }
 
-  private async _loginTestUserAndCreateContexts(): Promise<void> {
+  private _createMockContexts(): void {
 
     // Note: Since the iam service is mocked, it doesn't matter what kind of token is used here.
     // It only matters that one is present.

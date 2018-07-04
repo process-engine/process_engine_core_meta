@@ -3,9 +3,11 @@
 const fs = require('fs');
 const path = require('path');
 
-const ParallelGatewayTestService = require('./dist/commonjs').ParallelGatewayTestService;
-const ServiceTaskTestService = require('./dist/commonjs/service_task_test_service').ServiceTaskTestService;
-const IamFacadeMock = require('./dist/commonjs/iam_facade_mock').IamFacadeMock;
+const {
+  IamFacadeMock,
+  ParallelGatewayTestService,
+  ServiceTaskTestService,
+} = require('./dist/commonjs/index');
 
 const registerInContainer = (container) => {
 
