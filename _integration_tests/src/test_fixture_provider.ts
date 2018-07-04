@@ -3,7 +3,12 @@ import * as path from 'path';
 import {InvocationContainer} from 'addict-ioc';
 import {Logger} from 'loggerhythm';
 
-import {ExecutionContext, IProcessDefEntityTypeService, IProcessEngineService, IProcessRepository} from '@process-engine/process_engine_contracts';
+import {
+  ExecutionContext,
+  IProcessDefEntityTypeService,
+  IProcessEngineService,
+  IProcessRepository,
+} from '@process-engine/process_engine_contracts';
 
 import {ConsumerContext, IConsumerApiService} from '@process-engine/consumer_api_contracts';
 
