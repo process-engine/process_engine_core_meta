@@ -37,7 +37,7 @@ export async function loginUserAndReturnToken(): Promise<string> {
 
     return userToken;
   } catch (error) {
-    logger.error('Recevied an error from the identity server!');
+    logger.error('Recevied an error from the IdentityServer!');
     logger.error(error);
     throw error;
   }
