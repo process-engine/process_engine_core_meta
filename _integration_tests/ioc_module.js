@@ -15,8 +15,7 @@ const registerInContainer = (container) => {
   container.register('ServiceTaskTestService', ServiceTaskTestService);
 
   // This removes the necessity for having a running IdentityServer during testing.
-  container.register('IamServiceNew', IamServiceMock)
-    .singleton();
+  container.register('IamServiceNew', IamServiceMock);
 
   // add processes for use with the integrationtests here
   const processes = [
