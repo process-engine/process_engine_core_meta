@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_12t7o2o" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.13.1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_12t7o2o" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.15.1">
   <bpmn:collaboration id="Collaboration_05evzp4">
     <bpmn:participant id="Participant_005yfyb" name="user_task_sequential_test" processRef="user_task_sequential_test" />
   </bpmn:collaboration>
   <bpmn:process id="user_task_sequential_test" name="user_task_sequential_test" isExecutable="true">
     <bpmn:laneSet>
-      <bpmn:lane id="Lane_12gp2ih" name="Lane A">
+      <bpmn:lane id="Lane_12gp2ih" name="Default_Test_Lane">
         <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>EndEvent_15v0olt</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>User_Task_1</bpmn:flowNodeRef>

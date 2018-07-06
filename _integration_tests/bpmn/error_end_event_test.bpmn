@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" id="Definitions_1rl945h" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.13.1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" id="Definitions_1rl945h" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.15.1">
   <bpmn:collaboration id="Collaboration_0fyganh">
     <bpmn:participant id="Participant_0fwyttz" name="error_end_event_test" processRef="error_end_event_test" />
   </bpmn:collaboration>
   <bpmn:process id="error_end_event_test" name="error_end_event_test" isExecutable="true">
     <bpmn:laneSet>
-      <bpmn:lane id="Lane_1m842hw" name="Lane">
+      <bpmn:lane id="Lane_1m842hw" name="Default_Test_Lane">
         <bpmn:flowNodeRef>StartEvent_12nmke6</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>EndEvent_1nejwcm</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_0fot5to</bpmn:flowNodeRef>

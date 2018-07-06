@@ -1,15 +1,10 @@
 'use strict';
 
-const Promise = require('bluebird');
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-const BpmnType = require('@process-engine/process_engine_contracts').BpmnType;
-
 describe('SubProcess', () => {
   let testFixtureProvider;
-
-  let nodeInstanceEntityTypeService;
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
