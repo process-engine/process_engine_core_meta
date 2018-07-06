@@ -2,7 +2,7 @@
 const should = require('should');
 const TestFixtureProver = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe.skip('Error End Event - ', () => {
+describe('Error End Event - ', () => {
 
   let testFixtureProvider;
 
@@ -21,8 +21,11 @@ describe.skip('Error End Event - ', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should throw an error, when the error end event is reached', async () => {
+  it('should throw a defined error, when the error end event is reached', async () => {
     const processModelKey = 'error_end_event_test';
+    const initialToken = {
+      errorToThrow: 'defined_error',
+    };
 
     /*
      * TODO: Since the behavior of the ErrorEndEvent is not fully designed,
@@ -30,18 +33,41 @@ describe.skip('Error End Event - ', () => {
      * ErrorEndEvent may vary.
      */
     const expectedErrorObject = {
-      error_code: 'expected_error',
+      errorCode: 'expectedError',
       name: 'Expected Error',
     };
 
     try {
-      await testFixtureProvider.executeProcess(processModelKey);
+      await testFixtureProvider.executeProcess(processModelKey, initialToken);
     } catch (error) {
       should(error).be.eql(expectedErrorObject);
     }
   });
 
-  it('should execute a call activity which ends with an error boundary event', async () => {
+  it('should throw an anonymous error, when the error end event is reached', async () => {
+    const processModelKey = 'error_end_event_test';
+    const initialToken = {
+      errorToThrow: 'anonymous_error',
+    };
+
+    /*
+     * TODO: Since the behavior of the ErrorEndEvent is not fully designed,
+     * the object that is returned from a process that ends with an
+     * ErrorEndEvent may vary.
+     */
+    const expectedErrorObject = {
+      errorCode: '',
+      name: '',
+    };
+
+    try {
+      await testFixtureProvider.executeProcess(processModelKey, initialToken);
+    } catch (error) {
+      should(error).be.eql(expectedErrorObject);
+    }
+  });
+
+  it.skip('should execute a call activity which ends with an error boundary event', async () => {
     const processModelKey = 'error_end_event_subprocess_call_activity_test';
 
     const initialToken = {
@@ -64,7 +90,7 @@ describe.skip('Error End Event - ', () => {
       'XORJoin'];
 
     should(result).have.property('history');
-    should(result.history).have.keys(expectedHistoryKeys);
+    should(result.history).have.keys(...expectedHistoryKeys);
   });
 
   it('should execute a subprocess which ends with an error end event', async () => {
@@ -90,6 +116,6 @@ describe.skip('Error End Event - ', () => {
     ];
 
     should(result).have.property('history');
-    should(result.history).have.keys(expectedHistoryKeys);
+    should(result.history).have.keys(...expectedHistoryKeys);
   });
 });
