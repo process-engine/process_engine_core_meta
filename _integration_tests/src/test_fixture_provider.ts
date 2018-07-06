@@ -1,17 +1,19 @@
-import * as fs from 'fs';
-// tslint:disable-next-line:import-blacklist
-import * as _ from 'lodash';
 import * as path from 'path';
 
 import {InvocationContainer} from 'addict-ioc';
 import {Logger} from 'loggerhythm';
 
-import {ExecutionContext, IIamService, TokenType} from '@essential-projects/core_contracts';
-import {IProcessDefEntityTypeService, IProcessEngineService, IProcessRepository} from '@process-engine/process_engine_contracts';
+import {
+  ExecutionContext,
+  IProcessDefEntityTypeService,
+  IProcessEngineService,
+  IProcessRepository,
+} from '@process-engine/process_engine_contracts';
 
 import {ConsumerContext, IConsumerApiService} from '@process-engine/consumer_api_contracts';
 
 import {IDatastoreService} from '@essential-projects/data_model_contracts';
+import {IIdentity} from '@essential-projects/iam_contracts';
 
 const logger: Logger = Logger.createLogger('test:bootstrapper');
 
@@ -44,6 +46,7 @@ const iocModuleNames: Array<string> = [
   '@essential-projects/timing',
   '@essential-projects/validation',
   '@process-engine/consumer_api_core',
+  '@process-engine/iam',
   '@process-engine/process_engine',
   '@process-engine/process_engine_http',
   '@process-engine/process_repository',
@@ -56,7 +59,7 @@ const iocModules: Array<any> = iocModuleNames.map((moduleName: string): any => {
 
 export class TestFixtureProvider {
   private _processEngineService: IProcessEngineService;
-  private _dummyExecutionContext: ExecutionContext;
+  private _executionContext: ExecutionContext;
 
   private container: InvocationContainer;
   private bootstrapper: any;
@@ -67,7 +70,7 @@ export class TestFixtureProvider {
   private _datastoreService: IDatastoreService;
 
   public get context(): ExecutionContext {
-    return this._dummyExecutionContext;
+    return this._executionContext;
   }
 
   public get consumerContext(): ConsumerContext {
@@ -91,26 +94,26 @@ export class TestFixtureProvider {
 
     await this.bootstrapper.start();
 
-    this._dummyExecutionContext = await this.createExecutionContext('testuser', 'testpass');
+    this._createMockContexts();
+
     this._processEngineService = await this.resolveAsync<IProcessEngineService>('ProcessEngineService');
-
-    this._consumerContext = await this.createConsumerContext('testuser', 'testpass');
-    this._consumerApiService = await this.resolveAsync('ConsumerApiService');
-
-    this._datastoreService = await this.resolveAsync('DatastoreService');
+    this._consumerApiService = await this.resolveAsync<IConsumerApiService>('ConsumerApiService');
+    this._datastoreService = await this.resolveAsync<IDatastoreService>('DatastoreService');
   }
 
   public async executeProcess(processKey: string, initialToken: any = {}): Promise<any> {
     return this.processEngineService.executeProcess(this.context, undefined, processKey, initialToken);
   }
 
+  // -- TODO: Refactor TerminateEndEvent tests and remove these methods afterwards
   public async createProcessInstance(processModelKey: string): Promise<any> {
-    return this.processEngineService.createProcessInstance(this.context, undefined, processModelKey);
+    return this.processEngineService.createProcessInstance(this.context as any, undefined, processModelKey);
   }
 
   public async executeProcessInstance(processInstanceId: string, initialToken: any = {}): Promise<any> {
-    return this.processEngineService.executeProcessInstance(this.context, processInstanceId, undefined, initialToken);
+    return this.processEngineService.executeProcessInstance(this.context as any, processInstanceId, undefined, initialToken);
   }
+  // --
 
   public async resolveAsync<T>(moduleName: string): Promise<any> {
     return this.container.resolveAsync<T>(moduleName);
@@ -119,7 +122,7 @@ export class TestFixtureProvider {
   public async getProcessbyId(bpmnFilename: string): Promise<any> {
     const processRepository: any = await this.resolveAsync<IProcessRepository>('ProcessRepository');
     const processes: any = await processRepository.getProcessesByCategory('internal');
-    const matchingProcess: any = _.find(processes, (process: any) => {
+    const matchingProcess: any = processes.find((process: any) => {
       return process.name === bpmnFilename;
     });
 
@@ -172,19 +175,11 @@ export class TestFixtureProvider {
    */
   public async getProcessFromFile(bpmnFilename: string, processDefEntityTypeServiceInstance: IProcessDefEntityTypeService): Promise<any> {
     // TODO: Import is currently broken (see above)
-    return processDefEntityTypeServiceInstance.importBpmnFromFile(this.context, {
+    return processDefEntityTypeServiceInstance.importBpmnFromFile(this.context as any, {
       file: bpmnFilename,
     }, {
       overwriteExisting: true,
     });
-  }
-
-  public async createExecutionContext(user: string, password: string): Promise<ExecutionContext> {
-    const authToken: any = await this.bootstrapper.getTokenFromAuth(user, password);
-    const iamService: IIamService = await this.resolveAsync<IIamService>('IamService');
-    const executionContext: ExecutionContext = await iamService.resolveExecutionContext(authToken, TokenType.jwt);
-
-    return executionContext;
   }
 
   public async tearDown(): Promise<void> {
@@ -210,25 +205,6 @@ export class TestFixtureProvider {
       const appPath: string = path.resolve(__dirname);
       this.bootstrapper = await this.container.resolveAsync('HttpIntegrationTestBootstrapper', [appPath]);
 
-      const identityFixtures: Array<any> = [{
-        // Default User, used to test happy paths
-        name: 'testuser',
-        password: 'testpass',
-        roles: ['user'],
-      }, {
-        // Restricted user without access rights to any lanes
-        name: 'restrictedUser',
-        password: 'testpass',
-        roles: ['dummy'],
-      }, {
-        // Used to test access rights to
-        name: 'laneuser',
-        password: 'testpass',
-        roles: ['dummy'],
-      }];
-
-      this.bootstrapper.addFixtures('User', identityFixtures);
-
       logger.info('Bootstrapper started.');
     } catch (error) {
       logger.error('Failed to start bootstrapper!', error);
@@ -236,11 +212,17 @@ export class TestFixtureProvider {
     }
   }
 
-  private async createConsumerContext(user: string, password: string): Promise<ConsumerContext> {
-    const authToken: any = await this.bootstrapper.getTokenFromAuth(user, password);
+  private _createMockContexts(): void {
 
-    return <ConsumerContext> {
-      identity: authToken,
+    // Note: Since the iam service is mocked, it doesn't matter what kind of token is used here.
+    // It only matters that one is present.
+    const identity: IIdentity = {
+      token: 'randomtoken',
+    };
+    this._executionContext = new ExecutionContext(identity);
+
+    this._consumerContext = <ConsumerContext> {
+      identity: 'randomtoken',
     };
   }
 }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_094pt0w" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.13.1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_094pt0w" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.15.1">
   <bpmn:collaboration id="Collaboration_06t1m80">
     <bpmn:participant id="Participant_1qpz25b" name="user_task_parallel_test" processRef="user_task_parallel_test" />
   </bpmn:collaboration>
   <bpmn:process id="user_task_parallel_test" name="user_task_parallel_test" isExecutable="true">
     <bpmn:laneSet>
-      <bpmn:lane id="Lane_1sdv4a2" name="Lane A">
+      <bpmn:lane id="Lane_1sdv4a2" name="Default_Test_Lane">
         <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ExclusiveGateway_0ejxoeo</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ExclusiveGateway_0uyb09l</bpmn:flowNodeRef>
