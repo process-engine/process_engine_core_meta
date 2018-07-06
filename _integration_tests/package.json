@@ -31,7 +31,7 @@
     "@essential-projects/datastore_messagebus": "^2.0.0",
     "@essential-projects/event_aggregator": "^2.0.0",
     "@essential-projects/feature": "^2.0.0",
-    "@essential-projects/http_extension": "^2.0.0",
+    "@essential-projects/http_extension": "feature~replace_iam_implementation",
     "@essential-projects/http_integration_testing": "^2.0.0",
     "@essential-projects/iam": "^2.1.0",
     "@essential-projects/iam_contracts": "^3.0.0",
