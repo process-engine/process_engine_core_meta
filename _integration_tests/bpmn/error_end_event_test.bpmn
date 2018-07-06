@@ -17,7 +17,7 @@
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="SequenceFlow_0e2pmdj" sourceRef="StartEvent_12nmke6" targetRef="ExclusiveGateway_1pron0t" />
     <bpmn:sequenceFlow id="SequenceFlow_05e2fxn" name="defined error" sourceRef="ExclusiveGateway_1pron0t" targetRef="EndEvent_1nejwcm">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">token.current.errorToThrow === 'defined_error';</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">token.current.errorToThrow === 'defined_error'</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_06x6xxn" name="anonymous error" sourceRef="ExclusiveGateway_1pron0t" targetRef="EndEvent_0gd6tey">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">token.current.errorToThrow === 'anonymous_error'</bpmn:conditionExpression>
