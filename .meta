@@ -42,6 +42,7 @@
     "event_aggregator": "git@github.com:essential-projects/event_aggregator.git",
     "feature": "git@github.com:essential-projects/feature.git",
     "process_model.repository.sequelize": "git@github.com:process-engine/process_model.repository.sequelize.git",
+    "sequelize_connection_manager": "git@github.com:essential-projects/sequelize_connection_manager",
     "flow_node_instance.repository.sequelize": "git@github.com:process-engine/flow_node_instance.repository.sequelize.git",
     "process_engine": "git@github.com:process-engine/process_engine.git",
     "process_engine_http": "git@github.com:process-engine/process_engine_http.git",
