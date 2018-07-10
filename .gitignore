@@ -79,6 +79,7 @@ security_service
 security_service_contracts
 services
 services_contracts
+sequelize_connection_manager
 skeleton
 timing
 timing_contracts
