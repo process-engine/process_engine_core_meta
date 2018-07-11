@@ -3,7 +3,7 @@
   "password": "admin",
   "database": "processengine",
   "host": "localhost",
-  "port": 45678,
+  "port": 5432,
   "dialect": "postgres",
   "supportBigNumbers": true,
   "resetPasswordRequestTimeToLive": 12
