@@ -38,6 +38,81 @@ SET default_tablespace = '';
 
 SET default_with_oids = false;
 
+-- Table: public."ProcessDefinitions"
+
+-- DROP TABLE public."ProcessDefinitions";
+
+CREATE TABLE public."ProcessDefinitions"
+(
+    id uuid NOT NULL,
+    name character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    xml text COLLATE pg_catalog."default" NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    CONSTRAINT "ProcessDefinitions_pkey" PRIMARY KEY (id),
+    CONSTRAINT "ProcessDefinitions_name_key" UNIQUE (name)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."ProcessDefinitions"
+    OWNER to admin;
+
+-- Table: public."FlowNodeInstances"
+
+-- DROP TABLE public."FlowNodeInstances";
+
+CREATE TABLE public."FlowNodeInstances"
+(
+    id uuid NOT NULL,
+    "flowNodeInstanceId" character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    "flowNodeId" character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    "isSuspended" boolean NOT NULL DEFAULT false,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    CONSTRAINT "FlowNodeInstances_pkey" PRIMARY KEY (id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."FlowNodeInstances"
+    OWNER to admin;
+
+-- Table: public."ProcessTokenNews"
+
+-- DROP TABLE public."ProcessTokenNews";
+
+CREATE TABLE public."ProcessTokenNews"
+(
+    id uuid NOT NULL,
+    "processInstanceId" character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    "processModelId" character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    "correlationId" character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    identity text COLLATE pg_catalog."default" NOT NULL,
+    "createdAt" timestamp with time zone DEFAULT now(),
+    caller character varying(255) COLLATE pg_catalog."default",
+    payload text COLLATE pg_catalog."default",
+    "updatedAt" timestamp with time zone NOT NULL,
+    "flowNodeInstanceId" uuid,
+    CONSTRAINT "ProcessTokenNews_pkey" PRIMARY KEY (id),
+    CONSTRAINT "ProcessTokenNews_flowNodeInstanceId_fkey" FOREIGN KEY ("flowNodeInstanceId")
+        REFERENCES public."FlowNodeInstances" (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE SET NULL
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."ProcessTokenNews"
+    OWNER to admin;
+
+
 --
 -- TOC entry 197 (class 1259 OID 16394)
 -- Name: NodeInstance; Type: TABLE; Schema: public; Owner: admin
