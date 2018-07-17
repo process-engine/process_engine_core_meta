@@ -81,6 +81,7 @@ services
 services_contracts
 sequelize_connection_manager
 skeleton
+timers.repository.sequelize
 timing
 timing_contracts
 tslint-config
