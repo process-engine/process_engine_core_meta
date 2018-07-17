@@ -17,8 +17,7 @@ fi
 # fix conflicting types from jasmine and mocha
 rm -rf node_modules/@types/jasmine
 
-# build all packages and schemas
-meta exec "npm run build && npm run build-schemas" --include-only process_engine_contracts
+# build all packages
 meta exec "npm run build" --exclude process_engine_meta,skeleton,documentation,identity_server
 
 echo "done"
