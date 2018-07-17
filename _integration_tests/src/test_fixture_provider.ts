@@ -5,14 +5,12 @@ import {Logger} from 'loggerhythm';
 
 import {
   ExecutionContext,
-  IProcessDefEntityTypeService,
   IProcessEngineService,
   IProcessRepository,
 } from '@process-engine/process_engine_contracts';
 
 import {ConsumerContext, IConsumerApiService} from '@process-engine/consumer_api_contracts';
 
-import {IDatastoreService} from '@essential-projects/data_model_contracts';
 import {IIdentity} from '@essential-projects/iam_contracts';
 
 const logger: Logger = Logger.createLogger('test:bootstrapper');
@@ -20,28 +18,11 @@ const logger: Logger = Logger.createLogger('test:bootstrapper');
 const iocModuleNames: Array<string> = [
   '@essential-projects/bootstrapper',
   '@essential-projects/bootstrapper_node',
-  '@essential-projects/caching',
-  '@essential-projects/core',
-  '@essential-projects/data_model',
-  '@essential-projects/data_model_contracts',
-  '@essential-projects/datasource_adapter_base',
-  '@essential-projects/datasource_adapter_postgres',
-  '@essential-projects/datastore',
-  '@essential-projects/datastore_messagebus',
   '@essential-projects/event_aggregator',
-  '@essential-projects/feature',
   '@essential-projects/http_extension',
   '@essential-projects/http_integration_testing',
-  '@essential-projects/iam',
-  '@essential-projects/invocation',
-  '@essential-projects/messagebus',
-  '@essential-projects/messagebus_adapter_faye',
-  '@essential-projects/metadata',
-  '@essential-projects/security_service',
   '@essential-projects/services',
-  '@essential-projects/routing',
   '@essential-projects/timing',
-  '@essential-projects/validation',
   '@process-engine/consumer_api_core',
   '@process-engine/flow_node_instance.repository.sequelize',
   '@process-engine/iam',
@@ -65,8 +46,6 @@ export class TestFixtureProvider {
   private _consumerApiService: IConsumerApiService;
   private _consumerContext: ConsumerContext;
 
-  private _datastoreService: IDatastoreService;
-
   public get context(): ExecutionContext {
     return this._executionContext;
   }
@@ -83,10 +62,6 @@ export class TestFixtureProvider {
     return this._consumerApiService;
   }
 
-  public get datastoreService(): IDatastoreService {
-    return this._datastoreService;
-  }
-
   public async initializeAndStart(): Promise<void> {
     await this.initializeBootstrapper();
 
@@ -96,7 +71,6 @@ export class TestFixtureProvider {
 
     this._processEngineService = await this.resolveAsync<IProcessEngineService>('ProcessEngineService');
     this._consumerApiService = await this.resolveAsync<IConsumerApiService>('ConsumerApiService');
-    this._datastoreService = await this.resolveAsync<IDatastoreService>('DatastoreService');
   }
 
   public async executeProcess(processKey: string, initialToken: any = {}): Promise<any> {
@@ -128,14 +102,14 @@ export class TestFixtureProvider {
   }
 
   /**
-   * Generate an absoulte file path, which points to the bpmn process definition files.
+   * Generate an absoulte path, which points to the bpmn directory.
    *
    * Checks if the cwd is "_integration_tests". If not, that directory name is appended.
-   * This is necessary, because Jenkins uses a different cwd than the local machines usually do.
+   * This is necessary, because Jenkins uses a different cwd than the local machines do.
    *
    * @param directoryName Name of the directory, which contains the bpmn files
    */
-  private resolvePath(directoryName: string): string {
+  private resolvePath(directoryName: string = 'bpmn'): string {
     let rootDirPath: string = process.cwd();
     const integrationTestDirName: string = '_integration_tests';
 
@@ -144,40 +118,6 @@ export class TestFixtureProvider {
     }
 
     return path.join(rootDirPath, directoryName);
-  }
-
-  /**
-   * Load all given processes with their matching process definition files.
-   * @param filelist List of the process definition bpmn files. The filename must end with .bmpn.
-   * @param directoryName If set, load the bpmn process definition file from this directory. If unset, use
-   * bpmn/  as a default directory.
-   */
-  public async loadProcessesFromBPMNFiles(filelist: Array<string>, directoryName: string = 'bpmn'): Promise<void> {
-
-    const processDefEntityTypeService: any = await this.resolveAsync('ProcessDefEntityTypeService');
-    const bpmnDirPath: string = this.resolvePath(directoryName);
-
-    for (const fileName of filelist) {
-      // TODO: The import is currently broken (existing processes are duplicated, not overwritten).
-      // Until this is fixed, use the "classic" ioc registration
-      const filePath: string = path.join(bpmnDirPath, fileName);
-      await this.getProcessFromFile(filePath, processDefEntityTypeService);
-    }
-  }
-
-  /**
-   * Load a process definition with the given name.
-   * @param bpmnFilename Filename of the process definition
-   * @param processDefEntityTypeServiceInstance If set, use the given reference to the process definition entity typeservice. If unset, get a new
-   * instance by asking the ioc container.
-   */
-  public async getProcessFromFile(bpmnFilename: string, processDefEntityTypeServiceInstance: IProcessDefEntityTypeService): Promise<any> {
-    // TODO: Import is currently broken (see above)
-    return processDefEntityTypeServiceInstance.importBpmnFromFile(this.context as any, {
-      file: bpmnFilename,
-    }, {
-      overwriteExisting: true,
-    });
   }
 
   public async tearDown(): Promise<void> {
