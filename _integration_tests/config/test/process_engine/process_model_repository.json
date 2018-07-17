@@ -6,5 +6,6 @@
   "port": 5432,
   "dialect": "postgres",
   "supportBigNumbers": true,
-  "resetPasswordRequestTimeToLive": 12
+  "resetPasswordRequestTimeToLive": 12,
+  "logging": false
 }
