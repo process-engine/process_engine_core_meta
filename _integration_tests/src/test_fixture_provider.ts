@@ -5,7 +5,7 @@ import {Logger} from 'loggerhythm';
 
 import {
   ExecutionContext,
-  IProcessEngineService,
+  IExecuteProcessService,
   IProcessRepository,
 } from '@process-engine/process_engine_contracts';
 
@@ -22,13 +22,13 @@ const iocModuleNames: Array<string> = [
   '@essential-projects/http_extension',
   '@essential-projects/http_integration_testing',
   '@essential-projects/services',
-  '@essential-projects/timing',
   '@process-engine/consumer_api_core',
   '@process-engine/flow_node_instance.repository.sequelize',
   '@process-engine/iam',
   '@process-engine/process_engine',
   '@process-engine/process_model.repository.sequelize',
   '@process-engine/process_repository',
+  '@process-engine/timers.repository.sequelize',
   '../../',
 ];
 
@@ -37,7 +37,7 @@ const iocModules: Array<any> = iocModuleNames.map((moduleName: string): any => {
 });
 
 export class TestFixtureProvider {
-  private _processEngineService: IProcessEngineService;
+  private _executeProcessService: IExecuteProcessService;
   private _executionContext: ExecutionContext;
 
   private container: InvocationContainer;
@@ -54,8 +54,8 @@ export class TestFixtureProvider {
     return this._consumerContext;
   }
 
-  public get processEngineService(): IProcessEngineService {
-    return this._processEngineService;
+  public get executeProcessService(): IExecuteProcessService {
+    return this._executeProcessService;
   }
 
   public get consumerApiService(): IConsumerApiService {
@@ -69,23 +69,14 @@ export class TestFixtureProvider {
 
     this._createMockContexts();
 
-    this._processEngineService = await this.resolveAsync<IProcessEngineService>('ProcessEngineService');
+    this._executeProcessService = await this.resolveAsync<IExecuteProcessService>('ExecuteProcessService');
     this._consumerApiService = await this.resolveAsync<IConsumerApiService>('ConsumerApiService');
   }
 
-  public async executeProcess(processKey: string, initialToken: any = {}): Promise<any> {
-    return this.processEngineService.executeProcess(this.context, undefined, processKey, initialToken);
+  // TODO
+  public async executeProcess(processKey: string, startEventKey: string, initialToken: any = {}): Promise<any> {
+    return this.executeProcessService.startAndAwaitEndEvent(undefined, processKey, initialToken);
   }
-
-  // -- TODO: Refactor TerminateEndEvent tests and remove these methods afterwards
-  public async createProcessInstance(processModelKey: string): Promise<any> {
-    return this.processEngineService.createProcessInstance(this.context as any, undefined, processModelKey);
-  }
-
-  public async executeProcessInstance(processInstanceId: string, initialToken: any = {}): Promise<any> {
-    return this.processEngineService.executeProcessInstance(this.context as any, processInstanceId, undefined, initialToken);
-  }
-  // --
 
   public async resolveAsync<T>(moduleName: string): Promise<any> {
     return this.container.resolveAsync<T>(moduleName);
