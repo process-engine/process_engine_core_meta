@@ -37,9 +37,9 @@ def slack_send_summary(testlog, test_failed) {
   def failing_matcher = testlog =~ failing_regex;
   def pending_matcher = testlog =~ pending_regex;
 
-  def passing = passing_matcher.count > 0 ? passing_matcher[0] : 'Failed to parse passed test count.';
-  def failing = failing_matcher.count > 0 ? failing_matcher[0] : 'Failed to parse failed test count.';
-  def pending = pending_matcher.count > 0 ? pending_matcher[0] : 'Failed to parse pending test count.';
+  def passing = passing_matcher.count > 0 ? passing_matcher[0] : '0 passing';
+  def failing = failing_matcher.count > 0 ? failing_matcher[0] : '0 failing';
+  def pending = pending_matcher.count > 0 ? pending_matcher[0] : '0 pending';
 
   def color_string     =  '"color":"good"';
   def markdown_string  =  '"mrkdwn_in":["text","title"]';
