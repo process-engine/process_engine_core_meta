@@ -1,7 +1,0 @@
-{
-  "data_sources": {
-    "SessionStore": {
-      "$ref": "#/data_sources/postgres"
-    }
-  }
-}
