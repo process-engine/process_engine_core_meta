@@ -7,19 +7,18 @@ describe.skip('Intermediate Events - ', () => {
 
   let testFixtureProvider;
 
+  const startEventId = 'StartEvent_1';
+
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
 
-    // TODO: The import is currently broken (existing processes are duplicated, not overwritten).
-    // Until this is fixed, use the "classic" ioc registration
-    //
-    // const processDefFileList = [
-    //   'intermediate_event_message_test.bpmn',
-    //   'intermediate_event_signal_test.bpmn',
-    // ];
+    const processDefFileList = [
+      'intermediate_event_message_test',
+      'intermediate_event_signal_test',
+    ];
 
-    // await testFixtureProvider.loadProcessesFromBPMNFiles(processDefFileList);
+    await testFixtureProvider.importProcessFiles(processDefFileList);
   });
 
   after(async () => {
@@ -27,10 +26,10 @@ describe.skip('Intermediate Events - ', () => {
   });
 
   it('should throw and receive a message', async () => {
-    const processKey = 'intermediate_event_message_test';
 
-    // Expected token object after the test finished.
-    const expectedToken = {
+    const processModelId = 'intermediate_event_message_test';
+
+    const expectedResult = {
       history: {
         StartEvent_1: {},
         Task1: 1,
@@ -43,16 +42,17 @@ describe.skip('Intermediate Events - ', () => {
       },
     };
 
-    const result = await testFixtureProvider.executeProcess(processKey);
+    const result = await testFixtureProvider.executeProcess(processModelId, startEventId);
 
-    should(result).be.eql(expectedToken);
+    should(result).have.property('tokenPayload');
+    should(result.tokenPayload).be.eql(expectedResult);
   });
 
   it('should throw and receive a signal', async () => {
-    const processKey = 'intermediate_event_signal_test';
 
-    // Expected token object after the test finished.
-    const expectedToken = {
+    const processModelId = 'intermediate_event_signal_test';
+
+    const expectedResult = {
       history: {
         StartEvent_1: {},
         Task1: 1,
@@ -65,9 +65,10 @@ describe.skip('Intermediate Events - ', () => {
       },
     };
 
-    const result = await testFixtureProvider.executeProcess(processKey);
+    const result = await testFixtureProvider.executeProcess(processModelId, startEventId);
 
-    should(result).be.eql(expectedToken);
+    should(result).have.property('tokenPayload');
+    should(result.tokenPayload).be.eql(expectedResult);
   });
 
 });
