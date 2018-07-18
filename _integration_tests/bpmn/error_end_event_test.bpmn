@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1rl945h" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.13.1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1rl945h" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.15.1">
   <bpmn:collaboration id="Collaboration_0fyganh">
     <bpmn:participant id="Participant_0fwyttz" name="error_end_event_test" processRef="error_end_event_test" />
   </bpmn:collaboration>
   <bpmn:process id="error_end_event_test" name="error_end_event_test" isExecutable="true">
     <bpmn:laneSet>
       <bpmn:lane id="Lane_1m842hw" name="Default_Test_Lane">
-        <bpmn:flowNodeRef>StartEvent_12nmke6</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ExclusiveGateway_1pron0t</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>EndEvent_1nejwcm</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>EndEvent_0gd6tey</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
-    <bpmn:startEvent id="StartEvent_12nmke6">
+    <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_0e2pmdj</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_0e2pmdj" sourceRef="StartEvent_12nmke6" targetRef="ExclusiveGateway_1pron0t" />
+    <bpmn:sequenceFlow id="SequenceFlow_0e2pmdj" sourceRef="StartEvent_1" targetRef="ExclusiveGateway_1pron0t" />
     <bpmn:sequenceFlow id="SequenceFlow_05e2fxn" name="defined error" sourceRef="ExclusiveGateway_1pron0t" targetRef="EndEvent_1nejwcm">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">token.current.errorToThrow === 'defined_error'</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -45,7 +45,7 @@
       <bpmndi:BPMNShape id="Lane_1m842hw_di" bpmnElement="Lane_1m842hw">
         <dc:Bounds x="243" y="231" width="521" height="319" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="StartEvent_12nmke6_di" bpmnElement="StartEvent_12nmke6">
+      <bpmndi:BPMNShape id="StartEvent_12nmke6_di" bpmnElement="StartEvent_1">
         <dc:Bounds x="280" y="372" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="253" y="411" width="90" height="13" />
