@@ -23,9 +23,9 @@ describe('Process-Engine   Parse BPMN Process into new object model', () => {
 
     const sampleProcessName = 'generic_sample';
 
-    const sampleBpmnFile = await testFixtureProvider.getProcessbyId(sampleProcessName);
+    const sampleBpmnFile = testFixtureProvider.readProcessModelFile(sampleProcessName);
 
-    const result = await bpmnModelParser.parseXmlToObjectModel(sampleBpmnFile.bpmnXml);
+    const result = await bpmnModelParser.parseXmlToObjectModel(sampleBpmnFile);
 
     // Basic Definitions-Properties
     should.exist(result.xmlns);
