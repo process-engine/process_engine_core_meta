@@ -17,12 +17,11 @@
     "build": "gulp build"
   },
   "dependencies": {
-    "@essential-projects/bootstrapper": "^2.0.0",
-    "@essential-projects/bootstrapper_node": "^2.0.0",
-    "@essential-projects/event_aggregator": "^2.0.0",
-    "@essential-projects/http_extension": "^3.0.0",
-    "@essential-projects/http_integration_testing": "^2.0.0",
-    "@essential-projects/services": "^2.0.0",
+    "@essential-projects/bootstrapper": "feature~remove_old_datastore_implementation",
+    "@essential-projects/bootstrapper_node": "feature~remove_old_datastore_implementation",
+    "@essential-projects/event_aggregator": "feature~remove_old_datastore_implementation",
+    "@essential-projects/http_extension": "feature~remove_old_datastore_implementation",
+    "@essential-projects/services": "^2.0.2",
     "@process-engine/consumer_api_contracts": "^0.12.1",
     "@process-engine/consumer_api_core": "feature~remove_old_datastore_implementation",
     "@process-engine/flow_node_instance.repository.sequelize": "feature~remove_old_datastore_implementation",

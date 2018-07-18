@@ -1,7 +1,9 @@
 {
   "projects": {
+    "documentation": "git@github.com:process-engine/documentation.git",
     "tslint-config": "git@github.com:essential-projects/tslint-config.git",
     "errors_ts": "git@github.com:essential-projects/errors_ts.git",
+    "bootstrapper_contracts": "git@github.com:essential-projects/bootstrapper_contracts.git",
     "http_contracts": "git@github.com:essential-projects/http_contracts.git",
     "services_contracts": "git@github.com:essential-projects/services_contracts.git",
     "iam_contracts": "git@github.com:essential-projects/iam_contracts.git",
@@ -14,7 +16,6 @@
     "http": "git@github.com:essential-projects/http.git",
     "http_node": "git@github.com:essential-projects/http_node.git",
     "http_extension": "git@github.com:essential-projects/http_extension.git",
-    "documentation": "git@github.com:process-engine/documentation.git",
     "event_aggregator": "git@github.com:essential-projects/event_aggregator.git",
     "process_model.repository.sequelize": "git@github.com:process-engine/process_model.repository.sequelize.git",
     "flow_node_instance.repository.sequelize": "git@github.com:process-engine/flow_node_instance.repository.sequelize.git",
@@ -24,7 +25,6 @@
     "services": "git@github.com:essential-projects/services.git",
     "skeleton": "git@github.com:process-engine/skeleton.git",
     "bpmn-studio_client": "git@github.com:process-engine/bpmn-studio_client.git",
-    "http_integration_testing": "git@github.com:process-engine/http_integration_testing.git",
     "bpmn-io_custom-bundle": "git@github.com:process-engine/bpmn-io_custom-bundle.git",
     "bpmn-studio": "git@github.com:process-engine/bpmn-studio.git",
     "identity_server": "git@github.com:process-engine/identity_server.git"
