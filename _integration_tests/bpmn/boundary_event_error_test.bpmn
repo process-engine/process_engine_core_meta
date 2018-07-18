@@ -52,7 +52,8 @@
       <bpmn:incoming>SequenceFlow_18lguz5</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1dir57p</bpmn:outgoing>
       <bpmn:script>console.log('Error Boundary Event triggered!');
-console.log(token.history.ScriptTask_ErrorRaiser);</bpmn:script>
+console.log(token.history.ScriptTask_ErrorRaiser);
+return 'test'</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:sequenceFlow id="SequenceFlow_0szmujr" name="" sourceRef="ScriptTask_ErrorRaiser" targetRef="ScriptTask_Success" />
     <bpmn:sequenceFlow id="SequenceFlow_0ue80rd" sourceRef="ScriptTask_Success" targetRef="EndEvent_0ax00t6">
