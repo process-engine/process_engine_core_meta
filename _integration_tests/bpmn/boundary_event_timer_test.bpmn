@@ -57,7 +57,7 @@
     <bpmn:scriptTask id="Objectify" name="Objectify Token">
       <bpmn:incoming>SequenceFlow_0dhe2mx</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1x79rp3</bpmn:outgoing>
-      <bpmn:script>return JSON.parse(JSON.stringify(token));</bpmn:script>
+      <bpmn:script>return token.current;</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:serviceTask id="ITask2" name="Run 6 seconds">
       <bpmn:extensionElements>
@@ -78,7 +78,7 @@
     <bpmn:scriptTask id="ITask3" name="Increment the current token value">
       <bpmn:incoming>SequenceFlow_181wovy</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_04hoc8f</bpmn:outgoing>
-      <bpmn:script>return token.current + 1</bpmn:script>
+      <bpmn:script>return 'interrupt successful';</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:serviceTask id="NITask2" name="Run 2 seconds">
       <bpmn:extensionElements>
@@ -99,7 +99,7 @@
     <bpmn:scriptTask id="NITask3" name="Increment the current token value">
       <bpmn:incoming>SequenceFlow_1ewl5v1</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_12kce5b</bpmn:outgoing>
-      <bpmn:script>return token.current + 1;</bpmn:script>
+      <bpmn:script>return 'service task not interrupted';</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:boundaryEvent id="TimerBoundary2" name="Break after 6 seconds" attachedToRef="NITask2">
       <bpmn:outgoing>SequenceFlow_082fvqw</bpmn:outgoing>
