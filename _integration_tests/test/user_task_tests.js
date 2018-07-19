@@ -4,7 +4,7 @@ const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 const startCallbackType = require('@process-engine/consumer_api_contracts').StartCallbackType;
 
-describe.only('User Tasks - ', () => {
+describe('User Tasks - ', () => {
 
   let testFixtureProvider;
 
@@ -57,20 +57,15 @@ describe.only('User Tasks - ', () => {
 
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
 
-    const userTaskKeys = [
-      'User_Task_1',
-      'User_Task_2',
-    ];
-
     const userTaskInput = {
       formFields: {
         Sample_Form_Field: 'Hello',
       },
     };
 
-    for (const currentUserTaskKey of userTaskKeys) {
-      await finishUserTaskInCorrelation(correlationId, processModelKey, currentUserTaskKey, userTaskInput);
-    }
+    await finishUserTaskInCorrelation(correlationId, processModelKey, 'User_Task_1', userTaskInput);
+    await waitForProcessInstanceToReachUserTask(correlationId);
+    await finishUserTaskInCorrelation(correlationId, processModelKey, 'User_Task_2', userTaskInput);
   });
 
   it('should finish two parallel running user tasks', async () => {
@@ -228,11 +223,9 @@ describe.only('User Tasks - ', () => {
 
       await wait(delayBetweenRetriesInMs);
 
-      const flowNodeInstances = await flowNodeInstanceService.queryByCorrelation(testFixtureProvider.executionContextFacade, correlationId);
+      const flowNodeInstances = await flowNodeInstanceService.querySuspendedByCorrelation(testFixtureProvider.executionContextFacade, correlationId);
 
-      // The first flow node instance will always be the start event
-      // so we have to wait until we have at least two.
-      if (flowNodeInstances && flowNodeInstances.length > 1) {
+      if (flowNodeInstances && flowNodeInstances.length >= 1) {
         return;
       }
     }
@@ -274,10 +267,6 @@ describe.only('User Tasks - ', () => {
     const userTaskResult = await testFixtureProvider
       .consumerApiService
       .finishUserTask(consumerContext, processModelKey, correlationId, waitingUserTask.key, userTaskInput);
-
-    const delayTimeInMs = 1000;
-
-    await wait(delayTimeInMs);
 
     return userTaskResult;
   }
