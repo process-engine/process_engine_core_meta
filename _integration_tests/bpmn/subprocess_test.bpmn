@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definition_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.15.1">
   <bpmn:collaboration id="Collaboration_1cidyxu">
-    <bpmn:participant id="Participant_0px403d" name="SubProcess_Test" processRef="SubProcess_test" />
+    <bpmn:participant id="Participant_0px403d" name="subprocess_test" processRef="subprocess_test" />
   </bpmn:collaboration>
-  <bpmn:process id="SubProcess_test" name="SubProcess_Test" isExecutable="false">
+  <bpmn:process id="subprocess_test" name="subprocess_test" isExecutable="false">
     <bpmn:laneSet>
       <bpmn:lane id="Lane_1xzf0d3" name="Default_Test_Lane">
-        <bpmn:flowNodeRef>mainProcessStartEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>mainProcessEndEvent</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>scriptTaskAfterSubProcess</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>sp_Sub</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>scriptTaskBeforeSubProcess</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
-    <bpmn:startEvent id="mainProcessStartEvent" name="SubProcess_Test">
+    <bpmn:startEvent id="StartEvent_1" name="subprocess_test">
       <bpmn:outgoing>SequenceFlow_0ybdavc</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_0ybdavc" sourceRef="mainProcessStartEvent" targetRef="scriptTaskBeforeSubProcess" />
+    <bpmn:sequenceFlow id="SequenceFlow_0ybdavc" sourceRef="StartEvent_1" targetRef="scriptTaskBeforeSubProcess" />
     <bpmn:sequenceFlow id="SequenceFlow_1iy8lx5" sourceRef="sp_Sub" targetRef="scriptTaskAfterSubProcess" />
     <bpmn:sequenceFlow id="SequenceFlow_1fh6yzy" sourceRef="scriptTaskAfterSubProcess" targetRef="mainProcessEndEvent">
       <bpmn:extensionElements>
@@ -71,10 +71,10 @@
       <bpmndi:BPMNShape id="Participant_0px403d_di" bpmnElement="Participant_0px403d">
         <dc:Bounds x="5" y="4" width="1022" height="320" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="mainProcessStartEvent">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="104" y="144" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="80" y="180" width="86" height="13" />
+          <dc:Bounds x="80" y="180" width="86" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_1xzf0d3_di" bpmnElement="Lane_1xzf0d3">

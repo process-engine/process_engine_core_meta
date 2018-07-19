@@ -4,21 +4,21 @@ const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
 describe('Exclusive Gateway - ', async () => {
+
   let testFixtureProvider;
+
+  const startEventId = 'StartEvent_1';
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
 
-    // TODO: The import is currently broken (existing processes are duplicated, not overwritten).
-    // Until this is fixed, use the "classic" ioc registration
-    //
-    // const processDefFileList = [
-    //   'exclusive_gateway_base_test.bpmn',
-    //   'exclusive_gateway_nested.bpmn',
-    // ];
+    const processDefFileList = [
+      'exclusive_gateway_base_test',
+      'exclusive_gateway_nested',
+    ];
 
-    // await testFixtureProvider.loadProcessesFromBPMNFiles(processDefFileList);
+    await testFixtureProvider.importProcessFiles(processDefFileList);
   });
 
   after(async () => {
@@ -26,10 +26,9 @@ describe('Exclusive Gateway - ', async () => {
   });
 
   it('should evaluate the current token value correct and direct the token the right path', async () => {
-    // ID of the process
-    const processModelKey = 'exclusive_gateway_base_test';
 
-    // Expected Token Object
+    const processModelId = 'exclusive_gateway_base_test';
+
     const expectedResult = {
       current: 2,
       history: {
@@ -41,17 +40,16 @@ describe('Exclusive Gateway - ', async () => {
       },
     };
 
-    // Execute the process
-    const result = await testFixtureProvider.executeProcess(processModelKey);
+    const result = await testFixtureProvider.executeProcess(processModelId, startEventId);
 
-    result.should.be.eql(expectedResult);
+    should(result).have.property('tokenPayload');
+    should(result.tokenPayload).be.eql(expectedResult);
   });
 
   it('should direct the token to two nested exclusive gateways.', async () => {
-    // ID of the process
-    const processKey = 'exclusive_gateway_nested';
 
-    // Expected Token Result
+    const processModelId = 'exclusive_gateway_nested';
+
     const expectedToken = {
       current: 4,
       history: {
@@ -67,10 +65,10 @@ describe('Exclusive Gateway - ', async () => {
       },
     };
 
-    // Execute the process
-    const result = await testFixtureProvider.executeProcess(processKey);
+    const result = await testFixtureProvider.executeProcess(processModelId, startEventId);
 
-    result.should.be.eql(expectedToken);
+    should(result).have.property('tokenPayload');
+    should(result.tokenPayload).be.eql(expectedToken);
 
   });
 });

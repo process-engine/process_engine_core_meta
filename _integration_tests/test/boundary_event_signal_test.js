@@ -4,17 +4,17 @@ const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
 describe.skip('Signal Boundary Event - ', () => {
+
   let testFixtureProvider;
+
+  const processKey = 'boundary_event_signal_test';
+  const startEventKey = 'StartEvent_1';
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
 
-    // TODO: The import is currently broken (existing processes are duplicated, not overwritten).
-    // Until this is fixed, use the "classic" ioc registration
-    //
-    // const processDefList = ['boundary_event_signal_test.bpmn'];
-    // await testFixtureProvider.loadProcessesFromBPMNFiles(processDefList);
+    await testFixtureProvider.importProcessFiles([processKey]);
   });
 
   after(async () => {
@@ -22,7 +22,6 @@ describe.skip('Signal Boundary Event - ', () => {
   });
 
   it('should interrupt the running service task when a signal arrives', async () => {
-    const processKey = 'boundary_event_signal_test';
 
     const expectedToken = {
       history: {
@@ -39,8 +38,8 @@ describe.skip('Signal Boundary Event - ', () => {
       },
     };
 
-    const result = await testFixtureProvider.executeProcess(processKey);
+    const result = await testFixtureProvider.executeProcess(processKey, startEventKey);
 
-    should(result).be.eql(expectedToken);
+    should(result.tokenPayload).be.eql(expectedToken);
   });
 });

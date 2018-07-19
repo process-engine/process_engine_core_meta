@@ -6,9 +6,13 @@ const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').Te
 
 const BpmnType = require('@process-engine/process_engine_contracts').BpmnType;
 
+// TODO: There is currently no handler for the terminate end event, so these tests can never work.
+// As soon as a handler exists, these tests need to be refactored to the new specs.
 describe.skip('Terminate End Event', () => {
 
   let testFixtureProvider;
+
+  const processModelId = 'terminate_end_event_sample';
 
   let nodeInstanceEntityTypeService;
 
@@ -16,11 +20,7 @@ describe.skip('Terminate End Event', () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
 
-    // TODO: The import is currently broken (existing processes are duplicated, not overwritten).
-    // Until this is fixed, use the "classic" ioc registration
-    //
-    // const processDefFileList = ['terminate_end_event_sample.bpmn'];
-    // await testFixtureProvider.loadProcessesFromBPMNFiles(processDefFileList);
+    await testFixtureProvider.importProcessFiles([processModelId]);
 
     nodeInstanceEntityTypeService = await testFixtureProvider.resolveAsync('NodeInstanceEntityTypeService');
   });
@@ -31,10 +31,8 @@ describe.skip('Terminate End Event', () => {
 
   it('should successfully terminate a process upon reaching a TerminateEndEvent.', async () => {
 
-    const processModelKey = 'terminate_end_event_sample';
-
     // NOTE: We require the process instance ID for later assertions.
-    const processInstanceId = await testFixtureProvider.createProcessInstance(processModelKey);
+    const processInstanceId = await testFixtureProvider.createProcessInstance(processModelId);
     try {
       const result = await testFixtureProvider.executeProcessInstance(processInstanceId);
       should.fail(result, undefined, 'This should have caused an error!');

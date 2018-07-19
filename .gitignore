@@ -2,6 +2,7 @@ node_modules
 
 bootstrapper
 bootstrapper_browser
+bootstrapper_contracts
 bootstrapper_node
 bpmn-studio
 bpmn-studio_client
@@ -81,6 +82,7 @@ services
 services_contracts
 sequelize_connection_manager
 skeleton
+timers.repository.sequelize
 timing
 timing_contracts
 tslint-config

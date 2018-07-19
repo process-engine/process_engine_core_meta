@@ -5,7 +5,9 @@ const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').Te
 const startCallbackType = require('@process-engine/consumer_api_contracts').StartCallbackType;
 
 describe('User Tasks - ', () => {
+
   let testFixtureProvider;
+
   let consumerContext;
   const delayTimeInMs = 500;
 
@@ -14,11 +16,12 @@ describe('User Tasks - ', () => {
     await testFixtureProvider.initializeAndStart();
     consumerContext = testFixtureProvider.consumerContext;
 
-    // TODO: The import is currently broken (existing processes are duplicated, not overwritten).
-    // Until this is fixed, use the "classic" ioc registration
-    //
-    // const processDefinitionFiles = ['user_task_test.bpmn'];
-    // await testFixtureProvider.loadProcessesFromBPMNFiles(processDefinitionFiles);
+    const processDefinitionFiles = [
+      'user_task_test',
+      'user_task_sequential_test',
+      'user_task_parallel_test',
+    ];
+    await testFixtureProvider.importProcessFiles(processDefinitionFiles);
   });
 
   after(async () => {

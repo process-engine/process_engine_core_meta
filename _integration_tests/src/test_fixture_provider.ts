@@ -1,53 +1,37 @@
+import * as fs from 'fs';
 import * as path from 'path';
 
 import {InvocationContainer} from 'addict-ioc';
 import {Logger} from 'loggerhythm';
 
+import {AppBootstrapper} from '@essential-projects/bootstrapper_node';
 import {
   ExecutionContext,
-  IProcessDefEntityTypeService,
-  IProcessEngineService,
-  IProcessRepository,
+  IExecuteProcessService,
+  IExecutionContextFacade,
+  IExecutionContextFacadeFactory,
+  IImportProcessService,
+  IProcessModelService,
+  Model,
 } from '@process-engine/process_engine_contracts';
 
 import {ConsumerContext, IConsumerApiService} from '@process-engine/consumer_api_contracts';
 
-import {IDatastoreService} from '@essential-projects/data_model_contracts';
-import {IIdentity} from '@essential-projects/iam_contracts';
+import {IIdentity, IIdentityService} from '@essential-projects/iam_contracts';
 
 const logger: Logger = Logger.createLogger('test:bootstrapper');
 
 const iocModuleNames: Array<string> = [
   '@essential-projects/bootstrapper',
   '@essential-projects/bootstrapper_node',
-  '@essential-projects/caching',
-  '@essential-projects/core',
-  '@essential-projects/data_model',
-  '@essential-projects/data_model_contracts',
-  '@essential-projects/datasource_adapter_base',
-  '@essential-projects/datasource_adapter_postgres',
-  '@essential-projects/datastore',
-  '@essential-projects/datastore_messagebus',
   '@essential-projects/event_aggregator',
-  '@essential-projects/feature',
-  '@essential-projects/http_extension',
-  '@essential-projects/http_integration_testing',
-  '@essential-projects/iam',
-  '@essential-projects/invocation',
-  '@essential-projects/messagebus',
-  '@essential-projects/messagebus_adapter_faye',
-  '@essential-projects/metadata',
-  '@essential-projects/security_service',
   '@essential-projects/services',
-  '@essential-projects/routing',
-  '@essential-projects/timing',
-  '@essential-projects/validation',
   '@process-engine/consumer_api_core',
   '@process-engine/flow_node_instance.repository.sequelize',
   '@process-engine/iam',
   '@process-engine/process_engine',
   '@process-engine/process_model.repository.sequelize',
-  '@process-engine/process_repository',
+  '@process-engine/timers.repository.sequelize',
   '../../',
 ];
 
@@ -56,86 +40,87 @@ const iocModules: Array<any> = iocModuleNames.map((moduleName: string): any => {
 });
 
 export class TestFixtureProvider {
-  private _processEngineService: IProcessEngineService;
-  private _executionContext: ExecutionContext;
+  private _executeProcessService: IExecuteProcessService;
+  private _executionContextFacade: IExecutionContextFacade;
 
   private container: InvocationContainer;
-  private bootstrapper: any;
+  private bootstrapper: AppBootstrapper;
 
   private _consumerApiService: IConsumerApiService;
   private _consumerContext: ConsumerContext;
 
-  private _datastoreService: IDatastoreService;
-
-  public get context(): ExecutionContext {
-    return this._executionContext;
+  public get executionContextFacade(): IExecutionContextFacade {
+    return this._executionContextFacade;
   }
 
   public get consumerContext(): ConsumerContext {
     return this._consumerContext;
   }
 
-  public get processEngineService(): IProcessEngineService {
-    return this._processEngineService;
+  public get executeProcessService(): IExecuteProcessService {
+    return this._executeProcessService;
   }
 
   public get consumerApiService(): IConsumerApiService {
     return this._consumerApiService;
   }
 
-  public get datastoreService(): IDatastoreService {
-    return this._datastoreService;
-  }
-
   public async initializeAndStart(): Promise<void> {
-    await this.initializeBootstrapper();
+    await this._initializeBootstrapper();
 
     await this.bootstrapper.start();
 
     this._createMockContexts();
 
-    this._processEngineService = await this.resolveAsync<IProcessEngineService>('ProcessEngineService');
+    this._executeProcessService = await this.resolveAsync<IExecuteProcessService>('ExecuteProcessService');
     this._consumerApiService = await this.resolveAsync<IConsumerApiService>('ConsumerApiService');
-    this._datastoreService = await this.resolveAsync<IDatastoreService>('DatastoreService');
   }
 
-  public async executeProcess(processKey: string, initialToken: any = {}): Promise<any> {
-    return this.processEngineService.executeProcess(this.context, undefined, processKey, initialToken);
+  public async tearDown(): Promise<void> {
+    await this.bootstrapper.stop();
   }
-
-  // -- TODO: Refactor TerminateEndEvent tests and remove these methods afterwards
-  public async createProcessInstance(processModelKey: string): Promise<any> {
-    return this.processEngineService.createProcessInstance(this.context as any, undefined, processModelKey);
-  }
-
-  public async executeProcessInstance(processInstanceId: string, initialToken: any = {}): Promise<any> {
-    return this.processEngineService.executeProcessInstance(this.context as any, processInstanceId, undefined, initialToken);
-  }
-  // --
 
   public async resolveAsync<T>(moduleName: string): Promise<any> {
     return this.container.resolveAsync<T>(moduleName);
   }
 
-  public async getProcessbyId(bpmnFilename: string): Promise<any> {
-    const processRepository: any = await this.resolveAsync<IProcessRepository>('ProcessRepository');
-    const processes: any = await processRepository.getProcessesByCategory('internal');
-    const matchingProcess: any = processes.find((process: any) => {
-      return process.name === bpmnFilename;
-    });
+  public async importProcessFiles(processFileNames: Array<string>): Promise<void> {
 
-    return matchingProcess;
+    const importService: IImportProcessService = await this.resolveAsync<IImportProcessService>('ImportProcessService');
+
+    for (const processFileName of processFileNames) {
+      await this._registerProcess(processFileName, importService);
+    }
+  }
+
+  public readProcessModelFile(processFileName: string): string {
+
+    const bpmnFolderPath: string = this.getBpmnDirectoryPath();
+    const fullFilePath: string = path.join(bpmnFolderPath, `${processFileName}.bpmn`);
+
+    const fileContent: string = fs.readFileSync(fullFilePath, 'utf-8');
+
+    return fileContent;
+  }
+
+  public async executeProcess(processKey: string, startEventKey: string, correlationId: string, initialToken: any = {}): Promise<any> {
+
+    const processModel: Model.Types.Process = await this._getProcessById(processKey);
+
+    return this
+      .executeProcessService
+      .startAndAwaitEndEvent(this.executionContextFacade, processModel, startEventKey, correlationId, initialToken);
   }
 
   /**
-   * Generate an absoulte file path, which points to the bpmn process definition files.
+   * Generate an absoulte path, which points to the bpmn directory.
    *
    * Checks if the cwd is "_integration_tests". If not, that directory name is appended.
-   * This is necessary, because Jenkins uses a different cwd than the local machines usually do.
-   *
-   * @param directoryName Name of the directory, which contains the bpmn files
+   * This is necessary, because Jenkins uses a different cwd than the local machines do.
    */
-  private resolvePath(directoryName: string): string {
+  public getBpmnDirectoryPath(): string {
+
+    const bpmnDirectoryName: string = 'bpmn';
     let rootDirPath: string = process.cwd();
     const integrationTestDirName: string = '_integration_tests';
 
@@ -143,49 +128,10 @@ export class TestFixtureProvider {
       rootDirPath = path.join(rootDirPath, integrationTestDirName);
     }
 
-    return path.join(rootDirPath, directoryName);
+    return path.join(rootDirPath, bpmnDirectoryName);
   }
 
-  /**
-   * Load all given processes with their matching process definition files.
-   * @param filelist List of the process definition bpmn files. The filename must end with .bmpn.
-   * @param directoryName If set, load the bpmn process definition file from this directory. If unset, use
-   * bpmn/  as a default directory.
-   */
-  public async loadProcessesFromBPMNFiles(filelist: Array<string>, directoryName: string = 'bpmn'): Promise<void> {
-
-    const processDefEntityTypeService: any = await this.resolveAsync('ProcessDefEntityTypeService');
-    const bpmnDirPath: string = this.resolvePath(directoryName);
-
-    for (const fileName of filelist) {
-      // TODO: The import is currently broken (existing processes are duplicated, not overwritten).
-      // Until this is fixed, use the "classic" ioc registration
-      const filePath: string = path.join(bpmnDirPath, fileName);
-      await this.getProcessFromFile(filePath, processDefEntityTypeService);
-    }
-  }
-
-  /**
-   * Load a process definition with the given name.
-   * @param bpmnFilename Filename of the process definition
-   * @param processDefEntityTypeServiceInstance If set, use the given reference to the process definition entity typeservice. If unset, get a new
-   * instance by asking the ioc container.
-   */
-  public async getProcessFromFile(bpmnFilename: string, processDefEntityTypeServiceInstance: IProcessDefEntityTypeService): Promise<any> {
-    // TODO: Import is currently broken (see above)
-    return processDefEntityTypeServiceInstance.importBpmnFromFile(this.context as any, {
-      file: bpmnFilename,
-    }, {
-      overwriteExisting: true,
-    });
-  }
-
-  public async tearDown(): Promise<void> {
-    await this.bootstrapper.reset();
-    await this.bootstrapper.shutdown();
-  }
-
-  private async initializeBootstrapper(): Promise<void> {
+  private async _initializeBootstrapper(): Promise<void> {
 
     try {
       this.container = new InvocationContainer({
@@ -201,7 +147,7 @@ export class TestFixtureProvider {
       this.container.validateDependencies();
 
       const appPath: string = path.resolve(__dirname);
-      this.bootstrapper = await this.container.resolveAsync('HttpIntegrationTestBootstrapper', [appPath]);
+      this.bootstrapper = await this.container.resolveAsync<AppBootstrapper>('AppBootstrapper', [appPath]);
 
       logger.info('Bootstrapper started.');
     } catch (error) {
@@ -210,17 +156,43 @@ export class TestFixtureProvider {
     }
   }
 
-  private _createMockContexts(): void {
+  private async _createMockContexts(): Promise<void> {
 
     // Note: Since the iam service is mocked, it doesn't matter what kind of token is used here.
     // It only matters that one is present.
     const identity: IIdentity = {
       token: 'randomtoken',
     };
-    this._executionContext = new ExecutionContext(identity);
 
     this._consumerContext = <ConsumerContext> {
       identity: 'randomtoken',
     };
+
+    const executionContext: ExecutionContext = new ExecutionContext(identity);
+
+    const executionContextFacadeFactory: IExecutionContextFacadeFactory =
+      await this.resolveAsync<IExecutionContextFacadeFactory>('ExecutionContextFacadeFactory');
+
+    this._executionContextFacade = executionContextFacadeFactory.create(executionContext);
+  }
+
+  private async _registerProcess(processFileName: string, importService: IImportProcessService): Promise<void> {
+
+    const executionContext: ExecutionContext = this.executionContextFacade.getExecutionContext();
+
+    const bpmnDirectoryPath: string = this.getBpmnDirectoryPath();
+    const processFilePath: string = path.join(bpmnDirectoryPath, `${processFileName}.bpmn`);
+
+    await importService.importBpmnFromFile(executionContext, processFilePath, true);
+  }
+
+  private async _getProcessById(processId: string): Promise<Model.Types.Process> {
+
+    const processModelService: IProcessModelService =
+      await this.resolveAsync<IProcessModelService>('ProcessModelService');
+
+    const processModel: Model.Types.Process = await processModelService.getProcessModelById(this.executionContextFacade, processId);
+
+    return processModel;
   }
 }
