@@ -11,10 +11,9 @@
         <bpmn:flowNodeRef>BTTask1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>BTTask2</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>BTTask3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_15pynu0</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>XORJoin1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>EndEvent_0n9pcff</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_10whgbc</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_15pynu0</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:startEvent id="StartEvent_1" name="Start">
@@ -64,21 +63,7 @@
       <bpmn:outgoing>SequenceFlow_0sphvwx</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0sphvwx" sourceRef="BTTask3" targetRef="XORJoin1" />
-    <bpmn:exclusiveGateway id="XORJoin1">
-      <bpmn:incoming>SequenceFlow_0sphvwx</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_0734txl</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0vbem7h</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_0vbem7h" sourceRef="XORJoin1" targetRef="Task_10whgbc" />
-    <bpmn:endEvent id="EndEvent_0n9pcff" name="End">
-      <bpmn:incoming>SequenceFlow_03admz4</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_03admz4" sourceRef="Task_10whgbc" targetRef="EndEvent_0n9pcff" />
-    <bpmn:scriptTask id="Task_10whgbc" name="Objectify token">
-      <bpmn:incoming>SequenceFlow_0vbem7h</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_03admz4</bpmn:outgoing>
-      <bpmn:script>return JSON.parse(JSON.stringify(token));</bpmn:script>
-    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0vbem7h" sourceRef="XORJoin1" targetRef="EndEvent_0n9pcff" />
     <bpmn:sequenceFlow id="SequenceFlow_0b9eokn" sourceRef="StartEvent_1" targetRef="XORSplit1" />
     <bpmn:sequenceFlow id="SequenceFlow_0nnddts" name="Throw exception" sourceRef="XORSplit1" targetRef="Task_15pynu0">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">token.current.test_type === 'throw_exception'</bpmn:conditionExpression>
@@ -95,14 +80,22 @@
       <bpmn:outgoing>SequenceFlow_0734txl</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0734txl" sourceRef="Task_15pynu0" targetRef="XORJoin1" />
+    <bpmn:exclusiveGateway id="XORJoin1">
+      <bpmn:incoming>SequenceFlow_0sphvwx</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0734txl</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0vbem7h</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="EndEvent_0n9pcff" name="End">
+      <bpmn:incoming>SequenceFlow_0vbem7h</bpmn:incoming>
+    </bpmn:endEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1xizg2r">
       <bpmndi:BPMNShape id="Participant_1wjsi6z_di" bpmnElement="Participant_1wjsi6z">
-        <dc:Bounds x="187" y="70" width="1334" height="362" />
+        <dc:Bounds x="187" y="71" width="933" height="361" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_02qdley_di" bpmnElement="Lane_02qdley">
-        <dc:Bounds x="217" y="70" width="1304" height="362" />
+        <dc:Bounds x="217" y="71" width="903" height="361" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="StartEvent_1mhuf7f_di" bpmnElement="StartEvent_1">
         <dc:Bounds x="278" y="237" width="36" height="36" />
@@ -148,41 +141,31 @@
         <dc:Bounds x="835" y="138" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_0nzjhk0_di" bpmnElement="XORJoin1" isMarkerVisible="true">
-        <dc:Bounds x="1035" y="230" width="50" height="50" />
+        <dc:Bounds x="965" y="230" width="50" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1025" y="248" width="0" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0sphvwx_di" bpmnElement="SequenceFlow_0sphvwx">
         <di:waypoint x="935" y="178" />
-        <di:waypoint x="1060" y="178" />
-        <di:waypoint x="1060" y="230" />
+        <di:waypoint x="990" y="178" />
+        <di:waypoint x="990" y="230" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="997.5" y="156.5" width="0" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0vbem7h_di" bpmnElement="SequenceFlow_0vbem7h">
-        <di:waypoint x="1085" y="255" />
-        <di:waypoint x="1185" y="255" />
+        <di:waypoint x="1015" y="255" />
+        <di:waypoint x="1064" y="255" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1135" y="233.5" width="0" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="EndEvent_0n9pcff_di" bpmnElement="EndEvent_0n9pcff">
-        <dc:Bounds x="1385" y="237" width="36" height="36" />
+        <dc:Bounds x="1064" y="237" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1393" y="276" width="20" height="12" />
+          <dc:Bounds x="1072" y="276" width="20" height="14" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_03admz4_di" bpmnElement="SequenceFlow_03admz4">
-        <di:waypoint x="1285" y="255" />
-        <di:waypoint x="1385" y="255" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1335" y="233.5" width="0" height="13" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ScriptTask_031gki5_di" bpmnElement="Task_10whgbc">
-        <dc:Bounds x="1185" y="215" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0b9eokn_di" bpmnElement="SequenceFlow_0b9eokn">
         <di:waypoint x="314" y="255" />
@@ -204,8 +187,8 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0734txl_di" bpmnElement="SequenceFlow_0734txl">
         <di:waypoint x="760" y="330" />
-        <di:waypoint x="1060" y="330" />
-        <di:waypoint x="1060" y="280" />
+        <di:waypoint x="990" y="330" />
+        <di:waypoint x="990" y="280" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="910" y="308" width="0" height="13" />
         </bpmndi:BPMNLabel>
