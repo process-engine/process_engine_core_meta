@@ -4,12 +4,11 @@ const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 const startCallbackType = require('@process-engine/consumer_api_contracts').StartCallbackType;
 
-describe('User Tasks - ', () => {
+describe.only('User Tasks - ', () => {
 
   let testFixtureProvider;
 
   let consumerContext;
-  const delayTimeInMs = 1000;
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
@@ -28,7 +27,7 @@ describe('User Tasks - ', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should execute the user task.', async () => {
+  it('should finish the user task.', async () => {
 
     const processModelKey = 'user_task_test';
 
@@ -46,20 +45,10 @@ describe('User Tasks - ', () => {
       },
     };
 
-    // Allow for some time for the user task to be created and set to a waiting state.
-    await wait(delayTimeInMs);
-
     await finishUserTaskInCorrelation(correlationId, processModelKey, userTaskKey, userTaskInput);
-
-    // Give the back end some time to finish the process.
-    // await wait(delayTimeInMs);
-
-    // TODO: to be meaningful, these assertions are blocked by
-    //       https://github.com/process-engine/consumer_api_contracts/issues/26
-    // await assertUserTaskIsFinished(correlationId);
   });
 
-  it('should execute two sequential user tasks', async () => {
+  it('should finish two sequential user tasks', async () => {
     const processModelKey = 'user_task_sequential_test';
 
     const initialToken = {
@@ -67,9 +56,6 @@ describe('User Tasks - ', () => {
     };
 
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
-
-    // Allow for some time for the user task to be created and set to a waiting state.
-    await wait(delayTimeInMs);
 
     const userTaskKeys = [
       'User_Task_1',
@@ -85,13 +71,9 @@ describe('User Tasks - ', () => {
     for (const currentUserTaskKey of userTaskKeys) {
       await finishUserTaskInCorrelation(correlationId, processModelKey, currentUserTaskKey, userTaskInput);
     }
-
-    // TODO: to be meaningful, these assertions are blocked by
-    //       https://github.com/process-engine/consumer_api_contracts/issues/26
-    // await assertUserTaskIsFinished(correlationId);
   });
 
-  it('should execute two parallel running user tasks', async () => {
+  it('should finish two parallel running user tasks', async () => {
     const processModelKey = 'user_task_parallel_test';
 
     const initialToken = {
@@ -99,9 +81,6 @@ describe('User Tasks - ', () => {
     };
 
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
-
-    // Allow for some time for the user task to be created and set to a waiting state.
-    await wait(delayTimeInMs);
 
     const currentRunningUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
 
@@ -117,20 +96,16 @@ describe('User Tasks - ', () => {
     };
 
     for (const currentWaitingUserTask of waitingUsersTasks) {
+
       const currentWaitingUserTaskKey = currentWaitingUserTask.key;
+
       await testFixtureProvider
         .consumerApiService
         .finishUserTask(consumerContext, processModelKey, correlationId, currentWaitingUserTaskKey, userTaskInput);
     }
-
-    // Give the back end some time to some time to finish the process.
-    // await wait(delayTimeInMs);
-    // TODO: to be meaningful, these assertions are blocked by
-    //       https://github.com/process-engine/consumer_api_contracts/issues/26
-    // await assertUserTaskIsFinished(correlationId);
   });
 
-  it('should fail to execute a user task which is not in a waiting state', async () => {
+  it('should fail to finish a user task which is not in a waiting state', async () => {
     const processModelKey = 'user_task_sequential_test';
 
     const initialToken = {
@@ -139,8 +114,6 @@ describe('User Tasks - ', () => {
 
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
 
-    // Allow for some time for the user task to be created and set to a waiting state.
-    await wait(delayTimeInMs);
     const userTaskInput = {
       formFields: {
         Sample_Form_Field: 'Hello',
@@ -171,7 +144,7 @@ describe('User Tasks - ', () => {
     }
   });
 
-  it('should refuse to execute a user task twice', async () => {
+  it('should refuse to finish a user task twice', async () => {
     const processModelKey = 'user_task_sequential_test';
 
     const initialToken = {
@@ -179,9 +152,6 @@ describe('User Tasks - ', () => {
     };
 
     const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
-
-    // Allow for some time for the user task to be created and set to a waiting state.
-    await wait(delayTimeInMs);
 
     const userTaskInput = {
       formFields: {
@@ -226,7 +196,48 @@ describe('User Tasks - ', () => {
       .consumerApiService
       .startProcessInstance(consumerContext, processModelKey, 'StartEvent_1', initialToken, callbackType);
 
+    await waitForProcessInstanceToReachUserTask(result.correlationId);
+
     return result.correlationId;
+  }
+
+  /**
+   * Periodically checks if a given correlation exists. After a max number of retries has been exceeded, an error is thrown.
+   *
+   * Background:
+   * Since we must always resolve immediately after starting a process instance, it is possible that a process instance/correlation
+   * does not yet exist, when we try to query it for user tasks. This can especially be an issue on slower machines.
+   * To compensate this, we will periodically query the database for existing flow node instances for the given correlation.
+   * When the first flow node instance other than the start event is found
+   * (which is bound to be a user task, since the processes always start with those), we continue the tests.
+   *
+   * No assertions are made here, because that is the job of the tests.
+   *
+   * If the maximum number of retries has been exceeded, it is assumed that the process instance failed to start and throw an error.
+   *
+   * @param {string} correlationId The id of the correlation to wait for.
+   */
+  async function waitForProcessInstanceToReachUserTask(correlationId) {
+
+    const maxNumberOfRetries = 10;
+    const delayBetweenRetriesInMs = 500;
+
+    const flowNodeInstanceService = await testFixtureProvider.resolveAsync('FlowNodeInstanceService');
+
+    for (let i = 0; i < maxNumberOfRetries; i++) {
+
+      await wait(delayBetweenRetriesInMs);
+
+      const flowNodeInstances = await flowNodeInstanceService.queryByCorrelation(testFixtureProvider.executionContextFacade, correlationId);
+
+      // The first flow node instance will always be the start event
+      // so we have to wait until we have at least two.
+      if (flowNodeInstances && flowNodeInstances.length > 1) {
+        return;
+      }
+    }
+
+    throw new Error(`No process instance within correlation '${correlationId}' found! The process instance like failed to start!`);
   }
 
   /**
@@ -239,19 +250,6 @@ describe('User Tasks - ', () => {
       .getUserTasksForCorrelation(consumerContext, correlationId);
 
     return userTasks;
-  }
-
-  /**
-   * Delays the test execution by the given amount of milliseconds.
-   *
-   * @param {number} timeInMilliseconds Delay time in milliseconds
-   */
-  async function wait(timeInMilliseconds) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve();
-      }, timeInMilliseconds);
-    });
   }
 
   /**
@@ -277,8 +275,18 @@ describe('User Tasks - ', () => {
       .consumerApiService
       .finishUserTask(consumerContext, processModelKey, correlationId, waitingUserTask.key, userTaskInput);
 
+    const delayTimeInMs = 1000;
+
     await wait(delayTimeInMs);
 
     return userTaskResult;
+  }
+
+  async function wait(timeInMs) {
+    await new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, timeInMs);
+    });
   }
 });
