@@ -203,10 +203,11 @@ describe('User Tasks - ', () => {
    * Since we must always resolve immediately after starting a process instance, it is possible that a process instance/correlation
    * does not yet exist, when we try to query it for user tasks. This can especially be an issue on slower machines.
    * To compensate this, we will periodically query the database for existing flow node instances for the given correlation.
-   * When the first flow node instance other than the start event is found
-   * (which is bound to be a user task, since the processes always start with those), we continue the tests.
+   * When the first suspended flow node instance is found (which is bound to be a user task,
+   * since no other flow node instance can be suspended at the moment), we continue the tests.
    *
-   * No assertions are made here, because that is the job of the tests.
+   * No assertions are made here, because that is the job of the tests themselves.
+   * This function just tells the tests that they are good to go.
    *
    * If the maximum number of retries has been exceeded, it is assumed that the process instance failed to start and throw an error.
    *
