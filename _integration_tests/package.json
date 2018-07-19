@@ -20,7 +20,6 @@
     "@essential-projects/bootstrapper": "^3.0.0",
     "@essential-projects/bootstrapper_node": "^3.0.0",
     "@essential-projects/event_aggregator": "^3.0.0",
-    "@essential-projects/http_extension": "^4.0.0",
     "@essential-projects/services": "^2.0.2",
     "@process-engine/consumer_api_contracts": "^0.12.1",
     "@process-engine/consumer_api_core": "^0.16.0",
