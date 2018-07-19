@@ -9,7 +9,7 @@ describe('User Tasks - ', () => {
   let testFixtureProvider;
 
   let consumerContext;
-  const delayTimeInMs = 500;
+  const delayTimeInMs = 1000;
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
