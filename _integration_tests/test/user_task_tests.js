@@ -9,7 +9,7 @@ describe('User Tasks - ', () => {
   let testFixtureProvider;
 
   let consumerContext;
-  const delayTimeInMs = 500;
+  const delayTimeInMs = 1000;
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
@@ -52,7 +52,7 @@ describe('User Tasks - ', () => {
     await finishUserTaskInCorrelation(correlationId, processModelKey, userTaskKey, userTaskInput);
 
     // Give the back end some time to finish the process.
-    await wait(delayTimeInMs);
+    // await wait(delayTimeInMs);
 
     // TODO: to be meaningful, these assertions are blocked by
     //       https://github.com/process-engine/consumer_api_contracts/issues/26
@@ -124,7 +124,7 @@ describe('User Tasks - ', () => {
     }
 
     // Give the back end some time to some time to finish the process.
-    await wait(delayTimeInMs);
+    // await wait(delayTimeInMs);
     // TODO: to be meaningful, these assertions are blocked by
     //       https://github.com/process-engine/consumer_api_contracts/issues/26
     // await assertUserTaskIsFinished(correlationId);
