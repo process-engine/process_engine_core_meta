@@ -66,7 +66,7 @@ export class TestFixtureProvider {
   }
 
   public async initializeAndStart(): Promise<void> {
-    await this.initializeBootstrapper();
+    await this._initializeBootstrapper();
 
     await this.bootstrapper.start();
 
@@ -89,7 +89,7 @@ export class TestFixtureProvider {
     const importService: IImportProcessService = await this.resolveAsync<IImportProcessService>('ImportProcessService');
 
     for (const processFileName of processFileNames) {
-      await this.registerProcess(processFileName, importService);
+      await this._registerProcess(processFileName, importService);
     }
   }
 
@@ -112,7 +112,26 @@ export class TestFixtureProvider {
       .startAndAwaitEndEvent(this.executionContextFacade, processModel, startEventKey, correlationId, initialToken);
   }
 
-  private async initializeBootstrapper(): Promise<void> {
+  /**
+   * Generate an absoulte path, which points to the bpmn directory.
+   *
+   * Checks if the cwd is "_integration_tests". If not, that directory name is appended.
+   * This is necessary, because Jenkins uses a different cwd than the local machines do.
+   */
+  public getBpmnDirectoryPath(): string {
+
+    const bpmnDirectoryName: string = 'bpmn';
+    let rootDirPath: string = process.cwd();
+    const integrationTestDirName: string = '_integration_tests';
+
+    if (!rootDirPath.endsWith(integrationTestDirName)) {
+      rootDirPath = path.join(rootDirPath, integrationTestDirName);
+    }
+
+    return path.join(rootDirPath, bpmnDirectoryName);
+  }
+
+  private async _initializeBootstrapper(): Promise<void> {
 
     try {
       this.container = new InvocationContainer({
@@ -157,7 +176,7 @@ export class TestFixtureProvider {
     this._executionContextFacade = executionContextFacadeFactory.create(executionContext);
   }
 
-  private async registerProcess(processFileName: string, importService: IImportProcessService): Promise<void> {
+  private async _registerProcess(processFileName: string, importService: IImportProcessService): Promise<void> {
 
     const executionContext: ExecutionContext = this.executionContextFacade.getExecutionContext();
 
@@ -165,25 +184,6 @@ export class TestFixtureProvider {
     const processFilePath: string = path.join(bpmnDirectoryPath, `${processFileName}.bpmn`);
 
     await importService.importBpmnFromFile(executionContext, processFilePath, true);
-  }
-
-  /**
-   * Generate an absoulte path, which points to the bpmn directory.
-   *
-   * Checks if the cwd is "_integration_tests". If not, that directory name is appended.
-   * This is necessary, because Jenkins uses a different cwd than the local machines do.
-   */
-  public getBpmnDirectoryPath(): string {
-
-    const bpmnDirectoryName: string = 'bpmn';
-    let rootDirPath: string = process.cwd();
-    const integrationTestDirName: string = '_integration_tests';
-
-    if (!rootDirPath.endsWith(integrationTestDirName)) {
-      rootDirPath = path.join(rootDirPath, integrationTestDirName);
-    }
-
-    return path.join(rootDirPath, bpmnDirectoryName);
   }
 
   private async _getProcessById(processId: string): Promise<Model.Types.Process> {
