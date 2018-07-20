@@ -1,9 +1,8 @@
 'use strict';
 const should = require('should');
-const logger = require('loggerhythm');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe.skip('Intermediate Events - ', () => {
+describe('Intermediate Events - ', () => {
 
   let testFixtureProvider;
 
@@ -29,46 +28,24 @@ describe.skip('Intermediate Events - ', () => {
 
     const processModelId = 'intermediate_event_message_test';
 
-    const expectedResult = {
-      history: {
-        StartEvent_1: {},
-        Task1: 1,
-        ParallelSplit1: 1,
-        TimerEvent1: 1,
-        CatchMessage1: 1,
-        ThrowMessage1: 1,
-        ParallelJoin1: 1,
-        Task2: 2,
-      },
-    };
+    const expectedResult = /message received/i;
 
     const result = await testFixtureProvider.executeProcess(processModelId, startEventId);
 
     should(result).have.property('tokenPayload');
-    should(result.tokenPayload).be.eql(expectedResult);
+    should(result.tokenPayload).be.match(expectedResult);
   });
 
-  it('should throw and receive a signal', async () => {
+  it.skip('should throw and receive a signal', async () => {
 
     const processModelId = 'intermediate_event_signal_test';
 
-    const expectedResult = {
-      history: {
-        StartEvent_1: {},
-        Task1: 1,
-        ParallelSplit1: 1,
-        TimerEvent1: 1,
-        CatchSignal1: 1,
-        ThrowSignal1: 1,
-        ParallelJoin1: 1,
-        Task2: 2,
-      },
-    };
+    const expectedResult = /signal received/i;
 
     const result = await testFixtureProvider.executeProcess(processModelId, startEventId);
 
     should(result).have.property('tokenPayload');
-    should(result.tokenPayload).be.eql(expectedResult);
+    should(result.tokenPayload).be.match(expectedResult);
   });
 
 });
