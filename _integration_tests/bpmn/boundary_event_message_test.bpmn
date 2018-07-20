@@ -17,7 +17,6 @@
         <bpmn:flowNodeRef>EndEvent_1wtiq9c</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task4</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_127z26s</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>EndEvent_031z3bb</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:startEvent id="StartEvent_1" name="Start">
@@ -72,6 +71,7 @@
     <bpmn:parallelGateway id="ParallelJoin1">
       <bpmn:incoming>SequenceFlow_1js69nw</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_0qvusbk</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_05df3nr</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_147a4jc</bpmn:outgoing>
     </bpmn:parallelGateway>
     <bpmn:endEvent id="EndEvent_1wtiq9c" name="End">
@@ -79,8 +79,7 @@
     </bpmn:endEvent>
     <bpmn:scriptTask id="Task4" name="Return result">
       <bpmn:incoming>SequenceFlow_16bknz3</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_02z7int</bpmn:outgoing>
-      <bpmn:outgoing>SequenceFlow_0hjfrha</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_05df3nr</bpmn:outgoing>
       <bpmn:script>return 'message received';</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:scriptTask id="Task_127z26s" name="Throw error, no message received!">
@@ -89,12 +88,7 @@
       <bpmn:script>throw new Error('No message received!');</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:sequenceFlow id="SequenceFlow_0qvusbk" sourceRef="Task_127z26s" targetRef="ParallelJoin1" />
-    <bpmn:sequenceFlow id="SequenceFlow_02z7int" sourceRef="Task4" targetRef="EndEvent_031z3bb" />
-    <bpmn:sequenceFlow id="SequenceFlow_0hjfrha" sourceRef="Task4" targetRef="EndEvent_031z3bb" />
-    <bpmn:endEvent id="EndEvent_031z3bb">
-      <bpmn:incoming>SequenceFlow_0hjfrha</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_02z7int</bpmn:incoming>
-    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_05df3nr" sourceRef="Task4" targetRef="ParallelJoin1" />
   </bpmn:process>
   <bpmn:message id="Message_1415hon" name="1234" />
   <bpmn:error id="Error_0agxpau" name="no_message_received" errorCode="666" />
@@ -226,16 +220,10 @@
         <di:waypoint x="946" y="450" />
         <di:waypoint x="946" y="373" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_02z7int_di" bpmnElement="SequenceFlow_02z7int">
+      <bpmndi:BPMNEdge id="SequenceFlow_05df3nr_di" bpmnElement="SequenceFlow_05df3nr">
         <di:waypoint x="784" y="562" />
-        <di:waypoint x="928" y="562" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="EndEvent_031z3bb_di" bpmnElement="EndEvent_031z3bb">
-        <dc:Bounds x="928" y="544" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_0hjfrha_di" bpmnElement="SequenceFlow_0hjfrha">
-        <di:waypoint x="784" y="562" />
-        <di:waypoint x="928" y="562" />
+        <di:waypoint x="946" y="562" />
+        <di:waypoint x="946" y="373" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
