@@ -23,7 +23,7 @@ describe('Parallel Gateway execution', () => {
 
   it('should successfully run two parallel tasks and contain the result of each task in the token history.', async () => {
 
-    const processModelId = 'parallel_gateway';
+    const processModelId = 'parallel_gateway_test';
     const result = await testFixtureProvider.executeProcess(processModelId, startEventId);
 
     const expectedHistoryEntryForTask1 = 'st_longTask';
