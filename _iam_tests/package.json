@@ -15,8 +15,8 @@
     "test-debug": "mocha --inspect-brk test/*.js --exit"
   },
   "dependencies": {
-    "@essential-projects/services": "^2.0.0",
-    "@process-engine/iam": "^0.1.2",
+    "@essential-projects/services": "^2.0.2",
+    "@process-engine/iam": "feature~update_ioc_registrations",
     "loggerhythm": "^3.0.0",
     "mocha": "^5.0.0",
     "mocha-jenkins-reporter": "^0.3.12",
