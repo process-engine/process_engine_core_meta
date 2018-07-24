@@ -12,7 +12,7 @@ const registerInContainer = (container) => {
   container.register('ServiceTaskTestService', ServiceTaskTestService);
 
   // This removes the necessity for having a running IdentityServer during testing.
-  container.register('IamServiceNew', IamServiceMock);
+  container.register('IamService', IamServiceMock);
 };
 
 module.exports.registerInContainer = registerInContainer;
