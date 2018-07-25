@@ -41,6 +41,7 @@ CREATE TABLE public."FlowNodeInstances" (
     id uuid NOT NULL,
     "flowNodeInstanceId" character varying(255) NOT NULL,
     "flowNodeId" character varying(255) NOT NULL,
+    "state" integer NOT NULL DEFAULT 0,
     "isSuspended" boolean DEFAULT false NOT NULL,
     "createdAt" timestamp with time zone NOT NULL,
     "updatedAt" timestamp with time zone NOT NULL
