@@ -7,14 +7,14 @@ describe.skip('Signal Boundary Event - ', () => {
 
   let testFixtureProvider;
 
-  const processKey = 'boundary_event_signal_test';
-  const startEventKey = 'StartEvent_1';
+  const processModelId = 'boundary_event_signal_test';
+  const startEventId = 'StartEvent_1';
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
 
-    await testFixtureProvider.importProcessFiles([processKey]);
+    await testFixtureProvider.importProcessFiles([processModelId]);
   });
 
   after(async () => {
@@ -38,7 +38,7 @@ describe.skip('Signal Boundary Event - ', () => {
       },
     };
 
-    const result = await testFixtureProvider.executeProcess(processKey, startEventKey);
+    const result = await testFixtureProvider.executeProcess(processModelId, startEventId);
 
     should(result.tokenPayload).be.eql(expectedToken);
   });

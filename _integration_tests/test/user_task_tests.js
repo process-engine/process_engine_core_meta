@@ -29,15 +29,15 @@ describe('User Tasks - ', () => {
 
   it('should finish the user task.', async () => {
 
-    const processModelKey = 'user_task_test';
+    const processModelId = 'user_task_test';
 
     const initialToken = {
       inputValues: {},
     };
 
-    const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
+    const correlationId = await startProcessAndReturnCorrelationId(processModelId, initialToken);
 
-    const userTaskKey = 'user_task_1';
+    const userTaskId = 'user_task_1';
 
     const userTaskInput = {
       formFields: {
@@ -45,17 +45,17 @@ describe('User Tasks - ', () => {
       },
     };
 
-    await finishUserTaskInCorrelation(correlationId, processModelKey, userTaskKey, userTaskInput);
+    await finishUserTaskInCorrelation(correlationId, processModelId, userTaskId, userTaskInput);
   });
 
   it('should finish two sequential user tasks', async () => {
-    const processModelKey = 'user_task_sequential_test';
+    const processModelId = 'user_task_sequential_test';
 
     const initialToken = {
       inputValues: {},
     };
 
-    const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
+    const correlationId = await startProcessAndReturnCorrelationId(processModelId, initialToken);
 
     const userTaskInput = {
       formFields: {
@@ -63,19 +63,19 @@ describe('User Tasks - ', () => {
       },
     };
 
-    await finishUserTaskInCorrelation(correlationId, processModelKey, 'User_Task_1', userTaskInput);
+    await finishUserTaskInCorrelation(correlationId, processModelId, 'User_Task_1', userTaskInput);
     await waitForProcessInstanceToReachUserTask(correlationId);
-    await finishUserTaskInCorrelation(correlationId, processModelKey, 'User_Task_2', userTaskInput);
+    await finishUserTaskInCorrelation(correlationId, processModelId, 'User_Task_2', userTaskInput);
   });
 
   it('should finish two parallel running user tasks', async () => {
-    const processModelKey = 'user_task_parallel_test';
+    const processModelId = 'user_task_parallel_test';
 
     const initialToken = {
       inputValues: {},
     };
 
-    const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
+    const correlationId = await startProcessAndReturnCorrelationId(processModelId, initialToken);
 
     const currentRunningUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
 
@@ -92,22 +92,22 @@ describe('User Tasks - ', () => {
 
     for (const currentWaitingUserTask of waitingUsersTasks) {
 
-      const currentWaitingUserTaskKey = currentWaitingUserTask.key;
+      const currentWaitingUserTaskId = currentWaitingUserTask.id;
 
       await testFixtureProvider
         .consumerApiService
-        .finishUserTask(consumerContext, processModelKey, correlationId, currentWaitingUserTaskKey, userTaskInput);
+        .finishUserTask(consumerContext, processModelId, correlationId, currentWaitingUserTaskId, userTaskInput);
     }
   });
 
   it('should fail to finish a user task which is not in a waiting state', async () => {
-    const processModelKey = 'user_task_sequential_test';
+    const processModelId = 'user_task_sequential_test';
 
     const initialToken = {
       inputValues: {},
     };
 
-    const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
+    const correlationId = await startProcessAndReturnCorrelationId(processModelId, initialToken);
 
     const userTaskInput = {
       formFields: {
@@ -129,7 +129,7 @@ describe('User Tasks - ', () => {
       // Try to finish the user task which is currently not waiting
       await testFixtureProvider
         .consumerApiService
-        .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_2', userTaskInput);
+        .finishUserTask(consumerContext, processModelId, correlationId, 'User_Task_2', userTaskInput);
     } catch (error) {
       should(error).have.properties(...errorObjectProperties);
 
@@ -140,13 +140,13 @@ describe('User Tasks - ', () => {
   });
 
   it('should refuse to finish a user task twice', async () => {
-    const processModelKey = 'user_task_sequential_test';
+    const processModelId = 'user_task_sequential_test';
 
     const initialToken = {
       inputValues: {},
     };
 
-    const correlationId = await startProcessAndReturnCorrelationId(processModelKey, initialToken);
+    const correlationId = await startProcessAndReturnCorrelationId(processModelId, initialToken);
 
     const userTaskInput = {
       formFields: {
@@ -166,12 +166,12 @@ describe('User Tasks - ', () => {
 
     await testFixtureProvider
       .consumerApiService
-      .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_1', userTaskInput);
+      .finishUserTask(consumerContext, processModelId, correlationId, 'User_Task_1', userTaskInput);
 
     try {
       await testFixtureProvider
         .consumerApiService
-        .finishUserTask(consumerContext, processModelKey, correlationId, 'User_Task_1', userTaskInput);
+        .finishUserTask(consumerContext, processModelId, correlationId, 'User_Task_1', userTaskInput);
     } catch (error) {
       should(error).have.properties(...errorObjectProperties);
 
@@ -182,14 +182,14 @@ describe('User Tasks - ', () => {
   });
 
   /**
-   * Start a process with the given process model key and return the resulting correlation id.
+   * Start a process with the given process model id and return the resulting correlation id.
    * @param {TokenObject} initialToken Initial token value.
    */
-  async function startProcessAndReturnCorrelationId(processModelKey, initialToken) {
+  async function startProcessAndReturnCorrelationId(processModelId, initialToken) {
     const callbackType = startCallbackType.CallbackOnProcessInstanceCreated;
     const result = await testFixtureProvider
       .consumerApiService
-      .startProcessInstance(consumerContext, processModelKey, 'StartEvent_1', initialToken, callbackType);
+      .startProcessInstance(consumerContext, processModelId, 'StartEvent_1', initialToken, callbackType);
 
     await waitForProcessInstanceToReachUserTask(result.correlationId);
 
@@ -250,12 +250,12 @@ describe('User Tasks - ', () => {
    * Finishes a user task and returns the result of it.
    *
    * @param {string} correlationId Correlation id of the process instance with the user task
-   * @param {string} processModelKey Model key of the process that contains the user task
-   * @param {string} userTaskKey Identifier of the user task that should be finished
+   * @param {string} processModelId Model id of the process that contains the user task
+   * @param {string} userTaskId Identifier of the user task that should be finished
    * @param {object} userTaskInput Form input data for the user task
    * @returns Result of the finished user task
    */
-  async function finishUserTaskInCorrelation(correlationId, processModelKey, userTaskKey, userTaskInput) {
+  async function finishUserTaskInCorrelation(correlationId, processModelId, userTaskId, userTaskInput) {
     const waitingUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
 
     should(waitingUserTasks).have.property('userTasks');
@@ -263,11 +263,11 @@ describe('User Tasks - ', () => {
 
     const waitingUserTask = waitingUserTasks.userTasks[0];
 
-    should(waitingUserTask.key).be.equal(userTaskKey);
+    should(waitingUserTask.id).be.equal(userTaskId);
 
     const userTaskResult = await testFixtureProvider
       .consumerApiService
-      .finishUserTask(consumerContext, processModelKey, correlationId, waitingUserTask.key, userTaskInput);
+      .finishUserTask(consumerContext, processModelId, correlationId, waitingUserTask.id, userTaskInput);
 
     return userTaskResult;
   }
