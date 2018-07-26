@@ -7,14 +7,14 @@ describe('Message Boundary Event - ', () => {
 
   let testFixtureProvider;
 
-  const processKey = 'boundary_event_message_test';
-  const startEventKey = 'StartEvent_1';
+  const processModelId = 'boundary_event_message_test';
+  const startEventId = 'StartEvent_1';
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
 
-    await testFixtureProvider.importProcessFiles([processKey]);
+    await testFixtureProvider.importProcessFiles([processModelId]);
   });
 
   after(async () => {
@@ -25,7 +25,7 @@ describe('Message Boundary Event - ', () => {
 
     const expectedResult = /message received/i;
 
-    const result = await testFixtureProvider.executeProcess(processKey, startEventKey);
+    const result = await testFixtureProvider.executeProcess(processModelId, startEventId);
 
     should(result.tokenPayload).be.match(expectedResult);
   });
