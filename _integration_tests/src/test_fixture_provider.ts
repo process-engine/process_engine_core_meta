@@ -10,7 +10,6 @@ import {
   IExecuteProcessService,
   IExecutionContextFacade,
   IExecutionContextFacadeFactory,
-  IImportProcessService,
   IProcessModelService,
   Model,
 } from '@process-engine/process_engine_contracts';
@@ -46,6 +45,8 @@ export class TestFixtureProvider {
   private container: InvocationContainer;
   private bootstrapper: AppBootstrapper;
 
+  private _processModelService: IProcessModelService;
+
   private _consumerApiService: IConsumerApiService;
   private _consumerContext: ConsumerContext;
 
@@ -65,6 +66,10 @@ export class TestFixtureProvider {
     return this._consumerApiService;
   }
 
+  public get processModelService(): IProcessModelService {
+    return this._processModelService;
+  }
+
   public async initializeAndStart(): Promise<void> {
     await this._initializeBootstrapper();
 
@@ -74,6 +79,7 @@ export class TestFixtureProvider {
 
     this._executeProcessService = await this.resolveAsync<IExecuteProcessService>('ExecuteProcessService');
     this._consumerApiService = await this.resolveAsync<IConsumerApiService>('ConsumerApiService');
+    this._processModelService = await this.resolveAsync<IProcessModelService>('ProcessModelService');
   }
 
   public async tearDown(): Promise<void> {
@@ -86,10 +92,8 @@ export class TestFixtureProvider {
 
   public async importProcessFiles(processFileNames: Array<string>): Promise<void> {
 
-    const importService: IImportProcessService = await this.resolveAsync<IImportProcessService>('ImportProcessService');
-
     for (const processFileName of processFileNames) {
-      await this._registerProcess(processFileName, importService);
+      await this._registerProcess(processFileName);
     }
   }
 
@@ -176,22 +180,24 @@ export class TestFixtureProvider {
     this._executionContextFacade = executionContextFacadeFactory.create(executionContext);
   }
 
-  private async _registerProcess(processFileName: string, importService: IImportProcessService): Promise<void> {
+  private async _registerProcess(processFileName: string): Promise<void> {
+    const xml: string = this._readProcessModelFromFile(processFileName);
+    await this.processModelService.persistProcessDefinitions(this.executionContextFacade, processFileName, xml, true);
+  }
 
-    const executionContext: ExecutionContext = this.executionContextFacade.getExecutionContext();
+  private _readProcessModelFromFile(fileName: string): string {
 
-    const bpmnDirectoryPath: string = this.getBpmnDirectoryPath();
-    const processFilePath: string = path.join(bpmnDirectoryPath, `${processFileName}.bpmn`);
+    const bpmnFolderLocation: string = this.getBpmnDirectoryPath();
+    const processModelPath: string = path.join(bpmnFolderLocation, `${fileName}.bpmn`);
 
-    await importService.importBpmnFromFile(executionContext, processFilePath, true);
+    const processModelAsXml: string = fs.readFileSync(processModelPath, 'utf-8');
+
+    return processModelAsXml;
   }
 
   private async _getProcessById(processId: string): Promise<Model.Types.Process> {
 
-    const processModelService: IProcessModelService =
-      await this.resolveAsync<IProcessModelService>('ProcessModelService');
-
-    const processModel: Model.Types.Process = await processModelService.getProcessModelById(this.executionContextFacade, processId);
+    const processModel: Model.Types.Process = await this.processModelService.getProcessModelById(this.executionContextFacade, processId);
 
     return processModel;
   }
