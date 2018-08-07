@@ -45,13 +45,14 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@essential-projects/tslint-config": "^1.0.0",
+    "@types/express": "^4.16.0",
     "cross-env": "^5.1.4",
     "eslint": "^4.19.1",
     "eslint-config-5minds": "^0.2.0",
     "eslint-plugin-import": "^2.11.0",
     "gulp": "^3.9.1",
     "gulptraum": "^2.2.2",
-    "wtfnode": "^0.6.0",
-    "@essential-projects/tslint-config": "^1.0.0"
+    "wtfnode": "^0.6.0"
   }
 }
