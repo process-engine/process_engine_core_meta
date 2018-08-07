@@ -12,8 +12,6 @@ def cleanup_workspace() {
 }
 
 def cleanup_docker() {
-  sh(script: "docker stop ${db_container_id}");
-  sh(script: "docker rm ${db_container_id}");
   sh(script: "docker rmi ${server_image_id}");
 
   // Build stages in dockerfiles leave dangling images behind (see https://github.com/moby/moby/issues/34151).
