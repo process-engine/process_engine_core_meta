@@ -12,9 +12,7 @@ def cleanup_workspace() {
 }
 
 def cleanup_docker() {
-  sh(script: "docker stop ${db_container_id}");
-  sh(script: "docker rm ${db_container_id}");
-  sh(script: "docker rmi ${server_image_id} ${db_imageI_id}");
+  sh(script: "docker rmi ${server_image_id}");
 
   // Build stages in dockerfiles leave dangling images behind (see https://github.com/moby/moby/issues/34151).
   // Dangling images are images that are not used anywhere and don't have a tag. It is safe to remove them (see https://stackoverflow.com/a/45143234).
@@ -86,24 +84,9 @@ pipeline {
           def safe_branch_name = env.BRANCH_NAME.replace("/", "_");
           def image_tag = "${safe_branch_name}-${first_seven_digits_of_git_hash}-b${env.BUILD_NUMBER}";
 
-          db_image       = docker.build("process_engine_test_db_image:${image_tag}", '--file _integration_tests/Dockerfile.database _integration_tests');
           server_image   = docker.build("process_engine_test_server_image:${image_tag}", '--no-cache --file _integration_tests/Dockerfile.tests _integration_tests');
 
-          db_imageI_id     = db_image.id;
           server_image_id  = server_image.id;
-
-          db_container_id = db_image
-                            .run('--env POSTGRES_USER=admin --env POSTGRES_PASSWORD=admin --env POSTGRES_DB=processengine')
-                            .id;
-
-          // wait for the DB to start up
-          docker
-            .image('postgres')
-            .inside("--link ${db_container_id}:db") {
-              timeout(time: 60, unit: 'SECONDS') {
-                sh(script: 'while ! pg_isready --username postgres --host db ; do sleep 5; done');
-              }
-          }
         }
       }
     }
@@ -114,12 +97,14 @@ pipeline {
           def node_env = '--env NODE_ENV=test';
           def junit_report_path = '--env JUNIT_REPORT_PATH=report.xml';
           def config_path = '--env CONFIG_PATH=/usr/src/app/config';
-          def db_flow_node_instance = '--env process_engine__flow_node_instance_repository__host=db';
-          def db_process_model = '--env process_engine__process_model_repository__host=db';
-          def db_timer = '--env process_engine__timer_repository__host=db';
-          def db_link = "--link ${db_container_id}:db";
 
-          server_image.inside("${node_env} ${junit_report_path} ${config_path} ${db_flow_node_instance} ${db_process_model} ${db_timer} ${db_link}") {
+          // SQLite
+          def db_storage_folder_path = "$WORKSPACE/process_engine_databases";
+          def db_storage_path_process_model = "--env process_engine__process_model_repository__storage=$db_storage_folder_path/process_model.sqlite";
+          def db_storage_path_flow_node_instance = "--env process_engine__process_model_repository__storage=$db_storage_folder_path/flow_node_instance.sqlite";
+          def db_storage_path_timer = "--env process_engine__process_model_repository__storage=$db_storage_folder_path/timer.sqlite";
+
+          server_image.inside("${node_env} ${db_storage_path_process_model} ${db_storage_path_flow_node_instance} ${db_storage_path_timer} ${junit_report_path} ${config_path}") {
             error_code = sh(script: "node /usr/src/app/node_modules/.bin/mocha --timeout 60000 /usr/src/app/test/*.js --colors --reporter mocha-jenkins-reporter --exit > result.txt", returnStatus: true);
             testresults = sh(script: "cat result.txt", returnStdout: true).trim();
 

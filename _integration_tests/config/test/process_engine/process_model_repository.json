@@ -1,10 +1,11 @@
 {
-  "username": "admin",
-  "password": "admin",
-  "database": "processengine",
-  "host": "localhost",
-  "port": 5432,
-  "dialect": "postgres",
+  "username": null,
+  "password": null,
+  "database": null,
+  "host": null,
+  "port": null,
+  "dialect": "sqlite",
+  "storage": "process_model.sqlite",
   "supportBigNumbers": true,
   "resetPasswordRequestTimeToLive": 12,
   "logging": false
