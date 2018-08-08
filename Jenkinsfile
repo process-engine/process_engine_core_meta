@@ -104,7 +104,7 @@ pipeline {
           def db_storage_path_flow_node_instance = "--env process_engine__process_model_repository__storage=$db_storage_folder_path/flow_node_instance.sqlite";
           def db_storage_path_timer = "--env process_engine__process_model_repository__storage=$db_storage_folder_path/timer.sqlite";
 
-          server_image.inside("${node_env} ${db_storage_path_process_model} ${db_storage_path_flow_node_instance} ${db_storage_path_timer} ${junit_report_path} ${config_path} ${db_flow_node_instance} ${db_process_model} ${db_timer} ${db_link}") {
+          server_image.inside("${node_env} ${db_storage_path_process_model} ${db_storage_path_flow_node_instance} ${db_storage_path_timer} ${junit_report_path} ${config_path}") {
             error_code = sh(script: "node /usr/src/app/node_modules/.bin/mocha --timeout 60000 /usr/src/app/test/*.js --colors --reporter mocha-jenkins-reporter --exit > result.txt", returnStatus: true);
             testresults = sh(script: "cat result.txt", returnStdout: true).trim();
 
