@@ -11,9 +11,11 @@
     "tests"
   ],
   "scripts": {
-    "start": "cross-env NODE_ENV=test CONFIG_PATH=config node index.js",
-    "test": "cross-env NODE_ENV=test CONFIG_PATH=config mocha -t 15000 test/*.js --exit",
-    "test-debug": "cross-env NODE_ENV=test CONFIG_PATH=config mocha --inspect-brk test/*.js --exit",
+    "start": "cross-env NODE_ENV=sqlite CONFIG_PATH=config node index.js",
+    "test-sqlite": "cross-env NODE_ENV=sqlite CONFIG_PATH=config mocha -t 15000 test/*.js --exit",
+    "test-postgres": "cross-env NODE_ENV=postgres CONFIG_PATH=config mocha -t 15000 test/*.js --exit",
+    "test": "npm run test-sqlite && npm run test-postgres",
+    "test-debug": "cross-env NODE_ENV=sqlite CONFIG_PATH=config mocha --inspect-brk test/*.js --exit",
     "build": "gulp build"
   },
   "dependencies": {
