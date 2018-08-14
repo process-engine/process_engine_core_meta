@@ -1,0 +1,32 @@
+{
+  "name": "@process-engine/process_engine_meta_iam_tests",
+  "publishConfig": {
+    "registry": "https://www.npmjs.com"
+  },
+  "version": "1.0.0",
+  "description": "iam tests",
+  "license": "MIT",
+  "main": "dist/commonjs/index.js",
+  "files": [
+    "tests"
+  ],
+  "scripts": {
+    "test": "mocha -t 15000 test/*.js --exit",
+    "test-debug": "mocha --inspect-brk test/*.js --exit"
+  },
+  "dependencies": {
+    "@essential-projects/services": "^2.0.2",
+    "@process-engine/iam": "^1.0.0",
+    "loggerhythm": "^3.0.0",
+    "mocha": "^5.0.0",
+    "mocha-jenkins-reporter": "^0.3.12",
+    "should": "^13.1.3"
+  },
+  "devDependencies": {
+    "@essential-projects/tslint-config": "^1.0.0",
+    "cross-env": "^5.1.4",
+    "eslint": "^4.19.1",
+    "eslint-config-5minds": "^0.2.0",
+    "eslint-plugin-import": "^2.11.0"
+  }
+}

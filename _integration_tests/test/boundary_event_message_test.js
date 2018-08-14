@@ -3,18 +3,18 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe.skip('Message Boundary Event - ', () => {
+describe('Message Boundary Event - ', () => {
+
   let testFixtureProvider;
+
+  const processModelId = 'boundary_event_message_test';
+  const startEventId = 'StartEvent_1';
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
 
-    // TODO: The import is currently broken (existing processes are duplicated, not overwritten).
-    // Until this is fixed, use the "classic" ioc registration
-    //
-    // const processDefList = ['boundary_event_message_test.bpmn'];
-    // await testFixtureProvider.loadProcessesFromBPMNFiles(processDefList);
+    await testFixtureProvider.importProcessFiles([processModelId]);
   });
 
   after(async () => {
@@ -22,25 +22,11 @@ describe.skip('Message Boundary Event - ', () => {
   });
 
   it('should interrupt the running service task when a message arrives', async () => {
-    const processKey = 'boundary_event_message_test';
 
-    const expectedToken = {
-      history: {
-        StartEvent_1: {},
-        Task1: 1,
-        ParallelSplit1: 1,
-        TimerEvent1: 1,
-        ThrowEvent1: 1,
-        Task3: 1,
-        MessageBoundaryEvent1: 1,
-        Task4: 2,
-        XORJoin1: 2,
-        ParallelJoin1: 2,
-      },
-    };
+    const expectedResult = /message received/i;
 
-    const result = await testFixtureProvider.executeProcess(processKey);
+    const result = await testFixtureProvider.executeProcess(processModelId, startEventId);
 
-    should(result).be.eql(expectedToken);
+    should(result.tokenPayload).be.match(expectedResult);
   });
 });

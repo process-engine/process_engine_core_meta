@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definition_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.13.1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definition_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.15.1">
   <bpmn:collaboration id="Collaboration_1cidyxu">
     <bpmn:participant id="Participant_0px403d" name="boundary_event_error_test" processRef="boundary_event_error_test" />
   </bpmn:collaboration>
   <bpmn:process id="boundary_event_error_test" name="boundary_event_error_test" isExecutable="false">
     <bpmn:laneSet>
-      <bpmn:lane id="Lane_1xzf0d3" name="Lane">
+      <bpmn:lane id="Lane_1xzf0d3" name="Default_Test_Lane">
         <bpmn:extensionElements>
           <camunda:executionListener class="" event="" />
           <camunda:properties />
@@ -52,7 +52,8 @@
       <bpmn:incoming>SequenceFlow_18lguz5</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1dir57p</bpmn:outgoing>
       <bpmn:script>console.log('Error Boundary Event triggered!');
-console.log(token.history.ScriptTask_ErrorRaiser);</bpmn:script>
+console.log(token.history.ScriptTask_ErrorRaiser);
+return 'test'</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:sequenceFlow id="SequenceFlow_0szmujr" name="" sourceRef="ScriptTask_ErrorRaiser" targetRef="ScriptTask_Success" />
     <bpmn:sequenceFlow id="SequenceFlow_0ue80rd" sourceRef="ScriptTask_Success" targetRef="EndEvent_0ax00t6">

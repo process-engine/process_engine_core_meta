@@ -12,9 +12,7 @@ def cleanup_workspace() {
 }
 
 def cleanup_docker() {
-  sh(script: "docker stop ${db_container_id}");
-  sh(script: "docker rm ${db_container_id}");
-  sh(script: "docker rmi ${server_image_id} ${db_imageI_id}");
+  sh(script: "docker rmi ${server_image_id}");
 
   // Build stages in dockerfiles leave dangling images behind (see https://github.com/moby/moby/issues/34151).
   // Dangling images are images that are not used anywhere and don't have a tag. It is safe to remove them (see https://stackoverflow.com/a/45143234).
@@ -29,10 +27,17 @@ def cleanup_docker() {
 }
 
 def slack_send_summary(testlog, test_failed) {
-  def cleaned_string = testlog.replace('\n', '\\n').replace('"', '\\"');
-  def passing = sh(script: "echo \"${cleaned_string}\" | grep passing || echo \"0 passing\"", returnStdout: true).trim();
-  def failing = sh(script: "echo \"${cleaned_string}\" | grep failing || echo \"0 failing\"", returnStdout: true).trim();
-  def pending = sh(script: "echo \"${cleaned_string}\" | grep pending || echo \"0 pending\"", returnStdout: true).trim();
+  def passing_regex = /\d+ passing/;
+  def failing_regex = /\d+ failing/;
+  def pending_regex = /\d+ pending/;
+
+  def passing_matcher = testlog =~ passing_regex;
+  def failing_matcher = testlog =~ failing_regex;
+  def pending_matcher = testlog =~ pending_regex;
+
+  def passing = passing_matcher.count > 0 ? passing_matcher[0] : '0 passing';
+  def failing = failing_matcher.count > 0 ? failing_matcher[0] : '0 failing';
+  def pending = pending_matcher.count > 0 ? pending_matcher[0] : '0 pending';
 
   def color_string     =  '"color":"good"';
   def markdown_string  =  '"mrkdwn_in":["text","title"]';
@@ -79,24 +84,9 @@ pipeline {
           def safe_branch_name = env.BRANCH_NAME.replace("/", "_");
           def image_tag = "${safe_branch_name}-${first_seven_digits_of_git_hash}-b${env.BUILD_NUMBER}";
 
-          db_image       = docker.build("process_engine_test_db_image:${image_tag}", '--file _integration_tests/Dockerfile.database _integration_tests');
           server_image   = docker.build("process_engine_test_server_image:${image_tag}", '--no-cache --file _integration_tests/Dockerfile.tests _integration_tests');
 
-          db_imageI_id     = db_image.id;
           server_image_id  = server_image.id;
-
-          db_container_id = db_image
-                            .run('--env POSTGRES_USER=admin --env POSTGRES_PASSWORD=admin --env POSTGRES_DB=processengine')
-                            .id;
-
-          // wait for the DB to start up
-          docker
-            .image('postgres')
-            .inside("--link ${db_container_id}:db") {
-              timeout(time: 60, unit: 'SECONDS') {
-                sh(script: 'while ! pg_isready --username postgres --host db ; do sleep 5; done');
-              }
-          }
         }
       }
     }
@@ -107,11 +97,15 @@ pipeline {
           def node_env = '--env NODE_ENV=test';
           def junit_report_path = '--env JUNIT_REPORT_PATH=report.xml';
           def config_path = '--env CONFIG_PATH=/usr/src/app/config';
-          def db_host = '--env datastore__service__data_sources__default__adapter__server__host=db';
-          def db_link = "--link ${db_container_id}:db";
 
-          server_image.inside("${node_env} ${junit_report_path} ${config_path} ${db_host} ${db_link}") {
-            error_code = sh(script: "node /usr/src/app/node_modules/.bin/mocha --timeout 60000 /usr/src/app/test/*.js --colors --reporter mocha-jenkins-reporter --exit > result.txt", returnStatus: true);
+          // SQLite
+          def db_storage_folder_path = "$WORKSPACE/process_engine_databases";
+          def db_storage_path_process_model = "--env process_engine__process_model_repository__storage=$db_storage_folder_path/process_model.sqlite";
+          def db_storage_path_flow_node_instance = "--env process_engine__process_model_repository__storage=$db_storage_folder_path/flow_node_instance.sqlite";
+          def db_storage_path_timer = "--env process_engine__process_model_repository__storage=$db_storage_folder_path/timer.sqlite";
+
+          server_image.inside("${node_env} ${db_storage_path_process_model} ${db_storage_path_flow_node_instance} ${db_storage_path_timer} ${junit_report_path} ${config_path}") {
+            error_code = sh(script: "node /usr/src/app/node_modules/.bin/mocha --timeout 120000 /usr/src/app/test/*.js --colors --reporter mocha-jenkins-reporter --exit > result.txt", returnStatus: true);
             testresults = sh(script: "cat result.txt", returnStdout: true).trim();
 
             junit 'report.xml'

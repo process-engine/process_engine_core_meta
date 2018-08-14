@@ -1,4 +1,3 @@
 {
-  "systemUserId": "iam_system",
-  "cacheClaimResults": true
+  "claimPath": "http://localhost:5000/claims/ensure"
 }

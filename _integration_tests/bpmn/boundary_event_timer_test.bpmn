@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_03x2tll" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.13.1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_03x2tll" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.15.1">
   <bpmn:collaboration id="test_lane">
     <bpmn:participant id="simple_timer_event" name="boundary_event_timer_test" processRef="boundary_event_timer_test">
       <bpmn:extensionElements>
@@ -15,31 +15,29 @@
       </camunda:properties>
     </bpmn:extensionElements>
     <bpmn:laneSet>
-      <bpmn:lane id="Lane_1u7vyfz" name="Lane">
+      <bpmn:lane id="Lane_1u7vyfz" name="Default_Test_Lane">
         <bpmn:extensionElements>
           <camunda:executionListener class="" event="" />
           <camunda:properties />
         </bpmn:extensionElements>
         <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>EndEvent_0nvdzre</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Objectify</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ITask2</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>IXORJoin1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ITask3</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>NITask2</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>NIXORJoin1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>NITask3</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>TimerBoundary2</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>ITimerBoundary1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>IErrorTask1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>NIErrorTask1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>XORJoin1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>XORSplit1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>ITask1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>NITask1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ITimerBoundary1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>TimerBoundary2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_0nvdzre</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
-    <bpmn:sequenceFlow id="SequenceFlow_1x79rp3" sourceRef="Objectify" targetRef="EndEvent_0nvdzre" />
     <bpmn:startEvent id="StartEvent_1" name="Start">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
@@ -49,22 +47,14 @@
       </bpmn:extensionElements>
       <bpmn:outgoing>SequenceFlow_1eeucab</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_0dhe2mx" sourceRef="XORJoin1" targetRef="Objectify" />
-    <bpmn:endEvent id="EndEvent_0nvdzre" name="End">
-      <bpmn:incoming>SequenceFlow_1x79rp3</bpmn:incoming>
-    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0dhe2mx" sourceRef="XORJoin1" targetRef="EndEvent_0nvdzre" />
     <bpmn:sequenceFlow id="SequenceFlow_1eeucab" sourceRef="StartEvent_1" targetRef="XORSplit1" />
-    <bpmn:scriptTask id="Objectify" name="Objectify Token">
-      <bpmn:incoming>SequenceFlow_0dhe2mx</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1x79rp3</bpmn:outgoing>
-      <bpmn:script>return JSON.parse(JSON.stringify(token));</bpmn:script>
-    </bpmn:scriptTask>
-    <bpmn:serviceTask id="ITask2" name="Run 15 seconds">
+    <bpmn:serviceTask id="ITask2" name="Run 6 seconds">
       <bpmn:extensionElements>
         <camunda:properties>
           <camunda:property name="module" value="ServiceTaskTestService" />
           <camunda:property name="method" value="delay" />
-          <camunda:property name="params" value="[15, token.current]" />
+          <camunda:property name="params" value="[6, token.current]" />
         </camunda:properties>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0htcapw</bpmn:incoming>
@@ -78,14 +68,14 @@
     <bpmn:scriptTask id="ITask3" name="Increment the current token value">
       <bpmn:incoming>SequenceFlow_181wovy</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_04hoc8f</bpmn:outgoing>
-      <bpmn:script>return token.current + 1</bpmn:script>
+      <bpmn:script>return 'interrupt successful';</bpmn:script>
     </bpmn:scriptTask>
-    <bpmn:serviceTask id="NITask2" name="Run 15 seconds">
+    <bpmn:serviceTask id="NITask2" name="Run 2 seconds">
       <bpmn:extensionElements>
         <camunda:properties>
           <camunda:property name="module" value="ServiceTaskTestService" />
           <camunda:property name="method" value="delay" />
-          <camunda:property name="params" value="[15, token.current]" />
+          <camunda:property name="params" value="[2, token.current]" />
         </camunda:properties>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0759mm3</bpmn:incoming>
@@ -99,12 +89,12 @@
     <bpmn:scriptTask id="NITask3" name="Increment the current token value">
       <bpmn:incoming>SequenceFlow_1ewl5v1</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_12kce5b</bpmn:outgoing>
-      <bpmn:script>return token.current + 1;</bpmn:script>
+      <bpmn:script>return 'service task not interrupted';</bpmn:script>
     </bpmn:scriptTask>
-    <bpmn:boundaryEvent id="TimerBoundary2" name="Break after 20 seconds" attachedToRef="NITask2">
+    <bpmn:boundaryEvent id="TimerBoundary2" name="Break after 6 seconds" attachedToRef="NITask2">
       <bpmn:outgoing>SequenceFlow_082fvqw</bpmn:outgoing>
       <bpmn:timerEventDefinition>
-        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P0Y0M0DT0H0M20S</bpmn:timeDuration>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P0Y0M0DT0H0M6S</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:boundaryEvent>
     <bpmn:boundaryEvent id="ITimerBoundary1" name="Break after 2 seconds" attachedToRef="ITask2">
@@ -165,19 +155,22 @@
       <bpmn:outgoing>SequenceFlow_0759mm3</bpmn:outgoing>
       <bpmn:script>return 1;</bpmn:script>
     </bpmn:scriptTask>
+    <bpmn:endEvent id="EndEvent_0nvdzre" name="End">
+      <bpmn:incoming>SequenceFlow_0dhe2mx</bpmn:incoming>
+    </bpmn:endEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="test_lane">
       <bpmndi:BPMNShape id="Participant_0lwaarm_di" bpmnElement="simple_timer_event">
-        <dc:Bounds x="116" y="49" width="1251" height="657" />
+        <dc:Bounds x="116" y="52" width="1051" height="654" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_010chlc_di" bpmnElement="ITask2">
         <dc:Bounds x="526" y="189" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_0nvdzre_di" bpmnElement="EndEvent_0nvdzre">
-        <dc:Bounds x="1228" y="338" width="36" height="36" />
+        <dc:Bounds x="1105" y="338" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1236" y="377" width="20" height="13" />
+          <dc:Bounds x="1113" y="377" width="20" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="StartEvent_16du69e_di" bpmnElement="StartEvent_1">
@@ -187,7 +180,7 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_1u7vyfz_di" bpmnElement="Lane_1u7vyfz">
-        <dc:Bounds x="146" y="49" width="1221" height="657" />
+        <dc:Bounds x="146" y="52" width="1021" height="654" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_08d5u3m_di" bpmnElement="NIXORJoin1" isMarkerVisible="true">
         <dc:Bounds x="875" y="490" width="50" height="50" />
@@ -201,7 +194,7 @@
       <bpmndi:BPMNShape id="BoundaryEvent_0s0q33f_di" bpmnElement="TimerBoundary2">
         <dc:Bounds x="600" y="537" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="638" y="543" width="70" height="25" />
+          <dc:Bounds x="642" y="543" width="63" height="24" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_1ons7lm_di" bpmnElement="IXORJoin1" isMarkerVisible="true">
@@ -250,16 +243,6 @@
         <di:waypoint x="875" y="515" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="801.5" y="493.5" width="90" height="13" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ScriptTask_1lod3gh_di" bpmnElement="Objectify">
-        <dc:Bounds x="1092" y="316" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_1x79rp3_di" bpmnElement="SequenceFlow_1x79rp3">
-        <di:waypoint x="1192" y="356" />
-        <di:waypoint x="1228" y="356" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1165" y="334.5" width="90" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ExclusiveGateway_0cgtmgr_di" bpmnElement="XORSplit1" isMarkerVisible="true">
@@ -328,7 +311,7 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0dhe2mx_di" bpmnElement="SequenceFlow_0dhe2mx">
         <di:waypoint x="1050" y="356" />
-        <di:waypoint x="1092" y="356" />
+        <di:waypoint x="1105" y="356" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1071" y="334.5" width="0" height="13" />
         </bpmndi:BPMNLabel>
