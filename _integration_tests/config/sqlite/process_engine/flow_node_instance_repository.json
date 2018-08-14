@@ -5,7 +5,7 @@
   "host": null,
   "port": null,
   "dialect": "sqlite",
-  "storage": "timer.sqlite",
+  "storage": "processengine.sqlite",
   "supportBigNumbers": true,
   "resetPasswordRequestTimeToLive": 12,
   "logging": false
