@@ -125,8 +125,13 @@ pipeline {
         script {
           // Print the result to the jobs console
           println(testresults);
-          slack_send_summary(testresults, test_failed);
-          slack_send_testlog(testresults);
+          // Failure to send the slack message should not result in build failure.
+          try {
+            slack_send_summary(testresults, test_failed);
+            slack_send_testlog(testresults);
+          } catch (Exception error) {
+            echo "Failed to send slack report: $error";
+          }
         }
       }
     }
