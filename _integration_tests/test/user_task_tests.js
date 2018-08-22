@@ -41,17 +41,18 @@ describe('User Tasks - ', () => {
     const waitingUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
     const userTaskId = 'ut_userTask';
 
-    should(waitingUserTasks.userTasks.length)
-      .equal(1);
+    const expectedNumberOfWaitingUserTasks = 1;
+
+    should(waitingUserTasks.userTasks.length).equal(expectedNumberOfWaitingUserTasks);
 
     const expectedLabelValue = 1;
     const expectedDefaultValue = 2;
 
-    should(waitingUserTasks.userTasks[0].data.formFields[0].label)
-      .equal(expectedLabelValue);
+    const waitingUserTaskFieldLabel = waitingUserTasks.userTasks[0].data.formFields[0].label;
+    const waitingUserTaskFieldDefaultValue = waitingUserTasks.userTasks[0].data.formFields[0].defaultValue;
 
-    should(waitingUserTasks.userTasks[0].data.formFields[0].defaultValue)
-      .equal(expectedDefaultValue);
+    should(waitingUserTaskFieldLabel).equal(expectedLabelValue);
+    should(waitingUserTaskFieldDefaultValue).equal(expectedDefaultValue);
 
   });
 
