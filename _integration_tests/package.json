@@ -25,7 +25,7 @@
     "@essential-projects/services": "^2.0.2",
     "@essential-projects/timing": "^3.0.4",
     "@process-engine/consumer_api_contracts": "^0.15.0",
-    "@process-engine/consumer_api_core": "^0.19.1",
+    "@process-engine/consumer_api_core": "feature~store_enter_and_exit_token_separately",
     "@process-engine/flow_node_instance.repository.sequelize": "feature~store_enter_and_exit_token_separately",
     "@process-engine/iam": "^1.2.0",
     "@process-engine/process_engine_contracts": "feature~store_enter_and_exit_token_separately",
