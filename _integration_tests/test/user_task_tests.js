@@ -43,7 +43,7 @@ describe('User Tasks - ', () => {
 
     const expectedNumberOfWaitingUserTasks = 1;
 
-    should(waitingUserTasks.userTasks.length).equal(expectedNumberOfWaitingUserTasks);
+    should(waitingUserTasks.userTasks.length).be.equal(expectedNumberOfWaitingUserTasks);
 
     const expectedLabelValue = 1;
     const expectedDefaultValue = 2;
@@ -51,8 +51,8 @@ describe('User Tasks - ', () => {
     const waitingUserTaskFieldLabel = waitingUserTasks.userTasks[0].data.formFields[0].label;
     const waitingUserTaskFieldDefaultValue = waitingUserTasks.userTasks[0].data.formFields[0].defaultValue;
 
-    should(waitingUserTaskFieldLabel).equal(expectedLabelValue);
-    should(waitingUserTaskFieldDefaultValue).equal(expectedDefaultValue);
+    should(waitingUserTaskFieldLabel).be.equal(expectedLabelValue);
+    should(waitingUserTaskFieldDefaultValue).be.equal(expectedDefaultValue);
 
   });
 
@@ -253,7 +253,7 @@ describe('User Tasks - ', () => {
 
       await wait(delayBetweenRetriesInMs);
 
-      const flowNodeInstances = await flowNodeInstanceService.querySuspendedByCorrelation(testFixtureProvider.executionContextFacade, correlationId);
+      const flowNodeInstances = await flowNodeInstanceService.querySuspendedByCorrelation(correlationId);
 
       if (flowNodeInstances && flowNodeInstances.length >= 1) {
         return;
