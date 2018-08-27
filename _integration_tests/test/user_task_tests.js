@@ -17,6 +17,7 @@ describe('User Tasks - ', () => {
 
     const processDefinitionFiles = [
       'user_task_test',
+      'user_task_expression_test',
       'user_task_sequential_test',
       'user_task_parallel_test',
     ];
@@ -25,6 +26,34 @@ describe('User Tasks - ', () => {
 
   after(async () => {
     await testFixtureProvider.tearDown();
+  });
+
+  it('should evaluate expressions in user task form fields.', async () => {
+
+    const processModelId = 'user_task_expression_test';
+
+    const initialToken = {
+      inputValues: {},
+    };
+
+    const correlationId = await startProcessAndReturnCorrelationId(processModelId, initialToken);
+    await waitForProcessInstanceToReachUserTask(correlationId);
+    const waitingUserTasks = await getWaitingUserTasksForCorrelationId(correlationId);
+    const userTaskId = 'ut_userTask';
+
+    const expectedNumberOfWaitingUserTasks = 1;
+
+    should(waitingUserTasks.userTasks.length).be.equal(expectedNumberOfWaitingUserTasks);
+
+    const expectedLabelValue = 1;
+    const expectedDefaultValue = 2;
+
+    const waitingUserTaskFieldLabel = waitingUserTasks.userTasks[0].data.formFields[0].label;
+    const waitingUserTaskFieldDefaultValue = waitingUserTasks.userTasks[0].data.formFields[0].defaultValue;
+
+    should(waitingUserTaskFieldLabel).be.equal(expectedLabelValue);
+    should(waitingUserTaskFieldDefaultValue).be.equal(expectedDefaultValue);
+
   });
 
   it('should finish the user task.', async () => {
