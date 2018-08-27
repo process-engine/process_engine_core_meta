@@ -224,7 +224,7 @@ describe('User Tasks - ', () => {
 
       await wait(delayBetweenRetriesInMs);
 
-      const flowNodeInstances = await flowNodeInstanceService.querySuspendedByCorrelation(testFixtureProvider.executionContextFacade, correlationId);
+      const flowNodeInstances = await flowNodeInstanceService.querySuspendedByCorrelation(correlationId);
 
       if (flowNodeInstances && flowNodeInstances.length >= 1) {
         return;
