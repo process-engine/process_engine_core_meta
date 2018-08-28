@@ -45,8 +45,8 @@ describe('User Tasks - ', () => {
 
     should(waitingUserTasks.userTasks.length).be.equal(expectedNumberOfWaitingUserTasks);
 
-    const expectedLabelValue = 1;
-    const expectedDefaultValue = 2;
+    const expectedLabelValue = '1 plus 2';
+    const expectedDefaultValue = 'equals 3.';
 
     const waitingUserTaskFieldLabel = waitingUserTasks.userTasks[0].data.formFields[0].label;
     const waitingUserTaskFieldDefaultValue = waitingUserTasks.userTasks[0].data.formFields[0].defaultValue;

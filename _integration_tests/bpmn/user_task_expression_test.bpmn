@@ -37,7 +37,7 @@
     <bpmn:userTask id="ut_userTask" name="User Task 1">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="Sample_Form_Field" label="${token.history.st_ProvideResults.one}" type="string" defaultValue="${token.history.st_ProvideResults.two}" />
+          <camunda:formField id="Sample_Form_Field" label="${token.history.st_ProvideResults.one} plus ${token.history.st_ProvideResults.two}" type="string" defaultValue="equals ${token.history.st_ProvideResults.one + token.history.st_ProvideResults.two}." />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_176zufh</bpmn:incoming>
