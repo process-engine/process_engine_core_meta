@@ -8,8 +8,6 @@
       <bpmn:lane id="Lane_1xzf0d3" name="Default_Test_Lane">
         <bpmn:extensionElements>
           <camunda:executionListener class="" event="" />
-          <camunda:properties />
-          <camunda:properties />
         </bpmn:extensionElements>
         <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>pg_StartParallelExecution</bpmn:flowNodeRef>
@@ -38,14 +36,11 @@
     <bpmn:sequenceFlow id="SequenceFlow_10bs6hx" name="" sourceRef="pg_JoinAfterTasksFinished" targetRef="Task_0mf06w0">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
-        <camunda:properties />
-        <camunda:properties />
       </bpmn:extensionElements>
     </bpmn:sequenceFlow>
     <bpmn:parallelGateway id="pg_StartParallelExecution" name="">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
-        <camunda:properties />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1kww3r0</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_01bm6kz</bpmn:outgoing>
@@ -74,9 +69,6 @@
     <bpmn:parallelGateway id="pg_JoinAfterTasksFinished" name="">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
-        <camunda:properties />
-        <camunda:properties />
-        <camunda:properties />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0gf9ntr</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_0taqmhl</bpmn:incoming>
@@ -179,15 +171,12 @@
     <bpmn:endEvent id="EndEvent_1v6v31b" name="">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
-        <camunda:properties />
-        <camunda:properties />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1qotyv2</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:scriptTask id="Task_0mf06w0" name="Aggregate history" scriptFormat="">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
-        <camunda:properties />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_10bs6hx</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1qotyv2</bpmn:outgoing>

@@ -4,7 +4,6 @@
     <bpmn:participant id="Participant_0px403d" name="[CA2]Called Process" processRef="call_activity_subprocess">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
-        <camunda:properties />
       </bpmn:extensionElements>
     </bpmn:participant>
   </bpmn:collaboration>
@@ -13,7 +12,7 @@
       <bpmn:lane id="Lane_1xzf0d3" name="Default_Test_Lane">
         <bpmn:extensionElements>
           <camunda:executionListener class="" event="" />
-          <camunda:properties />
+
         </bpmn:extensionElements>
         <bpmn:flowNodeRef>Task_1izpajn</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
@@ -25,16 +24,12 @@
     <bpmn:startEvent id="StartEvent_1" name="[CA2]Called Process">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
-        <camunda:properties />
-        <camunda:properties />
       </bpmn:extensionElements>
       <bpmn:outgoing>SequenceFlow_1ncza35</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:scriptTask id="Task_1izpajn" name="Increment the current token value">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
-        <camunda:properties />
-        <camunda:properties />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1ncza35</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1w64v3q</bpmn:outgoing>
@@ -43,7 +38,6 @@
     <bpmn:endEvent id="EndEvent_00hkafj" name="End">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
-        <camunda:properties />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1w64v3q</bpmn:incoming>
     </bpmn:endEvent>

@@ -8,7 +8,7 @@
       <bpmn:lane id="Lane_1xzf0d3" name="Default_Test_Lane">
         <bpmn:extensionElements>
           <camunda:executionListener class="" event="" />
-          <camunda:properties />
+
         </bpmn:extensionElements>
         <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>EndEvent_0ax00t6</bpmn:flowNodeRef>
@@ -22,9 +22,6 @@
     <bpmn:startEvent id="StartEvent_1" name="ErrorBoundaryEvent">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
-        <camunda:properties />
-        <camunda:properties />
-        <camunda:properties />
       </bpmn:extensionElements>
       <bpmn:outgoing>SequenceFlow_0gshgcn</bpmn:outgoing>
     </bpmn:startEvent>
@@ -32,14 +29,12 @@
     <bpmn:endEvent id="EndEvent_0ax00t6" name="Successful Process End">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
-        <camunda:properties />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0ue80rd</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:endEvent id="EndEvent_14s92ha" name="Process Error End">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
-        <camunda:properties />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1dir57p</bpmn:incoming>
     </bpmn:endEvent>
@@ -47,7 +42,6 @@
     <bpmn:scriptTask id="ScriptTask_AfterErrorThrown" name="Script task after error thrown">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
-        <camunda:properties />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_18lguz5</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1dir57p</bpmn:outgoing>
@@ -66,7 +60,6 @@ return 'test'</bpmn:script>
     <bpmn:scriptTask id="ScriptTask_Success" name="Script Task after previous task was successful">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
-        <camunda:properties />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0szmujr</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ue80rd</bpmn:outgoing>
@@ -84,7 +77,6 @@ return 'success!';</bpmn:script>
     <bpmn:scriptTask id="ScriptTask_ErrorRaiser" name="Sample Script Task">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
-        <camunda:properties />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0gshgcn</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0szmujr</bpmn:outgoing>
@@ -95,7 +87,6 @@ return 'success!';</bpmn:script>
     <bpmn:boundaryEvent id="BoundaryEvent_14fwi4a" attachedToRef="ScriptTask_ErrorRaiser">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
-        <camunda:properties />
       </bpmn:extensionElements>
       <bpmn:outgoing>SequenceFlow_18lguz5</bpmn:outgoing>
       <bpmn:errorEventDefinition />

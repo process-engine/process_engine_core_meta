@@ -4,7 +4,6 @@
     <bpmn:participant id="Participant_0px403d" name="[CA1]Call Activity base test" processRef="call_activity_test">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
-        <camunda:properties />
       </bpmn:extensionElements>
     </bpmn:participant>
   </bpmn:collaboration>
@@ -13,7 +12,6 @@
       <bpmn:lane id="Lane_1xzf0d3" name="Default_Test_Lane">
         <bpmn:extensionElements>
           <camunda:executionListener class="" event="" />
-          <camunda:properties />
         </bpmn:extensionElements>
         <bpmn:flowNodeRef>CallActivity2</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>CallActivity1</bpmn:flowNodeRef>
@@ -39,9 +37,6 @@
     <bpmn:startEvent id="StartEvent_1" name="[CA1]Call Activity base test">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
-        <camunda:properties />
-        <camunda:properties />
-        <camunda:properties />
       </bpmn:extensionElements>
       <bpmn:outgoing>SequenceFlow_1qh6ra1</bpmn:outgoing>
     </bpmn:startEvent>
@@ -72,7 +67,6 @@
     <bpmn:endEvent id="EndEvent_1ix3iyx" name="End">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
-        <camunda:properties />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0yuqmzo</bpmn:incoming>
     </bpmn:endEvent>
