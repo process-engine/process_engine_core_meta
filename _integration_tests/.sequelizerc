@@ -1,0 +1,8 @@
+const path = require('path');
+
+const env = process.env.NODE_ENV || 'sqlite';
+
+module.exports = {
+  'config': path.resolve('sequelize', `${env}.json`),
+  'migrations-path': path.resolve('sequelize', 'migrations')
+}
