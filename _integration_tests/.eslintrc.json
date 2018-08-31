@@ -5,6 +5,7 @@
         "ignoreUrls": true,
         "ignoreComments": false
       }],
-      "no-use-before-define":"off"
+      "no-continue": "off",
+      "no-use-before-define": "off"
     }
 }
