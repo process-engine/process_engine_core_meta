@@ -16,7 +16,7 @@ import {
 
 import {ConsumerContext, IConsumerApiService} from '@process-engine/consumer_api_contracts';
 
-import {IIdentity, IIdentityService} from '@essential-projects/iam_contracts';
+import {IIdentity} from '@essential-projects/iam_contracts';
 
 const logger: Logger = Logger.createLogger('test:bootstrapper');
 
@@ -72,6 +72,7 @@ export class TestFixtureProvider {
   }
 
   public async initializeAndStart(): Promise<void> {
+
     await this._initializeBootstrapper();
 
     await this.bootstrapper.start();
