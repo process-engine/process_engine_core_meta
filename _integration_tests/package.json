@@ -11,11 +11,11 @@
     "tests"
   ],
   "scripts": {
-    "migrate-postgres": "DB_STORAGE=processengine NODE_ENV=postgres sh ./scripts/sequelize_migrations.sh",
+    "migrate-postgres": "DB_STORAGE=processengine NODE_ENV=postgres sh ./sequelize_migrations.sh",
     "migrate-sqlite": "npm run migrate-processmodels && SKIP_SETUP=true npm run migrate-flow-node-instances && SKIP_SETUP=true npm run migrate-timers",
-    "migrate-processmodels": "DB_STORAGE=process_models NODE_ENV=sqlite sh ./scripts/sequelize_migrations.sh",
-    "migrate-flow-node-instances": "DB_STORAGE=flow_node_instances NODE_ENV=sqlite sh ./scripts/sequelize_migrations.sh",
-    "migrate-timers": "DB_STORAGE=timers NODE_ENV=sqlite sh ./scripts/sequelize_migrations.sh",
+    "migrate-processmodels": "DB_STORAGE=process_models NODE_ENV=sqlite sh ./sequelize_migrations.sh",
+    "migrate-flow-node-instances": "DB_STORAGE=flow_node_instances NODE_ENV=sqlite sh ./sequelize_migrations.sh",
+    "migrate-timers": "DB_STORAGE=timers NODE_ENV=sqlite sh ./sequelize_migrations.sh",
     "start": "cross-env NODE_ENV=sqlite CONFIG_PATH=config node index.js",
     "test-sqlite": "cross-env NODE_ENV=sqlite CONFIG_PATH=config mocha -t 15000 test/*.js --exit",
     "test-postgres": "cross-env NODE_ENV=postgres CONFIG_PATH=config mocha -t 15000 test/*.js --exit",
