@@ -3,6 +3,7 @@ processengine.sqlite
 flow_node_instances.sqlite
 process_models.sqlite
 timers.sqlite
+sqlite.json
 
 bootstrapper
 bootstrapper_browser
