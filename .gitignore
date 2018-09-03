@@ -1,5 +1,8 @@
 node_modules
 processengine.sqlite
+flow_node_instances.sqlite
+process_models.sqlite
+timers.sqlite
 
 bootstrapper
 bootstrapper_browser
