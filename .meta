@@ -21,7 +21,7 @@
     "process_model.repository.sequelize": "git@github.com:process-engine/process_model.repository.sequelize.git",
     "flow_node_instance.repository.sequelize": "git@github.com:process-engine/flow_node_instance.repository.sequelize.git",
     "timers.repository.sequelize": "git@github.com:process-engine/timers.repository.sequelize",
-    "process_engine": "git@github.com:process-engine/process_engine.git",
+    "process_engine_core": "git@github.com:process-engine/process_engine_core.git",
     "iam": "git@github.com:process-engine/iam.git",
     "services": "git@github.com:essential-projects/services.git",
     "timing": "git@github.com:essential-projects/timing",
