@@ -68,6 +68,7 @@ package-lock.json
 pki_service
 pki_service_contracts
 process_engine
+process_engine_core
 process_model.repository.sequelize
 process_engine_client_api
 process_engine_client_processable_react

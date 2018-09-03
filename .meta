@@ -21,14 +21,10 @@
     "process_model.repository.sequelize": "git@github.com:process-engine/process_model.repository.sequelize.git",
     "flow_node_instance.repository.sequelize": "git@github.com:process-engine/flow_node_instance.repository.sequelize.git",
     "timers.repository.sequelize": "git@github.com:process-engine/timers.repository.sequelize",
-    "process_engine": "git@github.com:process-engine/process_engine.git",
+    "process_engine_core": "git@github.com:process-engine/process_engine_core.git",
     "iam": "git@github.com:process-engine/iam.git",
     "services": "git@github.com:essential-projects/services.git",
     "timing": "git@github.com:essential-projects/timing",
-    "skeleton": "git@github.com:process-engine/skeleton.git",
-    "bpmn-studio_client": "git@github.com:process-engine/bpmn-studio_client.git",
-    "bpmn-io_custom-bundle": "git@github.com:process-engine/bpmn-io_custom-bundle.git",
-    "bpmn-studio": "git@github.com:process-engine/bpmn-studio.git",
     "identity_server": "git@github.com:process-engine/identity_server.git"
   }
 }

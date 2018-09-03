@@ -29,7 +29,7 @@ const iocModuleNames: Array<string> = [
   '@process-engine/consumer_api_core',
   '@process-engine/flow_node_instance.repository.sequelize',
   '@process-engine/iam',
-  '@process-engine/process_engine',
+  '@process-engine/process_engine_core',
   '@process-engine/process_model.repository.sequelize',
   '@process-engine/timers.repository.sequelize',
   '../../',
