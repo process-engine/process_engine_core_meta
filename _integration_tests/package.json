@@ -45,7 +45,6 @@
     "moment": "^2.22.2",
     "pg": "^7.4.3",
     "pg-hstore": "^2.3.2",
-    "platform-folders": "0.2.7",
     "sequelize": "4.38.0",
     "should": "^13.1.3",
     "sqlite3": "^4.0.2",
