@@ -1,4 +1,5 @@
 node_modules
+correlations.sqlite
 processengine.sqlite
 flow_node_instance.sqlite
 process_model.sqlite
