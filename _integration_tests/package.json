@@ -34,7 +34,7 @@
     "@process-engine/iam": "^1.2.0",
     "@process-engine/process_engine_contracts": "^25.0.0",
     "@process-engine/process_engine_core": "^2.0.0",
-    "@process-engine/process_model.repository.sequelize": "^3.0.1",
+    "@process-engine/process_model.repository.sequelize": "^3.0.2",
     "@process-engine/timers.repository.sequelize": "^2.0.0",
     "addict-ioc": "^2.3.7",
     "bluebird": "^3.5.1",
