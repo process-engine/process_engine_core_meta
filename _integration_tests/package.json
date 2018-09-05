@@ -11,6 +11,8 @@
     "tests"
   ],
   "scripts": {
+    "migrate-postgres": "NODE_ENV=postgres node ./run_migrations.js",
+    "migrate-sqlite": "NODE_ENV=sqlite node ./run_migrations.js",
     "start": "cross-env NODE_ENV=sqlite CONFIG_PATH=config node index.js",
     "test-sqlite": "cross-env NODE_ENV=sqlite CONFIG_PATH=config mocha -t 15000 test/*.js --exit",
     "test-postgres": "cross-env NODE_ENV=postgres CONFIG_PATH=config mocha -t 15000 test/*.js --exit",
@@ -23,6 +25,7 @@
     "@essential-projects/bootstrapper_node": "^3.0.1",
     "@essential-projects/event_aggregator": "^3.0.0",
     "@essential-projects/services": "^2.0.2",
+    "@essential-projects/sequelize_connection_manager": "^1.0.4",
     "@essential-projects/timing": "^3.0.4",
     "@process-engine/consumer_api_contracts": "^0.15.0",
     "@process-engine/consumer_api_core": "^0.22.1",
@@ -42,11 +45,13 @@
     "moment": "^2.22.2",
     "pg": "^7.4.3",
     "pg-hstore": "^2.3.2",
+    "sequelize": "4.38.0",
     "should": "^13.1.3",
     "sqlite3": "^4.0.2",
     "supertest": "^3.0.0",
     "tsconfig": "^7.0.0",
     "typescript": "^2.8.1",
+    "umzug": "2.1.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
