@@ -121,45 +121,6 @@ CREATE TABLE public."Timers" (
 
 ALTER TABLE public."Timers" OWNER TO admin;
 
---
--- Data for Name: Correlations; Type: TABLE DATA; Schema: public; Owner: admin
---
-
-COPY public."Correlations" (id, "correlationId", "processModelHash", "createdAt", "updatedAt") FROM stdin;
-\.
-
-
---
--- Data for Name: FlowNodeInstances; Type: TABLE DATA; Schema: public; Owner: admin
---
-
-COPY public."FlowNodeInstances" (id, "flowNodeInstanceId", "flowNodeId", state, error, "isSuspended", "createdAt", "updatedAt") FROM stdin;
-\.
-
-
---
--- Data for Name: ProcessDefinitions; Type: TABLE DATA; Schema: public; Owner: admin
---
-
-COPY public."ProcessDefinitions" (id, name, xml, hash, "createdAt", "updatedAt") FROM stdin;
-\.
-
-
---
--- Data for Name: ProcessTokens; Type: TABLE DATA; Schema: public; Owner: admin
---
-
-COPY public."ProcessTokens" (id, "processInstanceId", "processModelId", "correlationId", identity, "createdAt", caller, type, payload, "flowNodeInstanceId", "updatedAt") FROM stdin;
-\.
-
-
---
--- Data for Name: Timers; Type: TABLE DATA; Schema: public; Owner: admin
---
-
-COPY public."Timers" (id, type, "expirationDate", rule, "eventName", "lastElapsed", "createdAt", "updatedAt") FROM stdin;
-\.
-
 
 --
 -- Name: Correlations Correlations_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
