@@ -102,7 +102,7 @@ pipeline {
           def db_storage_folder_path = "$WORKSPACE/process_engine_databases";
           def logging_folder_path = "$WORKSPACE/logs";
           def db_storage_path_correlation = "--env process_engine__correlation_repository__storage=$db_storage_folder_path/processengine.sqlite";
-          def db_storage_path_logging = "--env process_engine__logging_repository__storage=$logging_folder_path";
+          def db_storage_path_logging = "--env process_engine__logging_repository__log_output_path=$logging_folder_path";
           def db_storage_path_process_model = "--env process_engine__process_model_repository__storage=$db_storage_folder_path/processengine.sqlite";
           def db_storage_path_flow_node_instance = "--env process_engine__flow_node_instance_repository__storage=$db_storage_folder_path/processengine.sqlite";
           def db_storage_path_timer = "--env process_engine__timer_repository__storage=$db_storage_folder_path/processengine.sqlite";
