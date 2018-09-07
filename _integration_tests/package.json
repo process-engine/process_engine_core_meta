@@ -36,7 +36,7 @@
     "@process-engine/metrics_api_core": "feature~initial_implementation",
     "@process-engine/process_engine_contracts": "^25.0.0",
     "@process-engine/process_engine_core": "feature~add_metrics",
-    "@process-engine/process_model.repository.sequelize": "feature~use_bcryptjs",
+    "@process-engine/process_model.repository.sequelize": "^3.0.3",
     "@process-engine/timers.repository.sequelize": "^2.0.0",
     "addict-ioc": "^2.3.7",
     "bluebird": "^3.5.1",
