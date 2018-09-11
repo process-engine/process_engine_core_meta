@@ -2,7 +2,7 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
-describe.only('Service Task - ', () => {
+describe('Service Task - ', () => {
 
   let testFixtureProvider;
 
@@ -38,7 +38,8 @@ describe.only('Service Task - ', () => {
     should(result.tokenPayload).be.eql(simpleObject);
   });
 
-  // TODO: This is not actually supported yet, but we need to ensure that using such an invocation will not cause the handler to crash.
+  // TODO: This is not actually supported yet, but we need to ensure that using such an invocation
+  // will not cause the handler to crash.
   it('should sucessfully perform a service task that use a web service invocation', async () => {
 
     const initialToken = {
@@ -53,9 +54,6 @@ describe.only('Service Task - ', () => {
     should(result.tokenPayload).be.match(expectedResult);
   });
 
-  // It is of course debatable, if such a thing should even be possible.
-  // But in any case, this UseCase must not cause the ServiceTask handler to crash.
-  // Any validation should be done by the succeeding tasks that might depend on this ServiceTask's result token.
   it('should not abort process model execution, if the service task has no invocation', async () => {
 
     const initialToken = {
