@@ -10,27 +10,9 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
 
-    const checkIfProcessDefinitionsExists = async () => {
-      // Note
-      // Unfortunately, at migration level, is no such thing as "checkIfTableExits".
-      // We can only query for the table and see if that query causes an exception.
-      try {
-
-        const result = await queryInterface.describeTable('ProcessDefinitions');
-        return result;
-      } catch (error) {
-        return undefined;
-      }
-    };
-
-    const processDefinitionTableInfo = await checkIfProcessDefinitionsExists();
-
-    if (!processDefinitionTableInfo) {
-      console.log('ProcessDefinitions does not exist. Skipping migrations.');
-      return Promise.resolve();
-    }
-
     console.log('Running updating migrations');
+
+    const processDefinitionTableInfo = await queryInterface.describeTable('ProcessDefinitions');
 
     const migrationNotRequired = processDefinitionTableInfo.hash !== undefined;
 
