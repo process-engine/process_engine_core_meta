@@ -36,7 +36,7 @@
     "@process-engine/metrics.repository.file_system": "feature~initial_implementation",
     "@process-engine/process_engine_contracts": "26.0.0",
     "@process-engine/process_engine_core": "feature~add_metrics",
-    "@process-engine/process_model.repository.sequelize": "3.1.1",
+    "@process-engine/process_model.repository.sequelize": "3.1.2",
     "@process-engine/timers.repository.sequelize": "2.1.1",
     "addict-ioc": "2.3.7",
     "bluebird": "3.5.1",
