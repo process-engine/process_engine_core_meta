@@ -13,12 +13,10 @@ bootstrapper_node
 bpmn-studio_client
 bpmn-io_custom-bundle
 bpmn-studio
-correlations.repository.sequelize
 documentation
 errors_ts
 event_aggregator
 event_aggregator_contracts
-flow_node_instance.repository.sequelize
 http
 http_contracts
 http_node
@@ -28,13 +26,11 @@ iam_contracts
 identity_server
 process_engine
 process_engine_core
-process_model.repository.sequelize
 process_engine_contracts
 sequelize_connection_manager
 services
 services_contracts
 skeleton
-timers.repository.sequelize
 timing
 timing_contracts
 tslint-config
