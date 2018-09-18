@@ -48,7 +48,7 @@ return 'message received';</bpmn:script>
     <bpmn:scriptTask id="ScriptTaskSignalEvent_1" name="Return sample result">
       <bpmn:incoming>SequenceFlow_1ud2t7r</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0qd8rtx</bpmn:outgoing>
-      <bpmn:script>console.log('Successfully waited for a message!');
+      <bpmn:script>console.log('Successfully waited for a signal!');
 return 'signal received';</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:endEvent id="EndEvent_SignalTest" name="End">
