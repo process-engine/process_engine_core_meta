@@ -2,60 +2,101 @@
 
 const moment = require('moment');
 const should = require('should');
+const uuid = require('uuid');
 const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
 
 describe('Start Events - ', () => {
 
   let testFixtureProvider;
 
-  const startEventId = 'StartEvent_1';
+  const processModelId = 'start_event_tests';
+
+  const messageStartEventId = 'MessageStartEvent_1';
+  const signalStartEventId = 'SignalStartEvent_1';
+  const timerStartEventId = 'TimerStartEvent_1';
+
+  let eventAggregator;
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
 
-    const processDefFileList = [
-      'start_event_timer_test',
-    ];
+    await testFixtureProvider.importProcessFiles([processModelId]);
 
-    await testFixtureProvider.importProcessFiles(processDefFileList);
+    eventAggregator = await testFixtureProvider.resolveAsync('EventAggregator');
   });
 
   after(async () => {
     await testFixtureProvider.tearDown();
   });
 
-  it.skip('should only start the process, after a message was received.', async () => {
+  it('should only start the process, after a message was received.', async () => {
 
-    const processModelId = 'start_event_message_test';
+    const correlationId = uuid.v4();
+    const endEventToWaitFor = 'EndEvent_MessageTest';
 
     const expectedResult = /message received/i;
 
-    const result = await testFixtureProvider.executeProcess(processModelId, startEventId);
+    // We can't await the process execution here, because that would prevent us from sending the signal.
+    // As a result we must subscribe to the event that gets send when the test is done.
+    testFixtureProvider.executeProcess(processModelId, messageStartEventId, correlationId);
 
-    should(result).have.property('tokenPayload');
-    should(result.tokenPayload).be.match(expectedResult);
+    await wait(500);
+
+    return new Promise((resolve) => {
+
+      const endMessageToWaitFor = `/processengine/correlation/${correlationId}/process/${processModelId}/node/${endEventToWaitFor}`;
+      const evaluationCallback = (message) => {
+        should(message).have.property('tokenPayload');
+        should(message.tokenPayload).be.match(expectedResult);
+        resolve();
+      };
+
+      // Subscribe for the EndEvent
+      eventAggregator.subscribeOnce(endMessageToWaitFor, evaluationCallback);
+
+      // Now publish the message and let the process run its course.
+      const messageName = 'Message_18zwda3';
+      eventAggregator.publish(`/processengine/process/message/${messageName}`);
+    });
   });
 
-  it.skip('should only start the process, after a signal was received', async () => {
+  it('should only start the process, after a signal was received', async () => {
 
-    const processModelId = 'start_event_signal_test';
+    const correlationId = uuid.v4();
+    const endEventToWaitFor = 'EndEvent_SignalTest';
 
     const expectedResult = /signal received/i;
 
-    const result = await testFixtureProvider.executeProcess(processModelId, startEventId);
+    // We can't await the process execution here, because that would prevent us from sending the signal.
+    // As a result we must subscribe to the event that gets send when the test is done.
+    testFixtureProvider.executeProcess(processModelId, signalStartEventId, correlationId);
 
-    should(result).have.property('tokenPayload');
-    should(result.tokenPayload).be.match(expectedResult);
+    await wait(500);
+
+    return new Promise((resolve) => {
+
+      const endMessageToWaitFor = `/processengine/correlation/${correlationId}/process/${processModelId}/node/${endEventToWaitFor}`;
+      const evaluationCallback = (message) => {
+        should(message).have.property('tokenPayload');
+        should(message.tokenPayload).be.match(expectedResult);
+        resolve();
+      };
+
+      // Subscribe for the EndEvent
+      eventAggregator.subscribeOnce(endMessageToWaitFor, evaluationCallback);
+
+      // Now publish the signal and let the process run its course.
+      const signalName = 'Signal_1gmrdgn';
+      eventAggregator.publish(`/processengine/process/signal/${signalName}`);
+    });
   });
 
   it('Should start the process after a delay of five seconds.', async () => {
 
-    const processModelId = 'start_event_timer_test';
-
     const timeStampBeforeStart = moment();
 
-    const result = await testFixtureProvider.executeProcess(processModelId, startEventId);
+    const result = await testFixtureProvider.executeProcess(processModelId, timerStartEventId);
 
     const timeStampAfterFinish = moment();
 
@@ -75,5 +116,13 @@ describe('Start Events - ', () => {
     should(result.tokenPayload).be.match(expectedResult);
     should(duration).be.greaterThan(expectedTimerRuntime);
   });
+
+  async function wait(miliseconds) {
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, miliseconds);
+    });
+  }
 
 });
