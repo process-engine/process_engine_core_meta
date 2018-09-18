@@ -25,7 +25,7 @@ describe('EndEvents - ', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should send a signal when reaching a MessageEndEvent.', async () => {
+  it('should send a message when reaching a MessageEndEvent.', async () => {
 
     const startEventId = 'StartEvent_MessageTest';
     const correlationId = uuid.v4();
@@ -48,6 +48,19 @@ describe('EndEvents - ', () => {
 
       testFixtureProvider.executeProcess(processModelEndEventId, startEventId, correlationId);
     });
+  });
+
+  it('should successfully finish a ProcessInstance, after sending a message through a MessageEndEvent.', async () => {
+
+    const startEventId = 'StartEvent_MessageTest';
+    const correlationId = uuid.v4();
+
+    const result = await testFixtureProvider.executeProcess(processModelEndEventId, startEventId, correlationId);
+
+    const expectedResult = /message sent/i;
+
+    should(result).have.property('tokenPayload');
+    should(result.tokenPayload).be.match(expectedResult);
   });
 
   it('should send a signal when reaching a SignalEndEvent', async () => {
@@ -73,6 +86,19 @@ describe('EndEvents - ', () => {
 
       testFixtureProvider.executeProcess(processModelEndEventId, startEventId, correlationId);
     });
+  });
+
+  it('should successfully finish a ProcessInstance, after sending a signal through a SignalEndEvent.', async () => {
+
+    const startEventId = 'StartEvent_SignalTest';
+    const correlationId = uuid.v4();
+
+    const result = await testFixtureProvider.executeProcess(processModelEndEventId, startEventId, correlationId);
+
+    const expectedResult = /signal sent/i;
+
+    should(result).have.property('tokenPayload');
+    should(result.tokenPayload).be.match(expectedResult);
   });
 
   it('should successfully terminate a process upon reaching a TerminateEndEvent.', async () => {
