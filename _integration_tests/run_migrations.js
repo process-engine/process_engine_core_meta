@@ -16,6 +16,7 @@ runMigration();
 
 async function runMigration() {
   const repositories = [
+    'correlation',
     'flow_node_instance',
     'process_model',
     'timer',
