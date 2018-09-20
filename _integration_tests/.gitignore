@@ -1,4 +1,6 @@
 dist
+logs
+metrics
 
 !bootstrapper
 !bootstrapper_browser
