@@ -5,18 +5,14 @@ import {InvocationContainer} from 'addict-ioc';
 import {Logger} from 'loggerhythm';
 
 import {AppBootstrapper} from '@essential-projects/bootstrapper_node';
+import {IIdentity} from '@essential-projects/iam_contracts';
+
+import {IConsumerApi} from '@process-engine/consumer_api_contracts';
 import {
-  ExecutionContext,
   IExecuteProcessService,
-  IExecutionContextFacade,
-  IExecutionContextFacadeFactory,
   IProcessModelService,
   Model,
 } from '@process-engine/process_engine_contracts';
-
-import {ConsumerContext, IConsumerApiService} from '@process-engine/consumer_api_contracts';
-
-import {IIdentity} from '@essential-projects/iam_contracts';
 
 const logger: Logger = Logger.createLogger('test:bootstrapper');
 
@@ -43,30 +39,25 @@ const iocModules: Array<any> = iocModuleNames.map((moduleName: string): any => {
 });
 
 export class TestFixtureProvider {
-  private _executeProcessService: IExecuteProcessService;
-  private _executionContextFacade: IExecutionContextFacade;
+
+  private _identity: IIdentity;
 
   private container: InvocationContainer;
   private bootstrapper: AppBootstrapper;
 
+  private _consumerApiService: IConsumerApi;
+  private _executeProcessService: IExecuteProcessService;
   private _processModelService: IProcessModelService;
 
-  private _consumerApiService: IConsumerApiService;
-  private _consumerContext: ConsumerContext;
-
-  public get executionContextFacade(): IExecutionContextFacade {
-    return this._executionContextFacade;
-  }
-
-  public get consumerContext(): ConsumerContext {
-    return this._consumerContext;
+  public get identity(): IIdentity {
+    return this._identity;
   }
 
   public get executeProcessService(): IExecuteProcessService {
     return this._executeProcessService;
   }
 
-  public get consumerApiService(): IConsumerApiService {
+  public get consumerApiService(): IConsumerApi {
     return this._consumerApiService;
   }
 
@@ -80,10 +71,10 @@ export class TestFixtureProvider {
 
     await this.bootstrapper.start();
 
-    this._createMockContexts();
+    this._createMockIdentity();
 
     this._executeProcessService = await this.resolveAsync<IExecuteProcessService>('ExecuteProcessService');
-    this._consumerApiService = await this.resolveAsync<IConsumerApiService>('ConsumerApiService');
+    this._consumerApiService = await this.resolveAsync<IConsumerApi>('ConsumerApiService');
     this._processModelService = await this.resolveAsync<IProcessModelService>('ProcessModelService');
   }
 
@@ -118,7 +109,7 @@ export class TestFixtureProvider {
 
     return this
       .executeProcessService
-      .startAndAwaitEndEvent(this.executionContextFacade, processModel, startEventKey, correlationId, initialToken);
+      .startAndAwaitEndEvent(this.identity, processModel, startEventKey, correlationId, initialToken);
   }
 
   /**
@@ -165,29 +156,18 @@ export class TestFixtureProvider {
     }
   }
 
-  private async _createMockContexts(): Promise<void> {
+  private async _createMockIdentity(): Promise<void> {
 
     // Note: Since the iam service is mocked, it doesn't matter what kind of token is used here.
     // It only matters that one is present.
-    const identity: IIdentity = {
+    this._identity = <IIdentity> {
       token: 'randomtoken',
     };
-
-    this._consumerContext = <ConsumerContext> {
-      identity: 'randomtoken',
-    };
-
-    const executionContext: ExecutionContext = new ExecutionContext(identity);
-
-    const executionContextFacadeFactory: IExecutionContextFacadeFactory =
-      await this.resolveAsync<IExecutionContextFacadeFactory>('ExecutionContextFacadeFactory');
-
-    this._executionContextFacade = executionContextFacadeFactory.create(executionContext);
   }
 
   private async _registerProcess(processFileName: string): Promise<void> {
     const xml: string = this._readProcessModelFromFile(processFileName);
-    await this.processModelService.persistProcessDefinitions(this.executionContextFacade, processFileName, xml, true);
+    await this.processModelService.persistProcessDefinitions(this.identity, processFileName, xml, true);
   }
 
   private _readProcessModelFromFile(fileName: string): string {
@@ -202,7 +182,7 @@ export class TestFixtureProvider {
 
   private async _getProcessById(processId: string): Promise<Model.Types.Process> {
 
-    const processModel: Model.Types.Process = await this.processModelService.getProcessModelById(this.executionContextFacade, processId);
+    const processModel: Model.Types.Process = await this.processModelService.getProcessModelById(this.identity, processId);
 
     return processModel;
   }

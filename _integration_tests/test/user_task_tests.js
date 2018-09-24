@@ -8,12 +8,12 @@ describe('User Tasks - ', () => {
 
   let testFixtureProvider;
 
-  let consumerContext;
+  let identity;
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
     await testFixtureProvider.initializeAndStart();
-    consumerContext = testFixtureProvider.consumerContext;
+    identity = testFixtureProvider.identity;
 
     const processDefinitionFiles = [
       'user_task_test',
@@ -125,7 +125,7 @@ describe('User Tasks - ', () => {
 
       await testFixtureProvider
         .consumerApiService
-        .finishUserTask(consumerContext, processModelId, correlationId, currentWaitingUserTaskId, userTaskInput);
+        .finishUserTask(identity, processModelId, correlationId, currentWaitingUserTaskId, userTaskInput);
     }
   });
 
@@ -158,7 +158,7 @@ describe('User Tasks - ', () => {
       // Try to finish the user task which is currently not waiting
       await testFixtureProvider
         .consumerApiService
-        .finishUserTask(consumerContext, processModelId, correlationId, 'User_Task_2', userTaskInput);
+        .finishUserTask(identity, processModelId, correlationId, 'User_Task_2', userTaskInput);
     } catch (error) {
       should(error).have.properties(...errorObjectProperties);
 
@@ -195,12 +195,12 @@ describe('User Tasks - ', () => {
 
     await testFixtureProvider
       .consumerApiService
-      .finishUserTask(consumerContext, processModelId, correlationId, 'User_Task_1', userTaskInput);
+      .finishUserTask(identity, processModelId, correlationId, 'User_Task_1', userTaskInput);
 
     try {
       await testFixtureProvider
         .consumerApiService
-        .finishUserTask(consumerContext, processModelId, correlationId, 'User_Task_1', userTaskInput);
+        .finishUserTask(identity, processModelId, correlationId, 'User_Task_1', userTaskInput);
     } catch (error) {
       should(error).have.properties(...errorObjectProperties);
 
@@ -218,7 +218,7 @@ describe('User Tasks - ', () => {
     const callbackType = startCallbackType.CallbackOnProcessInstanceCreated;
     const result = await testFixtureProvider
       .consumerApiService
-      .startProcessInstance(consumerContext, processModelId, 'StartEvent_1', initialToken, callbackType);
+      .startProcessInstance(identity, processModelId, 'StartEvent_1', initialToken, callbackType);
 
     await waitForProcessInstanceToReachUserTask(result.correlationId);
 
@@ -270,7 +270,7 @@ describe('User Tasks - ', () => {
   async function getWaitingUserTasksForCorrelationId(correlationId) {
     const userTasks = await testFixtureProvider
       .consumerApiService
-      .getUserTasksForCorrelation(consumerContext, correlationId);
+      .getUserTasksForCorrelation(identity, correlationId);
 
     return userTasks;
   }
@@ -296,7 +296,7 @@ describe('User Tasks - ', () => {
 
     const userTaskResult = await testFixtureProvider
       .consumerApiService
-      .finishUserTask(consumerContext, processModelId, correlationId, waitingUserTask.id, userTaskInput);
+      .finishUserTask(identity, processModelId, correlationId, waitingUserTask.id, userTaskInput);
 
     return userTaskResult;
   }
