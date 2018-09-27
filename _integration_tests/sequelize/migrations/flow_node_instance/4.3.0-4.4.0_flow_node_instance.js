@@ -40,8 +40,8 @@ module.exports = {
     //
     // Note that this bug does not seem to affect postgres.
 
-    const env = process.env.NODE_ENV || 'sqlite';
-    if (env === 'sqlite') {
+    const environmentIsSqlite = process.env.NODE_ENV === 'sqlite';
+    if (environmentIsSqlite) {
       await queryInterface.changeColumn(
         'FlowNodeInstances',
         'flowNodeInstanceId',
