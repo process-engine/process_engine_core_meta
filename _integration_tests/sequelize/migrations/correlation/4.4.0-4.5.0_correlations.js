@@ -39,6 +39,15 @@ module.exports = {
       }
     );
 
+    await queryInterface.addColumn(
+      'Correlations',
+      'identity',
+      {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      }
+    );
+
     // Checks if the given table exists.
     const tableExists = async (tableName) => {
       try {
@@ -59,7 +68,8 @@ module.exports = {
                                         SET "processModelId" = (
                                             SELECT "name"
                                             FROM "ProcessDefinitions"
-                                            WHERE "ProcessDefinitions"."hash" = "Correlations"."processModelHash");`;
+                                            WHERE "ProcessDefinitions"."hash" = "Correlations"."processModelHash"
+                                            LIMIT 1);`;
 
       await queryInterface.sequelize.query(setProcessModelIdQuery);
     }
@@ -74,9 +84,19 @@ module.exports = {
                                             SELECT "processInstanceId"
                                             FROM "ProcessTokens"
                                             WHERE "ProcessTokens"."correlationId" = "Correlations"."correlationId"
-                                            LIMIT 1;)`;
+                                            LIMIT 1);`;
 
       await queryInterface.sequelize.query(setProcessInstanceId);
+
+      const setIdentityQuery = `UPDATE "Correlations"
+                                  SET "identity" = (
+                                      SELECT "identity"
+                                      FROM "ProcessTokens"
+                                      WHERE "ProcessTokens"."correlationId" = "Correlations"."correlationId"
+                                        AND "ProcessTokens"."processInstanceId" = "Correlations"."processInstanceId"
+                                      LIMIT 1);`;
+
+      await queryInterface.sequelize.query(setIdentityQuery);
     }
 
     console.log('Migration successful.');
