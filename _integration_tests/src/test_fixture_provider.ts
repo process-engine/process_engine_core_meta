@@ -26,6 +26,8 @@ const iocModuleNames: Array<string> = [
   '@process-engine/correlations.repository.sequelize',
   '@process-engine/flow_node_instance.repository.sequelize',
   '@process-engine/iam',
+  '@process-engine/logging_api_core',
+  '@process-engine/logging.repository.file_system',
   '@process-engine/metrics_api_core',
   '@process-engine/metrics.repository.file_system',
   '@process-engine/process_engine_core',
@@ -115,7 +117,7 @@ export class TestFixtureProvider {
   /**
    * Generate an absoulte path, which points to the bpmn directory.
    *
-   * Checks if the cwd is "_integration_tests". If not, that directory name is appended.
+   * Checks if the cwd is '_integration_tests'. If not, that directory name is appended.
    * This is necessary, because Jenkins uses a different cwd than the local machines do.
    */
   public getBpmnDirectoryPath(): string {
