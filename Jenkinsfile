@@ -100,14 +100,24 @@ pipeline {
 
           // SQLite
           def db_storage_folder_path = "$WORKSPACE/process_engine_databases";
-          def logging_folder_path = "$WORKSPACE/logs";
+
           def db_storage_path_correlation = "--env process_engine__correlation_repository__storage=$db_storage_folder_path/processengine.sqlite";
-          def db_storage_path_logging = "--env process_engine__logging_repository__log_output_path=$logging_folder_path";
-          def db_storage_path_process_model = "--env process_engine__process_model_repository__storage=$db_storage_folder_path/processengine.sqlite";
+          def db_storage_path_external_task = "--env process_engine__external_task_repository__storage=$db_storage_folder_path/processengine.sqlite";
           def db_storage_path_flow_node_instance = "--env process_engine__flow_node_instance_repository__storage=$db_storage_folder_path/processengine.sqlite";
+          def db_storage_path_process_model = "--env process_engine__process_model_repository__storage=$db_storage_folder_path/processengine.sqlite";
           def db_storage_path_timer = "--env process_engine__timer_repository__storage=$db_storage_folder_path/processengine.sqlite";
 
-          server_image.inside("${node_env} ${db_storage_path_logging} ${db_storage_path_correlation} ${db_storage_path_process_model} ${db_storage_path_flow_node_instance} ${db_storage_path_timer} ${junit_report_path} ${config_path}") {
+          def db_environment_settings = "${db_storage_path_correlation} ${db_storage_path_external_task} ${db_storage_path_flow_node_instance} ${db_storage_path_process_model} ${db_storage_path_timer}"
+
+          // FileSystem Repositories
+          def logging_folder_path = "$WORKSPACE/logs";
+          def metrics_folder_path = "$WORKSPACE/metrics";
+          def db_storage_path_logging = "--env process_engine__logging_repository__log_output_path=$logging_folder_path";
+          def db_storage_path_metrics = "--env process_engine__metrics_repository__log_output_path=$metrics_folder_path";
+
+          def filesystem_environment_settings = "${db_storage_path_logging} ${db_storage_path_metrics}"
+
+          server_image.inside("${node_env} ${db_environment_settings} ${filesystem_environment_settings} ${junit_report_path} ${config_path}") {
             error_code = sh(script: "node /usr/src/app/node_modules/.bin/mocha --timeout 120000 /usr/src/app/test/*.js --colors --reporter mocha-jenkins-reporter --exit > result.txt", returnStatus: true);
             testresults = sh(script: "cat result.txt", returnStdout: true).trim();
 
