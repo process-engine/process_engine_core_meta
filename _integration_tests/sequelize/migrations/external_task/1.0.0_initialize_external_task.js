@@ -60,7 +60,7 @@ module.exports = {
         allowNull: true,
       },
       isFinished: {
-        type: Sequelize.STRING,
+        type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: false,
       },
