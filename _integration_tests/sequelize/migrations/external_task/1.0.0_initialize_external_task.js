@@ -59,10 +59,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      isFinished: {
-        type: Sequelize.BOOLEAN,
+      state: {
+        type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: false,
+        defaultValue: 'pending',
       },
       finishedAt: {
         type: Sequelize.DATE,
