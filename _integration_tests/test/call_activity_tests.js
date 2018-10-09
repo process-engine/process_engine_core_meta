@@ -2,7 +2,7 @@
 
 const should = require('should');
 
-const TestFixtureProvider = require('../dist/commonjs/test_fixture_provider').TestFixtureProvider;
+const TestFixtureProvider = require('../dist/commonjs').TestFixtureProvider;
 
 describe('Call activity tests', () => {
 
