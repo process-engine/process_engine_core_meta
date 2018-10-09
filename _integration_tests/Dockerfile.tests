@@ -6,7 +6,6 @@ WORKDIR /usr/src/app
 
 COPY gulpfile.js ./
 COPY index.js ./
-COPY ioc_module.js ./
 COPY package.json ./
 COPY tsconfig.json ./
 COPY bpmn ./bpmn
