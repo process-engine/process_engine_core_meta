@@ -24,7 +24,7 @@
     "@essential-projects/bootstrapper": "3.1.0",
     "@essential-projects/bootstrapper_node": "3.1.0",
     "@essential-projects/event_aggregator": "3.0.1",
-    "@essential-projects/http_extension": "4.1.2",
+    "@essential-projects/http_extension": "feature~merge_http_extensions",
     "@essential-projects/services": "2.0.3",
     "@essential-projects/sequelize_connection_manager": "1.0.6",
     "@essential-projects/timing": "3.0.5",
