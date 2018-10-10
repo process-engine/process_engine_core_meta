@@ -112,7 +112,7 @@ describe('Service Task - ', () => {
     }
   });
 
-  it('should fail to execute a ServiceTask, whose invocation exists with an Error', async () => {
+  it('should fail to execute a ServiceTask, whose invocation exits with an Error', async () => {
 
     const initialToken = {
       test_type: 'throw_exception',
