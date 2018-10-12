@@ -74,7 +74,7 @@ export class ProcessInstanceHandler {
       }
     }
 
-    throw new Error(`No process instance within correlation '${correlationId}' found! The process instance like failed to start!`);
+    throw new Error(`No process instance within correlation '${correlationId}' found! The process instance likely failed to start!`);
   }
 
   /**
