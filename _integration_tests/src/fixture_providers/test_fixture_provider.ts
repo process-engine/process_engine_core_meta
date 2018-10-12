@@ -2,65 +2,50 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import {InvocationContainer} from 'addict-ioc';
+
 import {Logger} from 'loggerhythm';
+const logger: Logger = Logger.createLogger('test:bootstrapper');
 
 import {AppBootstrapper} from '@essential-projects/bootstrapper_node';
 import {IIdentity} from '@essential-projects/iam_contracts';
 
 import {IConsumerApi} from '@process-engine/consumer_api_contracts';
+import {ExternalTaskSampleWorker} from '@process-engine/external_task_sample_worker';
 import {
   IExecuteProcessService,
   IProcessModelService,
   Model,
 } from '@process-engine/process_engine_contracts';
 
-const logger: Logger = Logger.createLogger('test:bootstrapper');
+import {initializeBootstrapper} from './setup_ioc_container';
 
-const iocModuleNames: Array<string> = [
-  '@essential-projects/bootstrapper',
-  '@essential-projects/bootstrapper_node',
-  '@essential-projects/event_aggregator',
-  '@essential-projects/services',
-  '@essential-projects/timing',
-  '@process-engine/consumer_api_core',
-  '@process-engine/correlations.repository.sequelize',
-  '@process-engine/flow_node_instance.repository.sequelize',
-  '@process-engine/iam',
-  '@process-engine/logging_api_core',
-  '@process-engine/logging.repository.file_system',
-  '@process-engine/metrics_api_core',
-  '@process-engine/metrics.repository.file_system',
-  '@process-engine/process_engine_core',
-  '@process-engine/process_model.repository.sequelize',
-  '@process-engine/timers.repository.sequelize',
-  '../../',
-];
-
-const iocModules: Array<any> = iocModuleNames.map((moduleName: string): any => {
-  return require(`${moduleName}/ioc_module`);
-});
+export type IdentityCollection = {
+  defaultUser: IIdentity;
+  restrictedUser: IIdentity;
+};
 
 export class TestFixtureProvider {
 
-  private _identity: IIdentity;
-
-  private container: InvocationContainer;
   private bootstrapper: AppBootstrapper;
+  private container: InvocationContainer;
 
   private _consumerApiService: IConsumerApi;
   private _executeProcessService: IExecuteProcessService;
   private _processModelService: IProcessModelService;
+  private _sampleExternalTaskWorker: ExternalTaskSampleWorker;
 
-  public get identity(): IIdentity {
-    return this._identity;
-  }
+  private _identities: IdentityCollection;
 
-  public get executeProcessService(): IExecuteProcessService {
-    return this._executeProcessService;
+  public get identities(): IdentityCollection {
+    return this._identities;
   }
 
   public get consumerApiService(): IConsumerApi {
     return this._consumerApiService;
+  }
+
+  public get executeProcessService(): IExecuteProcessService {
+    return this._executeProcessService;
   }
 
   public get processModelService(): IProcessModelService {
@@ -73,19 +58,25 @@ export class TestFixtureProvider {
 
     await this.bootstrapper.start();
 
-    this._createMockIdentity();
+    await this._createMockIdentities();
 
-    this._executeProcessService = await this.resolveAsync<IExecuteProcessService>('ExecuteProcessService');
     this._consumerApiService = await this.resolveAsync<IConsumerApi>('ConsumerApiService');
+    this._executeProcessService = await this.resolveAsync<IExecuteProcessService>('ExecuteProcessService');
     this._processModelService = await this.resolveAsync<IProcessModelService>('ProcessModelService');
+
+    this._sampleExternalTaskWorker = await this.resolveAsync<ExternalTaskSampleWorker>('ExternalTaskSampleWorker');
+    this._sampleExternalTaskWorker.start();
   }
 
   public async tearDown(): Promise<void> {
+    this._sampleExternalTaskWorker.stop();
+    const httpExtension: any = await this.container.resolveAsync('HttpExtension');
+    await httpExtension.close();
     await this.bootstrapper.stop();
   }
 
-  public async resolveAsync<T>(moduleName: string): Promise<any> {
-    return this.container.resolveAsync<T>(moduleName);
+  public async resolveAsync<T>(moduleName: string, args?: any): Promise<any> {
+    return this.container.resolveAsync<T>(moduleName, args);
   }
 
   public async importProcessFiles(processFileNames: Array<string>): Promise<void> {
@@ -105,21 +96,6 @@ export class TestFixtureProvider {
     return fileContent;
   }
 
-  public async executeProcess(processKey: string, startEventKey: string, correlationId: string, initialToken: any = {}): Promise<any> {
-
-    const processModel: Model.Types.Process = await this._getProcessById(processKey);
-
-    return this
-      .executeProcessService
-      .startAndAwaitEndEvent(this.identity, processModel, startEventKey, correlationId, initialToken);
-  }
-
-  /**
-   * Generate an absoulte path, which points to the bpmn directory.
-   *
-   * Checks if the cwd is '_integration_tests'. If not, that directory name is appended.
-   * This is necessary, because Jenkins uses a different cwd than the local machines do.
-   */
   public getBpmnDirectoryPath(): string {
 
     const bpmnDirectoryName: string = 'bpmn';
@@ -133,20 +109,19 @@ export class TestFixtureProvider {
     return path.join(rootDirPath, bpmnDirectoryName);
   }
 
+  public async executeProcess(processKey: string, startEventKey: string, correlationId: string, initialToken: any = {}): Promise<any> {
+
+    const processModel: Model.Types.Process = await this._getProcessById(processKey);
+
+    return this
+      .executeProcessService
+      .startAndAwaitEndEvent(this.identities.defaultUser, processModel, startEventKey, correlationId, initialToken);
+  }
+
   private async _initializeBootstrapper(): Promise<void> {
 
     try {
-      this.container = new InvocationContainer({
-        defaults: {
-          conventionCalls: ['initialize'],
-        },
-      });
-
-      for (const iocModule of iocModules) {
-        iocModule.registerInContainer(this.container);
-      }
-
-      this.container.validateDependencies();
+      this.container = await initializeBootstrapper();
 
       const appPath: string = path.resolve(__dirname);
       this.bootstrapper = await this.container.resolveAsync<AppBootstrapper>('AppBootstrapper', [appPath]);
@@ -158,18 +133,28 @@ export class TestFixtureProvider {
     }
   }
 
-  private async _createMockIdentity(): Promise<void> {
+  private async _createMockIdentities(): Promise<void> {
 
-    // Note: Since the iam service is mocked, it doesn't matter what kind of token is used here.
+    this._identities = {
+      // all access user
+      defaultUser: await this._createIdentity('defaultUser'),
+      // no access user
+      restrictedUser: await this._createIdentity('restrictedUser'),
+    };
+  }
+
+  private async _createIdentity(username: string): Promise<IIdentity> {
+
+    // Note: Since the iam facade is mocked, it doesn't matter what type of token is used here.
     // It only matters that one is present.
-    this._identity = <IIdentity> {
-      token: 'randomtoken',
+    return <IIdentity> {
+      token: username,
     };
   }
 
   private async _registerProcess(processFileName: string): Promise<void> {
     const xml: string = this._readProcessModelFromFile(processFileName);
-    await this.processModelService.persistProcessDefinitions(this.identity, processFileName, xml, true);
+    await this.processModelService.persistProcessDefinitions(this.identities.defaultUser, processFileName, xml, true);
   }
 
   private _readProcessModelFromFile(fileName: string): string {
@@ -184,7 +169,7 @@ export class TestFixtureProvider {
 
   private async _getProcessById(processId: string): Promise<Model.Types.Process> {
 
-    const processModel: Model.Types.Process = await this.processModelService.getProcessModelById(this.identity, processId);
+    const processModel: Model.Types.Process = await this.processModelService.getProcessModelById(this.identities.defaultUser, processId);
 
     return processModel;
   }
