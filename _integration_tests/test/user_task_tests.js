@@ -42,7 +42,7 @@ describe('User Tasks - ', () => {
     };
 
     await processInstanceHandler.startProcessInstanceAndReturnCorrelationId(processModelId, correlationId, initialToken);
-    await processInstanceHandler.waitForProcessInstanceToReachUserTask(correlationId);
+    await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId);
 
     const waitingUserTasks = await processInstanceHandler.getWaitingUserTasksForCorrelationId(identity, correlationId);
 
@@ -73,7 +73,7 @@ describe('User Tasks - ', () => {
     };
 
     await processInstanceHandler.startProcessInstanceAndReturnCorrelationId(processModelId, correlationId, initialToken);
-    await processInstanceHandler.waitForProcessInstanceToReachUserTask(correlationId);
+    await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId);
 
     const userTaskId = 'user_task_1';
 
@@ -95,7 +95,7 @@ describe('User Tasks - ', () => {
     };
 
     await processInstanceHandler.startProcessInstanceAndReturnCorrelationId(processModelId, correlationId, initialToken);
-    await processInstanceHandler.waitForProcessInstanceToReachUserTask(correlationId);
+    await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId);
 
     const userTaskInput = {
       formFields: {
@@ -104,7 +104,7 @@ describe('User Tasks - ', () => {
     };
 
     await processInstanceHandler.finishUserTaskInCorrelation(identity, correlationId, processModelId, 'User_Task_1', userTaskInput);
-    await processInstanceHandler.waitForProcessInstanceToReachUserTask(correlationId);
+    await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId);
     await processInstanceHandler.finishUserTaskInCorrelation(identity, correlationId, processModelId, 'User_Task_2', userTaskInput);
   });
 
@@ -117,7 +117,7 @@ describe('User Tasks - ', () => {
     };
 
     await processInstanceHandler.startProcessInstanceAndReturnCorrelationId(processModelId, correlationId, initialToken);
-    await processInstanceHandler.waitForProcessInstanceToReachUserTask(correlationId);
+    await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId);
 
     const currentRunningUserTasks = await processInstanceHandler.getWaitingUserTasksForCorrelationId(identity, correlationId);
 
@@ -151,7 +151,7 @@ describe('User Tasks - ', () => {
     };
 
     await processInstanceHandler.startProcessInstanceAndReturnCorrelationId(processModelId, correlationId, initialToken);
-    await processInstanceHandler.waitForProcessInstanceToReachUserTask(correlationId);
+    await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId);
 
     const userTaskInput = {
       formFields: {
@@ -192,7 +192,7 @@ describe('User Tasks - ', () => {
     };
 
     await processInstanceHandler.startProcessInstanceAndReturnCorrelationId(processModelId, correlationId, initialToken);
-    await processInstanceHandler.waitForProcessInstanceToReachUserTask(correlationId);
+    await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId);
 
     const userTaskInput = {
       formFields: {
