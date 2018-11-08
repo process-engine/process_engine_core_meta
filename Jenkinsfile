@@ -118,7 +118,7 @@ pipeline {
           def filesystem_environment_settings = "${db_storage_path_logging} ${db_storage_path_metrics}"
 
           server_image.inside("${node_env} ${db_environment_settings} ${filesystem_environment_settings} ${junit_report_path} ${config_path}") {
-            error_code = sh(script: "node /usr/src/app/node_modules/.bin/mocha --timeout 120000 /usr/src/app/test/*.js --colors --reporter mocha-jenkins-reporter --exit > result.txt", returnStatus: true);
+            error_code = sh(script: "node /usr/src/app/node_modules/.bin/mocha --timeout 200000 /usr/src/app/test/*.js --colors --reporter mocha-jenkins-reporter --exit > result.txt", returnStatus: true);
             testresults = sh(script: "cat result.txt", returnStdout: true).trim();
 
             junit 'report.xml'
