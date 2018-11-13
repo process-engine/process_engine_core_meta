@@ -21,7 +21,7 @@ describe('Parallel Gateway execution', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should successfully run multiple parallel running branchs and return each result with the token.', async () => {
+  it('should successfully run multiple parallel branchs and return each result with the token.', async () => {
 
     const processModelId = 'parallel_gateway_test';
     const result = await testFixtureProvider.executeProcess(processModelId, startEventId);
