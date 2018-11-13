@@ -76,6 +76,10 @@ describe('User Tasks - ', () => {
     await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId);
 
     const waitingUserTasks = await processInstanceHandler.getWaitingUserTasksForCorrelationId(identity, correlationId);
+
+    should(waitingUserTasks.userTasks).be.instanceOf(Array);
+    should(waitingUserTasks.userTasks.length).be.greaterThan(0);
+
     const userTask = waitingUserTasks.userTasks[0];
 
     const userTaskInput = {
@@ -100,6 +104,10 @@ describe('User Tasks - ', () => {
     await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId);
 
     let waitingUserTasks = await processInstanceHandler.getWaitingUserTasksForCorrelationId(identity, correlationId);
+
+    should(waitingUserTasks.userTasks).be.instanceOf(Array);
+    should(waitingUserTasks.userTasks.length).be.greaterThan(0);
+
     const userTask1 = waitingUserTasks.userTasks[0];
 
     const userTaskInput = {
@@ -113,6 +121,10 @@ describe('User Tasks - ', () => {
     await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId);
 
     waitingUserTasks = await processInstanceHandler.getWaitingUserTasksForCorrelationId(identity, correlationId);
+
+    should(waitingUserTasks.userTasks).be.instanceOf(Array);
+    should(waitingUserTasks.userTasks.length).be.greaterThan(0);
+
     const userTask2 = waitingUserTasks.userTasks[0];
 
     await processInstanceHandler
@@ -204,6 +216,10 @@ describe('User Tasks - ', () => {
     await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId);
 
     const waitingUserTasks = await processInstanceHandler.getWaitingUserTasksForCorrelationId(identity, correlationId);
+
+    should(waitingUserTasks.userTasks).be.instanceOf(Array);
+    should(waitingUserTasks.userTasks.length).be.greaterThan(0);
+
     const userTask = waitingUserTasks.userTasks[0];
 
     const userTaskInput = {
