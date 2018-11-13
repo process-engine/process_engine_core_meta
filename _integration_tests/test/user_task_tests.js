@@ -61,7 +61,7 @@ describe('User Tasks - ', () => {
     should(waitingUserTaskFieldLabel).be.equal(expectedLabelValue);
     should(waitingUserTaskFieldDefaultValue).be.equal(expectedDefaultValue);
 
-    await processInstanceHandler.finishUserTaskInCorrelation(identity, correlationId, processModelId, userTask.id, {});
+    await processInstanceHandler.finishUserTaskInCorrelation(identity, correlationId, userTask.processInstanceId, userTask.flowNodeInstanceId, {});
   });
 
   it('should finish the user task.', async () => {
@@ -75,7 +75,12 @@ describe('User Tasks - ', () => {
     await processInstanceHandler.startProcessInstanceAndReturnCorrelationId(processModelId, correlationId, initialToken);
     await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId);
 
-    const userTaskId = 'user_task_1';
+    const waitingUserTasks = await processInstanceHandler.getWaitingUserTasksForCorrelationId(identity, correlationId);
+
+    should(waitingUserTasks.userTasks).be.instanceOf(Array);
+    should(waitingUserTasks.userTasks.length).be.greaterThan(0);
+
+    const userTask = waitingUserTasks.userTasks[0];
 
     const userTaskInput = {
       formFields: {
@@ -83,7 +88,8 @@ describe('User Tasks - ', () => {
       },
     };
 
-    await processInstanceHandler.finishUserTaskInCorrelation(identity, correlationId, processModelId, userTaskId, userTaskInput);
+    await processInstanceHandler
+      .finishUserTaskInCorrelation(identity, correlationId, userTask.processInstanceId, userTask.flowNodeInstanceId, userTaskInput);
   });
 
   it('should finish two sequential user tasks', async () => {
@@ -97,15 +103,32 @@ describe('User Tasks - ', () => {
     await processInstanceHandler.startProcessInstanceAndReturnCorrelationId(processModelId, correlationId, initialToken);
     await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId);
 
+    let waitingUserTasks = await processInstanceHandler.getWaitingUserTasksForCorrelationId(identity, correlationId);
+
+    should(waitingUserTasks.userTasks).be.instanceOf(Array);
+    should(waitingUserTasks.userTasks.length).be.greaterThan(0);
+
+    const userTask1 = waitingUserTasks.userTasks[0];
+
     const userTaskInput = {
       formFields: {
         Sample_Form_Field: 'Hello',
       },
     };
 
-    await processInstanceHandler.finishUserTaskInCorrelation(identity, correlationId, processModelId, 'User_Task_1', userTaskInput);
+    await processInstanceHandler
+      .finishUserTaskInCorrelation(identity, correlationId, userTask1.processInstanceId, userTask1.flowNodeInstanceId, userTaskInput);
     await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId);
-    await processInstanceHandler.finishUserTaskInCorrelation(identity, correlationId, processModelId, 'User_Task_2', userTaskInput);
+
+    waitingUserTasks = await processInstanceHandler.getWaitingUserTasksForCorrelationId(identity, correlationId);
+
+    should(waitingUserTasks.userTasks).be.instanceOf(Array);
+    should(waitingUserTasks.userTasks.length).be.greaterThan(0);
+
+    const userTask2 = waitingUserTasks.userTasks[0];
+
+    await processInstanceHandler
+      .finishUserTaskInCorrelation(identity, correlationId, userTask2.processInstanceId, userTask2.flowNodeInstanceId, userTaskInput);
   });
 
   it('should finish two parallel running user tasks', async () => {
@@ -134,11 +157,9 @@ describe('User Tasks - ', () => {
 
     for (const currentWaitingUserTask of waitingUsersTasks) {
 
-      const currentWaitingUserTaskId = currentWaitingUserTask.id;
-
       await testFixtureProvider
         .consumerApiService
-        .finishUserTask(identity, processModelId, correlationId, currentWaitingUserTaskId, userTaskInput);
+        .finishUserTask(identity, currentWaitingUserTask.processInstanceId, correlationId, currentWaitingUserTask.flowNodeInstanceId, userTaskInput);
     }
   });
 
@@ -194,6 +215,13 @@ describe('User Tasks - ', () => {
     await processInstanceHandler.startProcessInstanceAndReturnCorrelationId(processModelId, correlationId, initialToken);
     await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId);
 
+    const waitingUserTasks = await processInstanceHandler.getWaitingUserTasksForCorrelationId(identity, correlationId);
+
+    should(waitingUserTasks.userTasks).be.instanceOf(Array);
+    should(waitingUserTasks.userTasks.length).be.greaterThan(0);
+
+    const userTask = waitingUserTasks.userTasks[0];
+
     const userTaskInput = {
       formFields: {
         Sample_Form_Field: 'Hello',
@@ -206,22 +234,20 @@ describe('User Tasks - ', () => {
       'message',
     ];
 
-    const errorName = /.*not.*found/i;
-    const errorMessage = /.*User_Task_1.*/i;
+    const errorMessage = /does not have a usertask/i;
     const errorCode = 404;
 
     await testFixtureProvider
       .consumerApiService
-      .finishUserTask(identity, processModelId, correlationId, 'User_Task_1', userTaskInput);
+      .finishUserTask(identity, userTask.processInstanceId, correlationId, userTask.flowNodeInstanceId, userTaskInput);
 
     try {
       await testFixtureProvider
         .consumerApiService
-        .finishUserTask(identity, processModelId, correlationId, 'User_Task_1', userTaskInput);
+        .finishUserTask(identity, userTask.processInstanceId, correlationId, userTask.flowNodeInstanceId, userTaskInput);
     } catch (error) {
       should(error).have.properties(...errorObjectProperties);
 
-      should(error.name).be.match(errorName);
       should(error.code).be.equal(errorCode);
       should(error.message).be.match(errorMessage);
     }

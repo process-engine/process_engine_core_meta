@@ -93,39 +93,27 @@ export class ProcessInstanceHandler {
   }
 
   /**
-   * Finishes a UserTask and returns its result.
+   * Finishes a UserTask.
    *
    * @async
-   * @param   identity       The identity with which to finish the UserTask.
-   * @param   correlationId  The ID of the Correlation for which to finish
-   *                         the UserTask.
-   * @param   processModelId The ID of the ProcessModel for which to finish
-   *                         the UserTask.
-   * @param   userTaskId     The ID of the UserTask to finish.
-   * @param   userTaskInput  The input data with which to finish the UserTask.
-   * @returns                The result of the finishing operation.
+   * @param   identity           The identity with which to finish the UserTask.
+   * @param   correlationId      The ID of the Correlation for which to finish
+   *                             the UserTask.
+   * @param   processInstanceId  The ID of the ProcessModel for which to finish
+   *                             the UserTask.
+   * @param   userTaskInstanceId The ID of the UserTask to finish.
+   * @param   userTaskInput      The input data with which to finish the UserTask.
+   * @returns                    The result of the finishing operation.
    */
   public async finishUserTaskInCorrelation(identity: IIdentity,
                                            correlationId: string,
-                                           processModelId: string,
-                                           userTaskId: string,
-                                           userTaskInput: any): Promise<any> {
+                                           processInstanceId: string,
+                                           userTaskInstanceId: string,
+                                           userTaskInput: any): Promise<void> {
 
-    const waitingUserTasks: UserTaskList = await this.getWaitingUserTasksForCorrelationId(identity, correlationId);
-
-    should(waitingUserTasks).have.property('userTasks');
-    should(waitingUserTasks.userTasks.length).be.equal(1, 'The process should have one waiting user task');
-
-    const waitingUserTask: UserTask = waitingUserTasks.userTasks[0];
-
-    should(waitingUserTask.id).be.equal(userTaskId);
-
-    const userTaskResult: any =
-      await this.testFixtureProvider
-        .consumerApiService
-        .finishUserTask(identity, processModelId, correlationId, waitingUserTask.id, userTaskInput);
-
-    return userTaskResult;
+    await this.testFixtureProvider
+      .consumerApiService
+      .finishUserTask(identity, processInstanceId, correlationId, userTaskInstanceId, userTaskInput);
   }
 
   /**
