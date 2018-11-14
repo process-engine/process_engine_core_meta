@@ -1,27 +1,9 @@
 {
   "projects": {
     "documentation": "git@github.com:process-engine/documentation.git",
-    "tslint-config": "git@github.com:essential-projects/tslint-config.git",
-    "errors_ts": "git@github.com:essential-projects/errors_ts.git",
-    "bootstrapper_contracts": "git@github.com:essential-projects/bootstrapper_contracts.git",
-    "http_contracts": "git@github.com:essential-projects/http_contracts.git",
-    "services_contracts": "git@github.com:essential-projects/services_contracts.git",
-    "iam_contracts": "git@github.com:essential-projects/iam_contracts.git",
-    "event_aggregator_contracts": "git@github.com:essential-projects/event_aggregator_contracts.git",
     "process_engine_contracts": "git@github.com:process-engine/process_engine_contracts.git",
-    "timing_contracts": "git@github.com:essential-projects/timing_contracts",
-    "sequelize_connection_manager": "git@github.com:essential-projects/sequelize_connection_manager",
-    "bootstrapper": "git@github.com:essential-projects/bootstrapper.git",
-    "bootstrapper_node": "git@github.com:essential-projects/bootstrapper_node.git",
-    "bootstrapper_browser": "git@github.com:essential-projects/bootstrapper_browser.git",
-    "http": "git@github.com:essential-projects/http.git",
-    "http_node": "git@github.com:essential-projects/http_node.git",
-    "http_extension": "git@github.com:essential-projects/http_extension.git",
-    "event_aggregator": "git@github.com:essential-projects/event_aggregator.git",
     "process_engine_core": "git@github.com:process-engine/process_engine_core.git",
     "iam": "git@github.com:process-engine/iam.git",
-    "services": "git@github.com:essential-projects/services.git",
-    "timing": "git@github.com:essential-projects/timing",
     "identity_server": "git@github.com:process-engine/identity_server.git"
   }
 }
