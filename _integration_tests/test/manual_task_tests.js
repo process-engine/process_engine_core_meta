@@ -150,7 +150,7 @@ describe('Manual Tasks - ', () => {
       'message',
     ];
 
-    const errorMessage = /does not have a manual task/i;
+    const errorMessage = /does not have a ManualTask/i;
     const errorCode = 404;
 
     await testFixtureProvider
