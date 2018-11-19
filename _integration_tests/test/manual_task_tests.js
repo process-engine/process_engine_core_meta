@@ -51,7 +51,7 @@ describe('Manual Tasks - ', () => {
     const manualTask1 = waitingManualTasks.manualTasks[0];
 
     await processInstanceHandler
-      .finishManualTaskInCorrelation(identity, manualTask1.processModelId, correlationId, manualTask1.id);
+      .finishManualTaskInCorrelation(identity, manualTask1.processInstanceId, correlationId, manualTask1.flowNodeInstanceId);
     await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId);
 
     waitingManualTasks = await processInstanceHandler.getWaitingManualTasksForCorrelationId(identity, correlationId);
@@ -62,7 +62,7 @@ describe('Manual Tasks - ', () => {
     const manualTask2 = waitingManualTasks.manualTasks[0];
 
     await processInstanceHandler
-      .finishManualTaskInCorrelation(identity, manualTask2.processModelId, manualTask2.correlationId, manualTask2.id);
+      .finishManualTaskInCorrelation(identity, manualTask2.processInstanceId, manualTask2.correlationId, manualTask2.flowNodeInstanceId);
   });
 
   it('should finish two parallel running manual tasks', async () => {
@@ -87,7 +87,7 @@ describe('Manual Tasks - ', () => {
 
       await testFixtureProvider
         .consumerApiService
-        .finishManualTask(identity, currentWaitingManualTask.processModelId, correlationId, currentWaitingManualTask.id);
+        .finishManualTask(identity, currentWaitingManualTask.processInstanceId, correlationId, currentWaitingManualTask.flowNodeInstanceId);
     }
   });
 
@@ -101,6 +101,9 @@ describe('Manual Tasks - ', () => {
 
     await processInstanceHandler.startProcessInstanceAndReturnCorrelationId(processModelId, correlationId, initialToken);
     await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId);
+
+    const waitingManualTasks = await processInstanceHandler.getWaitingManualTasksForCorrelationId(identity, correlationId);
+    const manualTask = waitingManualTasks.manualTasks[0];
 
     const errorObjectProperties = [
       'name',
@@ -116,7 +119,7 @@ describe('Manual Tasks - ', () => {
       // Try to finish the manual task which is currently not waiting
       await testFixtureProvider
         .consumerApiService
-        .finishManualTask(identity, processModelId, correlationId, 'Manual_Task_2');
+        .finishManualTask(identity, manualTask.processInstanceId, correlationId, 'Manual_Task_2');
     } catch (error) {
       should(error).have.properties(...errorObjectProperties);
 
@@ -155,12 +158,12 @@ describe('Manual Tasks - ', () => {
 
     await testFixtureProvider
       .consumerApiService
-      .finishManualTask(identity, manualTask.processModelId, correlationId, manualTask.id);
+      .finishManualTask(identity, manualTask.processInstanceId, correlationId, manualTask.flowNodeInstanceId);
 
     try {
       await testFixtureProvider
         .consumerApiService
-        .finishManualTask(identity, manualTask.processModelId, correlationId, manualTask.id);
+        .finishManualTask(identity, manualTask.processInstanceId, correlationId, manualTask.flowNodeInstanceId);
     } catch (error) {
       should(error).have.properties(...errorObjectProperties);
 
