@@ -6,6 +6,7 @@ import * as uuid from 'uuid';
 import {IIdentity} from '@essential-projects/iam_contracts';
 
 import {
+  ManualTaskList,
   ProcessStartRequestPayload,
   ProcessStartResponsePayload,
   StartCallbackType,
@@ -93,6 +94,20 @@ export class ProcessInstanceHandler {
   }
 
   /**
+   * Returns all ManualTasks that are running with the given correlation id.
+   *
+   * @async
+   * @param   identity      The identity with which to get the ManualTask.
+   * @param   correlationId The ID of the Correlation for which to get the ManualTasks.
+   * @returns               A list of waiting ManualTasks.
+   */
+  public async getWaitingManualTasksForCorrelationId(identity: IIdentity, correlationId: string): Promise<ManualTaskList> {
+
+    return this.testFixtureProvider
+      .consumerApiService
+      .getManualTasksForCorrelation(identity, correlationId);
+  }
+  /**
    * Finishes a UserTask.
    *
    * @async
@@ -115,6 +130,29 @@ export class ProcessInstanceHandler {
       .consumerApiService
       .finishUserTask(identity, processInstanceId, correlationId, userTaskInstanceId, userTaskInput);
   }
+
+  /**
+   * Finishes a ManualTask.
+   *
+   * @async
+   * @param   identity           The identity with which to finish the ManualTask.
+   * @param   correlationId      The ID of the Correlation for which to finish
+   *                             the ManualTask.
+   * @param   processInstanceId  The ID of the ProcessModel for which to finish
+   *                             the ManualTask.
+   * @param   manualTaskInstanceId The ID of the ManualTask to finish.
+   * @param   manualTaskInput      The input data with which to finish the ManualTask.
+   * @returns                    The result of the finishing operation.
+   */
+  public async finishManualTaskInCorrelation(identity: IIdentity,
+                                             processModelId: string,
+                                             correlationId: string,
+                                             manualTaskId: string): Promise<void> {
+
+    await this.testFixtureProvider
+      .consumerApiService
+      .finishManualTask(identity, processModelId, correlationId, manualTaskId);
+}
 
   /**
    * Delays test execution by the given amount of time.
