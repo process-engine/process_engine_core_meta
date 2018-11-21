@@ -35,6 +35,8 @@ pipeline {
           sh('node --version')
           sh('npm install --ignore-scripts')
         }
+
+        archiveArtifacts('package-lock.json')
       }
     }
     stage('lint') {
