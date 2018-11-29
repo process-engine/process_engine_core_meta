@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const Umzug = require('umzug');
 
-const SequelizeConnectionManager = require('@essential-projects/sequelize_connection_manager');
+const {SequelizeConnectionManager} = require('@essential-projects/sequelize_connection_manager');
 
 let sequelizeInstance;
 
