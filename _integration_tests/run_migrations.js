@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const Umzug = require('umzug');
 
-const sequelizeConnectionManager = require('@essential-projects/sequelize_connection_manager');
+const SequelizeConnectionManager = require('@essential-projects/sequelize_connection_manager');
 
 let sequelizeInstance;
 
@@ -46,6 +46,7 @@ async function createSequelizeInstance(repositoryName) {
   const configAsString = fs.readFileSync(configPath, 'utf-8');
   const configAsJson = JSON.parse(configAsString);
 
+  const sequelizeConnectionManager = new SequelizeConnectionManager();
   const connection = sequelizeConnectionManager.getConnection(configAsJson);
   return connection;
 }
