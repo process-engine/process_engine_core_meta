@@ -26,11 +26,6 @@ module.exports = {
     console.log('Creating Correlations table');
 
     return queryInterface.createTable('Correlations', {
-      id: {
-        type: Sequelize.UUID,
-        primaryKey: true,
-        defaultValue: Sequelize.UUIDV4,
-      },
       correlationId: {
         type: Sequelize.STRING,
         allowNull: false,
