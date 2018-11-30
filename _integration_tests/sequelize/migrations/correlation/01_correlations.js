@@ -4,49 +4,60 @@
 // https://sequelize.readthedocs.io/en/latest/docs/migrations/#functions
 
 // CHANGE NOTES:
-// Changes between 4.4.0 and 4.5.0:
-// - Added new columns: processModelId and processInstanceId
+// Changes between 1.0.0 and 1.2.0:
+// - Added new columns: identity, processModelId and processInstanceId
 module.exports = {
   up: async (queryInterface, Sequelize) => {
 
     console.log('Running updating migrations');
 
-    const processTokenTableInfo = await queryInterface.describeTable('Correlations');
+    const correlationTableInfo = await queryInterface.describeTable('Correlations');
 
-    const migrationNotRequired = processTokenTableInfo.processModelId !== undefined
-      && processTokenTableInfo.processInstanceId !== undefined;
+    const tableHasIdentityColumn = correlationTableInfo.identity !== undefined;
+    const tableHasProcessModelIdColumn = correlationTableInfo.processModelId !== undefined;
+    const tableHasProcessInstanceIdColumn = correlationTableInfo.processInstanceId !== undefined;
+
+    const migrationNotRequired = tableHasIdentityColumn
+      && tableHasProcessModelIdColumn
+      && tableHasProcessInstanceIdColumn;
 
     if (migrationNotRequired) {
       console.log('The database is already up to date. Nothing to do here.');
       return;
     }
 
-    await queryInterface.addColumn(
-      'Correlations',
-      'processModelId',
-      {
-        type: Sequelize.STRING,
-        allowNull: true,
-      }
-    );
+    if (!tableHasProcessModelIdColumn) {
+      await queryInterface.addColumn(
+        'Correlations',
+        'processModelId',
+        {
+          type: Sequelize.STRING,
+          allowNull: true,
+        }
+      );
+    }
 
-    await queryInterface.addColumn(
-      'Correlations',
-      'processInstanceId',
-      {
-        type: Sequelize.STRING,
-        allowNull: true,
-      }
-    );
+    if (!tableHasProcessInstanceIdColumn) {
+      await queryInterface.addColumn(
+        'Correlations',
+        'processInstanceId',
+        {
+          type: Sequelize.STRING,
+          allowNull: true,
+        }
+      );
+    }
 
-    await queryInterface.addColumn(
-      'Correlations',
-      'identity',
-      {
-        type: Sequelize.TEXT,
-        allowNull: true,
-      }
-    );
+    if (!tableHasIdentityColumn) {
+      await queryInterface.addColumn(
+        'Correlations',
+        'identity',
+        {
+          type: Sequelize.TEXT,
+          allowNull: true,
+        }
+      );
+    }
 
     // Checks if the given table exists.
     const tableExists = async (tableName) => {
