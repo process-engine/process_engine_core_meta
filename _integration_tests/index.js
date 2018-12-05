@@ -25,7 +25,6 @@ const iocModuleNames = [
   '@process-engine/metrics.repository.file_system',
   '@process-engine/process_engine_core',
   '@process-engine/process_model.repository.sequelize',
-  '@process-engine/timers.repository.sequelize',
   '.',
 ];
 
