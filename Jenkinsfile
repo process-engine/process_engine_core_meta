@@ -105,9 +105,8 @@ pipeline {
           def db_storage_path_external_task = "--env process_engine__external_task_repository__storage=$db_storage_folder_path/processengine.sqlite";
           def db_storage_path_flow_node_instance = "--env process_engine__flow_node_instance_repository__storage=$db_storage_folder_path/processengine.sqlite";
           def db_storage_path_process_model = "--env process_engine__process_model_repository__storage=$db_storage_folder_path/processengine.sqlite";
-          def db_storage_path_timer = "--env process_engine__timer_repository__storage=$db_storage_folder_path/processengine.sqlite";
 
-          def db_environment_settings = "${db_storage_path_correlation} ${db_storage_path_external_task} ${db_storage_path_flow_node_instance} ${db_storage_path_process_model} ${db_storage_path_timer}"
+          def db_environment_settings = "${db_storage_path_correlation} ${db_storage_path_external_task} ${db_storage_path_flow_node_instance} ${db_storage_path_process_model}"
 
           // FileSystem Repositories
           def logging_folder_path = "$WORKSPACE/logs";
