@@ -60,9 +60,13 @@ describe('Start Events - ', () => {
       // Subscribe for the EndEvent
       eventAggregator.subscribeOnce(endMessageToWaitFor, evaluationCallback);
 
+      const samplePayload = {
+        currentToken: 'sampleToken',
+      };
+
       // Now publish the message and let the process run its course.
       const messageName = 'Message_Test';
-      eventAggregator.publish(`/processengine/process/message/${messageName}`);
+      eventAggregator.publish(`/processengine/process/message/${messageName}`, samplePayload);
     });
   });
 
@@ -93,9 +97,13 @@ describe('Start Events - ', () => {
       // Subscribe for the EndEvent
       eventAggregator.subscribeOnce(endMessageToWaitFor, evaluationCallback);
 
+      const samplePayload = {
+        currentToken: 'sampleToken',
+      };
+
       // Now publish the signal and let the process run its course.
       const signalName = 'Signal_Test';
-      eventAggregator.publish(`/processengine/process/signal/${signalName}`);
+      eventAggregator.publish(`/processengine/process/signal/${signalName}`, samplePayload);
     });
   });
 
