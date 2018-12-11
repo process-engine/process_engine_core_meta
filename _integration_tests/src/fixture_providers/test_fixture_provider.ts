@@ -75,7 +75,11 @@ export class TestFixtureProvider {
     await this.bootstrapper.stop();
   }
 
-  public async resolveAsync<T>(moduleName: string, args?: any): Promise<any> {
+  public resolve<T>(moduleName: string, args?: any): T {
+    return this.container.resolve<T>(moduleName, args);
+  }
+
+  public async resolveAsync<T>(moduleName: string, args?: any): Promise<T> {
     return this.container.resolveAsync<T>(moduleName, args);
   }
 
