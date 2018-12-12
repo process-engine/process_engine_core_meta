@@ -36,7 +36,6 @@ describe('BoundaryEvent Chaining Tests - ', () => {
 
     const manualTask = await getWaitingManualTask();
 
-    // eslint-disable-next-line
     await finishManualTask(manualTask);
     const results = await triggerEventsInSequence(manualTask, finishManualTask);
 
