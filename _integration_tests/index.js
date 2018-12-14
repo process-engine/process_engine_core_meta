@@ -1,8 +1,15 @@
 'use strict';
 
 const InvocationContainer = require('addict-ioc').InvocationContainer;
+const Bluebird = require('bluebird');
 const logger = require('loggerhythm').Logger.createLogger('test:bootstrapper');
 const path = require('path');
+
+Bluebird.config({
+  cancellation: true,
+});
+
+global.Promise = Bluebird;
 
 const iocModuleNames = [
   '@essential-projects/bootstrapper',
