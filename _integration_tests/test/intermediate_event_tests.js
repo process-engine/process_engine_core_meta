@@ -4,7 +4,7 @@ const moment = require('moment');
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs').TestFixtureProvider;
 
-describe.only('Intermediate Events - ', () => {
+describe('Intermediate Events - ', () => {
 
   let testFixtureProvider;
 
