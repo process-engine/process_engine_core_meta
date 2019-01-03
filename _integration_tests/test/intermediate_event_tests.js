@@ -63,10 +63,11 @@ describe('Intermediate Events - ', () => {
     }
   });
 
-  it('Should pause execution for 2 seconds by use of a timer catch event and then resume the process.', async () => {
+  it.only('Should pause execution for 2 seconds by use of a timer catch event and then resume the process.', async () => {
+    const normalStartEventId = 'StartEvent_Normal'
 
     const timeStampBeforeStart = moment();
-    const result = await testFixtureProvider.executeProcess(processModelIdTimerTest, startEventId);
+    const result = await testFixtureProvider.executeProcess(processModelIdTimerTest, normalStartEventId);
     const timeStampAfterFinish = moment();
 
     // Note that this is not exact,
@@ -84,6 +85,21 @@ describe('Intermediate Events - ', () => {
     should(result).have.property('currentToken');
     should(result.currentToken).be.match(expectedResult);
     should(duration).be.greaterThan(expectedTimerRuntime);
+  });
+
+  it.only('Should throw an 400 Error, if the Time Definition is not in the ISO8601', async () => {
+    try {
+      const faultyStartEventId = 'StartEvent_Faulty';
+      const result = await testFixtureProvider.executeProcess(processModelIdTimerTest, faultyStartEventId);
+
+      should.fail(result, undefined, 'No 400 Error was thrown');
+    } catch (error) {
+      const expectedMessage = /duration.*not.*format/i
+      const expectedCode = 400
+
+      should(error.message).be.match(expectedMessage);
+      should(error.code).be.equal(expectedCode);
+    }
   });
 
 });

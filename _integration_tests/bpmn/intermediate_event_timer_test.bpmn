@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_019scie" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.15.1">
-  <bpmn:collaboration id="Collaboration_1dwnbx6">
+  <bpmn:collaboration id="Collaboration_1dwnbx6" name="">
     <bpmn:participant id="Participant_1ndejx1" name="intermediate_event_timer_test" processRef="intermediate_event_timer_test" />
   </bpmn:collaboration>
   <bpmn:process id="intermediate_event_timer_test" name="intermediate_event_timer_test" isExecutable="true">
     <bpmn:laneSet>
       <bpmn:lane id="Lane_1jhpx27" name="Default_Test_Lane">
-        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartEvent_Normal</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>EndEvent_0bw7vw9</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_1uckne9</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>TimerEvent1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Task_1mx3i7e</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>StartEvent_Faulty</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_1jwab9z</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_0xcaa7q</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>IntermediateThrowEvent_1iqesz4</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
-    <bpmn:sequenceFlow id="SequenceFlow_0x9ie3k" sourceRef="StartEvent_1" targetRef="Task_1mx3i7e" />
+    <bpmn:sequenceFlow id="SequenceFlow_0x9ie3k" sourceRef="StartEvent_Normal" targetRef="Task_1mx3i7e" />
     <bpmn:sequenceFlow id="SequenceFlow_1rttya5" sourceRef="TimerEvent1" targetRef="Task_1uckne9" />
     <bpmn:sequenceFlow id="SequenceFlow_07eg0vm" sourceRef="Task_1uckne9" targetRef="EndEvent_0bw7vw9" />
-    <bpmn:startEvent id="StartEvent_1" name="Start">
+    <bpmn:startEvent id="StartEvent_Normal" name="Start Normal Test">
       <bpmn:outgoing>SequenceFlow_0x9ie3k</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:endEvent id="EndEvent_0bw7vw9" name="End">
@@ -27,7 +31,7 @@
       <bpmn:outgoing>SequenceFlow_07eg0vm</bpmn:outgoing>
       <bpmn:script>return 'Timer Event has lapsed';</bpmn:script>
     </bpmn:scriptTask>
-    <bpmn:intermediateCatchEvent id="TimerEvent1" name="Wait 5 seconds">
+    <bpmn:intermediateCatchEvent id="TimerEvent1" name="Wait 2 seconds">
       <bpmn:incoming>SequenceFlow_1du0cwu</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1rttya5</bpmn:outgoing>
       <bpmn:timerEventDefinition>
@@ -41,18 +45,39 @@
       <bpmn:script>console.log('Pausing execution for 2 seconds via timer');
 return token.current;</bpmn:script>
     </bpmn:scriptTask>
+    <bpmn:startEvent id="StartEvent_Faulty" name="Start Faulty Test">
+      <bpmn:outgoing>SequenceFlow_00l4vv9</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_00l4vv9" sourceRef="StartEvent_Faulty" targetRef="Task_0xcaa7q" />
+    <bpmn:sequenceFlow id="SequenceFlow_1v6ptyt" name="" sourceRef="Task_0xcaa7q" targetRef="IntermediateThrowEvent_1iqesz4" />
+    <bpmn:sequenceFlow id="SequenceFlow_1x7duh9" sourceRef="IntermediateThrowEvent_1iqesz4" targetRef="EndEvent_1jwab9z" />
+    <bpmn:endEvent id="EndEvent_1jwab9z" name="End">
+      <bpmn:incoming>SequenceFlow_1x7duh9</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:scriptTask id="Task_0xcaa7q" name="Inform User about pause">
+      <bpmn:incoming>SequenceFlow_00l4vv9</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1v6ptyt</bpmn:outgoing>
+      <bpmn:script>console.log('Waiting 5 Seconds');</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:intermediateCatchEvent id="IntermediateThrowEvent_1iqesz4" name="Faulty Timer Definition">
+      <bpmn:incoming>SequenceFlow_1v6ptyt</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1x7duh9</bpmn:outgoing>
+      <bpmn:timerEventDefinition>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">2S</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
   </bpmn:process>
   <bpmn:message id="Message_1emkdwq" name="1234" />
   <bpmn:signal id="Signal_0yknb5t" name="1234" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1dwnbx6">
       <bpmndi:BPMNShape id="Participant_1ndejx1_di" bpmnElement="Participant_1ndejx1">
-        <dc:Bounds x="111" y="23" width="730" height="261" />
+        <dc:Bounds x="111" y="23" width="801" height="494" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="StartEvent_0nr669c_di" bpmnElement="StartEvent_1">
+      <bpmndi:BPMNShape id="StartEvent_0nr669c_di" bpmnElement="StartEvent_Normal">
         <dc:Bounds x="177" y="137" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="183" y="176" width="24" height="14" />
+          <dc:Bounds x="153" y="176" width="85" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0x9ie3k_di" bpmnElement="SequenceFlow_0x9ie3k">
@@ -75,7 +100,7 @@ return token.current;</bpmn:script>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_1jhpx27_di" bpmnElement="Lane_1jhpx27">
-        <dc:Bounds x="141" y="23" width="700" height="261" />
+        <dc:Bounds x="141" y="23" width="771" height="494" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1rttya5_di" bpmnElement="SequenceFlow_1rttya5">
         <di:waypoint x="493" y="155" />
@@ -98,6 +123,39 @@ return token.current;</bpmn:script>
       <bpmndi:BPMNShape id="ScriptTask_0bf3qsc_di" bpmnElement="Task_1mx3i7e">
         <dc:Bounds x="275" y="115" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_03q6b03_di" bpmnElement="StartEvent_Faulty">
+        <dc:Bounds x="177" y="373" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="155" y="416" width="80" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_00l4vv9_di" bpmnElement="SequenceFlow_00l4vv9">
+        <di:waypoint x="213" y="391" />
+        <di:waypoint x="326" y="391" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ScriptTask_1q4zj4m_di" bpmnElement="Task_0xcaa7q">
+        <dc:Bounds x="326" y="351" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1v6ptyt_di" bpmnElement="SequenceFlow_1v6ptyt">
+        <di:waypoint x="426" y="391" />
+        <di:waypoint x="561" y="391" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="IntermediateCatchEvent_1b6use0_di" bpmnElement="IntermediateThrowEvent_1iqesz4">
+        <dc:Bounds x="561" y="373" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="549" y="416" width="61" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1jwab9z_di" bpmnElement="EndEvent_1jwab9z">
+        <dc:Bounds x="731" y="373" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="739" y="416" width="20" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1x7duh9_di" bpmnElement="SequenceFlow_1x7duh9">
+        <di:waypoint x="597" y="391" />
+        <di:waypoint x="731" y="391" />
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
