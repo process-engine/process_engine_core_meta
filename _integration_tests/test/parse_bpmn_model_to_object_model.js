@@ -158,4 +158,24 @@ describe('Process-Engine   Parse BPMN Process into new object model', () => {
       should(error.message).be.match(errorMessage);
     }
   });
+
+  it('should throw an UnprocessableEntity error when trying to parse a Process which contains an invalid date timer definition', async () => {
+    const cyclicTimerProcessName = 'modell_parser_timer_invalid_date';
+
+    const cylicTimerBpmnFile = testFixtureProvider.readProcessModelFile(cyclicTimerProcessName);
+
+    try {
+      const result = await bpmnModelParser.parseXmlToObjectModel(cylicTimerBpmnFile);
+
+      should(result).be.undefined('The process definition should not be parsed.');
+    } catch (error) {
+      should(error).have.property('code');
+      should(error).have.property('message');
+      const errorCode = 422;
+      const errorMessage = /date.*not.*format/i;
+      should(error.code).be.equal(errorCode);
+      should(error.message).be.match(errorMessage);
+    }
+  });
+
 });
