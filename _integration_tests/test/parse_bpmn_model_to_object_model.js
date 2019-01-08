@@ -121,7 +121,7 @@ describe('Process-Engine   Parse BPMN Process into new object model', () => {
     should(participant.processReference).be.equal('intermediate_event_timer_test');
   });
 
-  it.only('should throw an UnprocessableEntity error when trying to parse a Process which contains a cyclic timer definition', async () => {
+  it('should throw an UnprocessableEntity error when trying to parse a Process which contains a cyclic timer definition', async () => {
     const cyclicTimerProcessName = 'modell_parser_cyclic_timer_test';
 
     const cylicTimerBpmnFile = testFixtureProvider.readProcessModelFile(cyclicTimerProcessName);
@@ -129,7 +129,7 @@ describe('Process-Engine   Parse BPMN Process into new object model', () => {
     try {
       const result = await bpmnModelParser.parseXmlToObjectModel(cylicTimerBpmnFile);
 
-      should(result).be.undefined('The process definition should not be parsed.')
+      should(result).be.undefined('The process definition should not be parsed.');
     } catch (error) {
       should(error).have.property('code');
       should(error).have.property('message');
