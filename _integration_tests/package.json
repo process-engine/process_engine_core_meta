@@ -25,7 +25,7 @@
     "@essential-projects/bootstrapper_node": "~3.2.0",
     "@essential-projects/event_aggregator": "~4.0.0",
     "@essential-projects/http_extension": "~6.2.0",
-    "@essential-projects/iam_contracts": "feature~get_instances_by_owner_id",
+    "@essential-projects/iam_contracts": "~3.3.0",
     "@essential-projects/services": "~2.1.0",
     "@essential-projects/sequelize_connection_manager": "~2.1.0",
     "@essential-projects/timing": "~4.1.0",
