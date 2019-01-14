@@ -183,7 +183,8 @@ describe('Inter-process communication - ', () => {
 
       const endMessageReceiveTaskProcess = `/processengine/correlation/${correlationId}/processmodel/${processModelReceiveTask}/ended`;
       const receiveTaskProcessFinishedCallback = (message) => {
-        if (message.flowNodeId === endEventToWaitFor) {
+        const expectedEndEventReached = message.flowNodeId === endEventToWaitFor;
+        if (expectedEndEventReached) {
           should(message).have.property('currentToken');
           should(message.currentToken).be.eql('Message Received');
 
@@ -197,7 +198,8 @@ describe('Inter-process communication - ', () => {
 
       const endMessageSendTaskProcess = `/processengine/correlation/${correlationId}/processmodel/${processModelSendTask}/ended`;
       const sendTaskProcessFinishedCallback = (message) => {
-        if (message.flowNodeId === endEventToWaitFor) {
+        const expectedEndEventReached = message.flowNodeId === endEventToWaitFor;
+        if (expectedEndEventReached) {
           sendTaskProcessFinished = true;
 
           if (receiveTaskProcessFinished && sendTaskProcessFinished) {
