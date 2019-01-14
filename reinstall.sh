@@ -3,7 +3,11 @@ echo "Purging node_modules..."
 find . -name "node_modules" -exec rm -rf '{}' +
 echo "Done. Starting setup..."
 
+echo "Clearing npm cache"
+npm cache clean --force
+
 # install all necessary dependencies
+echo "Running npm install"
 npm install --no-package-lock
 
 # If npm install (or minstall) fails, stop any further execution.
