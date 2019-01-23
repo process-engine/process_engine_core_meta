@@ -29,7 +29,6 @@
     "@essential-projects/services": "~2.1.0",
     "@essential-projects/sequelize_connection_manager": "~2.1.0",
     "@essential-projects/timing": "~4.1.0",
-    "@process-engine/consumer_api_contracts": "~3.0.0",
     "@process-engine/consumer_api_core": "~2.0.0",
     "@process-engine/correlations.repository.sequelize": "~3.1.0",
     "@process-engine/external_task_api_client": "~1.0.1",
