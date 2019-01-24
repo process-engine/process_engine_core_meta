@@ -135,8 +135,8 @@ describe('Process-Engine   Parse BPMN Process into new object model', () => {
       should(error).have.property('message');
       const errorCode = 422;
       const errorMessage = /cyclic.*unsupported/i;
-      should(error.code).be.equal(errorCode);
       should(error.message).be.match(errorMessage);
+      should(error.code).be.equal(errorCode);
     }
   });
 
@@ -154,8 +154,8 @@ describe('Process-Engine   Parse BPMN Process into new object model', () => {
       should(error).have.property('message');
       const errorCode = 422;
       const errorMessage = /duration.*not.*format/i;
-      should(error.code).be.equal(errorCode);
       should(error.message).be.match(errorMessage);
+      should(error.code).be.equal(errorCode);
     }
   });
 
@@ -173,9 +173,8 @@ describe('Process-Engine   Parse BPMN Process into new object model', () => {
       should(error).have.property('message');
       const errorCode = 422;
       const errorMessage = /date.*not.*format/i;
-      should(error.code).be.equal(errorCode);
       should(error.message).be.match(errorMessage);
+      should(error.code).be.equal(errorCode);
     }
   });
-
 });
