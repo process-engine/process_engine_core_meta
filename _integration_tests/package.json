@@ -52,13 +52,13 @@
     "jsonwebtoken": "~8.4.0",
     "loggerhythm": "~3.0.3",
     "moment": "~2.22.2",
+    "node-uuid": "~1.4.8",
     "pg": "~7.6.0",
     "pg-hstore": "~2.3.2",
     "sequelize": "~4.41.2",
     "sqlite3": "~4.0.3",
     "tsconfig": "~7.0.0",
-    "umzug": "~2.2.0",
-    "uuid": "~3.3.2"
+    "umzug": "~2.2.0"
   },
   "devDependencies": {
     "@essential-projects/tslint-config": "^1.1.3",
