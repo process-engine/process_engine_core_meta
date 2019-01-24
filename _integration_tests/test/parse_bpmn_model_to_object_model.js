@@ -129,7 +129,7 @@ describe('Process-Engine   Parse BPMN Process into new object model', () => {
     try {
       const result = await bpmnModelParser.parseXmlToObjectModel(cylicTimerBpmnFile);
 
-      should(result).be.undefined('The process definition should not be parsed.');
+      should.fail(result, undefined, 'The process definition should not have been parsed, because of a cyclic timer!');
     } catch (error) {
       should(error).have.property('code');
       should(error).have.property('message');
@@ -148,7 +148,7 @@ describe('Process-Engine   Parse BPMN Process into new object model', () => {
     try {
       const result = await bpmnModelParser.parseXmlToObjectModel(cylicTimerBpmnFile);
 
-      should(result).be.undefined('The process definition should not be parsed.');
+      should.fail(result, undefined, 'The process definition should not have been parsed, because the timer duration definition is invalid!');
     } catch (error) {
       should(error).have.property('code');
       should(error).have.property('message');
@@ -167,7 +167,7 @@ describe('Process-Engine   Parse BPMN Process into new object model', () => {
     try {
       const result = await bpmnModelParser.parseXmlToObjectModel(cylicTimerBpmnFile);
 
-      should(result).be.undefined('The process definition should not be parsed.');
+      should.fail(result, undefined, 'The process definition should not have been parsed, because the attached date timer definition is invalid!');
     } catch (error) {
       should(error).have.property('code');
       should(error).have.property('message');
