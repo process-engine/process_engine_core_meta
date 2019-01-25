@@ -131,8 +131,6 @@ describe('Process-Engine   Parse BPMN Process into new object model', () => {
 
       should.fail(result, undefined, 'The process definition should not have been parsed, because of a cyclic timer!');
     } catch (error) {
-      should(error).have.property('code');
-      should(error).have.property('message');
       const errorCode = 422;
       const errorMessage = /cyclic.*unsupported/i;
       should(error.message).be.match(errorMessage);
@@ -150,8 +148,6 @@ describe('Process-Engine   Parse BPMN Process into new object model', () => {
 
       should.fail(result, undefined, 'The process definition should not have been parsed, because the timer duration definition is invalid!');
     } catch (error) {
-      should(error).have.property('code');
-      should(error).have.property('message');
       const errorCode = 422;
       const errorMessage = /duration.*not.*format/i;
       should(error.message).be.match(errorMessage);
@@ -169,8 +165,6 @@ describe('Process-Engine   Parse BPMN Process into new object model', () => {
 
       should.fail(result, undefined, 'The process definition should not have been parsed, because the attached date timer definition is invalid!');
     } catch (error) {
-      should(error).have.property('code');
-      should(error).have.property('message');
       const errorCode = 422;
       const errorMessage = /date.*not.*format/i;
       should(error.message).be.match(errorMessage);
