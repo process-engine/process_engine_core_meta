@@ -17,15 +17,8 @@
       <bpmn:outgoing>SequenceFlow_0ybdavc</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="SequenceFlow_0ybdavc" sourceRef="StartEvent_1" targetRef="scriptTaskBeforeSubProcess" />
-    <bpmn:sequenceFlow id="SequenceFlow_1iy8lx5" sourceRef="sp_Sub" targetRef="scriptTaskAfterSubProcess" />
-    <bpmn:sequenceFlow id="SequenceFlow_1fh6yzy" sourceRef="scriptTaskAfterSubProcess" targetRef="mainProcessEndEvent">
-      <bpmn:extensionElements>
-        <camunda:executionListener class="" event="" />
-        <camunda:properties>
-          <camunda:property name="mapper" value="token.history.sp_Sub" />
-        </camunda:properties>
-      </bpmn:extensionElements>
-    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_1iy8lx5" name="" sourceRef="sp_Sub" targetRef="scriptTaskAfterSubProcess" />
+    <bpmn:sequenceFlow id="SequenceFlow_1fh6yzy" name="" sourceRef="scriptTaskAfterSubProcess" targetRef="mainProcessEndEvent" />
     <bpmn:endEvent id="mainProcessEndEvent" name="">
       <bpmn:incoming>SequenceFlow_1fh6yzy</bpmn:incoming>
     </bpmn:endEvent>
