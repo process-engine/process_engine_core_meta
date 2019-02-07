@@ -15,13 +15,13 @@
         <bpmn:flowNodeRef>pg_JoinAfterTasksFinished</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>st_currentTokenTestPart2</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>IntermediateThrowEvent_0etgzl7</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>st_longTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_1v6v31b</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>st_veryLongTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>st_longTask</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>st_secondVeryLongTask</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>st_SequenceTestTask2</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>st_SequenceTestTask3</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>st_SequenceTestTask1</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>EndEvent_1v6v31b</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:startEvent id="StartEvent_1" name="parallel_gateway_test">
@@ -94,18 +94,16 @@
         <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P0Y0M0DT0H0M2S</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:intermediateCatchEvent>
-    <bpmn:serviceTask id="st_longTask" name="Start long running task">
+    <bpmn:sequenceFlow id="SequenceFlow_1sjfe1q" sourceRef="pg_StartParallelExecution" targetRef="st_SequenceTestTask1" />
+    <bpmn:sequenceFlow id="SequenceFlow_05lpb9h" sourceRef="st_SequenceTestTask1" targetRef="st_SequenceTestTask2" />
+    <bpmn:sequenceFlow id="SequenceFlow_1vcwjs5" sourceRef="st_SequenceTestTask2" targetRef="st_SequenceTestTask3" />
+    <bpmn:sequenceFlow id="SequenceFlow_0xnuwzv" sourceRef="st_SequenceTestTask3" targetRef="pg_JoinAfterTasksFinished" />
+    <bpmn:endEvent id="EndEvent_1v6v31b" name="">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
-        <camunda:properties>
-          <camunda:property name="module" value="ParallelGatewayTestService" />
-          <camunda:property name="method" value="longRunningFunction" />
-          <camunda:property name="params" value="[]" />
-        </camunda:properties>
       </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_01bm6kz</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0taqmhl</bpmn:outgoing>
-    </bpmn:serviceTask>
+      <bpmn:incoming>SequenceFlow_10bs6hx</bpmn:incoming>
+    </bpmn:endEvent>
     <bpmn:serviceTask id="st_veryLongTask" name="Start very long running task">
       <bpmn:extensionElements>
         <camunda:executionListener class="" event="" />
@@ -117,6 +115,18 @@
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0gc55a8</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0gf9ntr</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="st_longTask" name="Start long running task">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="" event="" />
+        <camunda:properties>
+          <camunda:property name="module" value="ParallelGatewayTestService" />
+          <camunda:property name="method" value="longRunningFunction" />
+          <camunda:property name="params" value="[]" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_01bm6kz</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0taqmhl</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="st_secondVeryLongTask" name="Start another very long running task">
       <bpmn:extensionElements>
@@ -130,10 +140,6 @@
       <bpmn:incoming>SequenceFlow_12peg60</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_13ibkv7</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="SequenceFlow_1sjfe1q" sourceRef="pg_StartParallelExecution" targetRef="st_SequenceTestTask1" />
-    <bpmn:sequenceFlow id="SequenceFlow_05lpb9h" sourceRef="st_SequenceTestTask1" targetRef="st_SequenceTestTask2" />
-    <bpmn:sequenceFlow id="SequenceFlow_1vcwjs5" sourceRef="st_SequenceTestTask2" targetRef="st_SequenceTestTask3" />
-    <bpmn:sequenceFlow id="SequenceFlow_0xnuwzv" sourceRef="st_SequenceTestTask3" targetRef="pg_JoinAfterTasksFinished" />
     <bpmn:serviceTask id="st_SequenceTestTask2" name="Sequence Test 2">
       <bpmn:extensionElements>
         <camunda:properties>
@@ -162,12 +168,6 @@
       <bpmn:script>console.log('running script task 1');
 return 'Script Task result for sequence test';</bpmn:script>
     </bpmn:scriptTask>
-    <bpmn:endEvent id="EndEvent_1v6v31b" name="">
-      <bpmn:extensionElements>
-        <camunda:executionListener class="" event="" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_10bs6hx</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:association id="Association_1ktjqvm" sourceRef="IntermediateThrowEvent_0etgzl7" targetRef="TextAnnotation_16klgqo" />
     <bpmn:textAnnotation id="TextAnnotation_16klgqo">
       <bpmn:text>Waits 2 seconds</bpmn:text>
@@ -179,36 +179,36 @@ return 'Script Task result for sequence test';</bpmn:script>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_1m72jls" sourceRef="st_currentTokenTestPart1" targetRef="TextAnnotation_1k4m1cu" />
     <bpmn:association id="Association_0fugl0r" sourceRef="st_currentTokenTestPart2" targetRef="TextAnnotation_05viriy" />
-    <bpmn:textAnnotation id="TextAnnotation_1bz7xig">
-      <bpmn:text>Takes 1 second to complete</bpmn:text>
-    </bpmn:textAnnotation>
     <bpmn:association id="Association_10np6tj" sourceRef="st_secondVeryLongTask" targetRef="TextAnnotation_1k0ba3t" />
     <bpmn:textAnnotation id="TextAnnotation_05viriy">
       <bpmn:text>Should get the current token from the previous service task</bpmn:text>
     </bpmn:textAnnotation>
+    <bpmn:association id="Association_0im9aru" sourceRef="st_SequenceTestTask1" targetRef="TextAnnotation_09zgnl4" />
+    <bpmn:association id="Association_0d8id5f" sourceRef="st_SequenceTestTask2" targetRef="TextAnnotation_0de5fsr" />
+    <bpmn:association id="Association_0mt2i2q" sourceRef="st_SequenceTestTask3" targetRef="TextAnnotation_04dyid9" />
     <bpmn:textAnnotation id="TextAnnotation_15l50z8">
       <bpmn:text>Takes 3 seconds to complete</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:textAnnotation id="TextAnnotation_1k0ba3t">
       <bpmn:text>Takes 3 seconds to complete</bpmn:text>
     </bpmn:textAnnotation>
-    <bpmn:association id="Association_0im9aru" sourceRef="st_SequenceTestTask1" targetRef="TextAnnotation_09zgnl4" />
-    <bpmn:association id="Association_0d8id5f" sourceRef="st_SequenceTestTask2" targetRef="TextAnnotation_0de5fsr" />
-    <bpmn:association id="Association_0mt2i2q" sourceRef="st_SequenceTestTask3" targetRef="TextAnnotation_04dyid9" />
     <bpmn:textAnnotation id="TextAnnotation_04dyid9">
       <bpmn:text>Takes 1.7 seconds to complete</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_0de5fsr">
+      <bpmn:text>Updates the token value, takes  0.5 seconds to complete</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:textAnnotation id="TextAnnotation_09zgnl4">
       <bpmn:text>Creates a value for token.current</bpmn:text>
     </bpmn:textAnnotation>
-    <bpmn:textAnnotation id="TextAnnotation_0de5fsr">
-      <bpmn:text>Updates the token value, takes  0.5 seconds to complete</bpmn:text>
+    <bpmn:textAnnotation id="TextAnnotation_1bz7xig">
+      <bpmn:text>Takes 1 second to complete</bpmn:text>
     </bpmn:textAnnotation>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1cidyxu">
       <bpmndi:BPMNShape id="Participant_0px403d_di" bpmnElement="Participant_0px403d">
-        <dc:Bounds x="5" y="-185" width="1007" height="821" />
+        <dc:Bounds x="5" y="-185" width="1095" height="821" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="98" y="138" width="36" height="36" />
@@ -217,7 +217,7 @@ return 'Script Task result for sequence test';</bpmn:script>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_1xzf0d3_di" bpmnElement="Lane_1xzf0d3">
-        <dc:Bounds x="35" y="-185" width="977" height="821" />
+        <dc:Bounds x="35" y="-185" width="1065" height="821" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1kww3r0_di" bpmnElement="SequenceFlow_1kww3r0">
         <di:waypoint x="134" y="156" />
@@ -227,33 +227,29 @@ return 'Script Task result for sequence test';</bpmn:script>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_01bm6kz_di" bpmnElement="SequenceFlow_01bm6kz">
-        <di:waypoint x="222" y="131" />
-        <di:waypoint x="222" y="55" />
-        <di:waypoint x="440" y="55" />
+        <di:waypoint x="238" y="147" />
+        <di:waypoint x="440" y="33" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="192" y="86.5" width="90" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0gc55a8_di" bpmnElement="SequenceFlow_0gc55a8">
-        <di:waypoint x="222" y="181" />
-        <di:waypoint x="222" y="240" />
-        <di:waypoint x="440" y="240" />
+        <di:waypoint x="247" y="156" />
+        <di:waypoint x="440" y="156" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="192" y="204" width="90" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0gf9ntr_di" bpmnElement="SequenceFlow_0gf9ntr">
-        <di:waypoint x="540" y="240" />
-        <di:waypoint x="763" y="240" />
-        <di:waypoint x="763" y="181" />
+        <di:waypoint x="540" y="156" />
+        <di:waypoint x="738" y="156" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="606.5" y="218.5" width="90" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0taqmhl_di" bpmnElement="SequenceFlow_0taqmhl">
-        <di:waypoint x="540" y="55" />
-        <di:waypoint x="763" y="55" />
-        <di:waypoint x="763" y="131" />
+        <di:waypoint x="543" y="33" />
+        <di:waypoint x="747" y="147" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="606.5" y="33.5" width="90" height="13" />
         </bpmndi:BPMNLabel>
@@ -272,10 +268,10 @@ return 'Script Task result for sequence test';</bpmn:script>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1urgf65_di" bpmnElement="st_longTask">
-        <dc:Bounds x="440" y="15" width="100" height="80" />
+        <dc:Bounds x="440" y="-7" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_07ys0f8_di" bpmnElement="st_veryLongTask">
-        <dc:Bounds x="440" y="200" width="100" height="80" />
+        <dc:Bounds x="440" y="116" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ParallelGateway_0ys6n5j_di" bpmnElement="pg_JoinAfterTasksFinished">
         <dc:Bounds x="738" y="131" width="50" height="50" />
@@ -339,18 +335,18 @@ return 'Script Task result for sequence test';</bpmn:script>
         <di:waypoint x="460" y="-125" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="TextAnnotation_1bz7xig_di" bpmnElement="TextAnnotation_1bz7xig">
-        <dc:Bounds x="507" y="-5" width="255" height="30" />
+        <dc:Bounds x="570" y="0" width="164" height="30" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_0v8x5b7_di" bpmnElement="Association_0v8x5b7">
-        <di:waypoint x="540" y="39" />
-        <di:waypoint x="587" y="25" />
+        <di:waypoint x="540" y="27" />
+        <di:waypoint x="570" y="24" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="TextAnnotation_15l50z8_di" bpmnElement="TextAnnotation_15l50z8">
-        <dc:Bounds x="393" y="154" width="193" height="30" />
+        <dc:Bounds x="406" y="212" width="168" height="30" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_1ryirbg_di" bpmnElement="Association_1ryirbg">
-        <di:waypoint x="490" y="200" />
-        <di:waypoint x="490" y="184" />
+        <di:waypoint x="490" y="196" />
+        <di:waypoint x="490" y="212" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="TextAnnotation_1k4m1cu_di" bpmnElement="TextAnnotation_1k4m1cu">
         <dc:Bounds x="172" y="-165" width="100" height="42" />
@@ -367,90 +363,88 @@ return 'Script Task result for sequence test';</bpmn:script>
         <di:waypoint x="758" y="-113" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_11omcdk_di" bpmnElement="st_secondVeryLongTask">
-        <dc:Bounds x="440" y="322" width="100" height="80" />
+        <dc:Bounds x="440" y="269" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_12peg60_di" bpmnElement="SequenceFlow_12peg60">
-        <di:waypoint x="222" y="181" />
-        <di:waypoint x="222" y="362" />
-        <di:waypoint x="440" y="362" />
+        <di:waypoint x="237" y="166" />
+        <di:waypoint x="439" y="309" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="237" y="265" width="0" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_13ibkv7_di" bpmnElement="SequenceFlow_13ibkv7">
-        <di:waypoint x="540" y="362" />
-        <di:waypoint x="763" y="362" />
-        <di:waypoint x="763" y="181" />
+        <di:waypoint x="540" y="308" />
+        <di:waypoint x="748" y="166" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="651.5" y="340.5" width="0" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="TextAnnotation_1k0ba3t_di" bpmnElement="TextAnnotation_1k0ba3t">
-        <dc:Bounds x="561" y="284" width="146.99367088607593" height="41.77215189873417" />
+        <dc:Bounds x="405" y="366" width="169" height="30" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_10np6tj_di" bpmnElement="Association_10np6tj">
-        <di:waypoint x="540" y="342" />
-        <di:waypoint x="582" y="326" />
+        <di:waypoint x="490" y="349" />
+        <di:waypoint x="490" y="366" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1sjfe1q_di" bpmnElement="SequenceFlow_1sjfe1q">
         <di:waypoint x="222" y="181" />
-        <di:waypoint x="222" y="492" />
-        <di:waypoint x="253" y="492" />
+        <di:waypoint x="222" y="457" />
+        <di:waypoint x="253" y="457" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="237" y="330" width="0" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_05lpb9h_di" bpmnElement="SequenceFlow_05lpb9h">
-        <di:waypoint x="353" y="492" />
-        <di:waypoint x="440" y="492" />
+        <di:waypoint x="353" y="457" />
+        <di:waypoint x="440" y="457" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="396.5" y="470.5" width="0" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1vcwjs5_di" bpmnElement="SequenceFlow_1vcwjs5">
-        <di:waypoint x="540" y="492" />
-        <di:waypoint x="610" y="492" />
+        <di:waypoint x="540" y="457" />
+        <di:waypoint x="610" y="457" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="575" y="470.5" width="0" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0xnuwzv_di" bpmnElement="SequenceFlow_0xnuwzv">
-        <di:waypoint x="710" y="492" />
-        <di:waypoint x="763" y="492" />
+        <di:waypoint x="710" y="457" />
+        <di:waypoint x="763" y="457" />
         <di:waypoint x="763" y="181" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="736.5" y="470.5" width="0" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_06r77bo_di" bpmnElement="st_SequenceTestTask2">
-        <dc:Bounds x="440" y="452" width="100" height="80" />
+        <dc:Bounds x="440" y="417" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_15qwxx8_di" bpmnElement="st_SequenceTestTask3">
-        <dc:Bounds x="610" y="452" width="100" height="80" />
+        <dc:Bounds x="610" y="417" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ScriptTask_0co3kcr_di" bpmnElement="st_SequenceTestTask1">
-        <dc:Bounds x="253" y="452" width="100" height="80" />
+        <dc:Bounds x="253" y="417" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_09zgnl4_di" bpmnElement="TextAnnotation_09zgnl4">
-        <dc:Bounds x="252" y="564" width="101" height="42" />
+        <dc:Bounds x="252" y="527" width="101" height="42" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_0im9aru_di" bpmnElement="Association_0im9aru">
-        <di:waypoint x="303" y="532" />
-        <di:waypoint x="303" y="564" />
+        <di:waypoint x="303" y="497" />
+        <di:waypoint x="303" y="527" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="TextAnnotation_0de5fsr_di" bpmnElement="TextAnnotation_0de5fsr">
-        <dc:Bounds x="412" y="554" width="155" height="62" />
+        <dc:Bounds x="412" y="517" width="155" height="62" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_0d8id5f_di" bpmnElement="Association_0d8id5f">
-        <di:waypoint x="490" y="532" />
-        <di:waypoint x="490" y="554" />
+        <di:waypoint x="490" y="497" />
+        <di:waypoint x="490" y="517" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="TextAnnotation_04dyid9_di" bpmnElement="TextAnnotation_04dyid9">
-        <dc:Bounds x="581" y="563" width="157" height="44" />
+        <dc:Bounds x="581" y="526" width="157" height="44" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_0mt2i2q_di" bpmnElement="Association_0mt2i2q">
-        <di:waypoint x="660" y="532" />
-        <di:waypoint x="660" y="563" />
+        <di:waypoint x="660" y="497" />
+        <di:waypoint x="660" y="526" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
