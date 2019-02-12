@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "meta exec \"npm run build\" --exclude process_engine_meta,tslint-config,identity_server && cd _integration_tests && npm run build && cd ..",
-    "postinstall": "minstall --no-hoist aurelia-* --trust-local-modules ."
+    "postinstall": "minstall --no-hoist aurelia-* --trust-local-modules .",
+    "reinstall": "./reinstall.sh"
   },
   "author": "",
   "license": "ISC",
