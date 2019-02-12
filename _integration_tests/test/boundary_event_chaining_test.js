@@ -5,14 +5,14 @@ const should = require('should');
 
 const {ProcessInstanceHandler, TestFixtureProvider} = require('../dist/commonjs');
 
-describe('ManualTask BoundaryEvent Chaining Tests - ', () => {
+describe('BoundaryEvent Chaining Tests - ', () => {
 
   let eventAggregator;
   let processInstanceHandler;
   let testFixtureProvider;
   let defaultIdentity;
 
-  const processModelId = 'manual_task_chained_boundary_events_test';
+  const processModelId = 'chained_boundary_events_test';
   const startEventId = 'StartEvent_1';
   const correlationId = uuid.v4();
 
@@ -118,7 +118,7 @@ describe('ManualTask BoundaryEvent Chaining Tests - ', () => {
 
     // Finish the task and wait for the ProcessInstance to finish to get a clean database structure.
     await new Promise((resolve) => {
-      processInstanceHandler.waitForProcessByInstanceIdToEnd(manualTask.processInstanceId, resolve);
+      processInstanceHandler.waitForProcessWithInstanceIdToEnd(manualTask.processInstanceId, resolve);
       const triggerMessageEventName = '/processengine/process/message/TestMessage1234';
       eventAggregator.publish(triggerMessageEventName, {});
     });
@@ -143,7 +143,7 @@ describe('ManualTask BoundaryEvent Chaining Tests - ', () => {
 
     // Finish the task and wait for the ProcessInstance to finish to get a clean database structure.
     await new Promise((resolve) => {
-      processInstanceHandler.waitForProcessByInstanceIdToEnd(manualTask.processInstanceId, resolve);
+      processInstanceHandler.waitForProcessWithInstanceIdToEnd(manualTask.processInstanceId, resolve);
       const triggerSignalEventName = '/processengine/process/signal/TestSignal1234';
       eventAggregator.publish(triggerSignalEventName, {});
     });
@@ -168,7 +168,7 @@ describe('ManualTask BoundaryEvent Chaining Tests - ', () => {
 
     // Wait until the TimerBoundaryEvent gets triggered and finishes the ProcessInstance.
     await new Promise((resolve) => {
-      processInstanceHandler.waitForProcessByInstanceIdToEnd(manualTask.processInstanceId, resolve);
+      processInstanceHandler.waitForProcessWithInstanceIdToEnd(manualTask.processInstanceId, resolve);
     });
 
     // Now see if the ManualTask is still listed as active.
