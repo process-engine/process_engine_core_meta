@@ -118,7 +118,7 @@ describe('BoundaryEvent Chaining Tests - ', () => {
 
     // Finish the task and wait for the ProcessInstance to finish to get a clean database structure.
     await new Promise((resolve) => {
-      processInstanceHandler.waitForProcessByInstanceIdToEnd(manualTask.processInstanceId, resolve);
+      processInstanceHandler.waitForProcessWithInstanceIdToEnd(manualTask.processInstanceId, resolve);
       const triggerMessageEventName = '/processengine/process/message/TestMessage1234';
       eventAggregator.publish(triggerMessageEventName, {});
     });
@@ -143,7 +143,7 @@ describe('BoundaryEvent Chaining Tests - ', () => {
 
     // Finish the task and wait for the ProcessInstance to finish to get a clean database structure.
     await new Promise((resolve) => {
-      processInstanceHandler.waitForProcessByInstanceIdToEnd(manualTask.processInstanceId, resolve);
+      processInstanceHandler.waitForProcessWithInstanceIdToEnd(manualTask.processInstanceId, resolve);
       const triggerSignalEventName = '/processengine/process/signal/TestSignal1234';
       eventAggregator.publish(triggerSignalEventName, {});
     });
@@ -168,7 +168,7 @@ describe('BoundaryEvent Chaining Tests - ', () => {
 
     // Wait until the TimerBoundaryEvent gets triggered and finishes the ProcessInstance.
     await new Promise((resolve) => {
-      processInstanceHandler.waitForProcessByInstanceIdToEnd(manualTask.processInstanceId, resolve);
+      processInstanceHandler.waitForProcessWithInstanceIdToEnd(manualTask.processInstanceId, resolve);
     });
 
     // Now see if the ManualTask is still listed as active.
