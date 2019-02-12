@@ -5,14 +5,14 @@ const should = require('should');
 
 const {ProcessInstanceHandler, TestFixtureProvider} = require('../dist/commonjs');
 
-describe('ManualTask BoundaryEvent Chaining Tests - ', () => {
+describe('BoundaryEvent Chaining Tests - ', () => {
 
   let eventAggregator;
   let processInstanceHandler;
   let testFixtureProvider;
   let defaultIdentity;
 
-  const processModelId = 'manual_task_chained_boundary_events_test';
+  const processModelId = 'chained_boundary_events_test';
   const startEventId = 'StartEvent_1';
   const correlationId = uuid.v4();
 
