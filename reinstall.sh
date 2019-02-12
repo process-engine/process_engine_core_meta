@@ -22,6 +22,6 @@ fi
 rm -rf node_modules/@types/jasmine
 
 # build all packages
-meta exec "npm run build" --exclude process_engine_meta,skeleton,documentation,identity_server
+meta exec "npm run build" --exclude process_engine_meta,documentation,identity_server
 
 echo "done"
