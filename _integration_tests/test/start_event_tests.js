@@ -69,6 +69,17 @@ describe('Start Events - ', () => {
     });
   });
 
+  it('should be able to start a process with a message start event manually.', async () => {
+
+    const messageStartEventId = 'MessageStartEvent_1';
+
+    const result = await testFixtureProvider.executeProcess(processModelId, messageStartEventId);
+
+    const expectedResult = /message received/;
+    should(result).have.property('currentToken');
+    should(result.currentToken).be.match(expectedResult);
+  });
+
   it('should start the process automatically, after a signal was received', async () => {
 
     const correlationId = uuid.v4();
@@ -105,6 +116,17 @@ describe('Start Events - ', () => {
     });
   });
 
+  it('should be able to start a process with a signal start event manually.', async () => {
+
+    const signalStartEventId = 'SignalStartEvent_1';
+
+    const result = await testFixtureProvider.executeProcess(processModelId, signalStartEventId);
+
+    const expectedResult = /signal received/;
+    should(result).have.property('currentToken');
+    should(result.currentToken).be.match(expectedResult);
+  });
+
   it('Should start the process after a delay of two seconds.', async () => {
 
     const timerStartEventId = 'TimerStartEvent_1';
@@ -129,13 +151,4 @@ describe('Start Events - ', () => {
     should(result.currentToken).be.match(expectedResult);
     should(duration).be.greaterThan(expectedTimerRuntime);
   });
-
-  async function wait(miliseconds) {
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, miliseconds);
-    });
-  }
-
 });
