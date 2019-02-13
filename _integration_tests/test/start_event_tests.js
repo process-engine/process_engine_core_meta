@@ -8,15 +8,12 @@ const {ProcessInstanceHandler, TestFixtureProvider} = require('../dist/commonjs'
 
 describe('Start Events - ', () => {
 
+  let autoStartService;
   let eventAggregator;
   let testFixtureProvider;
   let processInstanceHandler;
 
   const processModelId = 'start_event_tests';
-
-  const messageStartEventId = 'MessageStartEvent_1';
-  const signalStartEventId = 'SignalStartEvent_1';
-  const timerStartEventId = 'TimerStartEvent_1';
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
@@ -24,31 +21,34 @@ describe('Start Events - ', () => {
 
     await testFixtureProvider.importProcessFiles([processModelId]);
 
+    autoStartService = await testFixtureProvider.resolveAsync('AutoStartService');
     eventAggregator = await testFixtureProvider.resolveAsync('EventAggregator');
     processInstanceHandler = new ProcessInstanceHandler(testFixtureProvider);
+
+    await autoStartService.start();
   });
 
   after(async () => {
+    await autoStartService.stop();
     await testFixtureProvider.tearDown();
   });
 
-  it('should only start the process, after a message was received.', async () => {
+  it('should start the process automatically, after a message was received.', async () => {
 
     const correlationId = uuid.v4();
-    const endEventToWaitFor = 'EndEvent_MessageTest';
-
-    const expectedResult = /message received/i;
-
-    // We can't await the process execution here, because that would prevent us from sending the signal.
-    // As a result we must subscribe to the event that gets send when the test is done.
-    testFixtureProvider.executeProcess(processModelId, messageStartEventId, correlationId);
-    await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId, processModelId);
+    const identityToUse = testFixtureProvider.identities.defaultUser;
 
     return new Promise((resolve) => {
       const evaluationCallback = (message) => {
+
+        const endEventToWaitFor = 'EndEvent_MessageTest';
         if (message.flowNodeId === endEventToWaitFor) {
+
+          const expectedResult = /message received/i;
           should(message).have.property('currentToken');
           should(message.currentToken).be.match(expectedResult);
+          should(message.correlationId).be.equal(correlationId);
+          should(message.processInstanceOwner).be.eql(identityToUse);
           resolve();
         }
       };
@@ -56,33 +56,35 @@ describe('Start Events - ', () => {
       // Subscribe for the EndEvent
       processInstanceHandler.waitForProcessInstanceToEnd(correlationId, processModelId, evaluationCallback);
 
+      const messageName = 'MessageAutoStart_Test';
       const samplePayload = {
+        messageReference: messageName,
+        processInstanceOwner: identityToUse,
+        correlationId: correlationId,
         currentToken: 'sampleToken',
       };
 
       // Now publish the message and let the process run its course.
-      const messageName = 'Message_Test';
-      eventAggregator.publish(`/processengine/process/message/${messageName}`, samplePayload);
+      eventAggregator.publish('message_triggered', samplePayload);
     });
   });
 
-  it('should only start the process, after a signal was received', async () => {
+  it('should start the process automatically, after a signal was received', async () => {
 
     const correlationId = uuid.v4();
-    const endEventToWaitFor = 'EndEvent_SignalTest';
-
-    const expectedResult = /signal received/i;
-
-    // We can't await the process execution here, because that would prevent us from sending the signal.
-    // As a result we must subscribe to the event that gets send when the test is done.
-    testFixtureProvider.executeProcess(processModelId, signalStartEventId, correlationId);
-    await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId, processModelId);
+    const identityToUse = testFixtureProvider.identities.defaultUser;
 
     return new Promise((resolve) => {
       const evaluationCallback = (message) => {
+
+        const endEventToWaitFor = 'EndEvent_SignalTest';
         if (message.flowNodeId === endEventToWaitFor) {
+
+          const expectedResult = /signal received/i;
           should(message).have.property('currentToken');
           should(message.currentToken).be.match(expectedResult);
+          should(message.correlationId).be.equal(correlationId);
+          should(message.processInstanceOwner).be.eql(identityToUse);
           resolve();
         }
       };
@@ -90,22 +92,25 @@ describe('Start Events - ', () => {
       // Subscribe for the EndEvent
       processInstanceHandler.waitForProcessInstanceToEnd(correlationId, processModelId, evaluationCallback);
 
+      const signalName = 'SignalAutoStart_Test';
       const samplePayload = {
+        signalReference: signalName,
+        processInstanceOwner: identityToUse,
+        correlationId: correlationId,
         currentToken: 'sampleToken',
       };
 
       // Now publish the signal and let the process run its course.
-      const signalName = 'Signal_Test';
-      eventAggregator.publish(`/processengine/process/signal/${signalName}`, samplePayload);
+      eventAggregator.publish('signal_triggered', samplePayload);
     });
   });
 
   it('Should start the process after a delay of two seconds.', async () => {
 
+    const timerStartEventId = 'TimerStartEvent_1';
+
     const timeStampBeforeStart = moment();
-
     const result = await testFixtureProvider.executeProcess(processModelId, timerStartEventId);
-
     const timeStampAfterFinish = moment();
 
     // Note that this is not exact,
