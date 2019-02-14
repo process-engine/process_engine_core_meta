@@ -15,8 +15,8 @@
     "test-debug": "mocha --inspect-brk test/*.js --exit"
   },
   "dependencies": {
-    "@essential-projects/services": "~2.1.0",
-    "@process-engine/iam": "feature~auto_start_on_signals_and_messages",
+    "@essential-projects/services": "^2.1.0",
+    "@process-engine/iam": "^1.4.0",
     "loggerhythm": "^3.0.3",
     "mocha": "~5.2.0",
     "mocha-jenkins-reporter": "~0.4.1",
