@@ -41,7 +41,7 @@
     "@process-engine/logging.repository.file_system": "~1.0.0",
     "@process-engine/metrics_api_core": "~1.0.0",
     "@process-engine/metrics.repository.file_system": "~1.0.0",
-    "@process-engine/process_engine_core": "~10.2.0",
+    "@process-engine/process_engine_core": "feature~implement_new_persistence_layer",
     "@process-engine/process_model.repository.sequelize": "~4.2.0",
     "addict-ioc": "~2.5.1",
     "bluebird": "~3.5.3",
