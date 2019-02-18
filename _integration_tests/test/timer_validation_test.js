@@ -3,7 +3,7 @@
 const should = require('should');
 const TestFixtureProvider = require('../dist/commonjs').TestFixtureProvider;
 
-describe('Error Boundary Event - ', () => {
+describe('Timer Event validation - ', () => {
 
   let testFixtureProvider;
 
