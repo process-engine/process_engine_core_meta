@@ -9,11 +9,13 @@ const iocModuleNames: Array<string> = [
   '@essential-projects/sequelize_connection_manager',
   '@essential-projects/timing',
   '@process-engine/consumer_api_core',
+  '@process-engine/correlation.service',
   '@process-engine/correlations.repository.sequelize',
   '@process-engine/external_task_api_core',
   '@process-engine/external_task_sample_worker',
   '@process-engine/external_task.repository.sequelize',
   '@process-engine/flow_node_instance.repository.sequelize',
+  '@process-engine/flow_node_instance.service',
   '@process-engine/iam',
   '@process-engine/logging_api_core',
   '@process-engine/logging.repository.file_system',
@@ -21,6 +23,8 @@ const iocModuleNames: Array<string> = [
   '@process-engine/metrics.repository.file_system',
   '@process-engine/process_engine_core',
   '@process-engine/process_model.repository.sequelize',
+  '@process-engine/process_model.service',
+  '@process-engine/process_model.use_case',
   '.',
 ];
 
