@@ -12,11 +12,8 @@ import {IIdentity, TokenBody} from '@essential-projects/iam_contracts';
 
 import {IConsumerApi} from '@process-engine/consumer_api_contracts';
 import {ExternalTaskSampleWorker} from '@process-engine/external_task_sample_worker';
-import {
-  IExecuteProcessService,
-  IProcessModelService,
-  Model,
-} from '@process-engine/process_engine_contracts';
+import {IExecuteProcessService} from '@process-engine/process_engine_contracts';
+import {IProcessModelUseCases, Model} from '@process-engine/process_model.contracts';
 
 import {initializeBootstrapper} from './setup_ioc_container';
 
@@ -32,7 +29,7 @@ export class TestFixtureProvider {
 
   private _consumerApiService: IConsumerApi;
   private _executeProcessService: IExecuteProcessService;
-  private _processModelService: IProcessModelService;
+  private _processModelUseCases: IProcessModelUseCases;
   private _sampleExternalTaskWorker: ExternalTaskSampleWorker;
 
   private _identities: IdentityCollection;
@@ -49,8 +46,8 @@ export class TestFixtureProvider {
     return this._executeProcessService;
   }
 
-  public get processModelService(): IProcessModelService {
-    return this._processModelService;
+  public get processModelService(): IProcessModelUseCases {
+    return this._processModelUseCases;
   }
 
   public async initializeAndStart(): Promise<void> {
@@ -63,7 +60,7 @@ export class TestFixtureProvider {
 
     this._consumerApiService = await this.resolveAsync<IConsumerApi>('ConsumerApiService');
     this._executeProcessService = await this.resolveAsync<IExecuteProcessService>('ExecuteProcessService');
-    this._processModelService = await this.resolveAsync<IProcessModelService>('ProcessModelService');
+    this._processModelUseCases = await this.resolveAsync<IProcessModelUseCases>('ProcessModelUseCases');
 
     this._sampleExternalTaskWorker = await this.resolveAsync<ExternalTaskSampleWorker>('ExternalTaskSampleWorker');
     this._sampleExternalTaskWorker.start();
