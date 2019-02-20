@@ -46,10 +46,6 @@ export class TestFixtureProvider {
     return this._executeProcessService;
   }
 
-  public get processModelService(): IProcessModelUseCases {
-    return this._processModelUseCases;
-  }
-
   public async initializeAndStart(): Promise<void> {
 
     await this._initializeBootstrapper();
@@ -164,7 +160,7 @@ export class TestFixtureProvider {
 
   private async _registerProcess(processFileName: string): Promise<void> {
     const xml: string = this._readProcessModelFromFile(processFileName);
-    await this.processModelService.persistProcessDefinitions(this.identities.defaultUser, processFileName, xml, true);
+    await this._processModelUseCases.persistProcessDefinitions(this.identities.defaultUser, processFileName, xml, true);
   }
 
   private _readProcessModelFromFile(fileName: string): string {
@@ -175,12 +171,5 @@ export class TestFixtureProvider {
     const processModelAsXml: string = fs.readFileSync(processModelPath, 'utf-8');
 
     return processModelAsXml;
-  }
-
-  private async _getProcessById(processId: string): Promise<Model.Types.Process> {
-
-    const processModel: Model.Types.Process = await this.processModelService.getProcessModelById(this.identities.defaultUser, processId);
-
-    return processModel;
   }
 }
