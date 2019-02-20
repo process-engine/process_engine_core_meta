@@ -26,5 +26,6 @@ export function registerInContainer(container: InvocationContainer): void {
   container.register('ServiceTaskTestService', ServiceTaskTestService);
 
   // This removes the necessity for having a running IdentityServer during testing.
-  container.register('IamService', IamServiceMock);
+  container.register('IamService', IamServiceMock)
+    .singleton();
 }
