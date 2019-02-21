@@ -29,7 +29,7 @@
     "@essential-projects/iam_contracts": "~3.4.0",
     "@essential-projects/sequelize_connection_manager": "~2.1.0",
     "@essential-projects/timing": "~4.1.0",
-    "@process-engine/consumer_api_core": "~4.2.0",
+    "@process-engine/consumer_api_core": "feature~optional_start_event_id",
     "@process-engine/correlation.service": "~1.1.0",
     "@process-engine/correlations.repository.sequelize": "~5.0.0",
     "@process-engine/external_task_api_client": "~1.0.1",
