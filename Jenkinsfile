@@ -147,6 +147,12 @@ pipeline {
     always {
       script {
         cleanup_workspace();
+        // Ignore errors that may occur during cleanup.
+        try {
+          sh(script: "docker rmi ${server_image_id}");
+        } catch (Exception error) {
+          echo "Failed to cleanup docker $error";
+        }
       }
     }
   }
