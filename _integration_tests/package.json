@@ -51,7 +51,7 @@
     "bluebird": "~3.5.3",
     "gulp": "^4.0.0",
     "gulptraum": "^3.0.0",
-    "gulptraum-typescript": "^2.0.0",
+    "gulptraum-typescript": "^3.0.0",
     "jsonwebtoken": "~8.4.0",
     "loggerhythm": "~3.0.3",
     "moment": "~2.24.0",
