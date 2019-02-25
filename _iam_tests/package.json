@@ -15,7 +15,7 @@
     "test-debug": "mocha --inspect-brk test/*.js --exit"
   },
   "dependencies": {
-    "@essential-projects/services": "^2.1.0",
+    "@essential-projects/http": "^2.3.0",
     "@process-engine/iam": "^1.4.0",
     "loggerhythm": "^3.0.3",
     "mocha": "~5.2.0",

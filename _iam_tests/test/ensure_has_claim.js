@@ -5,7 +5,7 @@ const Logger = require('loggerhythm').Logger;
 
 const logger = Logger.createLogger('test:iam_service_tests');
 
-const HttpService = require('@essential-projects/services').HttpService;
+const HttpClient = require('@essential-projects/http').HttpClient;
 const IamService = require('@process-engine/iam').IAMService;
 
 describe('IamService - EnsureHasClaim -> ', () => {
@@ -16,7 +16,7 @@ describe('IamService - EnsureHasClaim -> ', () => {
   let testUserToken;
 
   before(async () => {
-    httpClient = new HttpService();
+    httpClient = new HttpClient();
     iamService = new IamService(httpClient);
     iamService.config = {
       claimPath: 'http://localhost:5000/claims/ensure',
