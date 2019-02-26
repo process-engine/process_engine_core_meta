@@ -107,11 +107,11 @@ export class TestFixtureProvider {
     return path.join(rootDirPath, bpmnDirectoryName);
   }
 
-  public async executeProcess(processModelId: string, startEventKey: string, correlationId: string, initialToken: any = {}): Promise<any> {
+  public async executeProcess(processModelId: string, startEventId: string, correlationId: string, initialToken: any = {}): Promise<any> {
 
     return this
       .executeProcessService
-      .startAndAwaitEndEvent(this.identities.defaultUser, processModelId, startEventKey, correlationId, initialToken);
+      .startAndAwaitEndEvent(this.identities.defaultUser, processModelId, startEventId, correlationId, initialToken);
   }
 
   private async _initializeBootstrapper(): Promise<void> {
