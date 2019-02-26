@@ -174,9 +174,9 @@ describe('UserTasks - ', () => {
         .consumerApiService
         .finishUserTask(identity, 'processInstanceId', correlationId, 'User_Task_1');
     } catch (error) {
-      should(error.name).be.match(errorName);
-      should(error.code).be.equal(errorCode);
       should(error.message).be.match(errorMessage);
+      should(error.code).be.equal(errorCode);
+      should(error.name).be.match(errorName);
     }
   });
 
@@ -215,8 +215,38 @@ describe('UserTasks - ', () => {
         .consumerApiService
         .finishUserTask(identity, userTask.processInstanceId, correlationId, userTask.flowNodeInstanceId, userTaskInput);
     } catch (error) {
-      should(error.code).be.equal(errorCode);
       should(error.message).be.match(errorMessage);
+      should(error.code).be.equal(errorCode);
+    }
+  });
+
+  it.only('should fail to execute a UserTask containing a FormField with an invalid configuration.', async () => {
+
+    try {
+      const processModelId = 'user_task_test';
+      const startEventId = 'StartEvent_2';
+      await testFixtureProvider.executeProcess(processModelId, startEventId);
+      should.fail(undefined, 'error', 'This request should have failed, because of an invalid FormField configuration!');
+    } catch (error) {
+      const errorMessage = /The configuration for FormField RandomInvalidFormField is invalid/i;
+      const errorCode = 500;
+      const expectedValidationError = /Cannot evaluate expression.*?ProcessToken is missing some required properties/i;
+
+      should(error.message).be.match(errorMessage);
+      should(error.code).be.equal(errorCode);
+
+      should(error).have.property('additionalInformation');
+
+      const details = error.additionalInformation;
+      should(details.processModelId).be.equal('user_task_test');
+      should(details.userTaskId).be.equal('UserTaskWithInvalidFormFields');
+      should(details.invalidFormFieldId).be.equal('RandomInvalidFormField');
+      should(details.validationError).be.match(expectedValidationError);
+
+      should(details).have.property('processInstanceId');
+      should(details).have.property('correlationId');
+      should(details).have.property('userTaskInstanceId');
+      should(details).have.property('currentToken');
     }
   });
 });
