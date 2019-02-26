@@ -220,7 +220,7 @@ describe('UserTasks - ', () => {
     }
   });
 
-  it.only('should fail to execute a UserTask containing a FormField with an invalid configuration.', async () => {
+  it('should fail to execute a UserTask containing a FormField with an invalid configuration.', async () => {
 
     try {
       const processModelId = 'user_task_test';
