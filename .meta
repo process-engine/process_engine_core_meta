@@ -1,9 +1,7 @@
 {
   "projects": {
-    "documentation": "git@github.com:process-engine/documentation.git",
     "process_engine_contracts": "git@github.com:process-engine/process_engine_contracts.git",
     "process_engine_core": "git@github.com:process-engine/process_engine_core.git",
-    "iam": "git@github.com:process-engine/iam.git",
-    "identity_server": "git@github.com:process-engine/identity_server.git"
+    "iam": "git@github.com:process-engine/iam.git"
   }
 }
