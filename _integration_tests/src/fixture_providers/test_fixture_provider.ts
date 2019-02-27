@@ -108,10 +108,9 @@ export class TestFixtureProvider {
   }
 
   public async executeProcess(processModelId: string, startEventId: string, correlationId: string, initialToken: any = {}): Promise<any> {
-
     return this
       .executeProcessService
-      .startAndAwaitEndEvent(this.identities.defaultUser, processModelId, startEventId, correlationId, initialToken);
+      .startAndAwaitEndEvent(this.identities.defaultUser, processModelId, correlationId, startEventId, initialToken);
   }
 
   private async _initializeBootstrapper(): Promise<void> {

@@ -48,7 +48,7 @@ export class ProcessInstanceHandler {
 
     const result: DataModels.ProcessModels.ProcessStartResponsePayload = await this.testFixtureProvider
       .consumerApiService
-      .startProcessInstance(this.testFixtureProvider.identities.defaultUser, processModelId, startEventId, payload, startCallbackType);
+      .startProcessInstance(this.testFixtureProvider.identities.defaultUser, processModelId, payload, startCallbackType, startEventId);
 
     return result.correlationId;
   }
