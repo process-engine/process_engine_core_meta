@@ -47,7 +47,7 @@ describe('Call activity tests', () => {
     const correlationId = uuid.v4();
 
     await new Promise(async (resolve, reject) => {
-      const startResult = await processInstanceHandler.startProcessInstanceAndReturnResult(processModelId, startEventId, correlationId, initialToken);
+      const startResult = await processInstanceHandler.startProcessInstanceAndReturnResult(processModelId, correlationId, initialToken);
 
       processInstanceHandler.waitForProcessWithInstanceIdToEnd(startResult.processInstanceId, (message) => {
         finalResult = message.currentToken;
