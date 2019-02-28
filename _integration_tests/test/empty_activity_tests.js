@@ -30,17 +30,14 @@ describe('Empty Activity - ', () => {
 
   it('should finish the EmptyActivity.', async () => {
 
+    const startEventIdToUse = 'StartEvent_1';
+    const correlationId = uuid.v4();
     const samplePayload = {
       test: 'value',
     };
 
-    const correlationId = uuid.v4();
-    const initialToken = {
-      inputValues: samplePayload,
-    };
-
-    await processInstanceHandler.startProcessInstanceAndReturnCorrelationId(processModelId, correlationId, initialToken);
-    await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId);
+    testFixtureProvider.executeProcess(processModelId, startEventIdToUse, correlationId, samplePayload);
+    await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId, processModelId);
 
     const waitingEmptyActivities = await processInstanceHandler.getWaitingEmptyActivitiesForCorrelationId(identity, correlationId);
     const emptyActivity = waitingEmptyActivities.emptyActivities[0];
@@ -48,23 +45,20 @@ describe('Empty Activity - ', () => {
     return new Promise(async (resolve, reject) => {
       processInstanceHandler.waitForProcessWithInstanceIdToEnd(emptyActivity.processInstanceId, resolve);
       await processInstanceHandler
-        .finishEmptyActivityInCorrelation(identity, correlationId, emptyActivity.processInstanceId, emptyActivity.flowNodeInstanceId);
+        .finishEmptyActivityInCorrelation(identity, emptyActivity.processInstanceId, correlationId, emptyActivity.flowNodeInstanceId);
     });
   });
 
   it('should finish two sequential EmptyActivities', async () => {
 
+    const startEventIdToUse = 'StartEvent_2';
+    const correlationId = uuid.v4();
     const samplePayload = {
       test: 'value',
     };
 
-    const correlationId = uuid.v4();
-    const initialToken = {
-      inputValues: samplePayload,
-    };
-
-    await processInstanceHandler.startProcessInstanceAndReturnCorrelationId(processModelId, correlationId, initialToken);
-    await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId);
+    testFixtureProvider.executeProcess(processModelId, startEventIdToUse, correlationId, samplePayload);
+    await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId, processModelId);
 
     let waitingEmptyActivities = await processInstanceHandler.getWaitingEmptyActivitiesForCorrelationId(identity, correlationId);
 
@@ -98,12 +92,13 @@ describe('Empty Activity - ', () => {
 
   it('should finish two parallel running EmptyActivities', async () => {
 
+    const startEventIdToUse = 'StartEvent_3';
     const correlationId = uuid.v4();
-    const initialToken = {
-      inputValues: {},
+    const samplePayload = {
+      test: 'value',
     };
 
-    await processInstanceHandler.startProcessInstanceAndReturnCorrelationId(processModelId, correlationId, initialToken);
+    testFixtureProvider.executeProcess(processModelId, startEventIdToUse, correlationId, samplePayload);
     await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId, processModelId, 2);
 
     const waitingEmptyActivities = await processInstanceHandler.getWaitingEmptyActivitiesForCorrelationId(identity, correlationId);
@@ -145,13 +140,14 @@ describe('Empty Activity - ', () => {
 
   it('should refuse to finish an EmptyActivity twice', async () => {
 
+    const startEventIdToUse = 'StartEvent_1';
     const correlationId = uuid.v4();
-    const initialToken = {
-      inputValues: {},
+    const samplePayload = {
+      test: 'value',
     };
 
-    await processInstanceHandler.startProcessInstanceAndReturnCorrelationId(processModelId, correlationId, initialToken);
-    await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId);
+    testFixtureProvider.executeProcess(processModelId, startEventIdToUse, correlationId, samplePayload);
+    await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId, processModelId);
 
     const waitingEmptyActivities = await processInstanceHandler.getWaitingEmptyActivitiesForCorrelationId(identity, correlationId);
 
