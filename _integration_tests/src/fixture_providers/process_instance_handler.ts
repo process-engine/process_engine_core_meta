@@ -142,7 +142,7 @@ export class ProcessInstanceHandler {
   }
 
   /**
-   * Returns all user tasks that are running with the given correlation id.
+   * Returns all user tasks that are running within the correlation with the given id.
    *
    * @async
    * @param   identity      The identity with which to get the UserTask.
