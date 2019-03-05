@@ -18,10 +18,6 @@ export class IamServiceMock implements IIAMService {
         'LaneB',
         'LaneC',
       ],
-      // Can access nothing
-      restrictedUser: [
-        'can_read_process_model',
-      ],
   };
 
   public async ensureHasClaim(identity: IIdentity, claimName: string): Promise<void> {
