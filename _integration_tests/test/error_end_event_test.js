@@ -72,7 +72,7 @@ describe('Error End Event - ', () => {
     }
   });
 
-  it('should execute a subprocess which ends with an error end event', async () => {
+  it('should catch a Subprocess Error caused by an ErrorEndEvent with an ErrorBoundaryEvent', async () => {
 
     const processModelId = 'error_end_event_subprocess_call_activity_test';
 
