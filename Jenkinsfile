@@ -27,13 +27,13 @@ def slack_send_summary(testlog, test_failed, database_type) {
 
   def color_string     =  '"color":"good"';
   def markdown_string  =  '"mrkdwn_in":["text","title"]';
-  def title_string     =  "\"title\":\":white_check_mark: Consumer API Integration Tests against ${database_type} for ${BRANCH_NAME} Succeeded!\"";
+  def title_string     =  "\"title\":\":white_check_mark: Process Engine Integration Tests against ${database_type} for ${BRANCH_NAME} Succeeded!\"";
   def result_string    =  "\"text\":\"${passing}\\n${failing}\\n${pending}\"";
   def action_string    =  "\"actions\":[{\"name\":\"open_jenkins\",\"type\":\"button\",\"text\":\"Open this run\",\"url\":\"${RUN_DISPLAY_URL}\"}]";
 
   if (test_failed == true) {
     color_string = '"color":"danger"';
-    title_string =  "\"title\":\":boom: Consumer API Integration Tests against ${database_type} for ${BRANCH_NAME} Failed!\"";
+    title_string =  "\"title\":\":boom: Process Engine Integration Tests against ${database_type} for ${BRANCH_NAME} Failed!\"";
   }
 
   slackSend(attachments: "[{$color_string, $title_string, $markdown_string, $result_string, $action_string}]");
@@ -45,7 +45,7 @@ def slack_send_testlog(testlog) {
     def requestBody = [
       "token=${SLACK_TOKEN}",
       "content=${testlog}",
-      "filename=consumer_api_integration_tests.txt",
+      "filename=process_engine_meta_integration_tests.txt",
       "channels=process-engine_ci"
     ];
 
@@ -85,7 +85,7 @@ pipeline {
         }
       }
     }
-    stage('Consumer API Tests') {
+    stage('Process Engine Tests') {
       parallel {
         stage('SQLite') {
           agent any
