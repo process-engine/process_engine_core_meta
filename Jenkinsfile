@@ -97,7 +97,6 @@ pipeline {
               unstash('post_build');
 
               script {
-
                 // Node environment settings
                 def node_env = 'NODE_ENV=sqlite';
                 def junit_report_path = 'JUNIT_REPORT_PATH=process_engine_meta_test_results_sqlite.xml';
@@ -133,7 +132,6 @@ pipeline {
               unstash('post_build');
 
               script {
-
                 // Node Environment settings
                 def node_env = 'NODE_ENV=postgres';
                 def junit_report_path = 'JUNIT_REPORT_PATH=process_engine_meta_test_results_postgres.xml';
@@ -163,7 +161,6 @@ pipeline {
                   };
 
                   docker.image("node:${NODE_VERSION_NUMBER}").inside("--link ${c.id}:${postgres_host} --env PATH=$PATH:/$WORKSPACE/node_modules/.bin") {
-
                     def npm_test_command = "node ./node_modules/.bin/cross-env ${node_env_settings} ${db_environment_settings} ./node_modules/.bin/mocha -t 20000 test/**/*.js test/**/**/*.js";
 
                     postgres_exit_code = sh(script: "${npm_test_command} --colors --reporter mocha-jenkins-reporter --exit > process_engine_meta_test_results_postgres.txt", returnStatus: true);
