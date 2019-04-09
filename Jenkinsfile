@@ -25,7 +25,7 @@ def create_summary_from_test_log(testlog, test_failed, database_type) {
   def failing = failing_matcher.count > 0 ? failing_matcher[0] : '0 failing';
   def pending = pending_matcher.count > 0 ? pending_matcher[0] : '0 pending';
 
-  def result_string =  ":white_check_mark: *Tests ${database_type} succeeded!*";
+  def result_string =  ":white_check_mark: *${database_type} Tests succeeded!*";
 
   if (test_failed == true) {
     result_string =  ":boom: *Tests ${database_type} failed!*";
@@ -40,13 +40,12 @@ def slack_send_summary(testlog, test_failed) {
 
   def color_string     =  '"color":"good"';
   def markdown_string  =  '"mrkdwn_in":["text","title"]';
-  def title_string     =  "\"title\":\":white_check_mark: Results for ProcessEngine Meta Integration Tests\"";
+  def title_string     =  "\"title\":\"ProcessEngine Meta Integration Test Results:\"";
   def result_string    =  "\"text\":\"${testlog}\"";
   def action_string    =  "\"actions\":[{\"name\":\"open_jenkins\",\"type\":\"button\",\"text\":\"Open this run\",\"url\":\"${RUN_DISPLAY_URL}\"}]";
 
   if (test_failed == true) {
     color_string = '"color":"danger"';
-    title_string =  "\"title\":\":boom: Results for ProcessEngine Meta Integration Tests\"";
   }
 
   slackSend(attachments: "[{$color_string, $title_string, $markdown_string, $result_string, $action_string}]");
