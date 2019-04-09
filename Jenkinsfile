@@ -12,7 +12,7 @@ def cleanup_workspace() {
 }
 
 @NonCPS
-def slack_send_summary(testlog, test_failed, database_type) {
+def create_summary_from_test_log(testlog, test_failed, database_type) {
   def passing_regex = /\d+ passing/;
   def failing_regex = /\d+ failing/;
   def pending_regex = /\d+ pending/;
@@ -25,27 +25,41 @@ def slack_send_summary(testlog, test_failed, database_type) {
   def failing = failing_matcher.count > 0 ? failing_matcher[0] : '0 failing';
   def pending = pending_matcher.count > 0 ? pending_matcher[0] : '0 pending';
 
+  def result_string =  ":white_check_mark: *Tests ${database_type} succeeded!*";
+
+  if (test_failed == true) {
+    result_string =  ":boom: *Tests ${database_type} failed!*";
+  }
+
+  result += "\\n\\n${passing}\\n${failing}\\n${pending}"
+
+  return result;
+}
+
+@NonCPS
+def slack_send_summary(testlog, test_failed) {
+
   def color_string     =  '"color":"good"';
   def markdown_string  =  '"mrkdwn_in":["text","title"]';
-  def title_string     =  "\"title\":\":white_check_mark: Process Engine Integration Tests against ${database_type} for ${BRANCH_NAME} Succeeded!\"";
-  def result_string    =  "\"text\":\"${passing}\\n${failing}\\n${pending}\"";
+  def title_string     =  "\"title\":\":white_check_mark: Results for ProcessEngine Meta Integration Tests\"";
+  def result_string    =  "\"text\":\"${testlog}\"";
   def action_string    =  "\"actions\":[{\"name\":\"open_jenkins\",\"type\":\"button\",\"text\":\"Open this run\",\"url\":\"${RUN_DISPLAY_URL}\"}]";
 
   if (test_failed == true) {
     color_string = '"color":"danger"';
-    title_string =  "\"title\":\":boom: Process Engine Integration Tests against ${database_type} for ${BRANCH_NAME} Failed!\"";
+    title_string =  "\"title\":\":boom: Results for ProcessEngine Meta Integration Tests\"";
   }
 
   slackSend(attachments: "[{$color_string, $title_string, $markdown_string, $result_string, $action_string}]");
 }
 
-def slack_send_testlog(testlog) {
+def slack_send_testlog(testlog, database_type) {
   withCredentials([string(credentialsId: 'slack-file-poster-token', variable: 'SLACK_TOKEN')]) {
 
     def requestBody = [
       "token=${SLACK_TOKEN}",
       "content=${testlog}",
-      "filename=process_engine_meta_integration_tests.txt",
+      "filename=process_engine_meta_integration_tests_${database_type}.txt",
       "channels=process-engine_ci"
     ];
 
@@ -266,17 +280,22 @@ pipeline {
         script {
           // Failure to send the slack message should not result in build failure.
           try {
-            slack_send_summary(mysql_testresults, mysql_test_failed, 'MySQL');
+            def mysql_report = create_summary_from_test_log(mysql_testresults, mysql_test_failed, 'MySQL');
+            def postgres_report = create_summary_from_test_log(postgres_testresults, postgres_test_failed, 'PostgreSQL');
+            def sqlite_report = create_summary_from_test_log(sqlite_testresults, sqlite_tests_failed, 'SQLite');
+
+            def full_report = "${mysql_report}\\n\\n${postgres_report}\\n\\n${sqlite_report}"
+
+            def some_tests_failed = mysql_test_failed || postgres_test_failed || sqlite_tests_failed
+
+            slack_send_summary(full_report, some_tests_failed)
+
             if (mysql_test_failed) {
               slack_send_testlog(mysql_testresults);
             }
-
-            slack_send_summary(postgres_testresults, postgres_test_failed, 'PostgreSQL');
             if (postgres_test_failed) {
               slack_send_testlog(postgres_testresults);
             }
-
-            slack_send_summary(sqlite_testresults, sqlite_tests_failed, 'SQLite');
             if (sqlite_tests_failed) {
               slack_send_testlog(sqlite_testresults);
             }
