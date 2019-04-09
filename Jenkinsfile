@@ -36,7 +36,6 @@ def create_summary_from_test_log(testlog, test_failed, database_type) {
   return result;
 }
 
-@NonCPS
 def slack_send_summary(testlog, test_failed) {
 
   def color_string     =  '"color":"good"';
