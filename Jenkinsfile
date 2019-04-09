@@ -242,14 +242,17 @@ pipeline {
     stage('Check test results') {
       steps {
         script {
-          if (sqlite_tests_failed || postgres_test_failed) {
+          if (sqlite_tests_failed || postgres_test_failed || mysql_test_failed) {
             currentBuild.result = 'FAILURE';
 
-            if (sqlite_tests_failed) {
-              echo "SQLite tests failed";
+            if (mysql_test_failed) {
+              echo "MySQL tests failed";
             }
             if (postgres_test_failed) {
               echo "PostgreSQL tests failed";
+            }
+            if (sqlite_tests_failed) {
+              echo "SQLite tests failed";
             }
           } else {
             currentBuild.result = 'SUCCESS';
@@ -263,19 +266,19 @@ pipeline {
         script {
           // Failure to send the slack message should not result in build failure.
           try {
-            slack_send_summary(sqlite_testresults, sqlite_tests_failed, 'SQLite');
-            if (sqlite_tests_failed) {
-              slack_send_testlog(sqlite_testresults);
+            slack_send_summary(mysql_testresults, mysql_test_failed, 'MySQL');
+            if (mysql_test_failed) {
+              slack_send_testlog(mysql_testresults);
             }
-          } catch (Exception error) {
-            echo "Failed to send slack report: $error";
-          }
 
-          // Failure to send the slack message should not result in build failure.
-          try {
             slack_send_summary(postgres_testresults, postgres_test_failed, 'PostgreSQL');
             if (postgres_test_failed) {
               slack_send_testlog(postgres_testresults);
+            }
+
+            slack_send_summary(sqlite_testresults, sqlite_tests_failed, 'SQLite');
+            if (sqlite_tests_failed) {
+              slack_send_testlog(sqlite_testresults);
             }
           } catch (Exception error) {
             echo "Failed to send slack report: $error";
