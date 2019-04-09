@@ -31,9 +31,9 @@ def create_summary_from_test_log(testlog, test_failed, database_type) {
     result_string =  ":boom: *Tests ${database_type} failed!*";
   }
 
-  result += "\\n\\n${passing}\\n${failing}\\n${pending}"
+  result_string += "\\n\\n${passing}\\n${failing}\\n${pending}"
 
-  return result;
+  return result_string;
 }
 
 def slack_send_summary(testlog, test_failed) {
