@@ -95,52 +95,54 @@ pipeline {
             skipDefaultCheckout()
           }
           steps {
-            unstash('post_build');
+            dir('_integration_tests') {
+              unstash('post_build');
 
-            script {
-              // Node Environment settings
-              def node_env = 'NODE_ENV=mysql';
-              def junit_report_path = 'JUNIT_REPORT_PATH=process_engine_meta_test_results_mysql.xml';
-              def config_path = 'CONFIG_PATH=config';
+              script {
+                // Node Environment settings
+                def node_env = 'NODE_ENV=mysql';
+                def junit_report_path = 'JUNIT_REPORT_PATH=process_engine_meta_test_results_mysql.xml';
+                def config_path = 'CONFIG_PATH=config';
 
-              def node_env_settings = "${node_env} ${junit_report_path} ${config_path}"
+                def node_env_settings = "${node_env} ${junit_report_path} ${config_path}"
 
-              // MySql Settings
-              def mysql_host = "db";
-              def mysql_root_password = "admin";
-              def mysql_database = "processengine";
-              def mysql_user = "admin";
-              def mysql_password = "admin";
+                // MySql Settings
+                def mysql_host = "db";
+                def mysql_root_password = "admin";
+                def mysql_database = "processengine";
+                def mysql_user = "admin";
+                def mysql_password = "admin";
 
-              def db_database_host_correlation = "process_engine__correlation_repository__host=${mysql_host}";
-              def db_database_host_external_task = "process_engine__external_task_repository__host=${mysql_host}";
-              def db_database_host_process_model = "process_engine__process_model_repository__host=${mysql_host}";
-              def db_database_host_flow_node_instance = "process_engine__flow_node_instance_repository__host=${mysql_host}";
+                def db_database_host_correlation = "process_engine__correlation_repository__host=${mysql_host}";
+                def db_database_host_external_task = "process_engine__external_task_repository__host=${mysql_host}";
+                def db_database_host_process_model = "process_engine__process_model_repository__host=${mysql_host}";
+                def db_database_host_flow_node_instance = "process_engine__flow_node_instance_repository__host=${mysql_host}";
 
-              def db_environment_settings = "${db_database_host_correlation} ${db_database_host_external_task} ${db_database_host_process_model} ${db_database_host_flow_node_instance}";
+                def db_environment_settings = "${db_database_host_correlation} ${db_database_host_external_task} ${db_database_host_process_model} ${db_database_host_flow_node_instance}";
 
-              def mysql_settings = "--env MYSQL_HOST=${mysql_host} --env MYSQL_ROOT_PASSWORD=${mysql_root_password} --env MYSQL_DATABASE=${mysql_database} --env MYSQL_USER=${mysql_user} --env MYSQL_PASSWORD=${mysql_password} --volume $WORKSPACE/mysql:/docker-entrypoint-initdb.d/";
+                def mysql_settings = "--env MYSQL_HOST=${mysql_host} --env MYSQL_ROOT_PASSWORD=${mysql_root_password} --env MYSQL_DATABASE=${mysql_database} --env MYSQL_USER=${mysql_user} --env MYSQL_PASSWORD=${mysql_password} --volume $WORKSPACE/mysql:/docker-entrypoint-initdb.d/";
 
-              def mysql_connection_string="server=${mysql_host};user id=${mysql_user};password=${mysql_password};persistsecurityinfo=True;port=3306;database=${mysql_database};ConnectionTimeout=600;Allow User Variables=true";
+                def mysql_connection_string="server=${mysql_host};user id=${mysql_user};password=${mysql_password};persistsecurityinfo=True;port=3306;database=${mysql_database};ConnectionTimeout=600;Allow User Variables=true";
 
-              def npm_test_command = "node ./node_modules/.bin/cross-env ${node_env_settings} ${db_environment_settings} ./node_modules/.bin/mocha -t 20000 test/**/*.js test/**/**/*.js";
+                def npm_test_command = "node ./node_modules/.bin/cross-env ${node_env_settings} ${db_environment_settings} ./node_modules/.bin/mocha -t 20000 test/**/*.js test/**/**/*.js";
 
-              docker.image('mysql:5').withRun("${mysql_settings}") { c ->
-                docker.image('mysql:5').inside("--link ${c.id}:${mysql_host}") {
-                  sh 'while ! mysqladmin ping -hdb --silent; do sleep 1; done'
+                docker.image('mysql:5').withRun("${mysql_settings}") { c ->
+                  docker.image('mysql:5').inside("--link ${c.id}:${mysql_host}") {
+                    sh 'while ! mysqladmin ping -hdb --silent; do sleep 1; done'
+                  }
+
+                  docker.image("node:${NODE_VERSION_NUMBER}").inside("--link ${c.id}:${mysql_host} --env HOME=${WORKSPACE} --env ConnectionStrings__StatePersistence='${mysql_connection_string}'") {
+                    mysql_exit_code = sh(script: "${npm_test_command} --colors --reporter mocha-jenkins-reporter --exit | tee process_engine_meta_test_results_mysql.txt", returnStatus: true);
+
+                    mysql_testresults = sh(script: "cat process_engine_meta_test_results_mysql.txt", returnStdout: true).trim();
+                    junit 'process_engine_meta_test_results_mysql.xml'
+                  }
                 }
 
-                docker.image("node:${NODE_VERSION_NUMBER}").inside("--link ${c.id}:${mysql_host} --env HOME=${WORKSPACE} --env ConnectionStrings__StatePersistence='${mysql_connection_string}'") {
-                  mysql_exit_code = sh(script: "${npm_test_command} --colors --reporter mocha-jenkins-reporter --exit | tee process_engine_meta_test_results_mysql.txt", returnStatus: true);
+                sh('cat process_engine_meta_test_results_mysql.txt');
 
-                  mysql_testresults = sh(script: "cat process_engine_meta_test_results_mysql.txt", returnStdout: true).trim();
-                  junit 'process_engine_meta_test_results_mysql.xml'
-                }
+                mysql_test_failed = mysql_exit_code > 0;
               }
-
-              sh('cat process_engine_meta_test_results_mysql.txt');
-
-              mysql_test_failed = mysql_exit_code > 0;
             }
           }
         }
