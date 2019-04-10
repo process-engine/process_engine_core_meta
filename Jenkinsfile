@@ -25,13 +25,23 @@ def create_summary_from_test_log(testlog, test_failed, database_type) {
   def failing = failing_matcher.count > 0 ? failing_matcher[0] : '0 failing';
   def pending = pending_matcher.count > 0 ? pending_matcher[0] : '0 pending';
 
-  def result_string =  ":white_check_mark: *${database_type} Tests succeeded!*";
+  def result_string;
 
   if (test_failed == true) {
     result_string =  ":boom: *Tests ${database_type} failed!*";
+  } else {
+    result_string =  ":white_check_mark: *${database_type} Tests succeeded!*";
   }
 
-  result_string += "\\n\\n${passing}\\n${failing}\\n${pending}"
+  result_string += "\\n\\n${passing}"
+
+  if (failing_matcher.count > 0) {
+    result_string += "\\n${failing}"
+  }
+
+  if (pending_matcher.count > 0) {
+    result_string += "\\n${pending}"
+  }
 
   return result_string;
 }
