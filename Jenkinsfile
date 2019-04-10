@@ -27,7 +27,9 @@ def create_summary_from_test_log(testlog, test_failed, database_type) {
 
   def result_string;
 
-  def no_tests_executed = passing_matcher.count == 0 && failing_matcher.count == 0;
+  // Note that mocha will always print the amount of successful tests, even if there are 0.
+  // So this must be handled differently here.
+  def no_tests_executed = passing == '0 passing' && failing_matcher.count == 0;
 
   if (test_failed == true) {
     result_string =  ":boom: *Tests ${database_type} failed!*";
