@@ -58,7 +58,7 @@ def slack_send_summary(testlog, test_failed) {
 
   def color_string     =  '"color":"good"';
   def markdown_string  =  '"mrkdwn_in":["text","title"]';
-  def title_string     =  "\"title\":\"ProcessEngine Meta Integration Test Results:\"";
+  def title_string     =  "\"title\":\"ProcessEngine Meta Integration Test Results for branch ${BRANCH_NAME}:\"";
   def result_string    =  "\"text\":\"${testlog}\"";
   def action_string    =  "\"actions\":[{\"name\":\"open_jenkins\",\"type\":\"button\",\"text\":\"Open this run\",\"url\":\"${RUN_DISPLAY_URL}\"}]";
 
