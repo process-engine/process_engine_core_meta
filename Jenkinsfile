@@ -27,20 +27,26 @@ def create_summary_from_test_log(testlog, test_failed, database_type) {
 
   def result_string;
 
+  def no_tests_executed = passing_matcher.count == 0 && failing_matcher.count == 0;
+
   if (test_failed == true) {
     result_string =  ":boom: *Tests ${database_type} failed!*";
+  } else if (no_tests_executed) {
+    result_string =  ":question: *No tests for ${database_type} were executed!*";
   } else {
     result_string =  ":white_check_mark: *${database_type} Tests succeeded!*";
   }
 
-  result_string += "\\n\\n${passing}"
+  if (passing_matcher.count > 0) {
+    result_string += "\\n\\n${passing}";
+  }
 
   if (failing_matcher.count > 0) {
-    result_string += "\\n${failing}"
+    result_string += "\\n${failing}";
   }
 
   if (pending_matcher.count > 0) {
-    result_string += "\\n${pending}"
+    result_string += "\\n${pending}";
   }
 
   return result_string;
