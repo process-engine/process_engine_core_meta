@@ -7,7 +7,7 @@ const {ProcessInstanceHandler, TestFixtureProvider} = require('../dist/commonjs'
 
 // TODO: These tests are unstable and are frequently ruining the Jenkins Builds.
 // Until we come up with a fix, these tests are disabled.
-describe.only('BoundaryEvent Chaining Tests - ', () => {
+describe.skip('BoundaryEvent Chaining Tests - ', () => {
 
   let eventAggregator;
   let processInstanceHandler;
@@ -33,7 +33,7 @@ describe.only('BoundaryEvent Chaining Tests - ', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it.skip('Should cancel all BoundaryEvents, after the ManualTask was finished.', async () => {
+  it('Should cancel all BoundaryEvents, after the ManualTask was finished.', async () => {
 
     testFixtureProvider.executeProcess(processModelId, startEventId, correlationId);
     await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId, processModelId);
@@ -54,7 +54,7 @@ describe.only('BoundaryEvent Chaining Tests - ', () => {
     should(results.timeoutExpired).be.equal(false, 'The TimerBoundaryEvent was triggered after the ManualTask was finished!');
   });
 
-  it.skip('Should interrupt the ManualTask and all other BoundaryEvents, after a MessageBoundaryEvent was triggered.', async () => {
+  it('Should interrupt the ManualTask and all other BoundaryEvents, after a MessageBoundaryEvent was triggered.', async () => {
 
     testFixtureProvider.executeProcess(processModelId, startEventId, correlationId);
     await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId, processModelId);
@@ -74,7 +74,7 @@ describe.only('BoundaryEvent Chaining Tests - ', () => {
     should(results.manualTaskWasFinished).be.equal(false, 'The ManualTask was still able to finish after interruption!');
   });
 
-  it.skip('Should interrupt the ManualTask and all other BoundaryEvents, after a SignalBoundaryEvent was triggered.', async () => {
+  it('Should interrupt the ManualTask and all other BoundaryEvents, after a SignalBoundaryEvent was triggered.', async () => {
 
     testFixtureProvider.executeProcess(processModelId, startEventId, correlationId);
     await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId, processModelId);
@@ -94,7 +94,7 @@ describe.only('BoundaryEvent Chaining Tests - ', () => {
     should(results.manualTaskWasFinished).be.equal(false, 'The ManualTask was still able to finish after interruption!');
   });
 
-  it.skip('Should interrupt the ManualTask and all other BoundaryEvents, after the TimerBoundaryEvent was triggered.', async () => {
+  it('Should interrupt the ManualTask and all other BoundaryEvents, after the TimerBoundaryEvent was triggered.', async () => {
 
     testFixtureProvider.executeProcess(processModelId, startEventId, correlationId);
     await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId, processModelId);
@@ -109,7 +109,7 @@ describe.only('BoundaryEvent Chaining Tests - ', () => {
     should(results.manualTaskWasFinished).be.equal(false, 'The ManualTask was still able to finish after interruption!');
   });
 
-  it.skip('Should successfully abort the ManualTask after a MessageBoundaryEvent was triggered.', async () => {
+  it('Should successfully abort the ManualTask after a MessageBoundaryEvent was triggered.', async () => {
 
     testFixtureProvider.executeProcess(processModelId, startEventId, correlationId);
     await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId, processModelId);
@@ -134,7 +134,7 @@ describe.only('BoundaryEvent Chaining Tests - ', () => {
     should(waitingManualTasks.manualTasks.length).be.equal(0);
   });
 
-  it.skip('Should successfully abort the ManualTask after a SignalBoundaryEvent was triggered.', async () => {
+  it('Should successfully abort the ManualTask after a SignalBoundaryEvent was triggered.', async () => {
 
     testFixtureProvider.executeProcess(processModelId, startEventId, correlationId);
     await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId, processModelId);
@@ -159,7 +159,7 @@ describe.only('BoundaryEvent Chaining Tests - ', () => {
     should(waitingManualTasks.manualTasks.length).be.equal(0);
   });
 
-  it.skip('Should successfully abort the ManualTask after a TimerBoundaryEvent was triggered.', async () => {
+  it('Should successfully abort the ManualTask after a TimerBoundaryEvent was triggered.', async () => {
 
     testFixtureProvider.executeProcess(processModelId, startEventId, correlationId);
     await processInstanceHandler.waitForProcessInstanceToReachSuspendedTask(correlationId, processModelId);
