@@ -23,10 +23,6 @@ describe('Error Boundary Event - ', () => {
 
   it('should not alter the execution path, if the node instance, to which the event is attached, was executed successfully.', async () => {
 
-    if (process.env.NODE_ENV === 'postgres') {
-      should.fail('bla', 'blub', 'This is a provoked error to test the new slack reports');
-    }
-
     const initialToken = {
       raiseError: false,
     };
