@@ -61,25 +61,6 @@ def slack_send_summary(testlog, test_failed) {
   slackSend(attachments: "[{$color_string, $title_string, $markdown_string, $result_string, $action_string}]");
 }
 
-def slack_send_testlog(testlog, database_type) {
-  withCredentials([string(credentialsId: 'slack-file-poster-token', variable: 'SLACK_TOKEN')]) {
-
-    def requestBody = [
-      "token=${SLACK_TOKEN}",
-      "content=${testlog}",
-      "filename=process_engine_meta_integration_tests_${database_type}.txt",
-      "channels=process-engine_ci"
-    ];
-
-    httpRequest(
-      url: 'https://slack.com/api/files.upload',
-      httpMode: 'POST',
-      contentType: 'APPLICATION_FORM',
-      requestBody: requestBody.join('&')
-    );
-  }
-}
-
 pipeline {
   agent any
   tools {
@@ -297,16 +278,6 @@ pipeline {
             def some_tests_failed = mysql_test_failed || postgres_test_failed || sqlite_tests_failed
 
             slack_send_summary(full_report, some_tests_failed)
-
-            if (mysql_test_failed) {
-              slack_send_testlog(mysql_testresults);
-            }
-            if (postgres_test_failed) {
-              slack_send_testlog(postgres_testresults);
-            }
-            if (sqlite_tests_failed) {
-              slack_send_testlog(sqlite_testresults);
-            }
           } catch (Exception error) {
             echo "Failed to send slack report: $error";
           }
