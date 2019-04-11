@@ -156,6 +156,13 @@ pipeline {
               }
             }
           }
+          post {
+            always {
+              script {
+                cleanup_workspace();
+              }
+            }
+          }
         }
         stage('PostgreSQL') {
           agent {
@@ -211,6 +218,13 @@ pipeline {
                 sh('cat process_engine_meta_test_results_postgres.txt');
 
                 postgres_test_failed = postgres_exit_code > 0;
+              }
+            }
+          }
+          post {
+            always {
+              script {
+                cleanup_workspace();
               }
             }
           }
