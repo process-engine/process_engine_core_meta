@@ -18,7 +18,9 @@
     "clean": "rm -rf dist",
     "build": "npm run clean && npm run build-commonjs && npm run build-amd",
     "build-commonjs": "tsc",
-    "build-amd": "tsc --module amd --outDir ./dist/amd"
+    "build-amd": "tsc --module amd --outDir ./dist/amd",
+    "lint": "eslint src/**/*.ts src/*.ts",
+    "lint-fix": "eslint --fix src/**/*.ts src/*.ts"
   },
   "dependencies": {
     "@essential-projects/bootstrapper": "~3.3.0",
