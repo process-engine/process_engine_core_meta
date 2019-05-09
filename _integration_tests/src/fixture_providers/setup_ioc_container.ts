@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {InvocationContainer} from 'addict-ioc';
 
 const iocModuleNames: Array<string> = [

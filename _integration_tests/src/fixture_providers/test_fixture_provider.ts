@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/member-naming */
 import * as fs from 'fs';
 import * as jsonwebtoken from 'jsonwebtoken';

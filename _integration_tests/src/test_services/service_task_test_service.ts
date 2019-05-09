@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {Logger} from 'loggerhythm';
 
 const logger: Logger = Logger.createLogger('service_task:service_task_test_bnservice');
