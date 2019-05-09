@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {Logger} from 'loggerhythm';
 
 const logger: Logger = Logger.createLogger('service_task:service_task_test_bnservice');
@@ -64,13 +65,13 @@ export class ServiceTaskTestService {
     logger.info('Starting Service: Delay');
     logger.info(`Waiting ${timeInSeconds} seconds.`);
 
-    /*tslint:disable:no-magic-numbers*/
+    /* tslint:disable:no-magic-numbers */
     // Disable the linter check because to calculate milliseconds from seconds is kinda obvious.
     const millisecondsToWait: number = timeInSeconds * 1000;
 
     // Wait, until the timeout is over.
     await new Promise((resolve: Function): void => {
-      setTimeout(() => {
+      setTimeout((): void => {
         logger.info('Timeout over');
         resolve();
       }, millisecondsToWait);

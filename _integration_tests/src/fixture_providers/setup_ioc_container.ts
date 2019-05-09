@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {InvocationContainer} from 'addict-ioc';
 
 const iocModuleNames: Array<string> = [
@@ -29,6 +30,7 @@ const iocModuleNames: Array<string> = [
 ];
 
 const iocModules: Array<any> = iocModuleNames.map((moduleName: string): any => {
+  // eslint-disable-next-line
   return require(`${moduleName}/ioc_module`);
 });
 
