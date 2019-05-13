@@ -35,23 +35,18 @@ pipeline {
           sh('node --version')
           sh('npm install --ignore-scripts')
         }
-
-        archiveArtifacts('package-lock.json')
       }
     }
     stage('lint') {
       steps {
         sh('node --version')
-        /* we do not want the linting to cause a failed build */
-        sh('npm run lint || true')
+        sh('npm run lint')
       }
     }
     stage('build') {
       steps {
         sh('node --version')
         sh('npm run build')
-        sh('npm run build-schemas')
-        sh('npm run build-doc')
       }
     }
     stage('test') {
@@ -68,13 +63,7 @@ pipeline {
           def new_commit = env.GIT_PREVIOUS_COMMIT != env.GIT_COMMIT;
 
           if (branch_is_master) {
-
-            def previous_build = currentBuild.getPreviousBuild();
-            def previous_build_status = previous_build == null ? null : previous_build.result;
-
-            def should_publish_to_npm = new_commit || previous_build_status == 'FAILURE';
-
-            if (should_publish_to_npm) {
+            if (new_commit) {
               script {
                 // let the build fail if the version does not match normal semver
                 def semver_matcher = package_version =~ /\d+\.\d+\.\d+/;
@@ -96,8 +85,6 @@ pipeline {
               } else {
                 println 'Skipping publish for this version. Version unchanged.'
               }
-            } else {
-              println 'Skipped publishing for this version. No new commits pushed and previous build did not fail.'
             }
 
           } else {

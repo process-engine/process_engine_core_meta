@@ -1,16 +1,14 @@
-'use strict';
 
 import {InvocationContainer} from 'addict-ioc';
-
-import {
-  ParallelGatewayTestService,
-  ServiceTaskTestService,
-} from '../test_services/index';
 
 import {
   ExternalTaskApiClientService,
   ExternalTaskApiInternalAccessor,
 } from '@process-engine/external_task_api_client';
+import {
+  ParallelGatewayTestService,
+  ServiceTaskTestService,
+} from '../test_services/index';
 
 import {IamServiceMock} from '../mocks/index';
 
