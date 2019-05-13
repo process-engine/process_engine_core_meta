@@ -168,8 +168,8 @@ export class TestFixtureProvider {
 
   private readProcessModelFromFile(fileName: string): string {
 
-    const bpmnFolderLocation = this.getBpmnDirectoryPath();
-    const processModelPath = path.join(bpmnFolderLocation, `${fileName}.bpmn`);
+    const bpmnDirectoryPath = this.getBpmnDirectoryPath();
+    const processModelPath = path.join(bpmnDirectoryPath, `${fileName}.bpmn`);
 
     const processModelAsXml = fs.readFileSync(processModelPath, 'utf-8');
 
