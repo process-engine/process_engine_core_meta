@@ -6,7 +6,7 @@ const uuid = require('node-uuid');
 
 const {ProcessInstanceHandler, TestFixtureProvider} = require('../dist/commonjs');
 
-describe.only('Start Events - ', () => {
+describe('Start Events - ', () => {
 
   let cronjobService;
   let testFixtureProvider;
