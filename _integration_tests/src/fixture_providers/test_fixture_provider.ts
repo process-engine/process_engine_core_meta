@@ -30,11 +30,11 @@ export class TestFixtureProvider {
   private bootstrapper: AppBootstrapper;
   private container: InvocationContainer;
 
-  private processModelUseCases: IProcessModelUseCases;
   private sampleExternalTaskWorker: ExternalTaskSampleWorker;
 
   private _consumerApiService: IConsumerApi;
   private _executeProcessService: IExecuteProcessService;
+  private _processModelUseCases: IProcessModelUseCases;
 
   private _identities: IdentityCollection;
 
@@ -44,6 +44,10 @@ export class TestFixtureProvider {
 
   public get executeProcessService(): IExecuteProcessService {
     return this._executeProcessService;
+  }
+
+  public get processModelUseCases(): IProcessModelUseCases {
+    return this._processModelUseCases;
   }
 
   public get identities(): IdentityCollection {
@@ -60,7 +64,7 @@ export class TestFixtureProvider {
 
     this._consumerApiService = await this.resolveAsync<IConsumerApi>('ConsumerApiService');
     this._executeProcessService = await this.resolveAsync<IExecuteProcessService>('ExecuteProcessService');
-    this.processModelUseCases = await this.resolveAsync<IProcessModelUseCases>('ProcessModelUseCases');
+    this._processModelUseCases = await this.resolveAsync<IProcessModelUseCases>('ProcessModelUseCases');
 
     this.sampleExternalTaskWorker = await this.resolveAsync<ExternalTaskSampleWorker>('ExternalTaskSampleWorker');
     this.sampleExternalTaskWorker.start();
