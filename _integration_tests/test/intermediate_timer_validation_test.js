@@ -7,9 +7,9 @@ describe('Timer Event validation - ', () => {
 
   let testFixtureProvider;
 
-  const processModelIdDuration = 'timer_invalid_duration';
-  const processModelIdDate = 'timer_invalid_date';
-  const processModelIdCyclic = 'timer_cyclic';
+  const processModelIdDuration = 'intermediate_timer_invalid_duration';
+  const processModelIdDate = 'intermediate_timer_invalid_date';
+  const processModelIdCyclic = 'intermediate_timer_cyclic';
   const startEventId = 'StartEvent_1';
 
   before(async () => {
