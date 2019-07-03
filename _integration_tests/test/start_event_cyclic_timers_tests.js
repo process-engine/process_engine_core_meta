@@ -75,6 +75,22 @@ describe('StartEvents with Cronjobs - ', () => {
     should(result.currentToken).be.match(expectedResult);
   });
 
+  it('should not create cronjobs for a ProcessModel that doesn\'t have any', async () => {
+
+    const processModelWithoutCronjobs = 'boundary_event_error_test';
+
+    await testFixtureProvider.importProcessFiles([processModelWithoutCronjobs]);
+    await cronjobService.start();
+
+    // The cronjob service won't throw errors when one or more crontab is invalid,
+    // because that would prevent the valid crontabs from being used.
+    // We can only assert that no cronjob was created for our invalid crontab.
+    should.not.exist(cronjobService.cronjobDictionary[processModelWithoutCronjobs]);
+
+    await cronjobService.stop();
+    await disposeProcessModel(processModelWithoutCronjobs);
+  });
+
   it('should not be able to automatically start a TimerStartEvent with misconfigured crontab.', async () => {
 
     const processModelMisconfiguredId = 'cyclic_timers_misconfigured_test';
@@ -82,9 +98,7 @@ describe('StartEvents with Cronjobs - ', () => {
     await testFixtureProvider.importProcessFiles([processModelMisconfiguredId]);
     await cronjobService.start();
 
-    // The cronjob service won't throw errors when one or more crontab is invalid,
-    // because that would prevent the valid crontabs from being used.
-    // We can only assert that no cronjob was created for our invalid crontab.
+    // Same thing as above.
     should(cronjobService.cronjobDictionary[processModelMisconfiguredId]).be.empty();
 
     await cronjobService.stop();
@@ -105,15 +119,15 @@ describe('StartEvents with Cronjobs - ', () => {
     await disposeProcessModel(processModelInvalidId);
   });
 
-  async function disposeProcessModel(processModelId) {
-    await testFixtureProvider
-      .processModelUseCases
-      .deleteProcessModel(testFixtureProvider.identities.defaultUser, processModelId);
-  }
-
   async function getParsedProcessModel(processModelId) {
     await testFixtureProvider.importProcessFiles([processModelId]);
 
     return testFixtureProvider.processModelUseCases.getProcessModelById(testFixtureProvider.identities.defaultUser, processModelId);
+  }
+
+  async function disposeProcessModel(processModelId) {
+    await testFixtureProvider
+      .processModelUseCases
+      .deleteProcessModel(testFixtureProvider.identities.defaultUser, processModelId);
   }
 });
