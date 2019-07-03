@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_019scie" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.15.1">
   <bpmn:collaboration id="Collaboration_1dwnbx6">
-    <bpmn:participant id="Participant_1ndejx1" name="start_events_with_cyclic_timers_test" processRef="start_events_with_cyclic_timers_test" />
+    <bpmn:participant id="Participant_1ndejx1" name="cyclic_timers_invalid_chars_test" processRef="cyclic_timers_invalid_chars_test" />
   </bpmn:collaboration>
-  <bpmn:process id="start_events_with_cyclic_timers_test" name="start_events_with_cyclic_timers_test" isExecutable="true">
+  <bpmn:process id="cyclic_timers_invalid_chars_test" name="cyclic_timers_invalid_chars_test" isExecutable="true">
     <bpmn:laneSet>
       <bpmn:lane id="Lane_1jhpx27" name="Default_Test_Lane">
         <bpmn:flowNodeRef>EndEvent_TimerTest</bpmn:flowNodeRef>
@@ -26,7 +26,7 @@ return 'Success';</bpmn:script>
     <bpmn:startEvent id="TimerStartEvent_1" name="Timer with Crontab">
       <bpmn:outgoing>SequenceFlow_0x9ie3k</bpmn:outgoing>
       <bpmn:timerEventDefinition>
-        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">*/2 * * * * *</bpmn:timeCycle>
+        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">* A * * * *</bpmn:timeCycle>
       </bpmn:timerEventDefinition>
     </bpmn:startEvent>
   </bpmn:process>

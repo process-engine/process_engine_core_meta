@@ -10,7 +10,9 @@ describe('StartEvents with Cronjobs - ', () => {
   let testFixtureProvider;
   let processInstanceHandler;
 
-  const processModelId = 'start_events_with_cyclic_timers_test';
+  const processModelId = 'cyclic_timers_test';
+
+  const processModelId2 = 'cyclic_timers_test';
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
@@ -23,9 +25,7 @@ describe('StartEvents with Cronjobs - ', () => {
   });
 
   after(async () => {
-    await testFixtureProvider
-      .processModelUseCases
-      .deleteProcessModel(testFixtureProvider.identities.defaultUser, processModelId);
+    await disposeProcessModel(processModelId);
 
     await testFixtureProvider.tearDown();
   });
@@ -44,7 +44,7 @@ describe('StartEvents with Cronjobs - ', () => {
     });
   });
 
-  it('should be able to start a process with a cyclic TimerStartEvent event manually.', async () => {
+  it('should be able to manually start a ProcessModel with a cyclic TimerStartEvent event.', async () => {
 
     const messageStartEventId = 'TimerStartEvent_1';
 
@@ -54,4 +54,40 @@ describe('StartEvents with Cronjobs - ', () => {
     should(result).have.property('currentToken');
     should(result.currentToken).be.match(expectedResult);
   });
+
+  it('should not be able to automatically start a TimerStartEvent with misconfigured crontab.', async () => {
+
+    const processModelMisconfiguredId = 'cyclic_timers_misconfigured_test';
+
+    await testFixtureProvider.importProcessFiles([processModelMisconfiguredId]);
+    await cronjobService.start();
+
+    // The cronjob service won't throw errors when one or more crontab is invalid,
+    // because that would prevent the valid crontabs from being used.
+    // We can only assert that no cronjob was created for our invalid crontab.
+    should(cronjobService.cronjobDictionary[processModelMisconfiguredId]).be.empty();
+
+    await cronjobService.stop();
+    await disposeProcessModel(processModelMisconfiguredId)
+  });
+
+  it('should not be able to automatically start a TimerStartEvent with invalid chars in the crontab.', async () => {
+
+    const processModelInvalidId = 'cyclic_timers_invalid_chars_test';
+
+    await testFixtureProvider.importProcessFiles([processModelInvalidId]);
+    await cronjobService.start();
+
+    // Same thing as above.
+    should(cronjobService.cronjobDictionary[processModelInvalidId]).be.empty();
+
+    await cronjobService.stop();
+    await disposeProcessModel(processModelInvalidId)
+  });
+
+  async function disposeProcessModel(processModelId) {
+    await testFixtureProvider
+      .processModelUseCases
+      .deleteProcessModel(testFixtureProvider.identities.defaultUser, processModelId);
+  }
 });
