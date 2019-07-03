@@ -30,7 +30,7 @@ describe('StartEvents with Cronjobs - ', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should be able to manually start a ProcessModel with a cyclic TimerStartEvent event.', async () => {
+  it('should be able to manually start a ProcessModel with a cyclic TimerStartEvent.', async () => {
 
     const messageStartEventId = 'TimerStartEvent_1';
 
