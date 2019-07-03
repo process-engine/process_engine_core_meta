@@ -30,6 +30,17 @@ describe('StartEvents with Cronjobs - ', () => {
     await testFixtureProvider.tearDown();
   });
 
+  it('should be able to manually start a ProcessModel with a cyclic TimerStartEvent event.', async () => {
+
+    const messageStartEventId = 'TimerStartEvent_1';
+
+    const result = await testFixtureProvider.executeProcess(processModelId, messageStartEventId);
+
+    const expectedResult = /success/i;
+    should(result).have.property('currentToken');
+    should(result.currentToken).be.match(expectedResult);
+  });
+
   it('should automatically start a ProcessModel when a matching Cronjob expires', async () => {
 
     return new Promise(async (resolve, reject) => {
@@ -62,17 +73,6 @@ describe('StartEvents with Cronjobs - ', () => {
 
       await cronjobService.addOrUpdate(parsedProcessModel2);
     });
-  });
-
-  it('should be able to manually start a ProcessModel with a cyclic TimerStartEvent event.', async () => {
-
-    const messageStartEventId = 'TimerStartEvent_1';
-
-    const result = await testFixtureProvider.executeProcess(processModelId, messageStartEventId);
-
-    const expectedResult = /success/i;
-    should(result).have.property('currentToken');
-    should(result.currentToken).be.match(expectedResult);
   });
 
   it('should not create cronjobs for a ProcessModel that doesn\'t have any', async () => {
