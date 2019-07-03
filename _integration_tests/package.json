@@ -29,7 +29,7 @@
     "@essential-projects/http": "~2.4.0",
     "@essential-projects/http_extension": "~6.6.0",
     "@essential-projects/iam_contracts": "~3.5.0",
-    "@essential-projects/timing": "~4.2.0",
+    "@essential-projects/timing": "feature~fix_cycle_timer_rule_parameter",
     "@process-engine/consumer_api_core": "~5.5.0",
     "@process-engine/correlation.service": "~1.3.0",
     "@process-engine/correlations.repository.sequelize": "~6.0.0",
