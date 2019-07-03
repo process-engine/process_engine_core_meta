@@ -75,6 +75,20 @@ describe('StartEvents with Cronjobs - ', () => {
     });
   });
 
+  // Note that this should actually be handled by the Management API, which is not available in this setup.
+  // So accessing the CronjobService manually is ok here.
+  it('should remove all cronjobs for a deleted ProcessModel \'on the fly\'', async () => {
+    const processModelIdToDelete = 'cyclic_timers_test_2';
+
+    await cronjobService.start();
+
+    await cronjobService.remove(processModelIdToDelete);
+
+    should.not.exist(cronjobService.cronjobDictionary[processModelIdToDelete]);
+
+    await cronjobService.stop();
+  });
+
   it('should not create cronjobs for a ProcessModel that doesn\'t have any', async () => {
 
     const processModelWithoutCronjobs = 'boundary_event_error_test';
@@ -82,9 +96,6 @@ describe('StartEvents with Cronjobs - ', () => {
     await testFixtureProvider.importProcessFiles([processModelWithoutCronjobs]);
     await cronjobService.start();
 
-    // The cronjob service won't throw errors when one or more crontab is invalid,
-    // because that would prevent the valid crontabs from being used.
-    // We can only assert that no cronjob was created for our invalid crontab.
     should.not.exist(cronjobService.cronjobDictionary[processModelWithoutCronjobs]);
 
     await cronjobService.stop();
@@ -98,7 +109,9 @@ describe('StartEvents with Cronjobs - ', () => {
     await testFixtureProvider.importProcessFiles([processModelMisconfiguredId]);
     await cronjobService.start();
 
-    // Same thing as above.
+    // The cronjob service won't throw errors when one or more crontab is invalid,
+    // because that would prevent the valid crontabs from being used.
+    // We can only assert that no cronjob was created for our invalid crontab.
     should(cronjobService.cronjobDictionary[processModelMisconfiguredId]).be.empty();
 
     await cronjobService.stop();
