@@ -26,7 +26,7 @@ return 'Success';</bpmn:script>
     <bpmn:startEvent id="TimerStartEvent_1" name="Timer with Crontab">
       <bpmn:outgoing>SequenceFlow_0x9ie3k</bpmn:outgoing>
       <bpmn:timerEventDefinition>
-        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">3 * * * * *</bpmn:timeCycle>
+        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">*/2 * * * * *</bpmn:timeCycle>
       </bpmn:timerEventDefinition>
     </bpmn:startEvent>
   </bpmn:process>

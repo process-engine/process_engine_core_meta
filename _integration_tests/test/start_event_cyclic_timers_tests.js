@@ -1,12 +1,10 @@
 'use strict';
 
-const moment = require('moment');
 const should = require('should');
-const uuid = require('node-uuid');
 
 const {ProcessInstanceHandler, TestFixtureProvider} = require('../dist/commonjs');
 
-describe('Start Events - ', () => {
+describe('StartEvents with Cronjobs - ', () => {
 
   let cronjobService;
   let testFixtureProvider;
@@ -20,15 +18,30 @@ describe('Start Events - ', () => {
 
     await testFixtureProvider.importProcessFiles([processModelId]);
 
-    //cronjobService = await testFixtureProvider.resolveAsync('CronjobService');
+    cronjobService = await testFixtureProvider.resolveAsync('CronjobService');
     processInstanceHandler = new ProcessInstanceHandler(testFixtureProvider);
-
-    // await cronjobService.start();
   });
 
   after(async () => {
-    // await cronjobService.stop();
+    await testFixtureProvider
+      .processModelUseCases
+      .deleteProcessModel(testFixtureProvider.identities.defaultUser, processModelId);
+
     await testFixtureProvider.tearDown();
+  });
+
+  it('should automatically start a ProcessModel when a matching Cronjob expires', async () => {
+
+    return new Promise(async (resolve, reject) => {
+      const correlationId = `started_by_cronjob */2 * * * * *`;
+
+      processInstanceHandler.waitForProcessInstanceToEnd(correlationId, processModelId, async() => {
+        await cronjobService.stop();
+        resolve();
+      });
+
+      await cronjobService.start();
+    });
   });
 
   it('should be able to start a process with a cyclic TimerStartEvent event manually.', async () => {
