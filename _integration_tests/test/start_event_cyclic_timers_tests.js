@@ -11,8 +11,7 @@ describe('StartEvents with Cronjobs - ', () => {
   let processInstanceHandler;
 
   const processModelId = 'cyclic_timers_test';
-
-  const processModelId2 = 'cyclic_timers_test';
+  const processModelId2 = 'cyclic_timers_test_2';
 
   before(async () => {
     testFixtureProvider = new TestFixtureProvider();
@@ -26,6 +25,7 @@ describe('StartEvents with Cronjobs - ', () => {
 
   after(async () => {
     await disposeProcessModel(processModelId);
+    await disposeProcessModel(processModelId2);
 
     await testFixtureProvider.tearDown();
   });
@@ -41,6 +41,26 @@ describe('StartEvents with Cronjobs - ', () => {
       });
 
       await cronjobService.start();
+    });
+  });
+
+  // Note that this should actually be handled by the Management API, which is not available in this setup.
+  // So accessing the CronjobService manually is ok here.
+  it('should be able to add crontabs from ProcessModels \'on the fly\'', async () => {
+
+    return new Promise(async (resolve, reject) => {
+      const correlationId = `started_by_cronjob */3 * * * * *`;
+
+      processInstanceHandler.waitForProcessInstanceToEnd(correlationId, processModelId2, async() => {
+        await cronjobService.stop();
+        resolve();
+      });
+
+      await cronjobService.start();
+
+      const parsedProcessModel2 = await getParsedProcessModel(processModelId2);
+
+      await cronjobService.addOrUpdate(parsedProcessModel2);
     });
   });
 
@@ -68,7 +88,7 @@ describe('StartEvents with Cronjobs - ', () => {
     should(cronjobService.cronjobDictionary[processModelMisconfiguredId]).be.empty();
 
     await cronjobService.stop();
-    await disposeProcessModel(processModelMisconfiguredId)
+    await disposeProcessModel(processModelMisconfiguredId);
   });
 
   it('should not be able to automatically start a TimerStartEvent with invalid chars in the crontab.', async () => {
@@ -82,12 +102,18 @@ describe('StartEvents with Cronjobs - ', () => {
     should(cronjobService.cronjobDictionary[processModelInvalidId]).be.empty();
 
     await cronjobService.stop();
-    await disposeProcessModel(processModelInvalidId)
+    await disposeProcessModel(processModelInvalidId);
   });
 
   async function disposeProcessModel(processModelId) {
     await testFixtureProvider
       .processModelUseCases
       .deleteProcessModel(testFixtureProvider.identities.defaultUser, processModelId);
+  }
+
+  async function getParsedProcessModel(processModelId) {
+    await testFixtureProvider.importProcessFiles([processModelId]);
+
+    return testFixtureProvider.processModelUseCases.getProcessModelById(testFixtureProvider.identities.defaultUser, processModelId);
   }
 });
