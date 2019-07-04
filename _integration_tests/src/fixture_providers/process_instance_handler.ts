@@ -230,12 +230,12 @@ export class ProcessInstanceHandler {
    * @param resolveFunc    The function to call when the process was finished.
    */
   public waitForProcessInstanceToEnd(correlationId: string, processModelId: string, resolveFunc: EventReceivedCallback): void {
-    const endMessageToWaitFor: string = `/processengine/correlation/${correlationId}/processmodel/${processModelId}/ended`;
+    const endMessageToWaitFor = `/processengine/correlation/${correlationId}/processmodel/${processModelId}/ended`;
     this.eventAggregator.subscribeOnce(endMessageToWaitFor, resolveFunc);
   }
 
   public waitForProcessWithInstanceIdToEnd(processInstanceId: string, resolveFunc: EventReceivedCallback): void {
-    const endMessageToWaitFor: string = `/processengine/process/${processInstanceId}/ended`;
+    const endMessageToWaitFor = `/processengine/process/${processInstanceId}/ended`;
     this.eventAggregator.subscribeOnce(endMessageToWaitFor, resolveFunc);
   }
 
