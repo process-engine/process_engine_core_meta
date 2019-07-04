@@ -1,3 +1,9 @@
 {
-  "claimPath": "http://localhost:5000/claims/ensure"
+  "basePath": "http://localhost:5000/",
+  "claimPath": "http://localhost:5000/claims/ensure",
+  "cache": {
+    "enabled": true,
+    "cacheLifetimeInSeconds": 60,
+    "cleanupIntervalInSeconds": 10
+  }
 }
