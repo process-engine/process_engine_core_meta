@@ -11,6 +11,8 @@ const iocModuleNames: Array<string> = [
   '@process-engine/consumer_api_core',
   '@process-engine/correlation.service',
   '@process-engine/correlations.repository.sequelize',
+  '@process-engine/cronjob_history.service',
+  '@process-engine/cronjob_history.repository.sequelize',
   '@process-engine/external_task_api_core',
   '@process-engine/external_task_sample_worker',
   '@process-engine/external_task.repository.sequelize',
