@@ -1,5 +1,6 @@
 node_modules
 correlations.sqlite
+cronjob_history.sqlite
 external_task.sqlite
 processengine.sqlite
 flow_node_instance.sqlite
