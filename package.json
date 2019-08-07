@@ -11,8 +11,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "meta": "^1.2.18",
-    "meta-npm": "^1.0.3",
+    "meta": "^2.2.6",
+    "meta-npm": "^1.2.3",
     "minstall": "^3.3.0"
   }
 }
