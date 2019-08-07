@@ -19,6 +19,6 @@ if [[ "$?" -ne "0" ]]; then
 fi
 
 # build all packages
-meta exec "npm run build" --exclude process_engine_meta
+meta exec "npm run build" --exclude process_engine_core_meta
 
 echo "done"
