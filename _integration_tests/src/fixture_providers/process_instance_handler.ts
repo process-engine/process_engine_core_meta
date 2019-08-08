@@ -34,7 +34,7 @@ export class ProcessInstanceHandler {
     };
 
     const result = await this.testFixtureProvider
-      .consumerApiService
+      .consumerApiClient
       .startProcessInstance(this.testFixtureProvider.identities.defaultUser, processModelId, payload, startCallbackType, startEventId);
 
     return result.correlationId;
@@ -57,7 +57,7 @@ export class ProcessInstanceHandler {
     const identityToUse = identity || this.testFixtureProvider.identities.defaultUser;
 
     const result = await this.testFixtureProvider
-      .consumerApiService
+      .consumerApiClient
       .startProcessInstance(identityToUse, processModelId, payload, startCallbackType, startEventIdToUse);
 
     return result;
@@ -109,7 +109,7 @@ export class ProcessInstanceHandler {
   ): Promise<DataModels.EmptyActivities.EmptyActivityList> {
 
     return this.testFixtureProvider
-      .consumerApiService
+      .consumerApiClient
       .getEmptyActivitiesForCorrelation(identity, correlationId);
   }
 
@@ -124,7 +124,7 @@ export class ProcessInstanceHandler {
   public async getWaitingManualTasksForCorrelationId(identity: IIdentity, correlationId: string): Promise<DataModels.ManualTasks.ManualTaskList> {
 
     return this.testFixtureProvider
-      .consumerApiService
+      .consumerApiClient
       .getManualTasksForCorrelation(identity, correlationId);
   }
 
@@ -139,7 +139,7 @@ export class ProcessInstanceHandler {
   public async getWaitingUserTasksForCorrelationId(identity: IIdentity, correlationId: string): Promise<DataModels.UserTasks.UserTaskList> {
 
     return this.testFixtureProvider
-      .consumerApiService
+      .consumerApiClient
       .getUserTasksForCorrelation(identity, correlationId);
   }
 
@@ -163,7 +163,7 @@ export class ProcessInstanceHandler {
   ): Promise<void> {
 
     await this.testFixtureProvider
-      .consumerApiService
+      .consumerApiClient
       .finishEmptyActivity(identity, processModelId, correlationId, manualTaskId);
   }
 
@@ -187,7 +187,7 @@ export class ProcessInstanceHandler {
   ): Promise<void> {
 
     await this.testFixtureProvider
-      .consumerApiService
+      .consumerApiClient
       .finishManualTask(identity, processModelId, correlationId, manualTaskId);
   }
 
@@ -213,7 +213,7 @@ export class ProcessInstanceHandler {
   ): Promise<void> {
 
     await this.testFixtureProvider
-      .consumerApiService
+      .consumerApiClient
       .finishUserTask(identity, processInstanceId, correlationId, userTaskInstanceId, userTaskInput);
   }
 

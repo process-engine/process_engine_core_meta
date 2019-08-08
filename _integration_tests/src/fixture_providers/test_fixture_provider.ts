@@ -11,11 +11,11 @@ import {AppBootstrapper} from '@essential-projects/bootstrapper_node';
 import {HttpExtension} from '@essential-projects/http_extension';
 import {IIdentity, TokenBody} from '@essential-projects/iam_contracts';
 
-import {IConsumerApi} from '@process-engine/consumer_api_contracts';
-import {ExternalTaskSampleWorker} from '@process-engine/external_task_sample_worker';
+import {IConsumerApiClient} from '@process-engine/consumer_api_contracts';
 import {IExecuteProcessService} from '@process-engine/process_engine_contracts';
 import {IProcessModelUseCases} from '@process-engine/process_model.contracts';
 
+import {ExternalTaskSampleWorker} from '../test_services/external_task_sample_worker';
 import {initializeBootstrapper} from './setup_ioc_container';
 
 const logger: Logger = Logger.createLogger('test:bootstrapper');
@@ -32,14 +32,14 @@ export class TestFixtureProvider {
 
   private sampleExternalTaskWorker: ExternalTaskSampleWorker;
 
-  private _consumerApiService: IConsumerApi;
+  private _consumerApiClient: IConsumerApiClient;
   private _executeProcessService: IExecuteProcessService;
   private _processModelUseCases: IProcessModelUseCases;
 
   private _identities: IdentityCollection;
 
-  public get consumerApiService(): IConsumerApi {
-    return this._consumerApiService;
+  public get consumerApiClient(): IConsumerApiClient {
+    return this._consumerApiClient;
   }
 
   public get executeProcessService(): IExecuteProcessService {
@@ -62,7 +62,7 @@ export class TestFixtureProvider {
 
     await this.createMockIdentities();
 
-    this._consumerApiService = await this.resolveAsync<IConsumerApi>('ConsumerApiService');
+    this._consumerApiClient = await this.resolveAsync<IConsumerApiClient>('ConsumerApiClient');
     this._executeProcessService = await this.resolveAsync<IExecuteProcessService>('ExecuteProcessService');
     this._processModelUseCases = await this.resolveAsync<IProcessModelUseCases>('ProcessModelUseCases');
 

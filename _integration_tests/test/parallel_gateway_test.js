@@ -91,7 +91,7 @@ describe('Parallel Gateway execution', () => {
 
       for (const userTask of waitingUsersTasks) {
         await testFixtureProvider
-          .consumerApiService
+          .consumerApiClient
           .finishUserTask(defaultIdentity, userTask.processInstanceId, correlationId, userTask.flowNodeInstanceId, userTaskInput);
       }
     });
@@ -116,7 +116,7 @@ describe('Parallel Gateway execution', () => {
 
       for (const manualTask of waitingManualsTasks) {
         await testFixtureProvider
-          .consumerApiService
+          .consumerApiClient
           .finishManualTask(defaultIdentity, manualTask.processInstanceId, correlationId, manualTask.flowNodeInstanceId);
       }
     });
@@ -145,7 +145,7 @@ describe('Parallel Gateway execution', () => {
 
       for (const emptyActivity of emptyActivities) {
         await testFixtureProvider
-          .consumerApiService
+          .consumerApiClient
           .finishEmptyActivity(defaultIdentity, emptyActivity.processInstanceId, correlationId, emptyActivity.flowNodeInstanceId);
       }
     });
