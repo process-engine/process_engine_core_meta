@@ -1,6 +1,3 @@
 {
-  "extends": "@essential-projects/eslint-config",
-  "rules": {
-    "no-plusplus": ["off"]
-  }
+  "extends": "@essential-projects/eslint-config"
 }
