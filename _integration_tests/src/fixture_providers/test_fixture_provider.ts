@@ -23,6 +23,7 @@ const logger: Logger = Logger.createLogger('test:bootstrapper');
 export type IdentityCollection = {
   defaultUser: IIdentity;
   restrictedUser: IIdentity;
+  superAdmin: IIdentity;
 };
 
 export class TestFixtureProvider {
@@ -72,6 +73,8 @@ export class TestFixtureProvider {
 
   public async tearDown(): Promise<void> {
     this.sampleExternalTaskWorker.stop();
+    await this.clearDatabases();
+
     const httpExtension = await this.container.resolveAsync<HttpExtension>('HttpExtension');
     await httpExtension.close();
     await this.bootstrapper.stop();
@@ -121,6 +124,16 @@ export class TestFixtureProvider {
       .startAndAwaitEndEvent(this.identities.defaultUser, processModelId, correlationId, startEventId, initialToken);
   }
 
+  public async clearDatabases(): Promise<void> {
+
+    const processModels = await this.processModelUseCases.getProcessModels(this.identities.superAdmin);
+
+    for (const processModel of processModels) {
+      logger.info(`Removing ProcessModel ${processModel.id} and all related data`);
+      await this.processModelUseCases.deleteProcessModel(this.identities.superAdmin, processModel.id);
+    }
+  }
+
   private async initializeBootstrapper(): Promise<void> {
 
     try {
@@ -143,6 +156,8 @@ export class TestFixtureProvider {
       defaultUser: await this.createIdentity('defaultUser'),
       // no access user
       restrictedUser: await this.createIdentity('restrictedUser'),
+      // super admin
+      superAdmin: await this.createIdentity('superAdmin'),
     };
   }
 
