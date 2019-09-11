@@ -1,5 +1,3 @@
-'use strict';
-
 const should = require('should');
 const uuid = require('node-uuid');
 
@@ -16,6 +14,7 @@ describe('Parallel Gateway execution', () => {
   const processModelId = 'parallel_gateway_test';
   const processModelIdUnsupported = 'parallel_gateway_unsupported_test';
   const processModelParallelEmptyActivitiesId = 'empty_activity_test';
+  const processModelParallelJoinGatewayBranchingTest = 'parallel_gateway_finish_test';
   const processModelParallelManualTasksId = 'manual_task_parallel_test';
   const processModelParallelUserTasksId = 'user_task_parallel_test';
 
@@ -29,6 +28,7 @@ describe('Parallel Gateway execution', () => {
       processModelId,
       processModelIdUnsupported,
       processModelParallelEmptyActivitiesId,
+      processModelParallelJoinGatewayBranchingTest,
       processModelParallelManualTasksId,
       processModelParallelUserTasksId,
     ];
@@ -58,7 +58,8 @@ describe('Parallel Gateway execution', () => {
       expectedHistoryEntryForTask2,
       expectedHistoryEntryForTask3,
       expectedHistoryEntryForTokenTestTask,
-      expectedHistoryEntryForSequence3);
+      expectedHistoryEntryForSequence3,
+    );
     should(result.currentToken[expectedHistoryEntryForTask1]).be.equal('longRunningFunction has finished');
     should(result.currentToken[expectedHistoryEntryForTask2]).be.equal('veryLongRunningFunction has finished');
     should(result.currentToken[expectedHistoryEntryForTask3]).be.equal('secondVeryLongRunningFunction has finished');
@@ -120,6 +121,18 @@ describe('Parallel Gateway execution', () => {
           .finishManualTask(defaultIdentity, manualTask.processInstanceId, correlationId, manualTask.flowNodeInstanceId);
       }
     });
+  });
+
+  it('should finish a ParallelJoinGateway when each expected incoming FlowNode has been executed at least once', async () => {
+
+    const startEventIdToUse = 'StartEvent_1';
+    const correlationId = uuid.v4();
+
+    const result = await testFixtureProvider.executeProcess(processModelParallelJoinGatewayBranchingTest, startEventIdToUse, correlationId, {});
+
+    should(Object.keys(result.currentToken)).have.length(2, 'There should be two entries in the final token payload!');
+    should(result.currentToken).have.property('ExclusiveGateway1');
+    should(result.currentToken).have.property('ScriptTask1');
   });
 
   it('should finish two parallel running EmptyActivities', async () => {

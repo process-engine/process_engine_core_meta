@@ -76,7 +76,7 @@ describe('Signal Boundary Event - ', () => {
       const triggerMessageEventName = '/processengine/process/signal/Signal1234';
       eventAggregator.publish(triggerMessageEventName, {});
 
-      await new Promise((cb) => { setTimeout(cb, 1000); });
+      await new Promise((cb) => { setTimeout(cb, 500); });
 
       const userTaskList = await testFixtureProvider
         .consumerApiClient
