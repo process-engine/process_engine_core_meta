@@ -123,7 +123,7 @@ describe('Parallel Gateway execution', () => {
     });
   });
 
-  it('should finish parallel gateway by finished flow nodes', async () => {
+  it('should finish a ParallelJoinGateway when each expected incoming FlowNode has been executed at least once', async () => {
 
     const startEventIdToUse = 'StartEvent_1';
     const correlationId = uuid.v4();
