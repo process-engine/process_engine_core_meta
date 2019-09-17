@@ -32,6 +32,7 @@
     "@essential-projects/timing": "~5.0.0",
     "@process-engine/consumer_api_client": "6.1.0-alpha.4",
     "@process-engine/consumer_api_core": "6.1.0-6bb773cc-b25",
+    "@process-engine/consumer_api_http": "5.1.0-887e76ed-b24",
     "@process-engine/correlation.service": "1.4.0-9f239841-b10",
     "@process-engine/correlations.repository.sequelize": "6.2.0-862313dd-b12",
     "@process-engine/cronjob_history.service": "1.1.0-3b48e2c5-b7",
