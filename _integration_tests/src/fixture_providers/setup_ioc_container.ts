@@ -9,6 +9,7 @@ const iocModuleNames: Array<string> = [
   '@essential-projects/sequelize_connection_manager',
   '@essential-projects/timing',
   '@process-engine/consumer_api_core',
+  '@process-engine/consumer_api_http',
   '@process-engine/correlation.service',
   '@process-engine/correlations.repository.sequelize',
   '@process-engine/cronjob_history.service',

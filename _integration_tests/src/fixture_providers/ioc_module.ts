@@ -30,7 +30,7 @@ export function registerInContainer(container: InvocationContainer): void {
 
   container
     .register('ExternalTaskSampleWorker', ExternalTaskSampleWorker)
-    .dependencies('ConsumerApiClient', 'IdentityService')
+    .dependencies('IdentityService')
     .configure('external_task:sample_worker')
     .singleton();
 
