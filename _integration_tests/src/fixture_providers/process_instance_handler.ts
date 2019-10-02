@@ -5,7 +5,7 @@ import {IIdentity} from '@essential-projects/iam_contracts';
 
 import {DataModels} from '@process-engine/consumer_api_contracts';
 
-import {FlowNodeInstance, IFlowNodeInstanceService} from '@process-engine/flow_node_instance.contracts';
+import {FlowNodeInstance, IFlowNodeInstanceService} from '@process-engine/persistence_api.contracts';
 
 import {TestFixtureProvider} from './test_fixture_provider';
 
