@@ -32,7 +32,7 @@ describe('Call activity tests', () => {
     await testFixtureProvider.tearDown();
   });
 
-  it('should successfully process a token through a CallActivity', async () => {
+  it('should successfully execute a CallActivity and process the result', async () => {
 
     const processModelId = 'call_activity_test';
     const correlationId = uuid.v4();
@@ -58,7 +58,7 @@ describe('Call activity tests', () => {
     should(finalResult.endEventName).be.eql('End', `Unexpected EndEventName: ${finalResult.endEventName}`);
   });
 
-  it('should ensure that all ProcessInstances in the previously run Correlation have been set to a finished state', async () => {
+  it('should ensure that the state of the executed CallActivity was set to finished', async () => {
 
     const correlationRepository = await testFixtureProvider.resolveAsync('CorrelationRepository');
 
@@ -72,7 +72,7 @@ describe('Call activity tests', () => {
     }
   });
 
-  it('should successfully process a token through two nested CallActivities', async () => {
+  it('should successfully handle nested CallActivities', async () => {
 
     const processModelId = 'call_activity_test';
     const correlationId = uuid.v4();
@@ -96,7 +96,7 @@ describe('Call activity tests', () => {
     should(finalResult.endEventName).be.eql('End', `Unexpected EndEventName: ${finalResult.endEventName}`);
   });
 
-  it('should call an erroneous CallActivity, whose error will be handled by the CallActivity itself', async () => {
+  it('should successfully handle an error from a called CallActivity', async () => {
 
     const processModelId = 'call_activity_test_error';
     const correlationId = uuid.v4();
@@ -120,7 +120,7 @@ describe('Call activity tests', () => {
     should(finalResult.endEventName).be.eql('End', `Unexpected EndEventName: ${finalResult.endEventName}`);
   });
 
-  it('should call an erroneous CallActivity, whose error will be handled by an ErrorBoundaryEvent', async () => {
+  it('should successfully handle a CallActivity that handled an error internally', async () => {
 
     const processModelId = 'call_activity_test_error';
     const correlationId = uuid.v4();
