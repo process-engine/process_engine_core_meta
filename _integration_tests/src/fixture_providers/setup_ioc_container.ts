@@ -13,8 +13,6 @@ const iocModuleNames: Array<string> = [
   '@process-engine/iam',
   '@process-engine/logging_api_core',
   '@process-engine/logging.repository.file_system',
-  '@process-engine/metrics_api_core',
-  '@process-engine/metrics.repository.file_system',
   '@process-engine/process_engine_core',
   '@process-engine/persistence_api.repositories.sequelize',
   '@process-engine/persistence_api.services',
