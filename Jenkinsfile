@@ -269,6 +269,7 @@ pipeline {
       }
     }
     stage('Check test results') {
+      options {skipDefaultCheckout()}
       steps {
         script {
           if (sqlite_tests_failed || postgres_test_failed || mysql_test_failed) {
@@ -291,6 +292,7 @@ pipeline {
       }
     }
     stage('Send Test Results to Slack') {
+      options {skipDefaultCheckout()}
       steps {
         script {
           // Failure to send the slack message should not result in build failure.
@@ -311,6 +313,7 @@ pipeline {
       }
     }
     stage('Cleanup') {
+      options {skipDefaultCheckout()}
       steps {
         script {
           // This stage just exists, so the cleanup work that happens
