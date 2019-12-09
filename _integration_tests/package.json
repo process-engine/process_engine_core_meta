@@ -14,6 +14,7 @@
     "start": "cross-env NODE_ENV=sqlite CONFIG_PATH=config node index.js",
     "test-sqlite": "cross-env NODE_ENV=sqlite CONFIG_PATH=config mocha -t 15000 test/*.js --exit",
     "test-postgres": "cross-env NODE_ENV=postgres CONFIG_PATH=config mocha -t 15000 test/*.js --exit",
+    "test-mysql": "cross-env NODE_ENV=mysql CONFIG_PATH=config mocha -t 15000 test/*.js --exit",
     "test": "npm run test-sqlite && npm run test-postgres",
     "clean": "rm -rf dist",
     "build": "npm run clean && npm run build-commonjs && npm run build-amd",
