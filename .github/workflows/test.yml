@@ -1,0 +1,119 @@
+
+name: Node CI
+
+on:
+  push:
+    branches:
+      - "*"
+      - "*/*"
+
+jobs:
+  test_sqlite:
+    name: "Test with SQLite"
+    if: "!(contains(github.actor, 'process-engine-ci') || contains(github.actor, 'admin'))"
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Install Dependencies
+      working-directory: ./_integration_tests
+      run: |
+        npm i
+
+    - name: Build
+      working-directory: ./_integration_tests
+      run: npm run build
+
+    - name: Run Tests
+      working-directory: ./_integration_tests
+      run: npm run test-sqlite
+
+    - name: Slack Notification
+      uses: homoluctus/slatify@master
+      if: always()
+      with:
+        type: ${{ job.status }}
+        job_name: 'Test with SQLite'
+        mention_if: 'always'
+        url: ${{ secrets.SLACK_WEBHOOK }}
+        commit: true
+        token: ${{ secrets.GH_TOKEN }}
+
+  test_postgres:
+    name: "Test with Postgres"
+    if: "!(contains(github.actor, 'process-engine-ci') || contains(github.actor, 'admin'))"
+    runs-on: ubuntu-18.04
+
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_USER: admin
+          POSTGRES_PASSWORD: admin
+          POSTGRES_DB: processengine
+        ports:
+        - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Install Dependencies
+      working-directory: ./_integration_tests
+      run: |
+        npm i
+
+    - name: Build
+      working-directory: ./_integration_tests
+      run: npm run build
+
+    - name: Run Tests
+      working-directory: ./_integration_tests
+      run: npm run test-postgres
+
+    - name: Slack Notification
+      uses: homoluctus/slatify@master
+      if: always()
+      with:
+        type: ${{ job.status }}
+        job_name: 'Test with Postgres'
+        mention_if: 'always'
+        url: ${{ secrets.SLACK_WEBHOOK }}
+        commit: true
+        token: ${{ secrets.GH_TOKEN }}
+
+  test_mysql:
+    name: "Test with MySQL"
+    if: "!(contains(github.actor, 'process-engine-ci') || contains(github.actor, 'admin'))"
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Install Dependencies
+      working-directory: ./_integration_tests
+      run: |
+        npm i
+
+    - name: Build
+      working-directory: ./_integration_tests
+      run: npm run build
+
+    - run: mv config/test-mysql/.my.cnf ~/.my.cnf
+      working-directory: ./_integration_tests
+
+    - run: echo "create database processengine" | mysql
+
+    - name: Run Tests
+      working-directory: ./_integration_tests
+      run: npm run test-mysql
+
+    - name: Slack Notification
+      uses: homoluctus/slatify@master
+      if: always()
+      with:
+        type: ${{ job.status }}
+        job_name: 'Test with MySQL'
+        mention_if: 'always'
+        url: ${{ secrets.SLACK_WEBHOOK }}
+        commit: true
+        token: ${{ secrets.GH_TOKEN }}
