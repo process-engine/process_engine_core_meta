@@ -57,12 +57,16 @@ describe('StartEvents with Cronjobs - ', () => {
 
   it('should automatically start a ProcessModel when a matching Cronjob expires', async () => {
 
-    return new Promise(async (resolve, reject) => {
-      const correlationId = 'started_by_cronjob';
+    return new Promise(async (resolve) => {
+      const subscription = eventAggregator.subscribe('process_started', (message) => {
 
-      processInstanceHandler.waitForProcessInstanceToEnd(correlationId, processModelId, async() => {
-        await cronjobService.stop();
-        resolve();
+        if (message.processModelId === 'cyclic_timers_test') {
+          eventAggregator.unsubscribe(subscription);
+          processInstanceHandler.waitForProcessWithInstanceIdToEnd(message.processInstanceId, async () => {
+            await cronjobService.stop();
+            resolve();
+          });
+        }
       });
 
       await cronjobService.start();
@@ -73,13 +77,17 @@ describe('StartEvents with Cronjobs - ', () => {
   // So accessing the CronjobService manually is ok here.
   it('should be able to add crontabs from ProcessModels \'on the fly\'', async () => {
 
-    return new Promise(async (resolve, reject) => {
-      const correlationId = 'started_by_cronjob';
+    return new Promise(async (resolve) => {
+      const subscription = eventAggregator.subscribe('process_started', (message) => {
 
-      processInstanceHandler.waitForProcessInstanceToEnd(correlationId, processModelId2, async() => {
-        await cronjobService.stop();
-        resolve();
-      });
+        if (message.processModelId === processModelId2) {
+          eventAggregator.unsubscribe(subscription);
+          processInstanceHandler.waitForProcessWithInstanceIdToEnd(message.processInstanceId, async () => {
+            await cronjobService.stop();
+            resolve();
+          });
+        }
+      }, false);
 
       await cronjobService.start();
 
@@ -91,12 +99,16 @@ describe('StartEvents with Cronjobs - ', () => {
 
   it('should assume a TimerStartEvent to be enabled by default, if no CamundaProperty \'enabled\' exists.', async () => {
 
-    return new Promise(async (resolve, reject) => {
-      const correlationId = 'started_by_cronjob';
+    return new Promise(async (resolve) => {
+      const subscription = eventAggregator.subscribe('process_started', (message) => {
 
-      processInstanceHandler.waitForProcessInstanceToEnd(correlationId, processModelIdMissingCamundaProperty, async() => {
-        await cronjobService.stop();
-        resolve();
+        if (message.processModelId === processModelIdMissingCamundaProperty) {
+          eventAggregator.unsubscribe(subscription);
+          processInstanceHandler.waitForProcessWithInstanceIdToEnd(message.processInstanceId, async ()=> {
+            await cronjobService.stop();
+            resolve();
+          });
+        }
       });
 
       await cronjobService.start();
