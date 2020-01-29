@@ -7,6 +7,7 @@ const {ProcessInstanceHandler, TestFixtureProvider} = require('../dist/commonjs'
 describe('StartEvents with Cronjobs - ', () => {
 
   let cronjobService;
+  let eventAggregator;
   let testFixtureProvider;
   let processInstanceHandler;
 
@@ -22,6 +23,7 @@ describe('StartEvents with Cronjobs - ', () => {
     await testFixtureProvider.importProcessFiles([processModelId, processModelIdDisabled]);
 
     cronjobService = await testFixtureProvider.resolveAsync('CronjobService');
+    eventAggregator = await testFixtureProvider.resolveAsync('EventAggregator');
     processInstanceHandler = new ProcessInstanceHandler(testFixtureProvider);
   });
 
