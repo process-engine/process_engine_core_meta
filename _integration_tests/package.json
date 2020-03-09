@@ -37,7 +37,7 @@
     "@process-engine/logging_api_core": "~2.0.0",
     "@process-engine/logging.repository.file_system": "~2.0.0",
     "@process-engine/process_engine_core": "~12.16.0",
-    "@process-engine/persistence_api.repositories.sequelize": "~1.4.0",
+    "@process-engine/persistence_api.repositories.sequelize": "~1.4.2",
     "@process-engine/persistence_api.services": "~1.4.0",
     "@process-engine/persistence_api.use_cases": "~1.4.0",
     "addict-ioc": "^2.5.6",

@@ -15,6 +15,7 @@ export function registerInContainer(container: InvocationContainer): void {
   container
     .register('ConsumerApiInternalAccessor', InternalAccessor)
     .dependencies(
+      'ConsumerApiApplicationInfoService',
       'ConsumerApiEmptyActivityService',
       'ConsumerApiEventService',
       'ConsumerApiExternalTaskService',
