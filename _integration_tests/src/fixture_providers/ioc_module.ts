@@ -23,6 +23,7 @@ export function registerInContainer(container: InvocationContainer): void {
       'ConsumerApiNotificationService',
       'ConsumerApiProcessModelService',
       'ConsumerApiUserTaskService',
+      'ConsumerApiFlowNodeInstanceService',
     );
 
   container

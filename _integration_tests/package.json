@@ -32,11 +32,11 @@
     "@essential-projects/timing": "~5.0.0",
     "@process-engine/consumer_api_client": "~6.4.0",
     "@process-engine/consumer_api_core": "~6.4.0",
-    "@process-engine/consumer_api_http": "~5.4.0",
+    "@process-engine/consumer_api_http": "~5.5.0",
     "@process-engine/iam": "~1.7.1",
     "@process-engine/logging_api_core": "~2.0.0",
     "@process-engine/logging.repository.file_system": "~2.0.0",
-    "@process-engine/process_engine_core": "~12.16.0",
+    "@process-engine/process_engine_core": "12.17.0-alpha.1",
     "@process-engine/persistence_api.repositories.sequelize": "~1.4.2",
     "@process-engine/persistence_api.services": "~1.4.0",
     "@process-engine/persistence_api.use_cases": "~1.4.0",
@@ -64,7 +64,6 @@
     "@types/validator": "^12.0.0",
     "cross-env": "^7.0.0",
     "mocha": "^7.0.0",
-    "mocha-jenkins-reporter": "^0.4.1",
     "should": "^13.2.3",
     "typescript": "^3.7.5"
   }
