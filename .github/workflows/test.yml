@@ -30,7 +30,7 @@ jobs:
 
     - name: Slack Notification
       uses: homoluctus/slatify@master
-      if: always()
+      if: failure()
       with:
         type: ${{ job.status }}
         job_name: 'Test with SQLite'
@@ -44,19 +44,12 @@ jobs:
     if: "!(contains(github.actor, 'process-engine-ci') || contains(github.actor, 'admin'))"
     runs-on: ubuntu-18.04
 
-    services:
-      postgres:
-        image: postgres:11
-        env:
-          POSTGRES_USER: admin
-          POSTGRES_PASSWORD: admin
-          POSTGRES_DB: processengine
-        ports:
-        - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v1
+
+    - name: Setup Postgres Container
+      working-directory: ./_integration_tests
+      run: node scripts/setup_postgres/postgres_docker.js start
 
     - name: Install Dependencies
       working-directory: ./_integration_tests
@@ -73,7 +66,7 @@ jobs:
 
     - name: Slack Notification
       uses: homoluctus/slatify@master
-      if: always()
+      if: failure()
       with:
         type: ${{ job.status }}
         job_name: 'Test with Postgres'
@@ -86,8 +79,13 @@ jobs:
     name: "Test with MySQL"
     if: "!(contains(github.actor, 'process-engine-ci') || contains(github.actor, 'admin'))"
     runs-on: ubuntu-18.04
+
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v1
+
+    - name: Setup MySQL Container
+      working-directory: ./_integration_tests
+      run: node scripts/setup_mysql/mysql_docker.js start
 
     - name: Install Dependencies
       working-directory: ./_integration_tests
@@ -98,18 +96,13 @@ jobs:
       working-directory: ./_integration_tests
       run: npm run build
 
-    - run: mv config/test-mysql/.my.cnf ~/.my.cnf
-      working-directory: ./_integration_tests
-
-    - run: echo "create database processengine" | mysql
-
     - name: Run Tests
       working-directory: ./_integration_tests
       run: npm run test-mysql
 
     - name: Slack Notification
       uses: homoluctus/slatify@master
-      if: always()
+      if: failure()
       with:
         type: ${{ job.status }}
         job_name: 'Test with MySQL'
@@ -117,3 +110,22 @@ jobs:
         url: ${{ secrets.SLACK_WEBHOOK }}
         commit: true
         token: ${{ secrets.GH_TOKEN }}
+
+  slack_notification:
+    name: "Send Slack Notification"
+    needs: [test_sqlite, test_postgres, test_mysql]
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Slack Notification
+      uses: homoluctus/slatify@master
+      with:
+        type: ${{ job.status }}
+        job_name: 'Tests for ProcessEngineCoreMeta succeeded'
+        mention_if: 'always'
+        url: ${{ secrets.SLACK_WEBHOOK }}
+        commit: true
+        token: ${{ secrets.GH_TOKEN }}
+
